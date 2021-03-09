@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF_Tranning"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Margin="0,0,2,2">
         
     </Grid>
 </Window>
