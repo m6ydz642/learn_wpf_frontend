@@ -7,9 +7,17 @@
         xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui" x:Class="WPF_Tranning.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid Margin="0,0,2,2">
+    <Grid Margin="10,10,2,2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="29*"/>
+            <ColumnDefinition Width="129*"/>
+        </Grid.ColumnDefinitions>
 
-        <dxwui:NavigationFrame Content="NavigationFrame" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="407" Width="770"/>
+        <Button Name="btnmain" Margin="4,0,625,359" Content="소개" Click="btnmain_Click" Grid.ColumnSpan="2"/>
+        <Button Name="btnstart" Margin="0,0,466,359" Content="게임하기" Click="btnstart_Click" Grid.Column="1"/>
+
+
+        <dxwui:NavigationFrame Name ="nav_content" Content="야구게임에 오신것을 환영합니다!" HorizontalAlignment="Left" Margin="0,72,0,0" VerticalAlignment="Top" Height="335" Width="770" Grid.ColumnSpan="2"/>
 
     </Grid>
 </Window>

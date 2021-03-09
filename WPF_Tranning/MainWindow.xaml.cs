@@ -24,5 +24,15 @@ namespace WPF_Tranning
         {
             InitializeComponent();
         }
+
+        private void btnmain_Click(object sender, RoutedEventArgs e)
+        {
+            nav_content.Source = new Uri("Introduce.xaml", UriKind.Relative); // uri로 페이지 이동
+        }
+
+        private void btnstart_Click(object sender, RoutedEventArgs e)
+        {
+            nav_content.Source = new Uri("GameStart.xaml", UriKind.Relative); // uri로 페이지 이동
+        }
     }
 }
