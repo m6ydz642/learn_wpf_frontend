@@ -1,12 +1,15 @@
-﻿<Window x:Class="WPF_Tranning.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Tranning"
+        xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui" x:Class="WPF_Tranning.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid Margin="0,0,2,2">
-        
+
+        <dxwui:NavigationFrame Content="NavigationFrame" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="407" Width="770"/>
+
     </Grid>
 </Window>
