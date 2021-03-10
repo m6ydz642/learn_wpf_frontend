@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,16 +23,19 @@ namespace WPF_Tranning
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new GameStartViewModel(); 
+            // GameStartViewModel 호출함
+
         }
 
         private void btnmain_Click(object sender, RoutedEventArgs e)
         {
-            nav_content.Source = new Uri("Introduce.xaml", UriKind.Relative); // uri로 페이지 이동
+            nav_content.Source = new Uri("View/Introduce.xaml", UriKind.Relative); // uri로 페이지 이동
         }
 
         private void btnstart_Click(object sender, RoutedEventArgs e)
         {
-            nav_content.Source = new Uri("GameStart.xaml", UriKind.Relative); // uri로 페이지 이동
+            nav_content.Source = new Uri("View/GameStart.xaml", UriKind.Relative); // uri로 페이지 이동
         }
     }
 }
