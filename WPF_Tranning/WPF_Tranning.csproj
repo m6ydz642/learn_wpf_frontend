@@ -81,11 +81,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ModelAndView\CheckValue.cs" />
     <Compile Include="ModelAndView\AddNumberKeyPad.cs" />
     <Compile Include="View\GameStart.xaml.cs">
       <DependentUpon>GameStart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ModelAndView\Append.cs" />
+    <Compile Include="ModelAndView\Append_보류.cs" />
     <Compile Include="ModelAndView\GameStartViewModel.cs" />
     <Compile Include="View\Introduce.xaml.cs">
       <DependentUpon>Introduce.xaml</DependentUpon>

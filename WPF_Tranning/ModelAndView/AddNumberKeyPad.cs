@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace WPF_Tranning.ModelAndView
+namespace WPF_Tranning
 {
     public interface IBaseCommand : ICommand
 
@@ -15,9 +15,6 @@ namespace WPF_Tranning.ModelAndView
         void OnCanExecuteChanged();
 
     }
-
-
-
 
     class AddNumberKeyPad : ICommand
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WPF_Tranning.ModelAndView;
+using WPF_Tranning;
 
 namespace WPF_Tranning
 {
@@ -25,20 +25,22 @@ namespace WPF_Tranning
 
         //출력될 문자들을 담아둘 변수
 
-        string inputString = "";
+        string _inputString;
 
         //계산기화면의 출력 텍스트박스에 대응되는 필드
-        string displayText = "";
+        string _displayText;
+
+        CheckValue _checkvalue;
 
         public GameStartViewModel() // 기본생성자
         {
-
+            _inputString = "";
+            _displayText = "";
             //    this.ClickKeyPad = new RelayCommand(new Action<object>(this.KeyPadClick)); // 아직은 안쓰는데 조만간 뭐 전달한다고 쓸듯
             this.ClickKeyPad = new AddNumberKeyPad(this); // 키패드 클릭시 값 전달
                                                           //숫자 버튼을 클릭할 때 실행
-                                                          // this.ClickKeyPad = new AddNumberKeyPad(this);
-
-
+                                                          // this.ClickKeyPad = new AddNumberKeyPad(this);                                          
+            this._checkvalue = new CheckValue();
         }
 
        
@@ -61,28 +63,15 @@ namespace WPF_Tranning
           }
   */
 
-        public bool checkKeypadLength(string inputString) // 나중에 ModelAndView에 checkValue해서 클래스로 넣어서 호출할거임
-        {
-            bool check = false;
-             if(inputString.Length < 6) // 공백 + 숫자 자리 = 2 * 3 = 6
-            {
-                check = true;
-            }
-            else
-            {
-                MessageBox.Show("3자리까지 입력가능합니다");
-            }
-            return check;
-        }
-
+  
         public string InputString
         {
             internal set
             {
-                if (inputString != value && checkKeypadLength(InputString))
+                if (_inputString != value && _checkvalue.checkKeypadLength(InputString))
                 {
-                    inputString = value + " ";
-                    OnPropertyChanged("InputString"); // 값이 들어왔으면 PropertyChanged를 호출함
+                    _inputString = value + " ";
+                    OnPropertyChanged("InputString"); // 값이 들어왔으면 PropertyChanged를 호출함 (변경되었다고 알림)
 
                     if (value != "")
                     {
@@ -93,33 +82,23 @@ namespace WPF_Tranning
               
 
             }
-            get { return inputString; }
+            get { return _inputString; }
 
         }
 
 
         public string DisplayText
-
         {
-
             internal set
-
             {
-
-                if (displayText != value)
-
+                if (_displayText != value)
                 {
-
-                    displayText = value;
-
-                    OnPropertyChanged("DisplayText"); // 값이 들어왔으면 PropertyChanged를 호출함
+                    _displayText = value;
+                    OnPropertyChanged("DisplayText"); // 값이 들어왔으면 PropertyChanged를 호출함 (변경되었다고 알림)
                     // 디스플레이 표시
-
                 }
-
             }
-
-            get { return displayText; }
+            get { return _displayText; }
 
         }
   
