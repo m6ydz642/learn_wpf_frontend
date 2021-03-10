@@ -81,9 +81,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GameStart.xaml.cs">
+    <Compile Include="View\GameStart.xaml.cs">
       <DependentUpon>GameStart.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ModelAndView\Append.cs" />
+    <Compile Include="ModelAndView\GameStartViewModel.cs" />
     <Compile Include="Introduce.xaml.cs">
       <DependentUpon>Introduce.xaml</DependentUpon>
     </Compile>
@@ -93,7 +95,7 @@
     <Compile Include="UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
-    <Page Include="GameStart.xaml">
+    <Page Include="View\GameStart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -150,9 +152,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ModelAndView\" />
     <Folder Include="Model\" />
-    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

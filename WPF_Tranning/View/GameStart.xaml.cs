@@ -25,7 +25,7 @@ namespace WPF_Tranning
             InitializeComponent();
         }
         
-          private void number_click(object sender, RoutedEventArgs e)
+     /*     private void number_click(object sender, RoutedEventArgs e)
         {
             // keypad.Content = ""; // 초반에 창 변경할 때 Content내용에 숫자를 입력하세요 가 있어서 초기화 해야 됨 
             // place holder처럼 할랬는데 호출할때 마다 초기화 되서 안됨 ㅠ
@@ -46,6 +46,6 @@ namespace WPF_Tranning
                 MessageBox.Show("더 이상 수를 입력할 수 없습니다");
             }
         }
-        
+        */
     }
 }
