@@ -35,10 +35,10 @@
             </ListView.View>
         </ListView>
 
-        <TextBlock FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"
-          Text="{Binding DisplayText}" />
-     
-        <Label   x:Name="keypad" Content="" HorizontalAlignment="Left" Margin="45,55,0,0" VerticalAlignment="Top" Width="125"/>
+        <!--<TextBlock FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"
+          Text="{Binding DisplayText}" />-->
+
+        <Label   x:Name="keypad" Content="{Binding DisplayText}" HorizontalAlignment="Left" Margin="45,55,0,0" VerticalAlignment="Top" Width="125"/>
         <Button Name="Retry" Content="재시작" HorizontalAlignment="Left" Margin="60,173,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Name="Back" Content="지움" HorizontalAlignment="Left" Margin="175,86,0,0" VerticalAlignment="Top" Width="50"/>
         <Button Name="Clear" Content="삭제" HorizontalAlignment="Left" Margin="175,113,0,0" VerticalAlignment="Top" Width="50"/>

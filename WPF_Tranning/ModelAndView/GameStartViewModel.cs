@@ -7,17 +7,18 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
+using WPF_Tranning.ModelAndView;
 
 namespace WPF_Tranning
 {
 
     public class GameStartViewModel : INotifyPropertyChanged
     {
-
-        public ICommand Append { protected set; get; }
- 
-        //   private RelayCommand _clickCommand;
+    
+        public ICommand ClickKeyPad // 키패드 클릭
+        {
+            get; set;
+        }
 
         //View와 바인딩된 속성값이 바뀔때 이를 WPF에게 알리기 위한 이벤트
         public event PropertyChangedEventHandler PropertyChanged;
@@ -26,12 +27,22 @@ namespace WPF_Tranning
 
         string inputString = "";
 
-
-
         //계산기화면의 출력 텍스트박스에 대응되는 필드
-
         string displayText = "";
-        
+
+        public GameStartViewModel() // 기본생성자
+        {
+
+            //    this.ClickKeyPad = new RelayCommand(new Action<object>(this.KeyPadClick)); // 아직은 안쓰는데 조만간 뭐 전달한다고 쓸듯
+            this.ClickKeyPad = new AddNumberKeyPad(this); // 키패드 클릭시 값 전달
+                                                          //숫자 버튼을 클릭할 때 실행
+                                                          // this.ClickKeyPad = new AddNumberKeyPad(this);
+
+
+        }
+
+       
+
         /*  public ICommand ClickCommand
 
           {
@@ -63,11 +74,12 @@ namespace WPF_Tranning
 
                     inputString = value;
 
-                    OnPropertyChanged("InputString");
+                    OnPropertyChanged("InputString"); // 값이 들어왔으면 PropertyChanged를 호출함
 
                     if (value != "")
                     {
                         DisplayText = value;
+
 
                     }
                 }
@@ -92,7 +104,8 @@ namespace WPF_Tranning
 
                     displayText = value;
 
-                    OnPropertyChanged("DisplayText");
+                    OnPropertyChanged("DisplayText"); // 값이 들어왔으면 PropertyChanged를 호출함
+                    // 디스플레이 표시
 
                 }
 
@@ -103,25 +116,12 @@ namespace WPF_Tranning
         }
   
       
-        public ICommand ClickKeyPad // 키패드 클릭
-        {
-            get; set;
-        }
-
-
-        public GameStartViewModel()
-        {
-        
-            this.ClickKeyPad = new RelayCommand(new Action<object>(this.KeyPadClick));
-            
-            //숫자 버튼을 클릭할 때 실행
-            this.Append = new Append(this);
        
 
-        }
+     
 
 
-        private void KeyPadClick(object obj) // 1~9클릭시
+        private void KeyPadClick(object obj) // 1~9클릭시, 이 함수 안씀 ㅋㅋ
 
         {
            
@@ -134,7 +134,7 @@ namespace WPF_Tranning
             if (PropertyChanged != null)
 
             {
-
+            //    MessageBox.Show("프로퍼티 체인지!!!");
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 
             }
@@ -205,8 +205,9 @@ namespace WPF_Tranning
         public bool CanExecute(object parameter)
 
         {
-
+           
             return this.canExecute == null || this.canExecute(parameter);
+          
 
         }
 
