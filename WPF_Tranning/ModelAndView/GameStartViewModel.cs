@@ -61,28 +61,36 @@ namespace WPF_Tranning
           }
   */
 
-        public string InputString
-
+        public bool checkKeypadLength(string inputString) // 나중에 ModelAndView에 checkValue해서 클래스로 넣어서 호출할거임
         {
+            bool check = false;
+             if(inputString.Length < 6) // 공백 + 숫자 자리 = 2 * 3 = 6
+            {
+                check = true;
+            }
+            else
+            {
+                MessageBox.Show("3자리까지 입력가능합니다");
+            }
+            return check;
+        }
 
+        public string InputString
+        {
             internal set
             {
-
-                if (inputString != value)
-
+                if (inputString != value && checkKeypadLength(InputString))
                 {
-
-                    inputString = value;
-
+                    inputString = value + " ";
                     OnPropertyChanged("InputString"); // 값이 들어왔으면 PropertyChanged를 호출함
 
                     if (value != "")
                     {
-                        DisplayText = value;
-
-
+                        DisplayText = value; // 공백추가
                     }
+
                 }
+              
 
             }
             get { return inputString; }
