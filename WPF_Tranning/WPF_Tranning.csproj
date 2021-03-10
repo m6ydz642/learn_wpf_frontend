@@ -86,10 +86,10 @@
     </Compile>
     <Compile Include="ModelAndView\Append.cs" />
     <Compile Include="ModelAndView\GameStartViewModel.cs" />
-    <Compile Include="Introduce.xaml.cs">
+    <Compile Include="View\Introduce.xaml.cs">
       <DependentUpon>Introduce.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControl1.xaml.cs">
@@ -99,11 +99,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Introduce.xaml">
+    <Page Include="View\Introduce.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainPage.xaml">
+    <Page Include="View\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
