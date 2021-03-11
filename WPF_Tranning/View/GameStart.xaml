@@ -3,55 +3,64 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:WPF_Tranning" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+      xmlns:local="clr-namespace:WPF_Tranning" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="GameStart"
        x:Name="startGameElement">
 
 
-    
-  
+
+
     <Grid>
-        <TextBlock><Run Text="Start Game!!"/><Run Text=";;;;;;"/></TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.RowSpan="2" Margin="0,10,0,-10"><Run Text="Start Game!!"/><Run Text=";;;;;;"/></TextBlock>
 
 
-        <Button x:Name="key1" Content="1" HorizontalAlignment="Left" Margin="40,86,0,0" VerticalAlignment="Top" Width="38"  Command="{Binding ClickKeyPad}" CommandParameter="1"/>
-        <Button x:Name="key2" Content="2" HorizontalAlignment="Left" Margin="83,86,0,0" VerticalAlignment="Top" Width="38" Command="{Binding ClickKeyPad}" CommandParameter="2"/>
-        <Button x:Name="key3" Content="3" HorizontalAlignment="Left" Margin="126,86,0,0" VerticalAlignment="Top" Width="38"  Command="{Binding ClickKeyPad}"  CommandParameter="3"/>
-        <Button x:Name="key4" Content="4" HorizontalAlignment="Left" Margin="40,113,0,0" VerticalAlignment="Top" Width="38"  Command="{Binding ClickKeyPad}"  CommandParameter="4"/>
-        <Button x:Name="key5" Content="5" HorizontalAlignment="Left" Margin="83,113,0,0" VerticalAlignment="Top" Width="38" Command="{Binding ClickKeyPad}"  CommandParameter="5"/>
-        <Button x:Name="key6" Content="6" HorizontalAlignment="Left" Margin="126,113,0,0" VerticalAlignment="Top" Width="38" Command="{Binding ClickKeyPad}"  CommandParameter="6"/>
-        <Button x:Name="key7" Content="7" HorizontalAlignment="Left" Margin="40,140,0,0" VerticalAlignment="Top" Width="38"  Command="{Binding ClickKeyPad}"  CommandParameter="7"/>
-        <Button x:Name="key8" Content="8" HorizontalAlignment="Left" Margin="83,140,0,0" VerticalAlignment="Top" Width="38" Command="{Binding ClickKeyPad}"  CommandParameter="8"/>
-        <Button x:Name="key9" Content="9" HorizontalAlignment="Left" Margin="126,140,0,0" VerticalAlignment="Top" Width="38"  Command="{Binding ClickKeyPad}"  CommandParameter="9"/>
- 
+        <Button x:Name="key1" Content="1" HorizontalAlignment="Left" Margin="40,76,0,0" VerticalAlignment="Top" Width="38"  Command="{Binding ClickKeyPad}" CommandParameter="1" Height="22" Grid.Row="1"/>
+        <Button x:Name="key2" Content="2" HorizontalAlignment="Left" Margin="83,76,0,0" VerticalAlignment="Top" Width="38" Command="{Binding ClickKeyPad}" CommandParameter="2" Height="22" Grid.Row="1"/>
+        <Button x:Name="key3" Content="3" HorizontalAlignment="Left" Margin="126,76,0,0" VerticalAlignment="Top" Width="38"  Command="{Binding ClickKeyPad}"  CommandParameter="3" Height="22" Grid.Row="1"/>
+        <Button x:Name="key4" Content="4" HorizontalAlignment="Left" Margin="40,103,0,0" VerticalAlignment="Top" Width="38"  Command="{Binding ClickKeyPad}"  CommandParameter="4" Height="22" Grid.Row="1"/>
+        <Button x:Name="key5" Content="5" HorizontalAlignment="Left" Margin="83,103,0,0" VerticalAlignment="Top" Width="38" Command="{Binding ClickKeyPad}"  CommandParameter="5" Height="22" Grid.Row="1"/>
+        <Button x:Name="key6" Content="6" HorizontalAlignment="Left" Margin="126,103,0,0" VerticalAlignment="Top" Width="38" Command="{Binding ClickKeyPad}"  CommandParameter="6" Height="22" Grid.Row="1"/>
+        <Button x:Name="key7" Content="7" HorizontalAlignment="Left" Margin="40,130,0,0" VerticalAlignment="Top" Width="38"  Command="{Binding ClickKeyPad}"  CommandParameter="7" Height="22" Grid.Row="1"/>
+        <Button x:Name="key8" Content="8" HorizontalAlignment="Left" Margin="83,130,0,0" VerticalAlignment="Top" Width="38" Command="{Binding ClickKeyPad}"  CommandParameter="8" Height="22" Grid.Row="1"/>
+        <Button x:Name="key9" Content="9" HorizontalAlignment="Left" Margin="126,130,0,0" VerticalAlignment="Top" Width="38"  Command="{Binding ClickKeyPad}"  CommandParameter="9" Height="22" Grid.Row="1"/>
 
-        <ListView x:Name="scoreListView" HorizontalAlignment="Left" Height="203" Margin="242,28,0,0" VerticalAlignment="Top" Width="337">
+        <!--<ListView ItemsSource="{Binding DataTable}" x:Name="scoreListView" HorizontalAlignment="Left" Height="203" Margin="300,45,0,0" VerticalAlignment="Top" Width="337" Grid.RowSpan="2">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="점수" DisplayMemberBinding="{Binding DataTable}"/>
+
                 </GridView>
             </ListView.View>
-        </ListView>
+        </ListView>-->
 
-        <!--<TextBlock FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"
-          Text="{Binding DisplayText}" />-->
 
-        <Label   x:Name="keypad" Content="{Binding DisplayText}" HorizontalAlignment="Left" Margin="45,55,0,0" VerticalAlignment="Top" Width="125"/>
-        <Button Name="Retry" Content="재시작" HorizontalAlignment="Left" Margin="60,173,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Name="Back" Content="지움" HorizontalAlignment="Left" Margin="175,86,0,0" VerticalAlignment="Top" Width="50"/>
-        <Button Name="Clear" Content="삭제" HorizontalAlignment="Left" Margin="175,113,0,0" VerticalAlignment="Top" Width="50"/>
-        <Button Name="Enter" Content="엔터" HorizontalAlignment="Left" Margin="175,140,0,0" VerticalAlignment="Top" Width="50"/>
+
+        <Label   x:Name="keypad" Content="{Binding DisplayText}" HorizontalAlignment="Left" Margin="60,29,0,0" VerticalAlignment="Top" Width="125" Height="26" Grid.Row="1"/>
+        
+        <Button Command="{Binding Retry}" Name="Retry" Content="재시작" HorizontalAlignment="Left" Margin="60,163,0,0" VerticalAlignment="Top" Width="75" Height="22" Grid.Row="1"/>
+        <Button Command="{Binding BackSpaceCommand}"  Name="Back" Content="지움" HorizontalAlignment="Left" Margin="175,76,0,0" VerticalAlignment="Top" Width="50" Height="22" Grid.Row="1"/>
+        <Button Name="Clear" Content="삭제" HorizontalAlignment="Left" Margin="175,103,0,0" VerticalAlignment="Top" Width="50" Height="22" Grid.Row="1"/>
+        <Button Command="{Binding Enter}" Name="Enter" Content="엔터" HorizontalAlignment="Left" Margin="175,130,0,0" VerticalAlignment="Top" Width="50" Height="22" Grid.Row="1"/>
 
         <!--바인딩 할껀데 이벤트 호출 ㅠㅠ-->
         <!--<dxmvvm:Interaction.Behaviors>
             <dxmvvm:EventToCommand Command="{Binding DataContext.ClickCommend, ElementName=startGameElement}" EventName="Click" CommandParameter="{Binding ElementName=startGameElement, Mode=OneWay}"/>
         </dxmvvm:Interaction.Behaviors>-->
 
-        <dxmvvm:Interaction.Behaviors>
-            <dxmvvm:EventToCommand Command="{Binding DataContext.ClickKeyPad, ElementName=startGameElement}" EventName="Click" CommandParameter="{Binding ElementName=startGameElement, Mode=OneWay}"/>
-        </dxmvvm:Interaction.Behaviors>
+
+        <dxg:GridControl x:Name="scoreListView" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" HorizontalAlignment="Left" Margin="255,39,0,0" VerticalAlignment="Top" Height="231" Width="510" ItemsSource="{Binding DataTable}" Grid.Row="1">
+            <dxg:GridControl.View>
+                <dxg:TableView ShowTotalSummary="True" Margin="0,0,8,58"/>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+
+
 
 
     </Grid>
