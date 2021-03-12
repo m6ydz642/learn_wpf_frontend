@@ -1,24 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+
 using System.Windows.Input;
 using WPF_Tranning;
 
 namespace WPF_Tranning
 {
-    public interface IBaseCommand : ICommand
-
-    {
-
-        void OnCanExecuteChanged();
-
-    }
+ 
     public class GameStartViewModel : INotifyPropertyChanged
     {
 
@@ -41,11 +31,9 @@ namespace WPF_Tranning
         string _displayText;
 
         CheckValue _checkvalue;
+        public int _countGame;
 
- 
-
-
-
+  
         /**********************************************************************/
         public DataTable _datatable;
 
@@ -71,6 +59,7 @@ namespace WPF_Tranning
     
             _inputString = "";
             _displayText = "";
+            _countGame = 0;
             //    this.ClickKeyPad = new RelayCommand(new Action<object>(this.KeyPadClick)); // 아직은 안쓰는데 조만간 뭐 전달한다고 쓸듯
             
             this.ClickKeyPad = new AddNumberKeyPad(this); // 키패드 클릭시 객체 전달

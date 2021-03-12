@@ -10,18 +10,15 @@ namespace WPF_Tranning
 {
     public class EnterGame : IBaseCommand
     {
-        public int _countGame;
 
   
 
         private GameStartViewModel viewModel;
-
-        // CheckValue checkInput = new CheckValue();
         GameStart game = new GameStart();
 
         public EnterGame()
         {
-            _countGame = 0;
+            
            
         }
 
@@ -29,22 +26,6 @@ namespace WPF_Tranning
         {
             this.viewModel = viewModel;
         }
-
-
-        //   public CheckValue checkvalue;
-
-
-
-        /*   public EnterGame(CheckValue checkvalue)
-           // EnterGame의 기본생성자에서 생성한 EnterGame 객체를
-           // CheckValue생성자로 가져옴
-
-           {
-               this.checkvalue = checkvalue;
-           }*/
-
-
-
 
         public event EventHandler CanExecuteChanged
         {
@@ -71,11 +52,11 @@ namespace WPF_Tranning
 
             inputNumber(value); // 입력받은 값을 배열로 만들어서 가지고 나감
 
-            viewModel._datatable.Rows.Add(++_countGame, value, calcScore());
+            viewModel._datatable.Rows.Add(++viewModel._countGame, value, calcScore());
             viewModel.InputString = ""; // 엔터치면 초기화 함
 
             calcScore();
-          
+            viewModel.StatusGateStart = true; // 게임 시작시 true로 활성화, Retry.cs에도 영향을 받아서 재시작 버튼이 활성화 됨
         }
 
 
@@ -99,12 +80,11 @@ namespace WPF_Tranning
 
             _inputNumberSave = new int[3]; // new 연산자로 영역 생성안하니까 null뜨면서 안들
 
+            // char[] 타입을 int [] 타입으로
+            // 이거 어이없는게 0번(48) 아스키코드를 빼면 현재 숫자가 나옴
+            // 아스키코드로 49는 1인데 이걸 변환하려면 -48을 하면 1이나옴 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
 
-            _inputNumberSave[0] = inputNumberString[0] - 48;  // char[] 타입을 int [] 타입으로
-                                                              // 이거 어이없는게 0번(48) 아스키코드를 빼면 현재 숫자가 나옴
-                                                              // 아스키코드로 49는 1인데 이걸 변환하려면 -48을 하면 1이나옴 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
-
-
+            _inputNumberSave[0] = inputNumberString[0] - 48; 
             _inputNumberSave[1] = inputNumberString[1] - 48;
             _inputNumberSave[2] = inputNumberString[2] - 48;
 
@@ -125,7 +105,6 @@ namespace WPF_Tranning
 
             for (int i = 0; i < _inputNumberSave.Length; i++)
             {
-                //    Console.WriteLine("calcScore - saveScore내용 : " + RandNum[i]);
                 if (RandNum[i] == _inputNumberSave[i])
                 {
                     Strike++; // 사용자에게 보여지는 점수판

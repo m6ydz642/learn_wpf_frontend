@@ -81,8 +81,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ModelAndView\BackSpaceCommand.cs" />
     <Compile Include="ModelAndView\CheckValue.cs" />
     <Compile Include="ModelAndView\AddNumberKeyPad.cs" />
+    <Compile Include="ModelAndView\EnterGame.cs" />
+    <Compile Include="ModelAndView\Retry.cs" />
     <Compile Include="View\GameStart.xaml.cs">
       <DependentUpon>GameStart.xaml</DependentUpon>
     </Compile>

@@ -38,17 +38,10 @@ namespace WPF_Tranning
 
         public void Execute(object parameter)
         {
-         /*   if ( ) // 엔터키 눌렀을때 재시작하는걸로 변경해야 함
-            {
-        
- 
-            }
-            else
-            {   
-                CanExecute(parameter); // 비활성화 false로 하기 위해 호출함
-                // CanExcuate가 호출될때 inputString.length가 지워지고 있는 상황이라서 길이가 
-                // 0이 되면 비활성화 처리 됨
-            }*/
+            MessageBox.Show("게임을 다시시작합니다");
+            viewModel._countGame = 0;
+            viewModel._datatable.Rows.Clear(); // 그리드 뷰 초기화 (그리드 뷰를 초기화 하는게 아니라 그리드 뷰를
+            // 보여주게 설정해주는 변수를 초기화함
 
         }
 
