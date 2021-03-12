@@ -60,6 +60,10 @@
             </dxg:GridControl.View>
         </dxg:GridControl>
 
+        <!--재시작 눌렀을때 변경되게 바꾸던지 해야 됨) -->
+        <!--<Label   x:Name="randomnumber" Content="{Binding RandomNumberDisplay}" HorizontalAlignment="Left" Margin="60,29,0,0" VerticalAlignment="Top" Width="125" Height="26" Grid.Row="1"/>-->
+        <Label   x:Name="randomnumber" Content="랜덤번호" HorizontalAlignment="Left" Margin="60,254,0,0" VerticalAlignment="Top" Width="125" Height="26" Grid.Row="1"/>
+    
 
 
 
