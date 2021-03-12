@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using System;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WPF_Tranning
 {
@@ -20,32 +8,76 @@ namespace WPF_Tranning
     /// </summary>
     public partial class GameStart : Page
     {
+
+
+
+        public int[] _randomNumberArray
+        {
+            get; set;
+        }
+        public int[] _MakeNumberSave { get; set; }
+
+        public int[] MakeRandomNumber() // 컴퓨터 랜덤함수 생성 
+        {
+            // computerScore.Text = ""; // 버튼클릭시 랜덤함수 초기화
+
+            Random rand = new Random();
+            bool status = true; // 마지막에 if문으로 출력할 때 중복발견 후 출력 되야 해서
+            int[] RandNum = new int[3];
+
+            for (int i = 0; i < RandNum.Length; i++)
+            {
+                int number = rand.Next(1, 10); // 1부터 9까지
+                status = true;
+                // 중복이 발견되어 false상태이면 중복을 제외하고 출력해버리기 때문에 한번더 돌때 true로 바꿈
+                for (int j = 0; j < i; j++) // 다음 인수로 중복검사하게할 값
+
+                {
+                    if (RandNum[j] == number)
+                    {
+                        Console.WriteLine("중복발견 : " + RandNum[j]);
+                        status = false;
+
+                        // false처리해서 배열에 값을 못넣도록 함 (밑에 array[i] = rand) 부분에 
+                        i--; // 다시 반복하기 위해 -- 처리함
+
+                        break;
+                    }
+
+                }
+                if (status) // true일 경우만 출력하고 배열에 넣음
+                {
+                    RandNum[i] = number;
+                    /* RandNum[0] = 1;
+                     RandNum[1] = 2;
+                     RandNum[2] = 3;*/
+
+                }
+            }
+            _MakeNumberSave = RandNum;
+            _randomNumberArray = RandNum;
+
+            return _MakeNumberSave;
+        }
+
         public GameStart()
         {
+
             InitializeComponent();
-        }
-        
-     /*     private void number_click(object sender, RoutedEventArgs e)
-        {
-            // keypad.Content = ""; // 초반에 창 변경할 때 Content내용에 숫자를 입력하세요 가 있어서 초기화 해야 됨 
-            // place holder처럼 할랬는데 호출할때 마다 초기화 되서 안됨 ㅠ
-
-            int inputNumberLength = keypad.Content.ToString().Length + 2 ;  // 초반엔 입력 초기값이 0부터 시작해서 입력값을 미리 한개 입력해놈 (+2)로, 클릭하기 전이라 2로 초기값을 줌
-            // 0 -> 4- > 6순으로 올라감 
             
-            // 처음에 초기값으로 2받은거랑 두번째에 숫자 클릭할때 값이  2번째에 합쳐셔서 나타나기 때문임
+            _randomNumberArray = MakeRandomNumber();
+       
+            randomnumber.Content = string.Join(string.Empty, _randomNumberArray); // 랜덤함수 프로그램 실행시  화면에 바로 표시
+            // int array to string 변환 
+            // 화면표시용
 
-            if (inputNumberLength <= 6)
-            {
-                var btn = sender as Button; // btn 전에 한번 검사
-            if (btn == null) return;
-            keypad.Content = (string)keypad.Content + (string) btn.Content + " "; // 여기서는 또 Content로 하네 ㅡ.ㅡ 걍 text가 편한데
-            }
-            else
-            {
-                MessageBox.Show("더 이상 수를 입력할 수 없습니다");
-            }
+            
+            // 게임중에는 버튼실행이나 생성자 호출 안되게 수정하던지 해야 됨 
+            _MakeNumberSave = _randomNumberArray;
+        
         }
-        */
+
+       
+       
     }
 }
