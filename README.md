@@ -1,4 +1,5 @@
-# WPF_Tranning
+# BaseBallGame_WPF
+# 기존 Winform으로 제작한 게임을 WPF로 변경
 
 
 * ICommand를 이용한 Binding 사용 
