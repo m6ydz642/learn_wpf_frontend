@@ -8,14 +8,32 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
 
-    <Grid>
-        <Button Content="Click Binding" Margin="59,136,550,249" Command="{Binding TestBinding}">
+    <Grid Name="pnlMainGrid" MouseUp="pnlMainGrid_MouseUp" Background="LightBlue">
+        <Button Content="Click Binding" Margin="29,68,580,317" Command="{Binding TestBinding}">
             <dxmvvm:Interaction.Behaviors>
                 <dxmvvm:FocusBehavior/>
 
             </dxmvvm:Interaction.Behaviors>
         </Button>
 
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="72">
+            Hello, WPF!
+        </TextBlock>
 
+        <Button Margin="290,61,340,310">
+            <Button.FontWeight>Bold</Button.FontWeight> <!--이런식으로도 프로퍼티 옵션 쌉가능-->
+            <Button.Content>A button</Button.Content>
+        </Button>
+
+        <Button Margin="502,61,130,302">
+        <Button.FontWeight>Bold</Button.FontWeight>
+        <Button.Content>
+            <WrapPanel>
+                <TextBlock Foreground="Blue">Multi</TextBlock>
+                <TextBlock Foreground="Red">Color</TextBlock>
+                <TextBlock>Button</TextBlock>
+            </WrapPanel>
+        </Button.Content>
+        </Button>
     </Grid>
 </Window>

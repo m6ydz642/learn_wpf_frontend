@@ -23,5 +23,10 @@ namespace WPF_Tranning
         {
             InitializeComponent();
         }
+
+        private void pnlMainGrid_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
     }
 }
