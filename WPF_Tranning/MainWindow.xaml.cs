@@ -23,6 +23,9 @@ namespace WPF_Tranning
         public MainWindow()
         {
             InitializeComponent();
+<<<<<<< HEAD
+            this.DataContext = new ModelAndView(); // context파일중 ModelAndView.cs 호출
+=======
             this.DataContext = new GameStartViewModel(); 
             // GameStartViewModel 호출함
 
@@ -36,6 +39,7 @@ namespace WPF_Tranning
         private void btnstart_Click(object sender, RoutedEventArgs e)
         {
             nav_content.Source = new Uri("View/GameStart.xaml", UriKind.Relative); // uri로 페이지 이동
+>>>>>>> 0c8875035ad3ae4a7211d7c1bc9fdd53e64aa4dc
         }
     }
 }
