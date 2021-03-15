@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace WPF_Tranning
@@ -23,23 +22,6 @@ namespace WPF_Tranning
         public MainWindow()
         {
             InitializeComponent();
-<<<<<<< HEAD
-            this.DataContext = new ModelAndView(); // context파일중 ModelAndView.cs 호출
-=======
-            this.DataContext = new GameStartViewModel(); 
-            // GameStartViewModel 호출함
-
-        }
-
-        private void btnmain_Click(object sender, RoutedEventArgs e)
-        {
-            nav_content.Source = new Uri("View/Introduce.xaml", UriKind.Relative); // uri로 페이지 이동
-        }
-
-        private void btnstart_Click(object sender, RoutedEventArgs e)
-        {
-            nav_content.Source = new Uri("View/GameStart.xaml", UriKind.Relative); // uri로 페이지 이동
->>>>>>> 0c8875035ad3ae4a7211d7c1bc9fdd53e64aa4dc
         }
     }
 }

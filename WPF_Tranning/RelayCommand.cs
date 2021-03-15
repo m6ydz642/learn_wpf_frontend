@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace WPF_Tranning
@@ -55,6 +56,7 @@ namespace WPF_Tranning
         public void Execute(object parameter)
 
         {
+            MessageBox.Show("Execute호출");
             this.execute(parameter ?? "널이얌"); // 앙 파라메터띠
         }
 
