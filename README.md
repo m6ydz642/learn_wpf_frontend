@@ -1,27 +1,5 @@
-# BaseBallGame_WPF
-# 기존 Winform으로 제작한 게임을 WPF로 변경
+# WPF_Tranning
 
+기존 WPF 프로그램 이름 BaseBall_WPF 로 변경 및 프로젝트 복사 후 WPF_Tranning 프로젝트 재생성 
 
-* ICommand를 이용한 Binding 사용 
-* Deverpress 20.7 평가판으로 WPF datagrid 등 사용
-
-<br><br><br>
-BaseBallGame_Winform -> WPF로 변경작업 <br>
-
-
-![image](https://user-images.githubusercontent.com/45617447/110933625-57f23900-8370-11eb-85ce-1b7cf8343ee8.png)
-<br>
-<사진1>
-메인페이지 
-<br>
-
-![image](https://user-images.githubusercontent.com/45617447/110934097-eebef580-8370-11eb-815a-3a8076e4b95e.png)
-<br>
-<사진2>
-게임입력 <br>
-
-- 게임을 시작하면 재시작 버튼 활성화
-- 3자리를 입력해야 엔터키 활성화 
--  CommandManager.InvalidateRequerySuggested() 를 사용하여 게임시작 카운트 등을 확인하여 버튼 활성화 처리 (버튼 움직임 감지 아님)
-
-
+이전 커밋항목은 중복임
