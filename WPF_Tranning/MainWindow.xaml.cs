@@ -22,6 +22,7 @@ namespace WPF_Tranning
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new MainView(); // main view호출
         }
 
         private void pnlMainGrid_MouseUp(object sender, MouseButtonEventArgs e)
