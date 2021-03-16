@@ -9,7 +9,19 @@
         Title="MainWindow" Height="450" Width="800">
 
     <Grid Name="pnlMainGrid" MouseUp="pnlMainGrid_MouseUp" Background="LightBlue">
-        <Button Content="Click Binding" Margin="29,68,580,317" Command="{Binding TestBinding}">
+
+        <StackPanel Margin="10">
+
+            <Label FontWeight="Bold" Content="Application Options"/>
+            <CheckBox  Name="cbAllFeatures" Checked="cbAllFeatures_Checked" Unchecked="cbAllFeatures_Unchecked">전체체크</CheckBox>
+            <!--속성에 IsThreeState="True" 하면 체크할때 중간에 네모로 바뀜 -->
+            <CheckBox Name="cbFeatureAbc" Checked="cbFeature_CheckedChanged" Unchecked="cbFeature_CheckedChanged">Enable feature ABC</CheckBox>
+            <CheckBox Name="cbFeatureXyz" IsChecked="True" Checked="cbFeature_CheckedChanged" Unchecked="cbFeature_CheckedChanged">Enable feature XYZ</CheckBox>
+            <CheckBox Name="cbFeatureWww" Checked="cbFeature_CheckedChanged" Unchecked="cbFeature_CheckedChanged">Enable feature WWW</CheckBox>
+            <Button x:Name="button" Content="전송" Margin="0,0,662,0"/>
+        </StackPanel>
+
+        <Button Content="Click Binding" Margin="290,128,319,257" Command="{Binding TestBinding}">
             <dxmvvm:Interaction.Behaviors>
                 <dxmvvm:FocusBehavior/>
 
@@ -21,19 +33,20 @@
         </TextBlock>
 
         <Button Margin="290,61,340,310">
-            <Button.FontWeight>Bold</Button.FontWeight> <!--이런식으로도 프로퍼티 옵션 쌉가능-->
+            <Button.FontWeight>Bold</Button.FontWeight>
+            <!--이런식으로도 프로퍼티 옵션 쌉가능-->
             <Button.Content>A button</Button.Content>
         </Button>
 
         <Button Margin="502,61,130,302">
-        <Button.FontWeight>Bold</Button.FontWeight>
-        <Button.Content>
-            <WrapPanel>
-                <TextBlock Foreground="Blue">Multi</TextBlock>
-                <TextBlock Foreground="Red">Color</TextBlock>
-                <TextBlock>Button</TextBlock>
-            </WrapPanel>
-        </Button.Content>
+            <Button.FontWeight>Bold</Button.FontWeight>
+            <Button.Content>
+                <WrapPanel>
+                    <TextBlock Foreground="Blue">Multi</TextBlock>
+                    <TextBlock Foreground="Red">Color</TextBlock>
+                    <TextBlock>Button</TextBlock>
+                </WrapPanel>
+            </Button.Content>
         </Button>
     </Grid>
 </Window>
