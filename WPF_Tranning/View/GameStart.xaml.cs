@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace WPF_Tranning
 {
@@ -12,12 +13,26 @@ namespace WPF_Tranning
     public partial class GameStart : Page
     {
 
-        string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
+       
 
         public int[] _randomNumberArray
         {
             get; set;
         }
+
+        private DataTable _selectDataTable; // DB내용 조회
+
+        public DataTable TestTable
+        {
+            get { return _selectDataTable; }
+            set
+            {
+                _selectDataTable = value;
+
+                //   RaisePropertyChanged("DataTable");
+            }
+        }
+
         public int[] _MakeNumberSave { get; set; }
 
         public int[] MakeRandomNumber() // 컴퓨터 랜덤함수 생성 
@@ -64,6 +79,8 @@ namespace WPF_Tranning
         }
 
 
+        string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
+
         public DataSet connectDB()
         {
             string selectQuery = ConfigurationManager.AppSettings["selectScore"];
@@ -84,7 +101,7 @@ namespace WPF_Tranning
         {
 
             InitializeComponent();
-            
+  
             _randomNumberArray = MakeRandomNumber();
        
             randomnumber.Content = string.Join(string.Empty, _randomNumberArray); // 랜덤함수 프로그램 실행시  화면에 바로 표시
@@ -95,13 +112,19 @@ namespace WPF_Tranning
             // 게임중에는 버튼실행이나 생성자 호출 안되게 수정하던지 해야 됨 
             _MakeNumberSave = _randomNumberArray;
 
-            // db호출 (바인딩 없이 그냥 바로 select 해서 보여줌)
-            DataSet dataSet = connectDB();
-            scoreListViewDB.DataSource = dataSet.Tables[0];
+            // db호출
+
+   /*         DataSet dataSet = connectDB();
+            scoreListViewDB.DataSource = dataSet.Tables[0];*/
+
+
+          
 
         }
 
-       
-       
-    }
+        
+
+
+
+        }
 }

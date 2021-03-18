@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Windows;
 
 using System.Windows.Input;
@@ -17,6 +19,7 @@ namespace WPF_Tranning
         public ICommand Retry { get; set; } // 재시작 버튼
 
         public ICommand Enter { get; set; } // 키패드 버튼 입력 후 게임 시작 버튼
+
 
         public bool StatusGateStart { set; get; } // 게임시작여부
 
@@ -49,6 +52,19 @@ namespace WPF_Tranning
             }
         }
         /**********************************************************************/
+        private DataTable _selectDataTable; // DB내용 조회
+
+        public DataTable SelectTable
+        {
+            get { return _selectDataTable; }
+            set
+            {
+                _selectDataTable = value;
+
+                //   RaisePropertyChanged("DataTable");
+            }
+        }
+        /**********************************************************************/
         public interface IBaseCommand : ICommand
         {
                void OnCanExecuteChanged();
@@ -68,8 +84,10 @@ namespace WPF_Tranning
             this._checkvalue = new CheckValue();
             this.Retry = new Retry(this);
             this.Enter = new EnterGame(this);
+ 
+            
 
-       
+
             //   Enter = new RelayCommand(new Action<object>(Enter.Execute));
 
             _datatable = new DataTable();
@@ -77,10 +95,40 @@ namespace WPF_Tranning
             _datatable.Columns.Add("사용자 입력");
             _datatable.Columns.Add("점수");
 
-      
+
+            // DB에 들어갈 컬럼 한글로 작성
+            /*       _selectDataTable = new DataTable();
+                   _selectDataTable.Columns.Add("카운트");
+                   _selectDataTable.Columns.Add("사용자 입력");
+                   _selectDataTable.Columns.Add("점수");
+                   DataSet dataSet = connectDB();
+
+                   _selectDataTable.Rows.Add(dataSet.Tables[0]);*/
+            _selectDataTable = new DataTable();
+            DataSet dataSet = connectDB();
+           _selectDataTable.Rows.Add(dataSet.Tables[0]);
+
+
+
 
         }
+        string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
 
+        public DataSet connectDB()
+        {
+            string selectQuery = ConfigurationManager.AppSettings["selectScore"];
+            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+            connection.Open(); // DB연결
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(selectQuery, connection); // DB통로
+            DataSet dataSet = new DataSet();
+            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            /*  
+              dataGridView1.DataSource = dataSet.Tables[0];*/
+
+            // DataSet 리턴받아 호출하는 곳에서 나머지 Tables등 실행함
+            return dataSet;
+        }
 
         private void RaisePropertyChanged(string propertyName)
         {

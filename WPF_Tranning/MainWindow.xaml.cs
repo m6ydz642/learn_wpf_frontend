@@ -12,7 +12,7 @@ namespace WPF_Tranning
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new GameStartViewModel(); 
+            this.DataContext = new GameStartViewModel(); // 바인딩 설정 (없으면 바인딩 안먹힘)
             // GameStartViewModel 호출함
 
         }

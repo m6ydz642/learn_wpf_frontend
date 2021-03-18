@@ -47,7 +47,7 @@
         <Button Command="{Binding BackSpaceCommand}"  Name="Back" Content="지움" HorizontalAlignment="Left" Margin="175,76,0,0" VerticalAlignment="Top" Width="50" Height="22" Grid.Row="1"/>
         <Button Name="Clear" Content="삭제" HorizontalAlignment="Left" Margin="175,103,0,0" VerticalAlignment="Top" Width="50" Height="22" Grid.Row="1"/>
         <Button Command="{Binding Enter}" Name="Enter" Content="엔터" HorizontalAlignment="Left" Margin="175,130,0,0" VerticalAlignment="Top" Width="50" Height="22" Grid.Row="1"/>
-
+ 
         <!--바인딩 할껀데 이벤트 호출 ㅠㅠ-->
         <!--<dxmvvm:Interaction.Behaviors>
             <dxmvvm:EventToCommand Command="{Binding DataContext.ClickCommend, ElementName=startGameElement}" EventName="Click" CommandParameter="{Binding ElementName=startGameElement, Mode=OneWay}"/>
@@ -65,10 +65,25 @@
         <Label   x:Name="randomnumber" Content="랜덤번호" HorizontalAlignment="Left" Margin="60,254,0,0" VerticalAlignment="Top" Width="125" Height="26" Grid.Row="1"/>
 
         <!--DB연결 해서 select -->
-        <dxg:GridControl x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" HorizontalAlignment="Left" Margin="255,233,-140,0" VerticalAlignment="Top" Height="216" Width="685" ItemsSource="{Binding SelectTable}" Grid.Row="1">
+        <dxg:GridControl  x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" HorizontalAlignment="Left" Margin="255,233,-140,0" VerticalAlignment="Top" Height="216" Width="685" ItemsSource="{Binding SelectTable}" Grid.Row="1">
+
+            <dxg:GridColumn FieldName="카운트" />
+
+            <dxg:GridColumn FieldName="점수"  />
+
+
             <dxg:GridControl.View>
+                
                 <dxg:TableView ShowTotalSummary="True" Margin="0,0,8,58"/>
+              
             </dxg:GridControl.View>
+            <!--<dxg:GridColumn>
+                
+                <DataTemplate>
+                    <CheckBox x:Name="cbPlanned_to_prod" >체크박스</CheckBox>
+                </DataTemplate>
+
+            </dxg:GridColumn>-->
         </dxg:GridControl>
 
 
