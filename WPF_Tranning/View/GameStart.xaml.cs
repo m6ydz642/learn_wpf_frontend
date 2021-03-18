@@ -1,4 +1,7 @@
 using System;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Windows.Controls;
 
 namespace WPF_Tranning
@@ -9,7 +12,7 @@ namespace WPF_Tranning
     public partial class GameStart : Page
     {
 
-
+        string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
 
         public int[] _randomNumberArray
         {
@@ -60,6 +63,23 @@ namespace WPF_Tranning
             return _MakeNumberSave;
         }
 
+
+        public DataSet connectDB()
+        {
+            string selectQuery = ConfigurationManager.AppSettings["selectScore"];
+            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+            connection.Open(); // DB연결
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(selectQuery, connection); // DB통로
+            DataSet dataSet = new DataSet();
+            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            /*  
+              dataGridView1.DataSource = dataSet.Tables[0];*/
+
+            // DataSet 리턴받아 호출하는 곳에서 나머지 Tables등 실행함
+            return dataSet;
+        }
+
         public GameStart()
         {
 
@@ -74,7 +94,11 @@ namespace WPF_Tranning
             
             // 게임중에는 버튼실행이나 생성자 호출 안되게 수정하던지 해야 됨 
             _MakeNumberSave = _randomNumberArray;
-        
+
+            // db호출 (바인딩 없이 그냥 바로 select 해서 보여줌)
+            DataSet dataSet = connectDB();
+            scoreListViewDB.DataSource = dataSet.Tables[0];
+
         }
 
        

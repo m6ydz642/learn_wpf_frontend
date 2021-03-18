@@ -17,7 +17,7 @@
             <RowDefinition Height="0*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.RowSpan="2" Margin="0,10,0,-10"><Run Text="Start Game!!"/><Run Text=";;;;;;"/></TextBlock>
+        <TextBlock Grid.RowSpan="2" Margin="0,10,-165,-10"><Run Text="Start Game!!"/><Run Text=";;;;;;"/></TextBlock>
 
 
         <Button x:Name="key1" Content="1" HorizontalAlignment="Left" Margin="40,76,0,0" VerticalAlignment="Top" Width="38"  Command="{Binding ClickKeyPad}" CommandParameter="1" Height="22" Grid.Row="1"/>
@@ -42,7 +42,7 @@
 
 
         <Label   x:Name="keypad" Content="{Binding DisplayText}" HorizontalAlignment="Left" Margin="60,29,0,0" VerticalAlignment="Top" Width="125" Height="26" Grid.Row="1"/>
-        
+
         <Button Command="{Binding Retry}" Name="Retry" Content="재시작" HorizontalAlignment="Left" Margin="60,163,0,0" VerticalAlignment="Top" Width="75" Height="22" Grid.Row="1"/>
         <Button Command="{Binding BackSpaceCommand}"  Name="Back" Content="지움" HorizontalAlignment="Left" Margin="175,76,0,0" VerticalAlignment="Top" Width="50" Height="22" Grid.Row="1"/>
         <Button Name="Clear" Content="삭제" HorizontalAlignment="Left" Margin="175,103,0,0" VerticalAlignment="Top" Width="50" Height="22" Grid.Row="1"/>
@@ -54,17 +54,22 @@
         </dxmvvm:Interaction.Behaviors>-->
 
 
-        <dxg:GridControl x:Name="scoreListView" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" HorizontalAlignment="Left" Margin="255,39,0,0" VerticalAlignment="Top" Height="231" Width="510" ItemsSource="{Binding DataTable}" Grid.Row="1">
+        <dxg:GridControl x:Name="scoreListView" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" HorizontalAlignment="Left" Margin="255,13,-140,0" VerticalAlignment="Top" Height="216" Width="685" ItemsSource="{Binding DataTable}" Grid.Row="1">
             <dxg:GridControl.View>
-                <dxg:TableView ShowTotalSummary="True" Margin="0,0,8,58"/>
+                <dxg:TableView ShowTotalSummary="True" Margin="0,0,-2,58"/>
             </dxg:GridControl.View>
         </dxg:GridControl>
 
         <!--재시작 눌렀을때 변경되게 바꾸던지 해야 됨) -->
         <!--<Label   x:Name="randomnumber" Content="{Binding RandomNumberDisplay}" HorizontalAlignment="Left" Margin="60,29,0,0" VerticalAlignment="Top" Width="125" Height="26" Grid.Row="1"/>-->
         <Label   x:Name="randomnumber" Content="랜덤번호" HorizontalAlignment="Left" Margin="60,254,0,0" VerticalAlignment="Top" Width="125" Height="26" Grid.Row="1"/>
-    
 
+        <!--DB연결 해서 select -->
+        <dxg:GridControl x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" HorizontalAlignment="Left" Margin="255,233,-140,0" VerticalAlignment="Top" Height="216" Width="685" ItemsSource="{Binding SelectTable}" Grid.Row="1">
+            <dxg:GridControl.View>
+                <dxg:TableView ShowTotalSummary="True" Margin="0,0,8,58"/>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
 
 
     </Grid>
