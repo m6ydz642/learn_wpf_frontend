@@ -56,7 +56,7 @@ namespace WPF_Tranning
         public void Execute(object parameter) // RelayCommand 객체생성될때 같이 호출됨
 
         {
-            this.execute(parameter ?? "널이얌"); // 앙 파라메터띠
+            this.execute(parameter ?? "널"); // 앙 파라메터띠
         }
 
     }

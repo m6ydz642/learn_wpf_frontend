@@ -17,22 +17,23 @@
             <dxg:GridControl.View>
                 <dxg:TableView  ShowTotalSummary="True" Margin="0,3,8,55"/>
             </dxg:GridControl.View>
-            <!--테스트로 이부분은 header로 바꿔봄-->
-            <dxg:GridColumn FieldName="카운트"/>
-            <dxg:GridColumn FieldName="내용"/>
 
-            <dxg:GridColumn FieldName="MediaSelected" Header="체크박스" x:Name="clmAdd" Width="100">
+            
+            <dxg:GridColumn FieldName="스코어 체크" x:Name="scorenumber" Width="100">
+                
                 <dxg:GridColumn.CellTemplate>
                     <DataTemplate>
                         <!--<CheckBox Name="chkSelect"  HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DataContext.RowData.Row.MediaSelected}"  Checked="CheckEdit_Checked" Unchecked="CheckEdit_Unchecked" />-->
-                        <CheckBox CommandParameter="test" Command="{Binding CheckBinding,Mode=OneWay }" Name="chkSelect" IsChecked="False" HorizontalAlignment="Center" />
+                        <CheckBox x:Name="checkbox" Click="chkSelect_Click" IsChecked="{Binding Score_id}"  Content="{Binding Score_id}"  HorizontalAlignment="Center" />
                     </DataTemplate>
                 </dxg:GridColumn.CellTemplate>
             </dxg:GridColumn>
 
-
+            <dxg:GridColumn FieldName="스코어 번호" Binding="{Binding Score_id}"/>
+            <dxg:GridColumn FieldName="내용" Binding="{Binding Score}"/>
+            
         </dxg:GridControl>
-        <Button Command="{Binding ClickButton}" x:Name="valuebutton" Content="클릭" HorizontalAlignment="Left" Margin="181,432,0,0" VerticalAlignment="Top" Width="119"/>
+        <Button Click="valuebutton_Click" Command="{Binding CheckBinding}" x:Name="valuebutton" Content="DB바인딩" HorizontalAlignment="Left" Margin="181,432,0,0" VerticalAlignment="Top" Width="119"/>
         <Button Command="{Binding TestBinding}" x:Name="valuebutton2" Content="바인딩" HorizontalAlignment="Left" Margin="326,432,0,0" VerticalAlignment="Top" Width="119"/>
 
 

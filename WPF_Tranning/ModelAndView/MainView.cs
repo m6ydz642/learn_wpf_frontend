@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,10 +12,12 @@ using System.Windows.Input;
 
 namespace WPF_Tranning
 {
-    class MainView 
+   
+    class MainView : INotifyPropertyChanged
     {
         public ICommand TestBinding  { get; set; }
         public ICommand CheckBinding { get; set; }
+
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
         /**********************************************************************/
@@ -22,6 +25,72 @@ namespace WPF_Tranning
 
         public DataTable _selecttable;
 
+        bool checkedVar = false;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private int _score_id;
+        private string _score;
+        private bool mIsSelected;
+
+        public int Score_id
+        {
+            get { return _score_id; }
+            set
+            {
+                _score_id = value;
+                OnPropertyChanged("Score_id");
+            }
+        }
+
+        public string Score
+        {
+            get { return _score; }
+            set
+            {
+                _score = value;
+                OnPropertyChanged("Score");
+            }
+        }
+
+        public bool IsSelected
+        {
+            get { return mIsSelected; }
+            set
+            {
+                mIsSelected = value;
+                OnPropertyChanged("IsSelected");
+            }
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                MessageBox.Show("프로퍼티 체인지");
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+
+        public bool CheckedVar
+
+        {
+
+            get { return checkedVar; }
+
+            set
+
+            {
+
+                checkedVar = value;
+
+                 Notify("CheckedVar");
+                MessageBox.Show("박스");
+
+            }
+
+        }
 
         public DataTable SelectTable
         {
@@ -33,6 +102,8 @@ namespace WPF_Tranning
                 //   RaisePropertyChanged("DataTable");
             }
         }
+
+    
 
         public DataTable DataTable
         {
@@ -67,7 +138,15 @@ namespace WPF_Tranning
             TestBinding = new RelayCommand(new Action<object>(this.OnClickEvent));
             _selecttable = connectDB().Tables[0]; // select한 값 넣음
             CheckBinding = new RelayCommand(new Action<object>(this.OnClickEvent));
-        
+  
+
+            /*DataRow[] rows = _selecttable.Select();
+            for (int i = 0; i < rows.Length; i++)
+            {
+                ScoreID = (int)rows[i]["Score_ID"];
+            }*/
+
+            // ScoreID = 100;
 
         }
 
@@ -89,6 +168,15 @@ namespace WPF_Tranning
             MessageBox.Show("test");
         }
 
+        private void Notify(string propertyName)
+        {
+            // take a copy to prevent thread issues
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
 
     }
