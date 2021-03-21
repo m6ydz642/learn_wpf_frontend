@@ -4,23 +4,38 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_Tranning"
-        xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui" x:Class="WPF_Tranning.MainWindow"
+        xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" x:Class="WPF_Tranning.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="567" Width="1249">
 
+    <Grid>
+        <!--체크박스 샘플 
+            https://johnnblade.wordpress.com/2012/05/24/grid-control-gridcontrol-with-celltemplate-and-checkbox-or-checkedit-unchecks-or-checks-other-unchecked-checkboxes-when-scrolling-or-checkbox-comes-up-when-new-visual-rows-displays-devexpress-wpf/
+            -->
+        <!-- DB내용 View -->
+        <dxg:GridControl x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" HorizontalAlignment="Left" Margin="156,10,0,0" VerticalAlignment="Top" Height="323" Width="849" ItemsSource="{Binding SelectTable}">
+            <dxg:GridControl.View>
+                <dxg:TableView  ShowTotalSummary="True" Margin="0,3,8,55"/>
+            </dxg:GridControl.View>
+            <!--테스트로 이부분은 header로 바꿔봄-->
+            <dxg:GridColumn FieldName="카운트"/>
+            <dxg:GridColumn FieldName="내용"/>
 
-    <Grid Margin="10,10,48,47">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="29*"/>
-            <ColumnDefinition Width="129*"/>
-        </Grid.ColumnDefinitions>
+            <dxg:GridColumn FieldName="MediaSelected" Header="체크박스" x:Name="clmAdd" Width="100">
+                <dxg:GridColumn.CellTemplate>
+                    <DataTemplate>
+                        <!--<CheckBox Name="chkSelect"  HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DataContext.RowData.Row.MediaSelected}"  Checked="CheckEdit_Checked" Unchecked="CheckEdit_Unchecked" />-->
+                        <CheckBox CommandParameter="test" Command="{Binding CheckBinding,Mode=OneWay }" Name="chkSelect" IsChecked="False" HorizontalAlignment="Center" />
+                    </DataTemplate>
+                </dxg:GridColumn.CellTemplate>
+            </dxg:GridColumn>
 
-        <Button Name="btnmain" Margin="4,0,21,426" Content="소개" Click="btnmain_Click"/>
-        <Button Name="btnstart" Margin="0,0,783,431" Content="게임하기" Click="btnstart_Click" Grid.Column="1"/>
-        <dxwui:NavigationFrame Name="nav_content" Content="네비게이션 프레임" HorizontalAlignment="Left" Margin="4,53,0,-36" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="462" Width="1169"/>
 
-        <!--<dxwui:NavigationFrame Name ="nav_content" Content="야구게임에 오신것을 환영합니다!" HorizontalAlignment="Left" Margin="0,72,0,0" VerticalAlignment="Top" Height="335" Width="770" Grid.ColumnSpan="2"/>-->
-        <!--이거 버전 문제 때문에 위에껀 안됨 ㅡ.ㅡ-->
+        </dxg:GridControl>
+        <Button Command="{Binding ClickButton}" x:Name="valuebutton" Content="클릭" HorizontalAlignment="Left" Margin="181,432,0,0" VerticalAlignment="Top" Width="119"/>
+        <Button Command="{Binding TestBinding}" x:Name="valuebutton2" Content="바인딩" HorizontalAlignment="Left" Margin="326,432,0,0" VerticalAlignment="Top" Width="119"/>
+
+
 
 
     </Grid>

@@ -12,19 +12,11 @@ namespace WPF_Tranning
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new GameStartViewModel(); // 바인딩 설정 (없으면 바인딩 안먹힘)
+            this.DataContext = new MainView(); // 바인딩 설정 (없으면 바인딩 안먹힘)
             // GameStartViewModel 호출함
 
         }
 
-        private void btnmain_Click(object sender, RoutedEventArgs e)
-        {
-            nav_content.Source = new Uri("View/Introduce.xaml", UriKind.Relative); // uri로 페이지 이동
-        }
 
-        private void btnstart_Click(object sender, RoutedEventArgs e)
-        {
-            nav_content.Source = new Uri("View/GameStart.xaml", UriKind.Relative); // uri로 페이지 이동
-        }
     }
 }
