@@ -232,6 +232,7 @@ namespace WPF_Tranning
 
         private void Notify(string propertyName)
         {
+            MessageBox.Show("Notify호출");
             // take a copy to prevent thread issues
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)

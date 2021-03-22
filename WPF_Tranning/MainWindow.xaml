@@ -26,11 +26,11 @@
 
             
             
-            <dxg:GridColumn FieldName="스코어 체크" x:Name="scorenumber" Width="100" Binding="{Binding Name}" >
+            <dxg:GridColumn FieldName="스코어 체크" x:Name="scorenumber" Width="100" Binding="{Binding Name}">
 
                 <dxg:GridColumn.CellTemplate>
                     <DataTemplate>
-                        <CheckBox Checked="checkbox_Checked" Name="testbox"  Content="내용"  HorizontalAlignment="Center" />
+                        <CheckBox CommandParameter="{Binding ElementName=scorenumber, Path=IsChecked}" Command="{Binding CheckBinding}" Name="testbox" IsChecked="{Binding CheckedVar}"  Content="내용"  HorizontalAlignment="Center" />
                     </DataTemplate>
                 </dxg:GridColumn.CellTemplate>
 
