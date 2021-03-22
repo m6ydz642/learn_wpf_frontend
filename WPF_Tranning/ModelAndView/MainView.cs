@@ -8,14 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using WPF_Tranning.Model;
 
 namespace WPF_Tranning
 {
-   
+
     class MainView : INotifyPropertyChanged
     {
-        public ICommand TestBinding  { get; set; }
+        public ICommand TestBinding { get; set; }
         public ICommand CheckBinding { get; set; }
 
         /**********************************************************************/
@@ -23,16 +25,35 @@ namespace WPF_Tranning
         /**********************************************************************/
         public DataTable _datatable;
 
+        public DataTable _showContent;
+        public DataTable _selectdata;
         public DataTable _selecttable;
 
+
         bool checkedVar = false;
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         private int _score_id;
         private string _score;
         private bool mIsSelected;
+        public int _scorecontent; // 체크박스에 들어갈 내용
+        public string _name;
 
+        public string Name
+        {
+            get;set;
+        }
+
+        private string _continentName;
+        public string ContinentName
+        {
+            get { return _continentName; }
+            set { _continentName = value; OnPropertyChanged("ContinentName"); }
+        }
+
+        
         public int Score_id
         {
             get { return _score_id; }
@@ -53,18 +74,29 @@ namespace WPF_Tranning
             }
         }
 
-        public bool IsSelected
+        public int ScoreContent
         {
-            get { return mIsSelected; }
+            get { return _scorecontent; }
             set
             {
-                mIsSelected = value;
-                OnPropertyChanged("IsSelected");
+                _scorecontent = value;
+                OnPropertyChanged("Score");
             }
         }
 
+        private bool? _mutualChb;
+        public bool? MutualChb
+        {
+            get { return (_mutualChb != null) ? _mutualChb : false; }
+            set
+            {
+                _mutualChb = value;
+                OnPropertyChanged("MutualChb");
+            }
+        }
         private void OnPropertyChanged(string propertyName)
         {
+        
             if (PropertyChanged != null)
             {
                 MessageBox.Show("프로퍼티 체인지");
@@ -85,7 +117,7 @@ namespace WPF_Tranning
 
                 checkedVar = value;
 
-                 Notify("CheckedVar");
+                Notify("CheckedVar");
                 MessageBox.Show("박스");
 
             }
@@ -103,7 +135,17 @@ namespace WPF_Tranning
             }
         }
 
-    
+        public DataTable SelectContent // 컨텐트 부분 내용
+        {
+            get {/* MessageBox.Show("데이터 테이블");*/ return _selectdata; }
+            set
+            {
+                _selectdata = value;
+
+                //   RaisePropertyChanged("DataTable");
+            }
+        }
+
 
         public DataTable DataTable
         {
@@ -138,28 +180,48 @@ namespace WPF_Tranning
             TestBinding = new RelayCommand(new Action<object>(this.OnClickEvent));
             _selecttable = connectDB().Tables[0]; // select한 값 넣음
             CheckBinding = new RelayCommand(new Action<object>(this.OnClickEvent));
-  
+            MutualChb = true;
 
-            /*DataRow[] rows = _selecttable.Select();
-            for (int i = 0; i < rows.Length; i++)
-            {
-                ScoreID = (int)rows[i]["Score_ID"];
-            }*/
+            /*      DataRow[] rows = _selecttable.Select();
+                  for (int i = 0; i < rows.Length; i++)
+                  {
+                      _scorecontent = (int)rows[i]["Score_ID"];
+                  }
+      */
+            Name = "이름 세터";
 
-            // ScoreID = 100;
-
-        }
-
-      /*  public MainView(MainWindow window)
-        {
-            this.window = window;
 
         }
-*/
+
+        /*  public MainView(MainWindow window)
+          {
+              this.window = window;
+
+          }
+  */
+
+
 
         public void OnClickEvent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
         {
-            MessageBox.Show("onclick 이벤트 호출 : " + obj);
+            MessageBox.Show("클릭 : " + obj);
+            List<CheckBox> checkBoxlist = new List<CheckBox>();
+
+            foreach (CheckBox c in checkBoxlist)
+            {
+                if (c.IsChecked == true)
+                {
+                    //Code when checkbox is checked
+                    var _tempTBL = (TextBlock)c.Content; //Get handle to TextBlock
+                    var foo = _tempTBL.Text; //Read TextBlock's text
+                                             //foo is now a string of the checkbox's content
+                    MessageBox.Show("foo : " + foo);
+                }
+                else
+                {
+                    MessageBox.Show("체크된 값 없음");
+                }
+            }
 
         }
 

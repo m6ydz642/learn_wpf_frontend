@@ -9,35 +9,53 @@
         Title="MainWindow" Height="567" Width="1249">
 
     <Grid>
+        <dxg:GridControl x:Name="scoreListViewD2B" AutoGenerateColumns="AddNew" HorizontalAlignment="Left" Margin="156,10,0,0" VerticalAlignment="Top" Height="215" Width="419" ItemsSource="{Binding Name}">
+            <dxg:GridControl.View>
+                <dxg:TableView  ShowTotalSummary="True" Margin="0,3,8,55"/>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
         <!--체크박스 샘플 
             https://johnnblade.wordpress.com/2012/05/24/grid-control-gridcontrol-with-celltemplate-and-checkbox-or-checkedit-unchecks-or-checks-other-unchecked-checkboxes-when-scrolling-or-checkbox-comes-up-when-new-visual-rows-displays-devexpress-wpf/
             -->
         <!-- DB내용 View -->
-        <dxg:GridControl x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" HorizontalAlignment="Left" Margin="156,10,0,0" VerticalAlignment="Top" Height="323" Width="849" ItemsSource="{Binding SelectTable}">
+        <dxg:GridControl x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" HorizontalAlignment="Left" Margin="650,198,0,0" VerticalAlignment="Top" Height="215" Width="419" ItemsSource="{Binding SelectTable}" SelectionMode="Row">
             <dxg:GridControl.View>
                 <dxg:TableView  ShowTotalSummary="True" Margin="0,3,8,55"/>
             </dxg:GridControl.View>
 
+
             
-            <dxg:GridColumn FieldName="스코어 체크" x:Name="scorenumber" Width="100">
-                
+            
+            <dxg:GridColumn FieldName="스코어 체크" x:Name="scorenumber" Width="100" Binding="{Binding Name}" >
+
                 <dxg:GridColumn.CellTemplate>
                     <DataTemplate>
-                        <!--<CheckBox Name="chkSelect"  HorizontalAlignment="Center" IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=DataContext.RowData.Row.MediaSelected}"  Checked="CheckEdit_Checked" Unchecked="CheckEdit_Unchecked" />-->
-                        <CheckBox x:Name="checkbox" Click="chkSelect_Click" IsChecked="{Binding Score_id}"  Content="{Binding Score_id}"  HorizontalAlignment="Center" />
+                        <CheckBox Checked="checkbox_Checked" Name="testbox"  Content="내용"  HorizontalAlignment="Center" />
                     </DataTemplate>
                 </dxg:GridColumn.CellTemplate>
+
             </dxg:GridColumn>
 
             <dxg:GridColumn FieldName="스코어 번호" Binding="{Binding Score_id}"/>
             <dxg:GridColumn FieldName="내용" Binding="{Binding Score}"/>
-            
+
         </dxg:GridControl>
-        <Button Click="valuebutton_Click" Command="{Binding CheckBinding}" x:Name="valuebutton" Content="DB바인딩" HorizontalAlignment="Left" Margin="181,432,0,0" VerticalAlignment="Top" Width="119"/>
-        <Button Command="{Binding TestBinding}" x:Name="valuebutton2" Content="바인딩" HorizontalAlignment="Left" Margin="326,432,0,0" VerticalAlignment="Top" Width="119"/>
+        <Button Click="valuebutton_Click" x:Name="valuebutton" Content="DB바인딩" HorizontalAlignment="Left" Margin="181,432,0,0" VerticalAlignment="Top" Width="119"/>
+        <Button CommandParameter="{Binding Name}" Command="{Binding TestBinding}" x:Name="valuebutton2" Content="바인딩" HorizontalAlignment="Left" Margin="326,432,0,0" VerticalAlignment="Top" Width="119"/>
 
-
-
+        <DataGrid Margin="595,19,30,379">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="헤더">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox x:Name="checkboxinstance" Content ="{Binding Score_id }" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
+
+ 
 </Window>
