@@ -218,37 +218,36 @@ namespace WPF_Tranning
 
         }
 
-        /*  public MainView(MainWindow window)
-          {
-              this.window = window;
-
-          }
-  */
+    
 
 
 
         public void OnClickEvent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
         {
-            MessageBox.Show("클릭 : " + obj);
 
-            
-           /* List<CheckBox> checkBoxlist = new List<CheckBox>();*/
+   
+            _selecttable = new DataTable();
 
-          /*  foreach (CheckBox c in checkBoxlist)
-            {
-                if (c.IsChecked == true)
-                {
-                    //Code when checkbox is checked
-                    var _tempTBL = (TextBlock)c.Content; //Get handle to TextBlock
-                    var foo = _tempTBL.Text; //Read TextBlock's text
-                                             //foo is now a string of the checkbox's content
-                    MessageBox.Show("foo : " + foo);
-                }
-                else
-                {
-                    MessageBox.Show("체크된 값 없음");
-                }
-            }*/
+            _selecttable.Columns.Add("이름");
+            _selecttable.Rows.Add("ㅇㅇ");
+ 
+            /* List<CheckBox> checkBoxlist = new List<CheckBox>();*/
+
+            /*  foreach (CheckBox c in checkBoxlist)
+              {
+                  if (c.IsChecked == true)
+                  {
+                      //Code when checkbox is checked
+                      var _tempTBL = (TextBlock)c.Content; //Get handle to TextBlock
+                      var foo = _tempTBL.Text; //Read TextBlock's text
+                                               //foo is now a string of the checkbox's content
+                      MessageBox.Show("foo : " + foo);
+                  }
+                  else
+                  {
+                      MessageBox.Show("체크된 값 없음");
+                  }
+              }*/
 
         }
 

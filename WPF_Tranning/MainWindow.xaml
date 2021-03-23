@@ -6,15 +6,17 @@
         xmlns:local="clr-namespace:WPF_Tranning"
         xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui" xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" x:Class="WPF_Tranning.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1500">
+        Title="MainWindow" Height="1000" Width="1500">
 
     <Grid Margin="0,0,0,-251" Height="787" VerticalAlignment="Top">
-        <dxg:GridControl x:Name="scoreListViewD2B" AutoGenerateColumns="AddNew" HorizontalAlignment="Left" Margin="156,100,0,0" VerticalAlignment="Top" Height="340" Width="419" ItemsSource="{Binding SampleDatas}">
-            <dxg:GridColumn FieldName="스코어 번호" Binding="{Binding Score_id}"/>
-            <dxg:GridColumn FieldName="내용" Binding="{Binding Score}"/>
+        <dxg:GridControl  AutoGenerateColumns="AddNew" x:Name="scoreListViewD2B"  HorizontalAlignment="Left" Margin="156,100,0,0" VerticalAlignment="Top" Height="340" Width="419" ItemsSource="{Binding SampleDatas}">
+
+            <dxg:GridColumn  FieldName="스코어 번호" Binding="{Binding Score_id}"  IsSmart="True" AllowEditing="true"/>
+
+            <dxg:GridColumn FieldName="내용" Binding="{Binding Score}" IsSmart="True" AllowEditing="true"/>
 
             <dxg:GridControl.View>
-                <dxg:TableView  ShowTotalSummary="True" Margin="0,3,8,55"/>
+                <dxg:TableView  ShowUpdateRowButtons="OnCellEditorOpen" ValidateRow="TableView_ValidateRow" ShowTotalSummary="True" Margin="0,3,8,55"/>
             </dxg:GridControl.View>
 
         </dxg:GridControl>
@@ -22,9 +24,9 @@
             https://johnnblade.wordpress.com/2012/05/24/grid-control-gridcontrol-with-celltemplate-and-checkbox-or-checkedit-unchecks-or-checks-other-unchecked-checkboxes-when-scrolling-or-checkbox-comes-up-when-new-visual-rows-displays-devexpress-wpf/
             -->
         <!-- DB내용 View -->
-        <dxg:GridControl x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" HorizontalAlignment="Left" Margin="620,280,0,0" VerticalAlignment="Top" Height="215" Width="419" ItemsSource="{Binding SelectTable}" SelectionMode="Row">
+        <dxg:GridControl x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" HorizontalAlignment="Left" Margin="620,280,0,0" VerticalAlignment="Top" Height="337" Width="535" ItemsSource="{Binding SelectTable}" SelectionMode="Row">
             <dxg:GridControl.View>
-                <dxg:TableView ShowTotalSummary="True" Margin="0,3,8,55"/>
+                <dxg:TableView ShowTotalSummary="True" Margin="0,3,8,-2"/>
             </dxg:GridControl.View>
 
 
@@ -45,11 +47,11 @@
 
         </dxg:GridControl>
         <Button Click="valuebutton_Click" x:Name="valuebutton" Content="DB바인딩" HorizontalAlignment="Left" Margin="146,595,0,0" VerticalAlignment="Top" Width="119"/>
-        <Button CommandParameter="{Binding Name}" Command="{Binding TestBinding}" x:Name="valuebutton2" Content="바인딩"  Margin="326,432,0,0" VerticalAlignment="Top" Width="119"/>
+        <Button CommandParameter="{Binding Name}" Command="{Binding TestBinding}" x:Name="valuebutton2" Content="바인딩"  Margin="870,432,503,0" VerticalAlignment="Top" Width="119"/>
 
         <DataGrid Margin="595,19,30,582">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="헤더">
+                <DataGridTemplateColumn Header="헤더" >
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <CheckBox x:Name="checkboxinstance" Content ="{Binding Score_id }" />
@@ -59,8 +61,23 @@
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Height="100" Margin="150,470,0,0" VerticalAlignment="Top" Width="425" SelectionChanged="dataGrid_SelectionChanged"/>
-        <Button CommandParameter="{Binding Name}" Command="{Binding CheckBinding}" x:Name="addRows" Content="행추가" HorizontalAlignment="Left" Margin="810,432,0,0" VerticalAlignment="Top" Width="119"/>
+        <Button CommandParameter="{Binding Name}" Command="{Binding CheckBinding}" x:Name="addRows" Content="행추가" HorizontalAlignment="Left" Margin="700,432,0,0" VerticalAlignment="Top" Width="119"/>
 
+        <Button Command="{Binding CheckBinding}" x:Name="button" Content="컬럼추가" HorizontalAlignment="Left" Margin="465,63,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.067,0.909"/>
+        <Button Click="columnadd2_Click"  x:Name="columnadd2" Content="컬럼추가2" HorizontalAlignment="Left" Margin="375,63,0,0" VerticalAlignment="Top" Width="75"/>
+
+
+
+        <ListView Grid.Row="0" Name="studentListView" FontSize="15" Margin="630,685,417,-80">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="스코어아이디" DisplayMemberBinding="{Binding Score_id}" Width="100"/>
+                    <GridViewColumn Header="스코어" DisplayMemberBinding="{Binding Score}" Width="80"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        
     </Grid>
 
 

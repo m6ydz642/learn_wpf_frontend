@@ -1,7 +1,9 @@
 using DevExpress.Xpf.Grid;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -63,6 +65,32 @@ namespace WPF_Tranning
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void columnadd2_Click(object sender, RoutedEventArgs e)
+        {
+         //   scoreListViewD2B.Columns.Add("컬럼");
+        }
+
+        private void TableView_ValidateRow(object sender, GridRowValidationEventArgs e)
+        {
+            /*    var issue = (Issue)e.Row;
+                using (var context = new IssuesContext())
+                {
+                    var result = context.Issues.SingleOrDefault(b => b.Id == issue.Id);
+                    if (result != null)
+                    {
+                        result.Subject = issue.Subject;
+                        result.Priority = issue.Priority;
+                        result.Votes = issue.Votes;
+                        result.Priority = issue.Priority;
+                        context.SaveChanges();
+                    }
+                }*/
+            // https://docs.devexpress.com/WPF/401667/controls-and-libraries/data-grid/data-editing-and-validation/modify-cell-values/edit-entire-row
+
+ 
+     
         }
 
 
