@@ -60,6 +60,11 @@ namespace WPF_Tranning
           
         }
 
+        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
 
 
         /*  private ObservableCollection<MainView> scores = new ObservableCollection<MainView>(); // 새로고침 컬 렉션?

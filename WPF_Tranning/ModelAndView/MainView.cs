@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
@@ -174,13 +175,32 @@ namespace WPF_Tranning
             return dataSet;
         }
 
+        ObservableCollection<ScoreModel> _sampleDatas = null;
+        public ObservableCollection<ScoreModel> SampleDatas
+        {
+            get
+            {
+                if (_sampleDatas == null)
+                {
+                    _sampleDatas = new ObservableCollection<ScoreModel>();
+                }
+                return _sampleDatas;
+            }
+            set
+            {
+                _sampleDatas = value;
+            }
+        }
 
+
+       // 출처: https://afsdzvcx123.tistory.com/entry/C-WPF-C-WPF-MVVM-패턴-예제-프로그램 [BeomBeomJoJo - Programmer]
         public MainView()
         {
             TestBinding = new RelayCommand(new Action<object>(this.OnClickEvent));
             _selecttable = connectDB().Tables[0]; // select한 값 넣음
             CheckBinding = new RelayCommand(new Action<object>(this.OnClickEvent));
             MutualChb = true;
+            ScoreModel obj = new ScoreModel();
 
             /*      DataRow[] rows = _selecttable.Select();
                   for (int i = 0; i < rows.Length; i++)
@@ -188,6 +208,11 @@ namespace WPF_Tranning
                       _scorecontent = (int)rows[i]["Score_ID"];
                   }
       */
+            for (int idx = 0; idx < connectDB().Tables[0].Rows.Count; idx++) {
+                obj.Score_id = (int)connectDB().Tables[0].Rows[idx]["Score_id"];
+                obj.Score = connectDB().Tables[0].Rows[idx]["Score"].ToString();
+                SampleDatas.Add(obj);
+                    }
             Name = "이름 세터";
 
 
@@ -205,9 +230,11 @@ namespace WPF_Tranning
         public void OnClickEvent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
         {
             MessageBox.Show("클릭 : " + obj);
-            List<CheckBox> checkBoxlist = new List<CheckBox>();
 
-            foreach (CheckBox c in checkBoxlist)
+            
+           /* List<CheckBox> checkBoxlist = new List<CheckBox>();*/
+
+          /*  foreach (CheckBox c in checkBoxlist)
             {
                 if (c.IsChecked == true)
                 {
@@ -221,7 +248,7 @@ namespace WPF_Tranning
                 {
                     MessageBox.Show("체크된 값 없음");
                 }
-            }
+            }*/
 
         }
 
