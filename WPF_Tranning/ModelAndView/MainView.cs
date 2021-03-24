@@ -18,7 +18,7 @@ namespace WPF_Tranning
 
     class MainView : INotifyPropertyChanged
     {
-        public ICommand TestBinding { get; set; }
+        public ICommand AddColumn { get; set; }
         public ICommand CheckBinding { get; set; }
 
         /**********************************************************************/
@@ -27,8 +27,7 @@ namespace WPF_Tranning
         public DataTable _datatable;
 
         public DataTable _showContent;
-        public DataTable _selectdata;
-        public DataTable _selecttable;
+  
 
 
         bool checkedVar = false;
@@ -47,8 +46,12 @@ namespace WPF_Tranning
             get;set;
         }
 
+        public ScoreModel model;
+
         private string _continentName;
         public string ContinentName
+
+
         {
             get { return _continentName; }
             set { _continentName = value; OnPropertyChanged("ContinentName"); }
@@ -125,6 +128,8 @@ namespace WPF_Tranning
 
         }
 
+
+        public DataTable _selecttable;
         public DataTable SelectTable
         {
             get {/* MessageBox.Show("데이터 테이블");*/ return _selecttable; }
@@ -135,6 +140,8 @@ namespace WPF_Tranning
                 //   RaisePropertyChanged("DataTable");
             }
         }
+
+        public DataTable _selectdata;
 
         public DataTable SelectContent // 컨텐트 부분 내용
         {
@@ -196,27 +203,24 @@ namespace WPF_Tranning
        // 출처: https://afsdzvcx123.tistory.com/entry/C-WPF-C-WPF-MVVM-패턴-예제-프로그램 [BeomBeomJoJo - Programmer]
         public MainView()
         {
-            TestBinding = new RelayCommand(new Action<object>(this.OnClickEvent));
-            // _selecttable = connectDB().Tables[0]; // select한 값 넣음
-            CheckBinding = new RelayCommand(new Action<object>(this.OnClickEvent));
-            MutualChb = true;
+            model = new ScoreModel();
+            AddColumn = new RelayCommand(new Action<object>(this.AddContent));
+ 
 
             _selectdata = new DataTable();
             _selectdata.Columns.Add("스코어 아이디");
             _selectdata.Columns.Add("스코어 점수");
 
-            _selecttable = connectDB().Tables[0];
-           DataRow[] a = _selecttable.Select();
-
-          
+            _selecttable = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+   
             DataRow[] rows = _selecttable.Select();
-
+            
             int[] score = new int[rows.Length];
             string[] scorecontent = new string[rows.Length];
 
             for (int i = 0; i < rows.Length; i++)
             {
-                score[i] = (int)rows[i]["score_id"];
+                score[i] = (int)rows[i]["score_id"]; // 특정 컬럼만 꺼내와 배열에 담음
                 scorecontent[i] = (string)rows[i]["Score"];
                 _selectdata.Rows.Add(score[i], scorecontent[i]);
             }
@@ -226,7 +230,7 @@ namespace WPF_Tranning
             //  _selectdata.Rows.Add(connectDB().Tables[0].Rows[a]["Score_id"]); // select한 값 넣음
 
 
-            ScoreModel obj = new ScoreModel();
+           
 
             /*      DataRow[] rows = _selecttable.Select();
                   for (int i = 0; i < rows.Length; i++)
@@ -234,11 +238,11 @@ namespace WPF_Tranning
                       _scorecontent = (int)rows[i]["Score_ID"];
                   }
       */
-            for (int idx = 0; idx < connectDB().Tables[0].Rows.Count; idx++) {
+         /*   for (int idx = 0; idx < connectDB().Tables[0].Rows.Count; idx++) {
                 obj.Score_id = (int)connectDB().Tables[0].Rows[idx]["Score_id"];
                 obj.Score = connectDB().Tables[0].Rows[idx]["Score"].ToString();
                 SampleDatas.Add(obj);
-                    }
+                    }*/
             Name = "이름 세터";
 
 
@@ -248,39 +252,14 @@ namespace WPF_Tranning
 
 
 
-        public void OnClickEvent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
+        public void AddContent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
         {
-
-   
-            _selecttable = new DataTable();
-
-            _selecttable.Columns.Add("이름");
-            _selecttable.Rows.Add("ㅇㅇ");
- 
-            /* List<CheckBox> checkBoxlist = new List<CheckBox>();*/
-
-            /*  foreach (CheckBox c in checkBoxlist)
-              {
-                  if (c.IsChecked == true)
-                  {
-                      //Code when checkbox is checked
-                      var _tempTBL = (TextBlock)c.Content; //Get handle to TextBlock
-                      var foo = _tempTBL.Text; //Read TextBlock's text
-                                               //foo is now a string of the checkbox's content
-                      MessageBox.Show("foo : " + foo);
-                  }
-                  else
-                  {
-                      MessageBox.Show("체크된 값 없음");
-                  }
-              }*/
+           // _selectdata = new DataTable();
+            _selectdata.Rows.Add("순번을 입력하세요", "내용을 입력하세요");
 
         }
 
-        public void test(object obj)
-        {
-            MessageBox.Show("test");
-        }
+    
 
         private void Notify(string propertyName)
         {
