@@ -93,6 +93,11 @@ namespace WPF_Tranning
      
         }
 
+        private void scoreListViewD2B_SelectedItemChanged(object sender, SelectedItemChangedEventArgs e)
+        {
+
+        }
+
 
 
         /*  private ObservableCollection<MainView> scores = new ObservableCollection<MainView>(); // 새로고침 컬 렉션?

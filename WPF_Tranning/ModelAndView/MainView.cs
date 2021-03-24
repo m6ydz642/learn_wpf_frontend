@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Xpf.Grid;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -27,7 +28,7 @@ namespace WPF_Tranning
         /**********************************************************************/
         public DataTable _datatable;
 
-        public DataTable _showContent;
+
   
 
 
@@ -38,14 +39,11 @@ namespace WPF_Tranning
 
         private int _score_id;
         private string _score;
-        private bool mIsSelected;
-        public int _scorecontent; // 체크박스에 들어갈 내용
-        public string _name;
 
-        public string Name
-        {
-            get;set;
-        }
+        public int _scorecontent; // 체크박스에 들어갈 내용
+  
+
+      
 
         public ScoreModel model;
 
@@ -206,7 +204,7 @@ namespace WPF_Tranning
         {
             model = new ScoreModel();
             AddColumn = new RelayCommand(new Action<object>(this.AddContent));
-            SelectEvent = new RelayCommand(new Action<object>(this.SelectItemChanged));
+            SelectEvent = new RelayCommand(new Action<object>(this.SelectEventFun));
  
 
             _selectdata = new DataTable();
@@ -245,21 +243,21 @@ namespace WPF_Tranning
                 obj.Score = connectDB().Tables[0].Rows[idx]["Score"].ToString();
                 SampleDatas.Add(obj);
                     }*/
-            Name = "이름 세터";
+        
 
 
         }
 
-        private void SelectItemChanged(object sender)
+        private void SelectEventFun(object sender)
         {
-            var convert = sender;
+            var convert = (GridControl)sender;
             MessageBox.Show("선택 내용 " + convert);
         }
 
         public void AddContent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
         {
            // _selectdata = new DataTable();
-            _selectdata.Rows.Add("순번을 입력하세요", "내용을 입력하세요");
+            _selectdata.Rows.Add("", "");
 
         }
 
