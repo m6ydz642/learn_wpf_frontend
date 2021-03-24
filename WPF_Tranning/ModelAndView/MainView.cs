@@ -197,9 +197,35 @@ namespace WPF_Tranning
         public MainView()
         {
             TestBinding = new RelayCommand(new Action<object>(this.OnClickEvent));
-            _selecttable = connectDB().Tables[0]; // select한 값 넣음
+            // _selecttable = connectDB().Tables[0]; // select한 값 넣음
             CheckBinding = new RelayCommand(new Action<object>(this.OnClickEvent));
             MutualChb = true;
+
+            _selectdata = new DataTable();
+            _selectdata.Columns.Add("스코어 아이디");
+            _selectdata.Columns.Add("스코어 점수");
+
+            _selecttable = connectDB().Tables[0];
+           DataRow[] a = _selecttable.Select();
+
+          
+            DataRow[] rows = _selecttable.Select();
+
+            int[] score = new int[rows.Length];
+            string[] scorecontent = new string[rows.Length];
+
+            for (int i = 0; i < rows.Length; i++)
+            {
+                score[i] = (int)rows[i]["score_id"];
+                scorecontent[i] = (string)rows[i]["Score"];
+                _selectdata.Rows.Add(score[i], scorecontent[i]);
+            }
+
+            
+
+            //  _selectdata.Rows.Add(connectDB().Tables[0].Rows[a]["Score_id"]); // select한 값 넣음
+
+
             ScoreModel obj = new ScoreModel();
 
             /*      DataRow[] rows = _selecttable.Select();
