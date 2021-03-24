@@ -20,6 +20,7 @@ namespace WPF_Tranning
     {
         public ICommand AddColumn { get; set; }
         public ICommand CheckBinding { get; set; }
+        public ICommand SelectEvent { get; set; }
 
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
@@ -205,6 +206,7 @@ namespace WPF_Tranning
         {
             model = new ScoreModel();
             AddColumn = new RelayCommand(new Action<object>(this.AddContent));
+            SelectEvent = new RelayCommand(new Action<object>(this.SelectItemChanged));
  
 
             _selectdata = new DataTable();
@@ -248,9 +250,11 @@ namespace WPF_Tranning
 
         }
 
-    
-
-
+        private void SelectItemChanged(object sender)
+        {
+            var convert = sender;
+            MessageBox.Show("선택 내용 " + convert);
+        }
 
         public void AddContent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
         {
