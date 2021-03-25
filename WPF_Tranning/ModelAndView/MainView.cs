@@ -247,17 +247,42 @@ namespace WPF_Tranning
 
 
         }
+        private SqlDataAdapter sqlDataAdapter;
+
+  
+        // https://icodebroker.tistory.com/4509 하는중 셀값 변경 후 반영
 
         private void CellValueChange(object obj)
         {
-   
-            MessageBox.Show("셀 변경됨 : " );
+            var convert = (GridControl)obj;
+            // convert.ItemsSource = GetData();
+            MessageBox.Show("셀 변경됨 : " + convert.ItemsSource);
+        
+        }
+        private DataView GetData()
+
+        {
+
+            DataSet dataSet = new DataSet();
+
+
+
+            this.sqlDataAdapter.Fill(dataSet);
+
+
+
+            return dataSet.Tables[0].DefaultView;
+
         }
 
+
+
+       // 출처: https://icodebroker.tistory.com/4957 [ICODEBROKER]
         private void SelectEventFun(object sender)
         {
             var convert = (GridControl)sender;
-            MessageBox.Show("선택 내용 " + convert);
+           // var convert2 = (CellValueEventArgs)sender;
+            MessageBox.Show("선택 내용 " + convert.GetCellValue(0,"1"));
         }
 
         public void AddContent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
