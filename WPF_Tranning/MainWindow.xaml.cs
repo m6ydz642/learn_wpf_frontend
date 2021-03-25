@@ -98,6 +98,11 @@ namespace WPF_Tranning
 
         }
 
+        private void TableView_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            MessageBox.Show("셀값 변경됨");
+        }
+
 
 
         /*  private ObservableCollection<MainView> scores = new ObservableCollection<MainView>(); // 새로고침 컬 렉션?

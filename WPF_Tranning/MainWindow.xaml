@@ -11,7 +11,7 @@
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     
 
-    xmlns:i1="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:i1="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
     Title="MainWindow" Height="1000" Width="1500">
 
     <Grid x:Name="grid" Margin="0,0,0,-251" Height="787" VerticalAlignment="Top">
@@ -37,20 +37,30 @@
 
 
             <dxg:GridControl.View>
-                <dxg:TableView ShowUpdateRowButtons="OnCellEditorOpen" ValidateRow="TableView_ValidateRow" ShowTotalSummary="True" Margin="0,3,8,55" HorizontalAlignment="Right" Width="434">
-                    <dxmvvm:Interaction.Behaviors>
+                <dxg:TableView   ShowUpdateRowButtons="OnCellEditorOpen" ValidateRow="TableView_ValidateRow" ShowTotalSummary="True" Margin="0,3,8,55" HorizontalAlignment="Right" Width="434">
+                    <!--<dxmvvm:Interaction.Behaviors>
                         <dxmvvm:EventToCommand EventName="SelectionChanged" PassEventArgsToCommand="True" Command="{Binding SelectEvent}"/>
 
-                    </dxmvvm:Interaction.Behaviors>
+                    </dxmvvm:Interaction.Behaviors>-->
+                    <!--이거 아니고 밑에 Interaction임-->
 
                     <!--<i:Interaction.Triggers>
                         <i:EventTrigger EventName="ChangeContent" >
-                            <i:InvokeCommandAction Command="{Binding ChangeContent}" CommandParameter="{Binding ElementName=scoreListViewD2B}" />
+                            <i:InvokeCommandAction Command="{Binding SelectEvent}" CommandParameter="{Binding ElementName=scoreListViewD2B}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>-->
                     <!--오류있어서 잠시보류-->
 
-
+                    <!--셀값 변경 추가-->
+                    <dxmvvm:Interaction.Behaviors>
+                        <dxmvvm:EventToCommand Command="{Binding CellValueChangedCommand}"  
+                               EventName="CellValueChanged">
+                            <dxmvvm:EventToCommand.EventArgsConverter>
+                                <dx:EventArgsToDataCellConverter/>
+                            </dxmvvm:EventToCommand.EventArgsConverter>
+                        </dxmvvm:EventToCommand>
+                    </dxmvvm:Interaction.Behaviors>
+                    
                 </dxg:TableView>
             </dxg:GridControl.View>
 

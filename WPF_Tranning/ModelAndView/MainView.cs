@@ -22,14 +22,13 @@ namespace WPF_Tranning
         public ICommand AddColumn { get; set; }
         public ICommand CheckBinding { get; set; }
         public ICommand SelectEvent { get; set; }
+        public ICommand CellValueChangedCommand { get; set; }
 
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
         /**********************************************************************/
         public DataTable _datatable;
 
-
-  
 
 
         bool checkedVar = false;
@@ -205,6 +204,7 @@ namespace WPF_Tranning
             model = new ScoreModel();
             AddColumn = new RelayCommand(new Action<object>(this.AddContent));
             SelectEvent = new RelayCommand(new Action<object>(this.SelectEventFun));
+            CellValueChangedCommand = new RelayCommand(new Action<object>(this.CellValueChange));
  
 
             _selectdata = new DataTable();
@@ -246,6 +246,12 @@ namespace WPF_Tranning
         
 
 
+        }
+
+        private void CellValueChange(object obj)
+        {
+   
+            MessageBox.Show("셀 변경됨 : " );
         }
 
         private void SelectEventFun(object sender)
