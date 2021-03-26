@@ -23,6 +23,7 @@ namespace WPF_Tranning
         public ICommand CheckBinding { get; set; }
         public ICommand SelectEvent { get; set; }
         public ICommand CellValueChangedCommand { get; set; }
+        public ICommand SaveColumn { get; set; }
 
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
@@ -139,7 +140,7 @@ namespace WPF_Tranning
             }
         }
 
-        public DataTable _selectdata;
+        private DataTable _selectdata;
 
         public DataTable SelectContent // 컨텐트 부분 내용
         {
@@ -205,6 +206,7 @@ namespace WPF_Tranning
             AddColumn = new RelayCommand(new Action<object>(this.AddContent));
             SelectEvent = new RelayCommand(new Action<object>(this.SelectEventFun));
             CellValueChangedCommand = new RelayCommand(new Action<object>(this.CellValueChange));
+            SaveColumn = new RelayCommand(new Action<object>(this.SaveColumnFunction));
  
 
             _selectdata = new DataTable();
@@ -247,32 +249,22 @@ namespace WPF_Tranning
 
 
         }
-        private SqlDataAdapter sqlDataAdapter;
 
-  
-        // https://icodebroker.tistory.com/4509 하는중 셀값 변경 후 반영
+        private void SaveColumnFunction(object obj)
+        {
+            foreach (DataRow row in _selecttable.Rows)
+            {
+                string AuthNm = row.Field<string>("Score").ToString();
+                MessageBox.Show("변경내용 : " + AuthNm);
+            }
+        }
 
         private void CellValueChange(object obj)
         {
             var convert = (GridControl)obj;
             // convert.ItemsSource = GetData();
-            MessageBox.Show("셀 변경됨 : " + convert.ItemsSource);
+          //  MessageBox.Show("셀 변경됨 : " + convert.ItemsSource);
         
-        }
-        private DataView GetData()
-
-        {
-
-            DataSet dataSet = new DataSet();
-
-
-
-            this.sqlDataAdapter.Fill(dataSet);
-
-
-
-            return dataSet.Tables[0].DefaultView;
-
         }
 
 
