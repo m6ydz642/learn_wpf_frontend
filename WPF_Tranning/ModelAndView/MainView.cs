@@ -263,8 +263,9 @@ namespace WPF_Tranning
         {
             var convert = (GridControl)obj;
             // convert.ItemsSource = GetData();
-          //  MessageBox.Show("셀 변경됨 : " + convert.ItemsSource);
-        
+            // 필드명으로 수정불가한 부분 메시지창으로 띄울 예정임
+            MessageBox.Show("셀 변경됨 : " + convert.ToString());
+
         }
 
 
