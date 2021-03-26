@@ -252,9 +252,9 @@ namespace WPF_Tranning
 
         private void SaveColumnFunction(object obj)
         {
-            foreach (DataRow row in _selecttable.Rows)
+            foreach (DataRow row in _selectdata.Rows) // 실제 지정 컬럼은 _selectdata에 있음
             {
-                string AuthNm = row.Field<string>("Score").ToString();
+                string AuthNm = row.Field<string>("스코어 점수").ToString();
                 MessageBox.Show("변경내용 : " + AuthNm);
             }
         }
