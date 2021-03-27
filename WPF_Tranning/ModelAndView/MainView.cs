@@ -1,16 +1,10 @@
 ﻿using DevExpress.Xpf.Grid;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using WPF_Tranning.Model;
 
@@ -29,7 +23,7 @@ namespace WPF_Tranning
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
         /**********************************************************************/
         public DataTable _datatable;
-
+        public DataSet _result;
 
 
         public MainView()
@@ -42,22 +36,33 @@ namespace WPF_Tranning
 
 
             _selectdata = new DataTable();
-            _selectdata.Columns.Add("스코어 아이디");
+           _selectdata.Columns.Add("스코어 아이디");
             _selectdata.Columns.Add("스코어 점수");
 
-            _selecttable = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+            //  _selecttable = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+          //  _selectdata = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
 
-            DataRow[] rows = _selecttable.Select();
+            /*   DataRow[] rows = _selecttable.Select();
 
-            int[] score = new int[rows.Length];
-            string[] scorecontent = new string[rows.Length];
+               int[] score = new int[rows.Length];
+               string[] scorecontent = new string[rows.Length];
 
-            for (int i = 0; i < rows.Length; i++)
+               for (int i = 0; i < rows.Length; i++)
+               {
+                   score[i] = (int)rows[i]["score_id"]; // 특정 컬럼만 꺼내와 배열에 담음
+                   scorecontent[i] = (string)rows[i]["Score"];
+                   _selectdata.Rows.Add(score[i], scorecontent[i]);
+               }*/
+            _result = connectDB();
+
+            foreach (DataRow row in _result.Tables[0].Rows) // 실제 지정 컬럼은 _selectdata에 있음
             {
-                score[i] = (int)rows[i]["score_id"]; // 특정 컬럼만 꺼내와 배열에 담음
-                scorecontent[i] = (string)rows[i]["Score"];
-                _selectdata.Rows.Add(score[i], scorecontent[i]);
+                int score_id = (int)row.Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                string score = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                _selectdata.Rows.Add(score_id, score);
+
             }
+
 
 
 
@@ -69,8 +74,6 @@ namespace WPF_Tranning
         private int _score_id;
         private string _score;
 
-        public int _scorecontent; // 체크박스에 들어갈 내용
-  
 
       
 
@@ -102,16 +105,6 @@ namespace WPF_Tranning
             set
             {
                 _score = value;
-                OnPropertyChanged("Score");
-            }
-        }
-
-        public int ScoreContent
-        {
-            get { return _scorecontent; }
-            set
-            {
-                _scorecontent = value;
                 OnPropertyChanged("Score");
             }
         }
@@ -184,36 +177,48 @@ namespace WPF_Tranning
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(selectQuery, connection); // DB통로
             DataSet dataSet = new DataSet();
             sqlDataAdapter.Fill(dataSet); // dataset으로 채움
-            /*  
-              dataGridView1.DataSource = dataSet.Tables[0];*/
-
-            // DataSet 리턴받아 호출하는 곳에서 나머지 Tables등 실행함
             return dataSet;
         }
 
-        ObservableCollection<ScoreModel> _sampleDatas = null;
-        public ObservableCollection<ScoreModel> SampleDatas
+        public DataSet UpdateDB(string score_id, string score)
         {
-            get
-            {
-                if (_sampleDatas == null)
-                {
-                    _sampleDatas = new ObservableCollection<ScoreModel>();
-                }
-                return _sampleDatas;
-            }
-            set
-            {
-                _sampleDatas = value;
-            }
+            string selectQuery = ConfigurationManager.AppSettings["Score_Modify"];
+            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+            connection.Open(); // DB연결
+
+            SqlCommand cmd = new SqlCommand("Score_Modify", connection);
+            cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
+            cmd.Parameters.Add("@Score_id", SqlDbType.Int).Value = score_id; // 스트링으로 전달받아도 타입이 int로 들어가네?
+            cmd.Parameters.Add("@Score", SqlDbType.VarChar).Value = score;         // 프로시저 전달받을 매개변수
+
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
+            DataSet dataSet = new DataSet();
+            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            return dataSet;
         }
 
         private void SaveColumnFunction(object obj)
         {
             foreach (DataRow row in _selectdata.Rows) // 실제 지정 컬럼은 _selectdata에 있음
             {
-                string AuthNm = row.Field<string>("스코어 점수").ToString();
-                MessageBox.Show("변경내용 : " + AuthNm);
+                string score_id = (string)row.Field<string>("스코어 아이디"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                string score = row.Field<string>("스코어 점수").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                
+                foreach (DataRow row2 in _result.Tables[0].Rows) {
+
+                    int score_id2 = (int)row2.Field<int>("score_id"); 
+                    string score2 = row2.Field<string>("score").ToString();
+
+                    if (score != score2)
+                    {
+                           UpdateDB(score_id, score); // DB값이랑 입력값이 같지 않으면 업데이트 처리
+                    }
+                    else
+                    {
+                        MessageBox.Show("같지 않은 항목 score : " + score + " score2 : " + score2);
+                    }
+                }
             }
         }
 
@@ -222,7 +227,7 @@ namespace WPF_Tranning
             var convert = (GridControl)obj;
             // convert.ItemsSource = GetData();
             // 필드명으로 수정불가한 부분 메시지창으로 띄울 예정임
-            MessageBox.Show("셀 변경됨 : " + convert.ToString());
+          //  MessageBox.Show("셀 변경됨 : " + convert.ToString());
 
         }
 
