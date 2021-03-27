@@ -32,7 +32,36 @@ namespace WPF_Tranning
 
 
 
-        bool checkedVar = false;
+        public MainView()
+        {
+            model = new ScoreModel();
+            AddColumn = new RelayCommand(new Action<object>(this.AddContent));
+            SelectEvent = new RelayCommand(new Action<object>(this.SelectEventFun));
+            CellValueChangedCommand = new RelayCommand(new Action<object>(this.CellValueChange));
+            SaveColumn = new RelayCommand(new Action<object>(this.SaveColumnFunction));
+
+
+            _selectdata = new DataTable();
+            _selectdata.Columns.Add("스코어 아이디");
+            _selectdata.Columns.Add("스코어 점수");
+
+            _selecttable = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+
+            DataRow[] rows = _selecttable.Select();
+
+            int[] score = new int[rows.Length];
+            string[] scorecontent = new string[rows.Length];
+
+            for (int i = 0; i < rows.Length; i++)
+            {
+                score[i] = (int)rows[i]["score_id"]; // 특정 컬럼만 꺼내와 배열에 담음
+                scorecontent[i] = (string)rows[i]["Score"];
+                _selectdata.Rows.Add(score[i], scorecontent[i]);
+            }
+
+
+
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -108,25 +137,6 @@ namespace WPF_Tranning
         }
 
 
-        public bool CheckedVar
-
-        {
-
-            get { return checkedVar; }
-
-            set
-
-            {
-
-                checkedVar = value;
-
-                Notify("CheckedVar");
-                MessageBox.Show("박스");
-
-            }
-
-        }
-
 
         public DataTable _selecttable;
         public DataTable SelectTable
@@ -198,58 +208,6 @@ namespace WPF_Tranning
             }
         }
 
-
-       // 출처: https://afsdzvcx123.tistory.com/entry/C-WPF-C-WPF-MVVM-패턴-예제-프로그램 [BeomBeomJoJo - Programmer]
-        public MainView()
-        {
-            model = new ScoreModel();
-            AddColumn = new RelayCommand(new Action<object>(this.AddContent));
-            SelectEvent = new RelayCommand(new Action<object>(this.SelectEventFun));
-            CellValueChangedCommand = new RelayCommand(new Action<object>(this.CellValueChange));
-            SaveColumn = new RelayCommand(new Action<object>(this.SaveColumnFunction));
- 
-
-            _selectdata = new DataTable();
-            _selectdata.Columns.Add("스코어 아이디");
-            _selectdata.Columns.Add("스코어 점수");
-
-            _selecttable = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
-   
-            DataRow[] rows = _selecttable.Select();
-            
-            int[] score = new int[rows.Length];
-            string[] scorecontent = new string[rows.Length];
-
-            for (int i = 0; i < rows.Length; i++)
-            {
-                score[i] = (int)rows[i]["score_id"]; // 특정 컬럼만 꺼내와 배열에 담음
-                scorecontent[i] = (string)rows[i]["Score"];
-                _selectdata.Rows.Add(score[i], scorecontent[i]);
-            }
-
-            
-
-            //  _selectdata.Rows.Add(connectDB().Tables[0].Rows[a]["Score_id"]); // select한 값 넣음
-
-
-           
-
-            /*      DataRow[] rows = _selecttable.Select();
-                  for (int i = 0; i < rows.Length; i++)
-                  {
-                      _scorecontent = (int)rows[i]["Score_ID"];
-                  }
-      */
-         /*   for (int idx = 0; idx < connectDB().Tables[0].Rows.Count; idx++) {
-                obj.Score_id = (int)connectDB().Tables[0].Rows[idx]["Score_id"];
-                obj.Score = connectDB().Tables[0].Rows[idx]["Score"].ToString();
-                SampleDatas.Add(obj);
-                    }*/
-        
-
-
-        }
-
         private void SaveColumnFunction(object obj)
         {
             foreach (DataRow row in _selectdata.Rows) // 실제 지정 컬럼은 _selectdata에 있음
@@ -268,9 +226,6 @@ namespace WPF_Tranning
 
         }
 
-
-
-       // 출처: https://icodebroker.tistory.com/4957 [ICODEBROKER]
         private void SelectEventFun(object sender)
         {
             var convert = (GridControl)sender;
