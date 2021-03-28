@@ -18,6 +18,7 @@ namespace WPF_Tranning
         public ICommand SelectEvent { get; set; }
         public ICommand CellValueChangedCommand { get; set; }
         public ICommand SaveColumn { get; set; }
+        public ICommand CheckBox { get; set; }
 
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
@@ -33,6 +34,8 @@ namespace WPF_Tranning
             SelectEvent = new RelayCommand(new Action<object>(this.SelectEventFun));
             CellValueChangedCommand = new RelayCommand(new Action<object>(this.CellValueChange));
             SaveColumn = new RelayCommand(new Action<object>(this.SaveColumnFunction));
+            CheckBinding = new RelayCommand(new Action<object>(this.CheckBoxFun));
+            CheckBox = new RelayCommand(new Action<object>(this.CheckBoxFun));
 
 
             _selectdata = new DataTable();
@@ -68,6 +71,17 @@ namespace WPF_Tranning
 
         }
 
+        private void CheckBoxFun(object obj)
+        {
+
+            foreach (DataRow row in _result.Tables[0].Rows) // 실제 지정 컬럼은 _selectdata에 있음
+            {
+                int score_id = (int)row.Field<int>("Score_id");
+                bool check = row.Field<bool>("체크박스");
+                bool checktest = checkedVar;
+
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -87,8 +101,28 @@ namespace WPF_Tranning
             get { return _continentName; }
             set { _continentName = value; OnPropertyChanged("ContinentName"); }
         }
+        bool checkedVar = false;
 
-        
+        public bool CheckedVar
+
+        {
+
+            get { return checkedVar; }
+
+            set
+
+            {
+
+                checkedVar = value;
+
+                Notify("CheckedVar");
+
+            }
+
+        }
+
+
+
         public int Score_id
         {
             get { return _score_id; }
@@ -204,21 +238,22 @@ namespace WPF_Tranning
             {
                 string score_id = (string)row.Field<string>("스코어 아이디"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
                 string score = row.Field<string>("스코어 점수").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                
-                foreach (DataRow row2 in _result.Tables[0].Rows) {
 
-                    int score_id2 = (int)row2.Field<int>("score_id"); 
-                    string score2 = row2.Field<string>("score").ToString();
+                /*   foreach (DataRow row2 in _result.Tables[0].Rows) {
 
-                    if (score != score2)
-                    {
-                           UpdateDB(score_id, score); // DB값이랑 입력값이 같지 않으면 업데이트 처리
-                    }
-                    else
-                    {
-                        MessageBox.Show("같지 않은 항목 score : " + score + " score2 : " + score2);
-                    }
-                }
+                       int score_id2 = (int)row2.Field<int>("score_id"); 
+                       string score2 = row2.Field<string>("score").ToString();
+
+                       if (score != score2)
+                       {
+                              UpdateDB(score_id, score); // DB값이랑 입력값이 같지 않으면 업데이트 처리
+                       }
+                       else
+                       {
+                           MessageBox.Show("같지 않은 항목 score : " + score + " score2 : " + score2);
+                       }
+                   }*/
+                 UpdateDB(score_id, score); // 업데이트 처리
             }
         }
 
