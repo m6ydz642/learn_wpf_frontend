@@ -24,7 +24,7 @@ namespace WPF_Tranning
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
         /**********************************************************************/
         public DataTable _datatable;
-        public DataSet _result;
+    
 
 
         public MainView()
@@ -39,11 +39,12 @@ namespace WPF_Tranning
 
 
             _selectdata = new DataTable();
-           _selectdata.Columns.Add("스코어 아이디");
+        /*   _selectdata.Columns.Add("스코어 아이디");
             _selectdata.Columns.Add("스코어 점수");
+            _selectdata.Columns.Add("체크박스");*/
 
             //  _selecttable = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
-          //  _selectdata = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+            _selectdata = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
 
             /*   DataRow[] rows = _selecttable.Select();
 
@@ -56,16 +57,18 @@ namespace WPF_Tranning
                    scorecontent[i] = (string)rows[i]["Score"];
                    _selectdata.Rows.Add(score[i], scorecontent[i]);
                }*/
-            _result = connectDB();
+/*            _result = connectDB();
 
             foreach (DataRow row in _result.Tables[0].Rows) // 실제 지정 컬럼은 _selectdata에 있음
             {
                 int score_id = (int)row.Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
                 string score = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                _selectdata.Rows.Add(score_id, score);
+                bool check = row.Field<bool>("체크박스");
+                _selectdata.Rows.Add(score_id, score, check);
 
-            }
+            }*/
 
+            // 바인딩이 되서 다 필요가 없어짐
 
 
 
@@ -73,14 +76,12 @@ namespace WPF_Tranning
 
         private void CheckBoxFun(object obj)
         {
-
-            foreach (DataRow row in _result.Tables[0].Rows) // 실제 지정 컬럼은 _selectdata에 있음
+            foreach (DataRow row in _selectdata.Rows) // 실제 지정 컬럼은 _selectdata에 있음
             {
                 int score_id = (int)row.Field<int>("Score_id");
                 bool check = row.Field<bool>("체크박스");
-                bool checktest = checkedVar;
-
             }
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -214,7 +215,7 @@ namespace WPF_Tranning
             return dataSet;
         }
 
-        public DataSet UpdateDB(string score_id, string score)
+        public DataSet UpdateDB(int score_id, string score)
         {
             string selectQuery = ConfigurationManager.AppSettings["Score_Modify"];
             SqlConnection connection = new SqlConnection(AppconfigDBSetting);
@@ -236,24 +237,10 @@ namespace WPF_Tranning
         {
             foreach (DataRow row in _selectdata.Rows) // 실제 지정 컬럼은 _selectdata에 있음
             {
-                string score_id = (string)row.Field<string>("스코어 아이디"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                string score = row.Field<string>("스코어 점수").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                int score_id = (int)row.Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                string score = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
 
-                /*   foreach (DataRow row2 in _result.Tables[0].Rows) {
-
-                       int score_id2 = (int)row2.Field<int>("score_id"); 
-                       string score2 = row2.Field<string>("score").ToString();
-
-                       if (score != score2)
-                       {
-                              UpdateDB(score_id, score); // DB값이랑 입력값이 같지 않으면 업데이트 처리
-                       }
-                       else
-                       {
-                           MessageBox.Show("같지 않은 항목 score : " + score + " score2 : " + score2);
-                       }
-                   }*/
-                 UpdateDB(score_id, score); // 업데이트 처리
+               UpdateDB(score_id, score); // 업데이트 처리
             }
         }
 
