@@ -40,12 +40,12 @@
                     </dxmvvm:Interaction.Behaviors>-->
                     <!--이거 아니고 밑에 Interaction임-->
 
-                    <!--<i:Interaction.Triggers>
+                     <!--<i:Interaction.Triggers>
                         <i:EventTrigger EventName="ChangeContent" >
                             <i:InvokeCommandAction Command="{Binding SelectEvent}" CommandParameter="{Binding ElementName=scoreListViewD2B}" />
                         </i:EventTrigger>
-                    </i:Interaction.Triggers>-->
-                    <!--오류있어서 잠시보류-->
+                    </i:Interaction.Triggers>
+                    --><!--오류있어서 잠시보류-->
 
                     <!--셀값 변경 추가-->
                     <dxmvvm:Interaction.Behaviors>
@@ -70,25 +70,19 @@
         <dxg:GridControl x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" HorizontalAlignment="Left" Margin="616,100,0,0" VerticalAlignment="Top" Height="337" Width="535" ItemsSource="{Binding test}" SelectionMode="Row">
             <dxg:GridControl.View>
                 <dxg:TableView ShowTotalSummary="True" Margin="0,3,8,-2"/>
+                           </dxg:GridControl.View>
 
 
-            </dxg:GridControl.View>
+            <!--체크박스 및 체크박스 영역, 컬럼-->
+            <dxg:GridColumn FieldName="체크박스" Header="체크박스" Width="100" VisibleIndex="0">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:CheckEditSettings/>
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
 
+            <dxg:GridColumn  FieldName="Score_id" Header="스코어번호"/>
+            <dxg:GridColumn FieldName="Score" Header="스코어점수" />
 
-
-
-            <!--<dxg:GridColumn FieldName="스코어 체크" x:Name="scorenumber" Width="100" Binding="{Binding Name}">
-
-                <dxg:GridColumn.CellTemplate>
-                    <DataTemplate>
-                        <CheckBox CommandParameter="{Binding ElementName=scorenumber, Path=IsChecked}" Command="{Binding CheckBinding}" Name="testbox" IsChecked="{Binding CheckedVar}"  Content="내용"  HorizontalAlignment="Center" />
-                    </DataTemplate>
-                </dxg:GridColumn.CellTemplate>
-
-            </dxg:GridColumn>-->
-
-            <!--<dxg:GridColumn FieldName="스코어 번호" Binding="{Binding Score_id}"/>
-            <dxg:GridColumn FieldName="내용" Binding="{Binding Score}"/>-->
 
         </dxg:GridControl>
 
