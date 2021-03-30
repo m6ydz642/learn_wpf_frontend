@@ -45,6 +45,7 @@ namespace WPF_Tranning
 
             //  _selecttable = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             _selectdata = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+            _originalDB = connectDB().Tables[0]; // 원본데이터
 
             /*   DataRow[] rows = _selecttable.Select();
 
@@ -57,16 +58,16 @@ namespace WPF_Tranning
                    scorecontent[i] = (string)rows[i]["Score"];
                    _selectdata.Rows.Add(score[i], scorecontent[i]);
                }*/
-/*            _result = connectDB();
+            /*            _result = connectDB();
 
-            foreach (DataRow row in _result.Tables[0].Rows) // 실제 지정 컬럼은 _selectdata에 있음
-            {
-                int score_id = (int)row.Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                string score = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                bool check = row.Field<bool>("체크박스");
-                _selectdata.Rows.Add(score_id, score, check);
+                        foreach (DataRow row in _result.Tables[0].Rows) // 실제 지정 컬럼은 _selectdata에 있음
+                        {
+                            int score_id = (int)row.Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                            string score = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                            bool check = row.Field<bool>("체크박스");
+                            _selectdata.Rows.Add(score_id, score, check);
 
-            }*/
+                        }*/
 
             // 바인딩이 되서 다 필요가 없어짐
 
@@ -102,25 +103,7 @@ namespace WPF_Tranning
             get { return _continentName; }
             set { _continentName = value; OnPropertyChanged("ContinentName"); }
         }
-        bool checkedVar = false;
-
-        public bool CheckedVar
-
-        {
-
-            get { return checkedVar; }
-
-            set
-
-            {
-
-                checkedVar = value;
-
-                Notify("CheckedVar");
-
-            }
-
-        }
+       
 
 
 
@@ -233,11 +216,20 @@ namespace WPF_Tranning
             return dataSet;
         }
 
-      
+        private DataTable _originalDB;
+        public DataTable OriginalDB // DB원본
+        {
+            get { return _originalDB; }
+            set
+            {
+                _originalDB = value;
+
+           
+            }
+        }
+
         private void SaveColumnFunction(object obj)
         {
-            
-
             int i = 0;
             foreach (DataRow row in _selectdata.Rows) // 실제 지정 컬럼은 _selectdata에 있음
             {
@@ -246,21 +238,29 @@ namespace WPF_Tranning
                     string score = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
 
                 // 비교용 (기존데이터)
-                DataRow[] a = connectDB().Tables[0].Select();
-                // int score_id2 = connectDB().Tables[0].Rows[0].Field<int>("Score_id");
-                string score2 = a[i].Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                int score_id2 = (int)a[i].Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                i++;
-
-                if (score2.Equals(score) && score_id.Equals(score_id2))
+                DataRow[] a = _originalDB.Select();
+                if (i < _selectdata.Rows.Count-1) // insert포함해서 총 갯수가 8개인데 원본대상은 7개이면 if문 안에 i배열에서 범위초과되서 +1 더해서 조건 안들어가게 
                 {
-                    continue;
+                    // int score_id2 = connectDB().Tables[0].Rows[0].Field<int>("Score_id");
+                    string score2 = a[i].Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                    int score_id2 = (int)a[i].Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                    i++;
+
+                    if (score2.Equals(score) && score_id.Equals(score_id2))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        UpdateDB(score_id, score); // update 처리
+
+                    }
                 }
                 else
                 {
-                     UpdateDB(score_id, score); // 업데이트 처리
-
+                    UpdateDB(score_id, score); // insert처리
                 }
+
 
             }
         }
@@ -283,8 +283,9 @@ namespace WPF_Tranning
 
         public void AddContent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
         {
-           // _selectdata = new DataTable();
-            _selectdata.Rows.Add("", "");
+           
+            DataRow oRow = _selectdata.NewRow();
+            _selectdata.Rows.Add(oRow);
 
         }
 
