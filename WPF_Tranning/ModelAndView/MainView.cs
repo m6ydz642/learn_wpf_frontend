@@ -233,14 +233,35 @@ namespace WPF_Tranning
             return dataSet;
         }
 
+      
         private void SaveColumnFunction(object obj)
         {
+            
+
+            int i = 0;
             foreach (DataRow row in _selectdata.Rows) // 실제 지정 컬럼은 _selectdata에 있음
             {
-                int score_id = (int)row.Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                string score = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+            
+                    int score_id = (int)row.Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                    string score = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
 
-               UpdateDB(score_id, score); // 업데이트 처리
+                // 비교용 (기존데이터)
+                DataRow[] a = connectDB().Tables[0].Select();
+                // int score_id2 = connectDB().Tables[0].Rows[0].Field<int>("Score_id");
+                string score2 = a[i].Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                int score_id2 = (int)a[i].Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                i++;
+
+                if (score2.Equals(score) && score_id.Equals(score_id2))
+                {
+                    continue;
+                }
+                else
+                {
+                     UpdateDB(score_id, score); // 업데이트 처리
+
+                }
+
             }
         }
 
