@@ -16,20 +16,9 @@
     Title="MainWindow" Height="1000" Width="1500">
 
     <Grid x:Name="grid" Margin="0,0,0,-251" Height="787" VerticalAlignment="Top">
-        <dxg:GridControl AutoGenerateColumns="AddNew" x:Name="scoreListViewD2B"  HorizontalAlignment="Left" Margin="155,100,0,0" VerticalAlignment="Top" Height="340" Width="444" ItemsSource="{Binding SelectContent, Mode=OneWay}">
+        <dxg:GridControl SelectionMode="Row" SelectedItem="{Binding SelectEvent}" AutoGenerateColumns="AddNew" x:Name="scoreListViewD2B"  HorizontalAlignment="Left" Margin="155,100,0,0" VerticalAlignment="Top" Height="340" Width="444" ItemsSource="{Binding SelectContent, Mode=TwoWay}">
 
-            <!--체크박스 및 체크박스 영역, 컬럼-->
-            <dxg:GridColumn FieldName="체크박스" Header="체크박스" Width="100" VisibleIndex="0">
-                <dxg:GridColumn.EditSettings>
-                    <dxe:CheckEditSettings/>
-                </dxg:GridColumn.EditSettings>
-            </dxg:GridColumn>
-
-            <dxg:GridColumn  FieldName="Score_id" Header="스코어번호"/>
-            <dxg:GridColumn FieldName="Score" Header="스코어점수" />
-
-            <!-- 컬럼 추가시 읽기전용으로 되서 일단 주석처리함-->
-            <!--체크박스 및 체크박스 영역, 컬럼-->
+            
 
 
             <dxg:GridControl.View>
@@ -40,12 +29,15 @@
                     </dxmvvm:Interaction.Behaviors>-->
                     <!--이거 아니고 밑에 Interaction임-->
 
-                     <!--<i:Interaction.Triggers>
-                        <i:EventTrigger EventName="ChangeContent" >
-                            <i:InvokeCommandAction Command="{Binding SelectEvent}" CommandParameter="{Binding ElementName=scoreListViewD2B}" />
+                     <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged" >
+                            <i:InvokeCommandAction Command="{Binding SelectEvent}" CommandParameter="{Binding ElementName=scoreListViewD2B, Mode=OneWay}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    --><!--오류있어서 잠시보류-->
+
+                    <!--NuGet관리자에서 Install-Package Expression.Blend.Sdk 
+                    Install-Package Microsoft.Xaml.Behaviors.Wpf -Version 1.1.31 2개 설치해야 interaction.Triggers 설치 됨-->
+                    <!--오류있어서 잠시보류-->
 
                     <!--셀값 변경 추가-->
                     <dxmvvm:Interaction.Behaviors>
@@ -60,7 +52,18 @@
                 </dxg:TableView>
             </dxg:GridControl.View>
 
-          
+            <!--체크박스 및 체크박스 영역, 컬럼-->
+            <dxg:GridColumn FieldName="체크박스" Header="체크박스" Width="100" VisibleIndex="0">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:CheckEditSettings/>
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+
+            <dxg:GridColumn  FieldName="Score_id" Header="스코어번호"/>
+            <dxg:GridColumn FieldName="Score" Header="스코어점수" />
+
+            <!-- 컬럼 추가시 읽기전용으로 되서 일단 주석처리함-->
+            <!--체크박스 및 체크박스 영역, 컬럼-->
 
         </dxg:GridControl>
         <!--체크박스 샘플 
