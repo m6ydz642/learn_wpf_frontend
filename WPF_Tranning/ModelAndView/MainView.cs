@@ -46,7 +46,7 @@ namespace WPF_Tranning
             //  _selecttable = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             _selectdata = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             _originalDB = connectDB().Tables[0]; // 원본데이터
-
+            _selectScore = SelectDB(1).Tables[0]; // 선택데이터
             /*   DataRow[] rows = _selecttable.Select();
 
                int[] score = new int[rows.Length];
@@ -159,6 +159,18 @@ namespace WPF_Tranning
 
                 //   RaisePropertyChanged("DataTable");
             }
+        }     
+        
+        public DataTable _selectScore;
+        public DataTable Select_Score
+        {
+            get {/* MessageBox.Show("데이터 테이블");*/ return _selectScore; }
+            set
+            {
+                _selectScore = value;
+
+                Notify("Select_Score");
+            }
         }
 
         private DataTable _selectdata;
@@ -215,6 +227,24 @@ namespace WPF_Tranning
             sqlDataAdapter.Fill(dataSet); // dataset으로 채움
             return dataSet;
         }
+
+        public DataSet SelectDB(int score_id)
+        {
+            string selectQuery = ConfigurationManager.AppSettings["Score_Select"];
+            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+            connection.Open(); // DB연결
+
+            SqlCommand cmd = new SqlCommand("Score_Select", connection);
+            cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
+            cmd.Parameters.Add("@Score_id", SqlDbType.Int).Value = score_id; 
+
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
+            DataSet dataSet = new DataSet();
+            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            return dataSet;
+        }
+
 
         private DataTable _originalDB;
         public DataTable OriginalDB // DB원본
@@ -277,8 +307,10 @@ namespace WPF_Tranning
         private void SelectEventFun(object sender)
         {
             var convert = (GridControl)sender;
-           // var convert2 = (CellValueEventArgs)sender;
-            MessageBox.Show("선택 내용 " + convert.GetCellValue(0,"1"));
+            MessageBox.Show("선택 내용 " + convert.GetFocusedValue().ToString());
+             _selectScore = SelectDB(2).Tables[0]; // 일단은 2번선택한거처럼 해놈 아직 특정 값만 받는거 안함
+            // https://supportcenter.devexpress.com/ticket/details/t806467/gridcontrol-stay-on-selected-row-after-refresh-using-datatable-as-itemssource
+            // 하려다가 말음
         }
 
         public void AddContent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨

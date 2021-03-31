@@ -18,9 +18,6 @@
     <Grid x:Name="grid" Margin="0,0,0,-251" Height="787" VerticalAlignment="Top">
         <dxg:GridControl SelectionMode="Row" SelectedItem="{Binding SelectEvent}" AutoGenerateColumns="AddNew" x:Name="scoreListViewD2B"  HorizontalAlignment="Left" Margin="155,100,0,0" VerticalAlignment="Top" Height="340" Width="444" ItemsSource="{Binding SelectContent, Mode=TwoWay}">
 
-            
-
-
             <dxg:GridControl.View>
                 <dxg:TableView   ShowTotalSummary="True" Margin="0,3,8,55" HorizontalAlignment="Right" Width="434">
                     <!--<dxmvvm:Interaction.Behaviors>
@@ -70,7 +67,7 @@
             https://johnnblade.wordpress.com/2012/05/24/grid-control-gridcontrol-with-celltemplate-and-checkbox-or-checkedit-unchecks-or-checks-other-unchecked-checkboxes-when-scrolling-or-checkbox-comes-up-when-new-visual-rows-displays-devexpress-wpf/
             -->
         <!-- DB내용 View -->
-        <dxg:GridControl x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" HorizontalAlignment="Left" Margin="616,100,0,0" VerticalAlignment="Top" Height="337" Width="535" ItemsSource="{Binding test}" SelectionMode="Row">
+        <dxg:GridControl x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" HorizontalAlignment="Left" Margin="616,100,0,0" VerticalAlignment="Top" Height="337" Width="535" ItemsSource="{Binding Select_Score, Mode=TwoWay}">
             <dxg:GridControl.View>
                 <dxg:TableView ShowTotalSummary="True" Margin="0,3,8,-2"/>
                            </dxg:GridControl.View>
