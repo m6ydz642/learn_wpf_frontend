@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.Grid;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
@@ -47,6 +48,9 @@ namespace WPF_Tranning
             _selectdata = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             _originalDB = connectDB().Tables[0]; // 원본데이터
             _selectScore = SelectDB(1).Tables[0]; // 선택데이터
+            items = new ObservableCollection<MainView>();
+           
+
             /*   DataRow[] rows = _selecttable.Select();
 
                int[] score = new int[rows.Length];
@@ -197,6 +201,8 @@ namespace WPF_Tranning
                 //   RaisePropertyChanged("DataTable");
             }
         }
+
+        public ObservableCollection<MainView> items { get; set; }
 
         public DataSet connectDB()
         {
