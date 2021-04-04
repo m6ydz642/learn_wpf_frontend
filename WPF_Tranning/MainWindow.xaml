@@ -13,7 +13,7 @@
     xmlns:i1="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" x:Class="WPF_Tranning.MainWindow"
         mc:Ignorable="d"
-    Title="MainWindow" Height="1000" Width="1500">
+    Title="MainWindow" Height="557" Width="1264">
 
     <Window.Resources>
         <Style x:Key="RowStyle" TargetType="{x:Type dxg:GridRowContent}">
@@ -21,18 +21,33 @@
         </Style>
 
     </Window.Resources>
-    <Grid x:Name="grid" Margin="0,0,0,-251" Height="787" VerticalAlignment="Top">
-        <dxg:GridControl SelectionMode="Row" SelectedItem="{Binding SelectEvent}" AutoGenerateColumns="AddNew" x:Name="scoreListViewD2B"  HorizontalAlignment="Left" Margin="155,100,0,0" VerticalAlignment="Top" Height="340" Width="444" ItemsSource="{Binding SelectContent, Mode=TwoWay}">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90" />
+            <RowDefinition Height="10*" />
+        </Grid.RowDefinitions>
+
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="700"/>
+            <ColumnDefinition Width="1*"/>
+
+
+
+        </Grid.ColumnDefinitions>
+
+        <dxg:GridControl  Grid.Column="0" Grid.Row="1"  SelectionMode="Row" SelectedItem="{Binding SelectEvent}" AutoGenerateColumns="AddNew" x:Name="scoreListViewD2B"  ItemsSource="{Binding SelectContent, Mode=TwoWay}" Margin="180,25,65,75" >
 
             <dxg:GridControl.View>
-                <dxg:TableView   ShowTotalSummary="True" Margin="0,3,8,55" HorizontalAlignment="Right" Width="434">
+                <dxg:TableView   ShowTotalSummary="True" Margin="0,0,-7,-2" RenderTransformOrigin="0.503,0.497" >
                     <!--<dxmvvm:Interaction.Behaviors>
                         <dxmvvm:EventToCommand EventName="SelectionChanged" PassEventArgsToCommand="True" Command="{Binding SelectEvent}"/>
 
                     </dxmvvm:Interaction.Behaviors>-->
                     <!--이거 아니고 밑에 Interaction임-->
 
-                     <i:Interaction.Triggers>
+                    <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged" >
                             <i:InvokeCommandAction Command="{Binding SelectEvent}" CommandParameter="{Binding ElementName=scoreListViewD2B, Mode=OneWay}" />
                         </i:EventTrigger>
@@ -63,12 +78,13 @@
             </dxg:GridColumn>
 
             <dxg:GridColumn Width="auto" FieldName="Score_id" Header="스코어번호">
-            
-                <dxg:GridColumn.EditSettings> <!--text 왼쪽 정렬-->
+
+                <dxg:GridColumn.EditSettings>
+                    <!--text 왼쪽 정렬-->
                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
-            
+
             <dxg:GridColumn Width="auto" FieldName="Score" Header="스코어점수" >
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings  HorizontalContentAlignment="Left"/>
@@ -83,14 +99,14 @@
             https://johnnblade.wordpress.com/2012/05/24/grid-control-gridcontrol-with-celltemplate-and-checkbox-or-checkedit-unchecks-or-checks-other-unchecked-checkboxes-when-scrolling-or-checkbox-comes-up-when-new-visual-rows-displays-devexpress-wpf/
             -->
         <!-- DB내용 View -->
-        <dxg:GridControl Background="Aqua" x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" HorizontalAlignment="Left" Margin="616,100,0,0" VerticalAlignment="Top" Height="340" Width="535" ItemsSource="{Binding Select_Score, Mode=TwoWay}">
+        <dxg:GridControl   Grid.Column="1" Grid.Row="1" Background="Aqua" x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" Margin="45,25,19,82" ItemsSource="{Binding Select_Score, Mode=TwoWay}">
             <dxg:GridControl.View>
-                <dxg:TableView ShowTotalSummary="True" Margin="0,3,8,-2"/>
-                           </dxg:GridControl.View>
+                <dxg:TableView ShowTotalSummary="True"/>
+            </dxg:GridControl.View>
 
 
             <!--체크박스 및 체크박스 영역, 컬럼-->
-            <dxg:GridColumn FieldName="체크박스" Header="체크박스" Width="100" VisibleIndex="0">
+            <dxg:GridColumn  FieldName="체크박스" Header="체크박스" Width="100" VisibleIndex="0">
                 <dxg:GridColumn.EditSettings>
                     <dxe:CheckEditSettings/>
                 </dxg:GridColumn.EditSettings>
