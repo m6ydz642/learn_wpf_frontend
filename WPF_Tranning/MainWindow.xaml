@@ -31,7 +31,8 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="700"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="10*"/>
+
 
 
 
@@ -121,7 +122,18 @@
         <Button CommandParameter="{Binding ElementName=grid}" Command="{Binding SaveColumn}" x:Name="SaveColumn" Content="저장" HorizontalAlignment="Left" Margin="465,63,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.067,0.909"/>
         <Button Command="{Binding AddColumn}"  x:Name="addColumn" Content="추가" HorizontalAlignment="Left" Margin="375,63,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Command="{Binding CheckBox}"  x:Name="addColumn_Copy" Content="체크박스" HorizontalAlignment="Left" Margin="285,63,0,0" VerticalAlignment="Top" Width="75"/>
+        <Grid Margin="0,10,10,0" Grid.Column="1" Grid.RowSpan="1" HorizontalAlignment="Right" Width="546">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="590"/>
+                <ColumnDefinition Width="110"/>
+            </Grid.ColumnDefinitions>
 
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            <Button Grid.Column="0" Grid.Row="0" Command="{Binding Test}" x:Name="addColumn_Copy1" Content="테스트" Margin="471,50,54,10" />
+        </Grid>
 
     </Grid>
 
