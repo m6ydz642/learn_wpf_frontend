@@ -26,6 +26,7 @@ namespace WPF_Tranning
         /**********************************************************************/
         public DataTable _datatable;
     
+        public DataSet _scoreDataSet;
 
 
         public MainView()
@@ -47,10 +48,13 @@ namespace WPF_Tranning
             //  _selecttable = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             _selectdata = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             _originalDB = connectDB().Tables[0]; // 원본데이터
-            _selectScore = SelectDB(1).Tables[0]; // 선택데이터
-            items = new ObservableCollection<MainView>();
-           
+            _scoreDataSet = new DataSet();
 
+            // _selectScore = connectDB().Tables[0]; 
+            _selectScore = new DataTable();
+            _selectScore.Columns.Add("체크박스");
+            _selectScore.Columns.Add("Score_id");
+            _selectScore.Columns.Add("Score");
             /*   DataRow[] rows = _selecttable.Select();
 
                int[] score = new int[rows.Length];
@@ -313,10 +317,24 @@ namespace WPF_Tranning
         private void SelectEventFun(object sender)
         {
             var convert = (GridControl)sender;
-            MessageBox.Show("선택 내용 " + convert.GetFocusedValue().ToString());
-             _selectScore = SelectDB(2).Tables[0]; // 일단은 2번선택한거처럼 해놈 아직 특정 값만 받는거 안함
-            // https://supportcenter.devexpress.com/ticket/details/t806467/gridcontrol-stay-on-selected-row-after-refresh-using-datatable-as-itemssource
-            // 하려다가 말음
+            int CellScore_id = (int)convert.GetFocusedRowCellValue("Score_id");// 셀 선택이벤트, Score_id 값만 가져옴
+         
+                                                      //  _selectScore = SelectDB(2).Tables[0]; // 일단은 2번선택한거처럼 해놈 아직 특정 값만 받는거 안함
+                                                      // https://supportcenter.devexpress.com/ticket/details/t806467/gridcontrol-stay-on-selected-row-after-refresh-using-datatable-as-itemssource
+                                                      // 하려다가 말음
+
+    
+
+            _scoreDataSet = SelectDB(CellScore_id);
+
+            foreach (DataRow row in _scoreDataSet.Tables[0].Rows)
+              {
+                //  _selectScore = SelectDB(CellScore_id).Tables[0];
+                string score2 = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+
+                _selectScore.Rows.Add(false, CellScore_id, score2);
+
+             }
         }
 
         public void AddContent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
