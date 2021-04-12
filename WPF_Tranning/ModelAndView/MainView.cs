@@ -55,6 +55,7 @@ namespace WPF_Tranning
             _selectScore.Columns.Add("체크박스");
             _selectScore.Columns.Add("Score_id");
             _selectScore.Columns.Add("Score");
+            
             /*   DataRow[] rows = _selecttable.Select();
 
                int[] score = new int[rows.Length];
@@ -253,7 +254,31 @@ namespace WPF_Tranning
             DataSet dataSet = new DataSet();
             sqlDataAdapter.Fill(dataSet); // dataset으로 채움
             return dataSet;
+
+
         }
+
+
+        public DataSet SaveDB(DataTable table)
+        {
+            string selectQuery = ConfigurationManager.AppSettings["Save_Score"];
+            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+            connection.Open(); // DB연결
+
+            SqlCommand cmd = new SqlCommand("Save_Score", connection);
+            cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
+            cmd.Parameters.Add("@Get_SaveScore", SqlDbType.Structured).Value = table;
+
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
+            DataSet dataSet = new DataSet();
+            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            return dataSet;
+
+
+        }
+
+
 
 
         private DataTable _originalDB;
@@ -270,39 +295,41 @@ namespace WPF_Tranning
 
         private void SaveColumnFunction(object obj)
         {
-            int i = 0;
-            foreach (DataRow row in _selectdata.Rows) // 실제 지정 컬럼은 _selectdata에 있음
-            {
-            
-                    int score_id = (int)row.Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                    string score = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+            /*  int i = 0;
+              foreach (DataRow row in _selectdata.Rows) // 실제 지정 컬럼은 _selectdata에 있음
+              {
 
-                // 비교용 (기존데이터)
-                DataRow[] a = _originalDB.Select();
-                if (i < _selectdata.Rows.Count-1) // insert포함해서 총 갯수가 8개인데 원본대상은 7개이면 if문 안에 i배열에서 범위초과되서 +1 더해서 조건 안들어가게 
-                {
-                    // int score_id2 = connectDB().Tables[0].Rows[0].Field<int>("Score_id");
-                    string score2 = a[i].Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                    int score_id2 = (int)a[i].Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                    i++;
+                      int score_id = (int)row.Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                      string score = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
 
-                    if (score2.Equals(score) && score_id.Equals(score_id2))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        UpdateDB(score_id, score); // update 처리
+                  // 비교용 (기존데이터)
+                  DataRow[] a = _originalDB.Select();
+                  if (i < _selectdata.Rows.Count-1) // insert포함해서 총 갯수가 8개인데 원본대상은 7개이면 if문 안에 i배열에서 범위초과되서 +1 더해서 조건 안들어가게 
+                  {
+                      // int score_id2 = connectDB().Tables[0].Rows[0].Field<int>("Score_id");
+                      string score2 = a[i].Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                      int score_id2 = (int)a[i].Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
+                      i++;
 
-                    }
-                }
-                else
-                {
-                    UpdateDB(score_id, score); // insert처리
-                }
+                      if (score2.Equals(score) && score_id.Equals(score_id2))
+                      {
+                          continue;
+                      }
+                      else
+                      {
+                          UpdateDB(score_id, score); // update 처리
+
+                      }
+                  }
+                  else
+                  {
+                      UpdateDB(score_id, score); // insert처리
+                  }
 
 
-            }
+              }*/
+            SaveDB(_selectdata);
+
         }
 
         private void CellValueChange(object obj)
@@ -317,14 +344,25 @@ namespace WPF_Tranning
         private void SelectEventFun(object sender)
         {
             var convert = (GridControl)sender;
-            int CellScore_id = (int)convert.GetFocusedRowCellValue("Score_id");// 셀 선택이벤트, Score_id 값만 가져옴
-         
-                                                      //  _selectScore = SelectDB(2).Tables[0]; // 일단은 2번선택한거처럼 해놈 아직 특정 값만 받는거 안함
-                                                      // https://supportcenter.devexpress.com/ticket/details/t806467/gridcontrol-stay-on-selected-row-after-refresh-using-datatable-as-itemssource
-                                                      // 하려다가 말음
+            string cellConvert = convert.GetFocusedRowCellValue("Score_id")?.ToString() ?? null;
+            //   int? CellScore_id = (int?)convert.GetFocusedRowCellValue("Score_id") ?? 0;// 셀 선택이벤트, Score_id 값만 가져옴
 
+            int CellScore_id = 0;
+            if (!cellConvert.Equals(""))
+            {
+              CellScore_id = Int32.Parse(cellConvert);
+
+                //  _selectScore = SelectDB(2).Tables[0]; // 일단은 2번선택한거처럼 해놈 아직 특정 값만 받는거 안함
+                // https://supportcenter.devexpress.com/ticket/details/t806467/gridcontrol-stay-on-selected-row-after-refresh-using-datatable-as-itemssource
+                // 하려다가 말음
+            }
+            else
+            {
+                CellScore_id = 0;
+            }
     
 
+            // _scoreDataSet = SelectDB(CellScore_id ?? 0);
             _scoreDataSet = SelectDB(CellScore_id);
 
             foreach (DataRow row in _scoreDataSet.Tables[0].Rows)
@@ -335,6 +373,7 @@ namespace WPF_Tranning
                 _selectScore.Rows.Add(false, CellScore_id, score2);
 
              }
+         
         }
 
         public void AddContent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
