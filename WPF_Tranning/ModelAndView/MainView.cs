@@ -328,7 +328,10 @@ namespace WPF_Tranning
 
 
               }*/
-            SaveDB(_selectdata);
+          //  string value = _selectdata.GetChanges();
+            
+                SaveDB(_selectdata);
+            
 
         }
 
@@ -361,18 +364,15 @@ namespace WPF_Tranning
                 CellScore_id = 0;
             }
     
-
-            // _scoreDataSet = SelectDB(CellScore_id ?? 0);
             _scoreDataSet = SelectDB(CellScore_id);
 
             foreach (DataRow row in _scoreDataSet.Tables[0].Rows)
               {
-                //  _selectScore = SelectDB(CellScore_id).Tables[0];
                 string score2 = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-
                 _selectScore.Rows.Add(false, CellScore_id, score2);
 
              }
+            _selectScore.TableName = "ScoreTable";
          
         }
 

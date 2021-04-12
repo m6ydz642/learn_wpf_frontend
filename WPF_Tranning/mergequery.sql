@@ -112,4 +112,72 @@ exec Score_Modify;
 SET IDENTITY_INSERT (ScoreTable) OFF
 
 
+------------------------------------------------- select 선택 프로시저
+USE [BaseBallGameWinform_DB]
+GO
+
+
+
+create procedure Score_Select
+@Score_id int
+
+as Begin
+
+   SELECT convert(bit,0) as '체크박스', [Score_id]
+      ,[Score]
+  FROM [dbo].[ScoreTable] where Score_Id = @Score_id;
+
+end
+
+------------------------------------------------
+
+
+
+select * from information_schema.table_constraints where table_name = 'dbo.TB_AuthUser' -- 테이블 기준 외래키 조회
+
+-----------------------------------------------------------
+drop procedure Save_Score
+drop type TYPE_SaveScore
+exec Save_Score
+select * from ScoreTable
+-----------------------------------------------------------
+USE [BaseBallGameWinform_DB]
+GO
+create procedure Save_Score 
+@Get_SaveScore TYPE_SaveScore READONLY
+
+as Begin
+MERGE INTO ScoreTable as A --INSERT/UPDATE 할 테이블
+ USING @Get_SaveScore as B
+      ON (A.Score_id = B.Score_id)--조건
+
+			when Matched then 
+			     UPDATE SET  A.Score = B.Score , A.modify=getdate() -- 내용변경만 가능하게 수정
+
+			WHEN NOT MATCHED THEN --위 조건에 맞1는 데이터가 없으면 INSERT
+            INSERT (score,createdt)
+            VALUES(
+              
+                B.Score, B.createdt);
+end
+
+
+-----------------------------------------------
+USE [BaseBallGameWinform_DB]
+GO
+CREATE TYPE TYPE_SaveScore AS TABLE(
+
+    checkbox bit,
+	Score_id int,
+
+	Score varchar(max),
+	 modify datetime,
+	 createdt datetime
+
+)
+
+GO
+
+
+
 
