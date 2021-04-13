@@ -1,5 +1,6 @@
 ﻿using DevExpress.Xpf.Grid;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Configuration;
@@ -337,11 +338,11 @@ namespace WPF_Tranning
 
 
               }*/
-            string value = _selectdata.GetChanges().TableName;
+         //   string value = _selectdata.GetChanges().TableName;
             
                 SaveDB(_selectdata);
-            
-
+            var convert = (GridControl)obj;
+  
         }
 
         private void CellValueChange(object obj)
@@ -387,10 +388,12 @@ namespace WPF_Tranning
 
         public void AddContent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
         {
-           
+            var convert = (GridControl)obj;
             DataRow oRow = _selectdata.NewRow();
             _selectdata.Rows.Add(oRow);
 
+            // convert.CurrentItem = (convert).GetRowByListIndex( (int)convert.ItemsSource
+            convert.View.ShowEditor();
         }
 
     
