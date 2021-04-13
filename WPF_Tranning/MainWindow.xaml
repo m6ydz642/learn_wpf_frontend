@@ -41,7 +41,7 @@
         <dxg:GridControl  Grid.Column="0" Grid.Row="1"  SelectionMode="Row" SelectedItem="{Binding SelectEvent}" AutoGenerateColumns="AddNew" x:Name="scoreListViewD2B"  ItemsSource="{Binding SelectContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="180,25,65,75" >
 
             <dxg:GridControl.View>
-                <dxg:TableView   ShowTotalSummary="True" RenderTransformOrigin="0.503,0.497" >
+                <dxg:TableView x:Name="tableview"  ShowTotalSummary="True" >
                     <!--<dxmvvm:Interaction.Behaviors>
                         <dxmvvm:EventToCommand EventName="SelectionChanged" PassEventArgsToCommand="True" Command="{Binding SelectEvent}"/>
 
@@ -51,6 +51,10 @@
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged" >
                             <i:InvokeCommandAction Command="{Binding SelectEvent}" CommandParameter="{Binding ElementName=scoreListViewD2B, Mode=OneWay}" />
+                        </i:EventTrigger>
+
+                        <i:EventTrigger EventName="Loaded"> <!--로드시 바인딩-->
+                            <i:InvokeCommandAction Command="{Binding Loaded}"  CommandParameter="{Binding ElementName=scoreListViewD2B, Mode=OneWay}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
 
@@ -134,6 +138,32 @@
             </Grid.RowDefinitions>
             <Button Grid.Column="0" Grid.Row="0" Command="{Binding Test}" x:Name="addColumn_Copy1" Content="테스트" Margin="471,50,54,10" />
         </Grid>
+
+
+        <dxg:GridControl AutoGenerateColumns="AddNew"
+                         EnableSmartColumnsGeneration="True" Loaded="GridControl_Loaded"
+                         ItemsSource="{Binding Items}"                          
+                         SelectedItem="{Binding SelectedMobile}" Margin="0,0,565,276" Grid.RowSpan="2">
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="IsSelected" SortIndex="1"/>
+            </dxg:GridControl.Columns>
+            <dxg:GridControl.View>
+                <dxg:TableView AllowColumnFiltering="False"
+                               AllowColumnMoving="False" Name="View"
+                               AllowEditing="True"
+                               AllowGrouping="False"
+                               AllowMoveColumnToDropArea="False"
+                               AllowResizing="False"
+                               AlternateRowBackground="#f1f2f8"
+                               BorderBrush="Blue"
+                               NavigationStyle="Row"
+                               RowMinHeight="40"
+                               ShowColumnHeaders="True"
+                               ShowGroupPanel="False"
+                               ShowIndicator="False"
+                               VerticalScrollbarVisibility="Auto" />
+            </dxg:GridControl.View>
+        </dxg:GridControl>
 
     </Grid>
 

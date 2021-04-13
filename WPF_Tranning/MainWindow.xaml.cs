@@ -13,17 +13,44 @@ namespace WPF_Tranning
     /// <summary>
     /// MainWindow.xaml에 대한 상호 작용 논리
     /// </summary>
+    /// 
+   
     public partial class MainWindow : Window
     {
+        
+
         public MainWindow()
         {
             InitializeComponent();
 
             this.DataContext = new MainView(); // 바인딩 설정 (없으면 바인딩 안먹힘)
-            // GameStartViewModel 호출함
+                                               // GameStartViewModel 호출함
     
-
         }
+
+        private void scoreListViewD2B_Loaded(object sender, RoutedEventArgs e)
+        {
+            /* GridColumn a = scoreListViewD2B.Columns["Score_id"];
+     scoreListViewD2B.SetFocusedRowCellValue(a, "Score_id");*/
+            var h = scoreListViewD2B.GetRowHandleByListIndex(3);
+
+    /*        var v = scoreListViewD2B.View.GetRowElementByRowHandle(h);
+            scoreListViewD2B.CurrentColumn = scoreListViewD2B.Columns["Score_id"];
+            tableview.FocusedRowHandle = h;
+            tableview.FocusedColumn = scoreListViewD2B.Columns.GetColumnByFieldName("Score_id");*/
+            scoreListViewD2B.SelectItem(5);
+/*            tableview.FocusedRowHandle = 1;
+            tableview.Focus();*/
+ 
+        }
+
+
+        private void GridControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            View.FocusedRowHandle = 1;
+        }
+
 
         private void checkbox_Checked(object sender, RoutedEventArgs e)
         {

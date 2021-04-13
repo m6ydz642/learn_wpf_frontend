@@ -20,6 +20,7 @@ namespace WPF_Tranning
         public ICommand CellValueChangedCommand { get; set; }
         public ICommand SaveColumn { get; set; }
         public ICommand CheckBox { get; set; }
+        public ICommand Loaded { get; set; }
 
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
@@ -38,6 +39,7 @@ namespace WPF_Tranning
             SaveColumn = new RelayCommand(new Action<object>(this.SaveColumnFunction));
             CheckBinding = new RelayCommand(new Action<object>(this.CheckBoxFun));
             CheckBox = new RelayCommand(new Action<object>(this.CheckBoxFun));
+            Loaded = new RelayCommand(new Action<object>(this.LoadedBinding));
 
 
             _selectdata = new DataTable();
@@ -82,6 +84,13 @@ namespace WPF_Tranning
 
 
 
+        }
+
+        private void LoadedBinding(object obj)
+        {
+            var convert = (GridControl)obj;
+            convert.SelectItem(0); 
+    
         }
 
         private void CheckBoxFun(object obj)
@@ -328,7 +337,7 @@ namespace WPF_Tranning
 
 
               }*/
-          //  string value = _selectdata.GetChanges();
+            string value = _selectdata.GetChanges().TableName;
             
                 SaveDB(_selectdata);
             
