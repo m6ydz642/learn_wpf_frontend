@@ -44,15 +44,11 @@ namespace WPF_Tranning
 
 
             _selectdata = new DataTable();
-        /*   _selectdata.Columns.Add("스코어 아이디");
-            _selectdata.Columns.Add("스코어 점수");
-            _selectdata.Columns.Add("체크박스");*/
 
-            //  _selecttable = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             _selectdata = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             _originalDB = connectDB().Tables[0]; // 원본데이터
             _scoreDataSet = new DataSet();
-
+            _scoreDataSet = connectDB();
             // _selectScore = connectDB().Tables[0]; 
             _selectScore = new DataTable();
             _selectScore.Columns.Add("체크박스");
@@ -176,11 +172,11 @@ namespace WPF_Tranning
             {
                 _selecttable = value;
 
-                //   RaisePropertyChanged("DataTable");
+                //   Notify("SelectTable");
             }
         }     
         
-        public DataTable _selectScore;
+        private DataTable _selectScore;
         public DataTable Select_Score
         {
             get {/* MessageBox.Show("데이터 테이블");*/ return _selectScore; }
@@ -188,7 +184,7 @@ namespace WPF_Tranning
             {
                 _selectScore = value;
 
-                Notify("Select_Score");
+                Notify("Select_Score"); // 이거없으면 프로퍼티 체인지 값이 바뀌었다고 안알려져서 적용이 안됨
             }
         }
 
@@ -201,7 +197,7 @@ namespace WPF_Tranning
             {
                 _selectdata = value;
 
-                //   RaisePropertyChanged("DataTable");
+                //   Notify("SelectContent");
             }
         }
 
@@ -217,7 +213,7 @@ namespace WPF_Tranning
             }
         }
 
-        public ObservableCollection<MainView> items { get; set; }
+       
 
         public DataSet connectDB()
         {
@@ -338,9 +334,10 @@ namespace WPF_Tranning
 
 
               }*/
-         //   string value = _selectdata.GetChanges().TableName;
-            
-                SaveDB(_selectdata);
+            // string value = _selectdata.GetChanges(DataRowState.Modified); // 저장부분 구분하는거 잠시 보류
+
+
+            SaveDB(_selectdata); // 테이블 통째로 전달
             var convert = (GridControl)obj;
   
         }
@@ -375,13 +372,16 @@ namespace WPF_Tranning
             }
     
             _scoreDataSet = SelectDB(CellScore_id);
+            Select_Score = _scoreDataSet.Tables[0]; 
+            // select_score (선택되어 출력 될 데이터 상대 그리드 컨트롤)
+            // 하단의 foreach를 통한 출력보다 한번만에 출력 할 수 있도록 해줌
 
-            foreach (DataRow row in _scoreDataSet.Tables[0].Rows)
+      /*      foreach (DataRow row in _scoreDataSet.Tables[0].Rows)
               {
                 string score2 = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
                 _selectScore.Rows.Add(false, CellScore_id, score2);
 
-             }
+             }*/
             _selectScore.TableName = "ScoreTable";
          
         }
@@ -400,7 +400,7 @@ namespace WPF_Tranning
 
         private void Notify(string propertyName)
         {
-            MessageBox.Show("Notify호출");
+           //  MessageBox.Show("Notify호출");
             // take a copy to prevent thread issues
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
