@@ -8,12 +8,12 @@
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-    
-
-    xmlns:i1="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" x:Class="WPF_Tranning.MainWindow"
+        xmlns:i1="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+        x:Class="WPF_Tranning.MainWindow"
         mc:Ignorable="d"
-    Title="MainWindow" Height="557" Width="1264">
+        Title="MainWindow" Height="557" Width="1264">
 
     <Window.Resources>
         <Style x:Key="RowStyle" TargetType="{x:Type dxg:GridRowContent}">
@@ -104,7 +104,10 @@
             https://johnnblade.wordpress.com/2012/05/24/grid-control-gridcontrol-with-celltemplate-and-checkbox-or-checkedit-unchecks-or-checks-other-unchecked-checkboxes-when-scrolling-or-checkbox-comes-up-when-new-visual-rows-displays-devexpress-wpf/
             -->
         <!-- DB내용 View -->
-        <dxg:GridControl   Grid.Column="1" Grid.Row="1" Background="Aqua" x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" Margin="45,25,19,82" ItemsSource="{Binding Select_Score, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}">
+        <dxg:GridControl   Grid.Column="1" Grid.Row="1" Background="Aqua" 
+                           x:Name="scoreListViewDB" AutoGenerateColumns="AddNew" 
+                           Margin="45,25,19,82" ItemsSource="{Binding Select_Score, Mode=TwoWay,  
+                            UpdateSourceTrigger=PropertyChanged}">
             <dxg:GridControl.View>
                 <dxg:TableView ShowTotalSummary="True"/>
             </dxg:GridControl.View>
@@ -139,31 +142,27 @@
             <Button Grid.Column="0" Grid.Row="0" Command="{Binding Test}" x:Name="addColumn_Copy1" Content="테스트" Margin="471,50,54,10" />
         </Grid>
 
+        <!--선택한 값 - ValueMember -->
+        <!--선택할 값 - DisplayMember -->
 
-        <dxg:GridControl AutoGenerateColumns="AddNew"
-                         EnableSmartColumnsGeneration="True" Loaded="GridControl_Loaded"
-                         ItemsSource="{Binding Items}"                          
-                         SelectedItem="{Binding SelectedMobile}" Margin="0,0,565,276" Grid.RowSpan="2">
-            <dxg:GridControl.Columns>
-                <dxg:GridColumn FieldName="IsSelected" SortIndex="1"/>
-            </dxg:GridControl.Columns>
-            <dxg:GridControl.View>
-                <dxg:TableView AllowColumnFiltering="False"
-                               AllowColumnMoving="False" Name="View"
-                               AllowEditing="True"
-                               AllowGrouping="False"
-                               AllowMoveColumnToDropArea="False"
-                               AllowResizing="False"
-                               AlternateRowBackground="#f1f2f8"
-                               BorderBrush="Blue"
-                               NavigationStyle="Row"
-                               RowMinHeight="40"
-                               ShowColumnHeaders="True"
-                               ShowGroupPanel="False"
-                               ShowIndicator="False"
-                               VerticalScrollbarVisibility="Auto" />
-            </dxg:GridControl.View>
-        </dxg:GridControl>
+        <dxe:ComboBoxEdit  x:Name="combobox" ItemsSource="{Binding SelectContent}"
+                           SelectedItem="{Binding ComboSelect}"
+                          ValueMember="Score_id" 
+                          Margin="575,63,40,7" 
+                          DisplayMember="Score_id"
+                          >
+
+            <dxmvvm:Interaction.Behaviors>
+                <dxmvvm:EventToCommand EventName="EditValueChanged" 
+                                       PassEventArgsToCommand="True" Command="{Binding ComboSelect, 
+                    UpdateSourceTrigger=PropertyChanged}"
+                                       CommandParameter="{Binding ElementName=combobox}"
+                                       />
+            </dxmvvm:Interaction.Behaviors>
+
+
+        </dxe:ComboBoxEdit>
+
 
     </Grid>
 

@@ -48,7 +48,7 @@ namespace WPF_Tranning
         private void GridControl_Loaded(object sender, RoutedEventArgs e)
         {
 
-            View.FocusedRowHandle = 1;
+           
         }
 
 

@@ -22,6 +22,7 @@ namespace WPF_Tranning
         public ICommand SaveColumn { get; set; }
         public ICommand CheckBox { get; set; }
         public ICommand Loaded { get; set; }
+        public ICommand ComboSelect { get; set; }
 
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
@@ -41,6 +42,7 @@ namespace WPF_Tranning
             CheckBinding = new RelayCommand(new Action<object>(this.CheckBoxFun));
             CheckBox = new RelayCommand(new Action<object>(this.CheckBoxFun));
             Loaded = new RelayCommand(new Action<object>(this.LoadedBinding));
+            ComboSelect = new RelayCommand(new Action<object>(this.ComboSelectBinding));
 
 
             _selectdata = new DataTable();
@@ -83,10 +85,17 @@ namespace WPF_Tranning
 
         }
 
+        private void ComboSelectBinding(object obj) // 콤보 박스 선택시 이벤트 호출
+        {
+            var convert = obj;
+            MessageBox.Show("selectbox 선택 : " + convert);
+        }
+
         private void LoadedBinding(object obj)
         {
             var convert = (GridControl)obj;
-            convert.SelectItem(0); 
+            convert.SelectItem(0); // 포커스 0번으로 선택시켜 자동 선택 처리함
+                                   
     
         }
 
