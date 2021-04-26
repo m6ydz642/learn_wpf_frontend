@@ -164,6 +164,14 @@
         </dxe:ComboBoxEdit>
 
 
+
+        <Button ToolTip="{Binding Help}" Margin="195,63,0,5" HorizontalAlignment="Left" Width="75">도움말</Button>
+
+
+
+
+
+
     </Grid>
 
 

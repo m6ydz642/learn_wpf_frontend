@@ -31,6 +31,7 @@ namespace WPF_Tranning
     
         public DataSet _scoreDataSet;
 
+        public string Help { get; set; }
 
         public MainView()
         {
@@ -56,40 +57,14 @@ namespace WPF_Tranning
             _selectScore.Columns.Add("체크박스");
             _selectScore.Columns.Add("Score_id");
             _selectScore.Columns.Add("Score");
-            
-            /*   DataRow[] rows = _selecttable.Select();
 
-               int[] score = new int[rows.Length];
-               string[] scorecontent = new string[rows.Length];
 
-               for (int i = 0; i < rows.Length; i++)
-               {
-                   score[i] = (int)rows[i]["score_id"]; // 특정 컬럼만 꺼내와 배열에 담음
-                   scorecontent[i] = (string)rows[i]["Score"];
-                   _selectdata.Rows.Add(score[i], scorecontent[i]);
-               }*/
-            /*            _result = connectDB();
-
-                        foreach (DataRow row in _result.Tables[0].Rows) // 실제 지정 컬럼은 _selectdata에 있음
-                        {
-                            int score_id = (int)row.Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                            string score = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                            bool check = row.Field<bool>("체크박스");
-                            _selectdata.Rows.Add(score_id, score, check);
-
-                        }*/
-
-            // 바인딩이 되서 다 필요가 없어짐
-
+            Help = "도움말 입니다! \t\n테스트";
 
 
         }
 
-        private void ComboSelectBinding(object obj) // 콤보 박스 선택시 이벤트 호출
-        {
-            var convert = obj;
-            MessageBox.Show("selectbox 선택 : " + convert);
-        }
+ 
 
         private void LoadedBinding(object obj)
         {
@@ -99,23 +74,14 @@ namespace WPF_Tranning
     
         }
 
-        private void CheckBoxFun(object obj)
-        {
-            foreach (DataRow row in _selectdata.Rows) // 실제 지정 컬럼은 _selectdata에 있음
-            {
-                int score_id = (int)row.Field<int>("Score_id");
-                bool check = row.Field<bool>("체크박스");
-            }
-
-        }
-
+      
         public event PropertyChangedEventHandler PropertyChanged;
 
         private int _score_id;
         private string _score;
 
 
-      
+  
 
         public ScoreModel model;
 
@@ -172,7 +138,8 @@ namespace WPF_Tranning
         }
 
 
-
+        #region 데이터 바인딩 + DB
+        /******************************************************************************/
         public DataTable _selecttable;
         public DataTable SelectTable
         {
@@ -307,7 +274,11 @@ namespace WPF_Tranning
            
             }
         }
+        /******************************************************************************/
+        #endregion
 
+        #region 클릭이벤트
+        /******************************************************************************/
         private void SaveColumnFunction(object obj)
         {
             /*  int i = 0;
@@ -349,6 +320,22 @@ namespace WPF_Tranning
             SaveDB(_selectdata); // 테이블 통째로 전달
             var convert = (GridControl)obj;
   
+        }
+
+        private void ComboSelectBinding(object obj) // 콤보 박스 선택시 이벤트 호출
+        {
+            var convert = obj;
+            MessageBox.Show("selectbox 선택 : " + convert);
+        }
+
+        private void CheckBoxFun(object obj)
+        {
+            foreach (DataRow row in _selectdata.Rows) // 실제 지정 컬럼은 _selectdata에 있음
+            {
+                int score_id = (int)row.Field<int>("Score_id");
+                bool check = row.Field<bool>("체크박스");
+            }
+
         }
 
         private void CellValueChange(object obj)
@@ -417,6 +404,11 @@ namespace WPF_Tranning
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+
+
+        /******************************************************************************/
+        #endregion
 
 
     }
