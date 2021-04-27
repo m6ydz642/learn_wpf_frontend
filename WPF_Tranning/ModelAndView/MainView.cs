@@ -1,4 +1,5 @@
-﻿using DevExpress.Xpf.Grid;
+﻿using ClosedXML.Excel;
+using DevExpress.Xpf.Grid;
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -23,6 +24,7 @@ namespace WPF_Tranning
         public ICommand CheckBox { get; set; }
         public ICommand Loaded { get; set; }
         public ICommand ComboSelect { get; set; }
+        public ICommand SaveExcel { get; set; }
 
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
@@ -44,6 +46,7 @@ namespace WPF_Tranning
             CheckBox = new RelayCommand(new Action<object>(this.CheckBoxFun));
             Loaded = new RelayCommand(new Action<object>(this.LoadedBinding));
             ComboSelect = new RelayCommand(new Action<object>(this.ComboSelectBinding));
+            SaveExcel = new RelayCommand(new Action<object>(this.SaveExcelFun));
 
 
             _selectdata = new DataTable();
@@ -64,7 +67,20 @@ namespace WPF_Tranning
 
         }
 
- 
+        private void SaveExcelFun(object obj)
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                // https://github.com/closedxml/closedxml
+               
+                var worksheet = workbook.Worksheets.Add("Sample Sheet");
+                string filepath = @"C:\\Users\\m6ydz642\\source\\repos\\WPF_Tranning\\WPF_Tranning\\HelloWorld.xlsx";
+                worksheet.Cell("A1").Value = "Hello World!";
+                worksheet.Cell("A2").FormulaA1 = "=MID(A1, 7, 5)";
+                workbook.SaveAs(filepath);
+                MessageBox.Show("엑셀을 저장합니다\r\n파일경로 : " + filepath);
+            }
+        }
 
         private void LoadedBinding(object obj)
         {

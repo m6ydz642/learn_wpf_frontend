@@ -28,19 +28,13 @@ namespace WPF_Tranning
     
         }
 
-        private void scoreListViewD2B_Loaded(object sender, RoutedEventArgs e)
+        private void scoreListViewD2B_Loaded(object sender, RoutedEventArgs e) 
+            // 비하인드 코드 해당 그리드 컨트롤 로딩시 발생하는 이벤트 인데
+            // 지금은 안씀
         {
-            /* GridColumn a = scoreListViewD2B.Columns["Score_id"];
-     scoreListViewD2B.SetFocusedRowCellValue(a, "Score_id");*/
             var h = scoreListViewD2B.GetRowHandleByListIndex(3);
-
-    /*        var v = scoreListViewD2B.View.GetRowElementByRowHandle(h);
-            scoreListViewD2B.CurrentColumn = scoreListViewD2B.Columns["Score_id"];
-            tableview.FocusedRowHandle = h;
-            tableview.FocusedColumn = scoreListViewD2B.Columns.GetColumnByFieldName("Score_id");*/
             scoreListViewD2B.SelectItem(5);
-/*            tableview.FocusedRowHandle = 1;
-            tableview.Focus();*/
+
  
         }
 
@@ -63,26 +57,8 @@ namespace WPF_Tranning
             allChecked.Add(cb.Content.ToString());
             MessageBox.Show("sender : " + cb.Content.ToString());
 
-            /* List<CheckBox> checkBoxlist = new List<CheckBox>();
-             foreach (CheckBox c in checkBoxlist)
-             {
-                 if (c.IsChecked == true)
-                 {
-                     //Code when checkbox is checked
-                     var _tempTBL = (TextBlock)c.Content; //Get handle to TextBlock
-                     var foo = _tempTBL.Text; //Read TextBlock's text
-                                              //foo is now a string of the checkbox's content
-                     MessageBox.Show("foo : " + foo);
-                 }
-                 else
-                 {
-                     MessageBox.Show("체크된 값 없음");
-                 }
-             }*/
-
-
-
         }
+
         List<string> allChecked = new List<string>();
         private void valuebutton_Click(object sender, RoutedEventArgs e)
         {
