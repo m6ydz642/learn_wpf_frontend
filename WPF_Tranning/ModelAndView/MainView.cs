@@ -72,13 +72,22 @@ namespace WPF_Tranning
             using (var workbook = new XLWorkbook())
             {
                 // https://github.com/closedxml/closedxml
-               
-                var worksheet = workbook.Worksheets.Add("Sample Sheet");
-                string filepath = @"C:\\Users\\m6ydz642\\source\\repos\\WPF_Tranning\\WPF_Tranning\\HelloWorld.xlsx";
-                worksheet.Cell("A1").Value = "Hello World!";
-                worksheet.Cell("A2").FormulaA1 = "=MID(A1, 7, 5)";
-                workbook.SaveAs(filepath);
-                MessageBox.Show("엑셀을 저장합니다\r\n파일경로 : " + filepath);
+
+                try
+                {
+                    var worksheet = workbook.Worksheets.Add("Sample Sheet");
+                    string filepath = @"C:\\Users\\m6ydz642\\source\\repos\\WPF_Tranning\\WPF_Tranning\\HelloWorld.xlsx";
+                    worksheet.Cell("A1").Value = "Hello World!";
+                    worksheet.Cell("A2").FormulaA1 = "=MID(A1, 7, 6)"; // FormulaA1 (A1) 의 셀을 참조에 7번째부터 6자리수 까지 출력
+                    worksheet.Range("C1:D2").Merge();
+                    worksheet.Cell("C1").Value = "와우";
+                    workbook.SaveAs(filepath);
+                    MessageBox.Show("엑셀을 저장합니다\r\n파일경로 : " + filepath);
+                }
+                catch (System.IO.IOException e)
+                {
+                    MessageBox.Show("파일이 사용중입니다\r\n다른곳에서 파일이 사용중이므로 사용할 수 없습니다");
+                }
             }
         }
 
