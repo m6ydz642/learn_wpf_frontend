@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using WPF_Tranning.Model;
@@ -82,21 +83,20 @@ namespace WPF_Tranning
                     worksheet.Range("C1:D2").Merge();
                     worksheet.Cell("C1").Value = "와우";
                     workbook.SaveAs(filepath);
-                    MessageBox.Show("엑셀을 저장합니다\r\n파일경로 : " + filepath);
+                    MessageBox.Show("엑셀을 저장후 실행 합니다\r\n파일경로 : " + filepath);
+                    Process.Start(filepath); // 자동실행
                 }
                 catch (System.IO.IOException e)
                 {
-                    MessageBox.Show("파일이 사용중입니다\r\n다른곳에서 파일이 사용중이므로 사용할 수 없습니다");
+                    MessageBox.Show("파일이 사용중입니다\r\n다른곳에서 파일이 사용중이거나 기타 오류가 발생하여 사용할 수 없습니다");
                 }
             }
         }
 
-        private void LoadedBinding(object obj)
+        private void LoadedBinding(object obj) // 그리드 컨트롤 로딩시
         {
             var convert = (GridControl)obj;
             convert.SelectItem(0); // 포커스 0번으로 선택시켜 자동 선택 처리함
-                                   
-    
         }
 
       
