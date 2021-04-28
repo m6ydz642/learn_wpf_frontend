@@ -26,13 +26,16 @@ namespace WPF_Tranning
         public ICommand Loaded { get; set; }
         public ICommand ComboSelect { get; set; }
         public ICommand SaveExcel { get; set; }
+        public ICommand ConnectDB { get; set; }
 
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
         /**********************************************************************/
         public DataTable _datatable;
-    
+
         public DataSet _scoreDataSet;
+
+
 
         public string Help { get; set; }
 
@@ -48,6 +51,7 @@ namespace WPF_Tranning
             Loaded = new RelayCommand(new Action<object>(this.LoadedBinding));
             ComboSelect = new RelayCommand(new Action<object>(this.ComboSelectBinding));
             SaveExcel = new RelayCommand(new Action<object>(this.SaveExcelFun));
+            ConnectDB = new RelayCommand(new Action<object>(this.ConnectDBFun));
 
 
             _selectdata = new DataTable();
@@ -66,6 +70,11 @@ namespace WPF_Tranning
             Help = "도움말 입니다! \t\n테스트";
 
 
+        }
+
+        private void ConnectDBFun(object obj)
+        {
+            ConnectBinding = _originalDB;
         }
 
         private void SaveExcelFun(object obj)
@@ -99,14 +108,14 @@ namespace WPF_Tranning
             convert.SelectItem(0); // 포커스 0번으로 선택시켜 자동 선택 처리함
         }
 
-      
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private int _score_id;
         private string _score;
 
 
-  
+
 
         public ScoreModel model;
 
@@ -118,7 +127,7 @@ namespace WPF_Tranning
             get { return _continentName; }
             set { _continentName = value; OnPropertyChanged("ContinentName"); }
         }
-       
+
 
 
 
@@ -154,7 +163,7 @@ namespace WPF_Tranning
         }
         private void OnPropertyChanged(string propertyName)
         {
-        
+
             if (PropertyChanged != null)
             {
                 MessageBox.Show("프로퍼티 체인지");
@@ -175,8 +184,8 @@ namespace WPF_Tranning
 
                 //   Notify("SelectTable");
             }
-        }     
-        
+        }
+
         private DataTable _selectScore;
         public DataTable Select_Score
         {
@@ -214,7 +223,17 @@ namespace WPF_Tranning
             }
         }
 
-       
+
+        private DataTable _connectBinding;
+        public DataTable ConnectBinding
+        {
+            get { return _connectBinding; }
+            set { _connectBinding = value; 
+                Notify("ConnectBinding"); }
+        }
+
+
+
 
         public DataSet connectDB()
         {
@@ -254,7 +273,7 @@ namespace WPF_Tranning
 
             SqlCommand cmd = new SqlCommand("Score_Select", connection);
             cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
-            cmd.Parameters.Add("@Score_id", SqlDbType.Int).Value = score_id; 
+            cmd.Parameters.Add("@Score_id", SqlDbType.Int).Value = score_id;
 
 
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
@@ -286,8 +305,6 @@ namespace WPF_Tranning
         }
 
 
-
-
         private DataTable _originalDB;
         public DataTable OriginalDB // DB원본
         {
@@ -306,40 +323,7 @@ namespace WPF_Tranning
         /******************************************************************************/
         private void SaveColumnFunction(object obj)
         {
-            /*  int i = 0;
-              foreach (DataRow row in _selectdata.Rows) // 실제 지정 컬럼은 _selectdata에 있음
-              {
-
-                      int score_id = (int)row.Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                      string score = row.Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-
-                  // 비교용 (기존데이터)
-                  DataRow[] a = _originalDB.Select();
-                  if (i < _selectdata.Rows.Count-1) // insert포함해서 총 갯수가 8개인데 원본대상은 7개이면 if문 안에 i배열에서 범위초과되서 +1 더해서 조건 안들어가게 
-                  {
-                      // int score_id2 = connectDB().Tables[0].Rows[0].Field<int>("Score_id");
-                      string score2 = a[i].Field<string>("Score").ToString(); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                      int score_id2 = (int)a[i].Field<int>("Score_id"); // 수정된 내용을 _selectdata 테이블로 부터 전달받음
-                      i++;
-
-                      if (score2.Equals(score) && score_id.Equals(score_id2))
-                      {
-                          continue;
-                      }
-                      else
-                      {
-                          UpdateDB(score_id, score); // update 처리
-
-                      }
-                  }
-                  else
-                  {
-                      UpdateDB(score_id, score); // insert처리
-                  }
-
-
-              }*/
-            // string value = _selectdata.GetChanges(DataRowState.Modified); // 저장부분 구분하는거 잠시 보류
+            // string value = _selectdata.GetChanges(DataRowState.Modified); // 수정, 추가 여부 구분하는거 잠시 보류
 
 
             SaveDB(_selectdata); // 테이블 통째로 전달
