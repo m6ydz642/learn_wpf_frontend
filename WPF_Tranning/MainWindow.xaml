@@ -168,30 +168,41 @@
 
         <Button ToolTip="{Binding Help}" Margin="195,63,0,5" HorizontalAlignment="Left" Width="75">도움말</Button>
         <Button Command="{Binding SaveExcel}" CommandParameter="{Binding ElementName=addColumn}" 
-                Margin="0,63,19,5" Grid.Column="1" HorizontalAlignment="Right" Width="75">엑셀저장</Button>
+                Margin="0,58,131,10" Grid.Column="1" HorizontalAlignment="Right" Width="75">엑셀저장</Button>
 
-        <Button Command="{Binding ConnectDB}" Margin="145,337,0,357" HorizontalAlignment="Left" Width="105" Grid.Row="1">바인딩 요청</Button>
+        <Button Command="{Binding ConnectDB}" Margin="0,384,131,310" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="105">바인딩 요청</Button>
 
 
         <dxg:GridControl Grid.Row="1" Background="Yellow" 
                            x:Name="bindingDB" AutoGenerateColumns="AddNew" 
-                           Margin="103,372,40,0" ItemsSource="{Binding ConnectBinding, Mode=TwoWay,  
-                            UpdateSourceTrigger=PropertyChanged}">
+                           Margin="83,411,131,36" ItemsSource="{Binding ConnectBinding, Mode=TwoWay,  
+                            UpdateSourceTrigger=PropertyChanged}" Grid.Column="1">
+
+
+            <dxg:GridControl.Bands>
+                <dxg:GridControlBand Header="구분">
+
+                    <dxg:GridColumn FieldName="Score_id" Width="50*" Header="스코어번호"/>
+                    <dxg:GridColumn FieldName="Score" Width="100*" Header="스코어점수"  />
+                    <!--체크박스 및 체크박스 영역, 컬럼-->
+                    <dxg:GridColumn  FieldName="체크박스" Width="50*" Header="체크박스" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:CheckEditSettings/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+
+                </dxg:GridControlBand>
+
+                <dxg:GridControlBand Header="기타">
+                    <dxg:GridColumn FieldName="modify" Width="50*" Header="수정날짜"/>
+                    <dxg:GridColumn FieldName="createdt" Width="50*"  Header="생성날짜"/>
+                </dxg:GridControlBand>
+
+            </dxg:GridControl.Bands>
+
             <dxg:GridControl.View>
-                <dxg:TableView ShowTotalSummary="True" />
+                <dxg:TableView AutoWidth="True"  />
             </dxg:GridControl.View>
-
-
-            <!--체크박스 및 체크박스 영역, 컬럼-->
-            <dxg:GridColumn  FieldName="체크박스" Header="체크박스" Width="100" VisibleIndex="0">
-                <dxg:GridColumn.EditSettings>
-                    <dxe:CheckEditSettings/>
-                </dxg:GridColumn.EditSettings>
-            </dxg:GridColumn>
-
-            <dxg:GridColumn  FieldName="Score_id" Header="스코어번호"/>
-            <dxg:GridColumn FieldName="Score" Header="스코어점수" />
-
 
         </dxg:GridControl>
 
