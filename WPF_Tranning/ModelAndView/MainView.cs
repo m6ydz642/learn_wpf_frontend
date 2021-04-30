@@ -325,9 +325,10 @@ namespace WPF_Tranning
         {
             // string value = _selectdata.GetChanges(DataRowState.Modified); // 수정, 추가 여부 구분하는거 잠시 보류
 
-
-            SaveDB(_selectdata); // 테이블 통째로 전달
             var convert = (GridControl)obj;
+            SaveDB(_selectdata); // 테이블 통째로 전달
+            MessageBox.Show("저장 되었습니다");
+            SelectContent = _selectdata; // merge문 할때 들어가있던 datatable DB다시 호출 (새로 고침)
   
         }
 
