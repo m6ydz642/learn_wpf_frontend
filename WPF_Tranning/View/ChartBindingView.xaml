@@ -9,7 +9,7 @@
              d:DesignHeight="831" d:DesignWidth="1266">
     <Grid>
 
-        <dxc:ChartControl Margin="469,134,81,201" DataSource="{Binding Data}" >
+        <dxc:ChartControl Margin="369,135,181,200" DataSource="{Binding Data}" >
             <dxc:ChartControl.CrosshairOptions>
                 <dxc:CrosshairOptions ShowArgumentLabels="True" 
                                       ShowValueLabels="True" 
