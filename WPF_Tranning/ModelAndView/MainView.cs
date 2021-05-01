@@ -406,8 +406,13 @@ namespace WPF_Tranning
 
         private void ComboSelectBinding(object obj) // 콤보 박스 선택시 이벤트 호출
         {
+            var convert = (DevExpress.Xpf.Editors.ComboBoxEdit)obj;
+            DataRowView oDataRowView = convert.SelectedItem as DataRowView;
 
-            
+            string Value = oDataRowView.Row["Score_id"].ToString();
+
+            MessageBox.Show("selectbox 선택 : " + Value);
+
         }
 
         private void CheckBoxFun(object obj)
