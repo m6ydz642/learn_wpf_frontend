@@ -174,7 +174,8 @@
 
 
         <Button Command="{Binding SaveExcelGrid}" CommandParameter="{Binding ElementName=ScoreDBTableView}" 
-                Margin="0,63,520,5" HorizontalAlignment="Right" Width="100">Grid엑셀저장</Button>
+                Margin="0,63,520,5" HorizontalAlignment="Right" Width="100"
+                ToolTip="{Binding DataModel.GridExcelHelp}">Grid엑셀저장</Button>
 
         
         <Button Command="{Binding ConnectDB}" Margin="0,384,41,310" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="105">바인딩 요청</Button>

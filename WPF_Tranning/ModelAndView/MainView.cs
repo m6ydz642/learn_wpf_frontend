@@ -22,6 +22,8 @@ namespace WPF_Tranning
 
     class MainView : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public ICommand AddColumn { get; set; }
         public ICommand CheckBinding { get; set; }
         public ICommand SelectEvent { get; set; }
@@ -41,13 +43,22 @@ namespace WPF_Tranning
 
         public DataSet _scoreDataSet;
 
-
+        private Tranning_Model _dataModel;
+        public Tranning_Model DataModel
+        {
+            get { return _dataModel; }
+            set
+            {
+                _dataModel = value;
+                OnPropertyChanged("DataModel");
+            }
+        }
 
         public string Help { get; set; }
 
         public MainView()
         {
-            model = new ScoreModel();
+            model = new Tranning_Model();
             AddColumn = new RelayCommand(new Action<object>(this.AddContent));
             SelectEvent = new RelayCommand(new Action<object>(this.SelectEventFun));
             CellValueChangedCommand = new RelayCommand(new Action<object>(this.CellValueChange));
@@ -59,28 +70,29 @@ namespace WPF_Tranning
             SaveExcel = new RelayCommand(new Action<object>(this.SaveExcelFun));
             ConnectDB = new RelayCommand(new Action<object>(this.ConnectDBFun));
             SaveExcelGrid = new RelayCommand(new Action<object>(this.SaveExcelGridFunction));
-
+            DataModel = new Tranning_Model();
 
             _selectdata = new DataTable();
-
             _selectdata = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
-            _originalDB = connectDB().Tables[0]; // 원본데이터
+            _originalDB = connectDB().Tables[0]; // 원본데이터 (테스트용?)0
             _scoreDataSet = new DataSet();
             _scoreDataSet = connectDB();
-            // _selectScore = connectDB().Tables[0]; 
+
             _selectScore = new DataTable();
             _selectScore.Columns.Add("체크박스");
             _selectScore.Columns.Add("Score_id");
             _selectScore.Columns.Add("Score");
 
+            ToolTipMessage();
 
-            Help = "도움말 입니다! \t\n테스트";
 
-
-        
         }
 
-
+        private void ToolTipMessage()
+        {
+            Help = "도움말 입니다! \t\n테스트"; // 일반 스트링
+            DataModel.GridExcelHelp = "그리드 컨트롤의 엑셀파일을 다운로드할 수 있습니다";
+        }
 
         private bool FileIsUse(string strFilePath, ref string strErr)
             // 호출될때 strErr 값은 ""로 들어가지만 ref 로 참조중이라 예외 뜨면 strErr값에 값 들어감 
@@ -166,7 +178,6 @@ namespace WPF_Tranning
         }
 
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
         private int _score_id;
         private string _score;
@@ -174,7 +185,7 @@ namespace WPF_Tranning
 
 
 
-        public ScoreModel model;
+        public Tranning_Model model;
 
         private string _continentName;
         public string ContinentName
@@ -220,13 +231,32 @@ namespace WPF_Tranning
         }
         private void OnPropertyChanged(string propertyName)
         {
-
-            if (PropertyChanged != null)
+            /*
+                        if (PropertyChanged != null)
+                        {
+                            MessageBox.Show("프로퍼티 체인지");
+                            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                        }*/
+           // MessageBox.Show("프로퍼티 체인지");
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
             {
-                MessageBox.Show("프로퍼티 체인지");
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+        }
+
+        private void Notify(string propertyName)
+        {
+            //  MessageBox.Show("Notify호출");
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+
 
 
         #region 데이터 바인딩 + DB
@@ -461,17 +491,7 @@ namespace WPF_Tranning
 
     
 
-        private void Notify(string propertyName)
-        {
-           //  MessageBox.Show("Notify호출");
-            // take a copy to prevent thread issues
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
+   
 
 
         /******************************************************************************/

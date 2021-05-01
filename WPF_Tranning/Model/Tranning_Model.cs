@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace WPF_Tranning.Model
 {
-    class ScoreModel
+    class Tranning_Model
     {
         public int Score_id { get; set; }
         public string Score { get; set; }
+
+        // Tooltip
+        public string GridExcelHelp { get; set; }
     }
 }
