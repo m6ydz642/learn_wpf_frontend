@@ -12,17 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Tranning.ModelAndView;
 
-namespace WPF_Tranning.ModelAndView
+namespace WPF_Tranning.View
 {
     /// <summary>
-    /// Page1.xaml에 대한 상호 작용 논리
+    /// ChartBindingView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class Page1 : Page
+    public partial class ChartBindingView : UserControl
     {
-        public Page1()
+        public ChartBindingView()
         {
             InitializeComponent();
+            DataContext = new ChartModelView();
         }
     }
 }

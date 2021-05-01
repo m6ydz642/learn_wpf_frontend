@@ -18,6 +18,7 @@ using DevExpress.Xpf.WindowsUI;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Media.Imaging;
+using WPF_Tranning.View;
 
 namespace WPF_Tranning
 {
@@ -45,7 +46,8 @@ namespace WPF_Tranning
 
         private void LoadingChartBinding(object obj)
         {
-            MessageBox.Show("준비중");        
+            var convert = (NavigationFrame)obj;
+            convert.Source = new ChartBindingView();
         }
 
         private void LoadingStartPage(object obj)
