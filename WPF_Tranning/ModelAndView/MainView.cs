@@ -1,5 +1,5 @@
 ﻿using ClosedXML.Excel;
-using DevExpress.Xpf.Grid;
+
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -11,6 +11,11 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using WPF_Tranning.Model;
+using DevExpress.Utils;
+using DevExpress.XtraEditors;
+using DevExpress.Xpf.Grid;
+/*using GridControl = DevExpress.Xpf.Grid.GridControl; 
+// ExportToXlsx사용사 참조 모호오류떠서 바인딩할때 인자로 받아 쓰던 그리드 컨트롤은 xpf.grid로 직접 지정*/
 
 namespace WPF_Tranning
 {
@@ -27,6 +32,7 @@ namespace WPF_Tranning
         public ICommand ComboSelect { get; set; }
         public ICommand SaveExcel { get; set; }
         public ICommand ConnectDB { get; set; }
+        public ICommand SaveExcelGrid { get; set; }
 
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
@@ -52,6 +58,7 @@ namespace WPF_Tranning
             ComboSelect = new RelayCommand(new Action<object>(this.ComboSelectBinding));
             SaveExcel = new RelayCommand(new Action<object>(this.SaveExcelFun));
             ConnectDB = new RelayCommand(new Action<object>(this.ConnectDBFun));
+            SaveExcelGrid = new RelayCommand(new Action<object>(this.SaveExcelGridFunction));
 
 
             _selectdata = new DataTable();
@@ -70,6 +77,56 @@ namespace WPF_Tranning
             Help = "도움말 입니다! \t\n테스트";
 
 
+        
+        }
+
+
+
+        private bool FileIsUse(string strFilePath, ref string strErr)
+            // 호출될때 strErr 값은 ""로 들어가지만 ref 로 참조중이라 예외 뜨면 strErr값에 값 들어감 
+        {
+            try
+            {
+                using (System.IO.FileStream fs = new System.IO.FileStream
+                    (strFilePath, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read))
+                { //파일 닫기...
+                  fs.Close(); 
+                } 
+            } catch (Exception ex) { 
+                strErr = ex.Message.ToString(); // 예외 걸려서 메시지 들어오는 부분을 호출되는 매개변수 ref가 참조함
+                return false; 
+            } return true; // 예외에 해당하지 않으면
+        }
+
+       
+        private void SaveExcelGridFunction(object obj)
+        {
+            // var convert = (DevExpress.XtraGrid.GridControl)obj;
+
+            string path = "output.xlsx";
+            string strErr = "";
+            bool status = FileIsUse(path, ref strErr); // ref 키워드 없애고 예외시 false만 리턴해도 됨
+
+            if (status)
+            {
+                var convert = (TableView)obj; // GridControl이 아니라 TableView였음 ㅡㅡ;;
+              
+                convert.ExportToXlsx(path);
+                MessageBox.Show("GridControl을 통째로 엑셀 다운로드를 시작합니다");
+                Process.Start(path); // 자동 실행
+            }
+            else
+            {
+                MessageBox.Show("파일이 이미 열려있어서 실행할 수 없습니다\r\n파일을 닫아주십시오");
+            }
+
+        // https://supportcenter.devexpress.com/ticket/details/t370581/export-to-excel-a-gridcontrol
+        // Gridcontrol 통째로 엑셀 내려받는 샘플 프로젝트 
+
+        // https://docs.devexpress.com/WPF/DevExpress.Xpf.Grid.TableView.ExportToXlsx.overloads
+        // table view라고 되어있는 곳도 있음
+
+   
         }
 
         private void ConnectDBFun(object obj)

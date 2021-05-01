@@ -42,7 +42,7 @@
         <dxg:GridControl  Grid.Column="0" Grid.Row="1"  SelectionMode="Row" SelectedItem="{Binding SelectEvent}" AutoGenerateColumns="AddNew" x:Name="scoreListViewD2B"  ItemsSource="{Binding SelectContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="40,25,40,347" >
 
             <dxg:GridControl.View>
-                <dxg:TableView x:Name="tableview" >
+                <dxg:TableView x:Name="ScoreDBTableView" >
                     <!--<dxmvvm:Interaction.Behaviors>
                         <dxmvvm:EventToCommand EventName="SelectionChanged" PassEventArgsToCommand="True" Command="{Binding SelectEvent}"/>
 
@@ -141,6 +141,8 @@
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
+            <Button Command="{Binding SaveExcel}" CommandParameter="{Binding ElementName=addColumn}" 
+                Margin="0,61,-730,97" Grid.Column="1" HorizontalAlignment="Right" Width="75" Content="엑셀저장" Grid.RowSpan="2"/>
         </Grid>
 
         <!--선택한 값 - ValueMember -->
@@ -170,6 +172,11 @@
         <Button Command="{Binding SaveExcel}" CommandParameter="{Binding ElementName=addColumn}" 
                 Margin="0,61,41,7" Grid.Column="1" HorizontalAlignment="Right" Width="75">엑셀저장</Button>
 
+
+        <Button Command="{Binding SaveExcelGrid}" CommandParameter="{Binding ElementName=ScoreDBTableView}" 
+                Margin="0,63,520,5" HorizontalAlignment="Right" Width="100">Grid엑셀저장</Button>
+
+        
         <Button Command="{Binding ConnectDB}" Margin="0,384,41,310" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="105">바인딩 요청</Button>
 
 
