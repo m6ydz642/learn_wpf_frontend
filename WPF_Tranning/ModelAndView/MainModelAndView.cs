@@ -31,6 +31,7 @@ namespace WPF_Tranning
         public ICommand GridControlMenu { get; set; }
         public ICommand StartPage { get; set; }
         public ICommand ChartBindingMenu { get; set; }
+        public ICommand PivotGridControl { get; set; }
         
       
         
@@ -42,6 +43,13 @@ namespace WPF_Tranning
             GridControlMenu = new RelayCommand(new Action<object>(this.GridControlMenuUri));
             StartPage = new RelayCommand(new Action<object>(this.LoadingStartPage));
             ChartBindingMenu = new RelayCommand(new Action<object>(this.LoadingChartBinding));
+            PivotGridControl = new RelayCommand(new Action<object>(this.LoadingPivotGridControl));
+        }
+
+        private void LoadingPivotGridControl(object obj)
+        {
+            var convert = (NavigationFrame)obj;
+            convert.Source = new PivotGridControlView();
         }
 
         private void LoadingChartBinding(object obj)
