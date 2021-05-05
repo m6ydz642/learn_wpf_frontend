@@ -20,7 +20,7 @@ using DevExpress.Xpf.Grid;
 namespace WPF_Tranning
 {
 
-    class MainView : INotifyPropertyChanged
+    class GridControlModelAndView : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -33,15 +33,14 @@ namespace WPF_Tranning
         public ICommand Loaded { get; set; }
         public ICommand ComboSelect { get; set; }
         public ICommand SaveExcel { get; set; }
-        public ICommand ConnectDB { get; set; }
+        public ICommand GetBindingScoreInfomation { get; set; }
         public ICommand SaveExcelGrid { get; set; }
 
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
         /**********************************************************************/
-        public DataTable _datatable;
 
-        public DataSet _scoreDataSet;
+        private DataSet _scoreDataSet;
 
         private Tranning_Model _dataModel;
         public Tranning_Model DataModel
@@ -56,10 +55,10 @@ namespace WPF_Tranning
 
         public string Help { get; set; }
 
-        public MainView()
+        public GridControlModelAndView()
         {
             DataModel = new Tranning_Model();
-            AddColumn = new RelayCommand(new Action<object>(this.AddContent));
+            AddColumn = new RelayCommand(new Action<object>(this.AddContentEvent));
             SelectEvent = new RelayCommand(new Action<object>(this.SelectEventFun));
             CellValueChangedCommand = new RelayCommand(new Action<object>(this.CellValueChange));
             SaveColumn = new RelayCommand(new Action<object>(this.SaveColumnFunction));
@@ -68,24 +67,20 @@ namespace WPF_Tranning
             Loaded = new RelayCommand(new Action<object>(this.LoadedBinding));
             ComboSelect = new RelayCommand(new Action<object>(this.ComboSelectBinding));
             SaveExcel = new RelayCommand(new Action<object>(this.SaveExcelFun));
-            ConnectDB = new RelayCommand(new Action<object>(this.ConnectDBFun));
             SaveExcelGrid = new RelayCommand(new Action<object>(this.SaveExcelGridFunction));
+            GetBindingScoreInfomation = new RelayCommand(new Action<object>(this.GetBindingScoreInfo));
 
-            _selectdata = new DataTable();
-            _selectdata = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
-            _originalDB = connectDB().Tables[0]; // 원본데이터 (테스트용?)0
+            GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+            GetBindingScoreData = new DataTable();
             _scoreDataSet = new DataSet();
-            _scoreDataSet = connectDB();
-
-            _selectScore = new DataTable();
-            _selectScore.Columns.Add("체크박스");
-            _selectScore.Columns.Add("Score_id");
-            _selectScore.Columns.Add("Score");
+            _scoreDataSet = GetScoreInfo();
 
             ToolTipMessage();
 
 
         }
+
+    
 
         private void ToolTipMessage()
         {
@@ -140,10 +135,28 @@ namespace WPF_Tranning
    
         }
 
-        private void ConnectDBFun(object obj)
+     
+      
+
+
+
+
+
+        private void OnPropertyChanged(string propertyName)
         {
-            ConnectBinding = _originalDB;
+            //  MessageBox.Show("OnPropertyChanged 호출");
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
+
+
+
+
+
+        #region 클릭이벤트
 
         private void SaveExcelFun(object obj)
         {
@@ -170,237 +183,21 @@ namespace WPF_Tranning
             }
         }
 
-        private void LoadedBinding(object obj) // 그리드 컨트롤 로딩시
-        {
-            var convert = (GridControl)obj;
-            convert.SelectItem(0); // 포커스 0번으로 선택시켜 자동 선택 처리함
-        }
-
-
-
-        private int _score_id;
-        private string _score;
-
-
-
-
-        public int Score_id
-        {
-            get { return _score_id; }
-            set
-            {
-                _score_id = value;
-                OnPropertyChanged("Score_id");
-            }
-        }
-
-        public string Score
-        {
-            get { return _score; }
-            set
-            {
-                _score = value;
-                OnPropertyChanged("Score");
-            }
-        }
-
-        private bool? _mutualChb;
-        public bool? MutualChb
-        {
-            get { return (_mutualChb != null) ? _mutualChb : false; }
-            set
-            {
-                _mutualChb = value;
-                OnPropertyChanged("MutualChb");
-            }
-        }
-        private void OnPropertyChanged(string propertyName)
-        {
-            /*
-                        if (PropertyChanged != null)
-                        {
-                            MessageBox.Show("프로퍼티 체인지");
-                            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-                        }*/
-           // MessageBox.Show("프로퍼티 체인지");
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-
-        }
-
-        private void Notify(string propertyName)
-        {
-            //  MessageBox.Show("Notify호출");
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-
-
-
-        #region 데이터 바인딩 + DB
         /******************************************************************************/
-        public DataTable _selecttable;
-        public DataTable SelectTable
+        private void GetBindingScoreInfo(object obj) // 바인딩 요청 클릭시 가져오는 데이터
         {
-            get {/* MessageBox.Show("데이터 테이블");*/ return _selecttable; }
-            set
-            {
-                _selecttable = value;
-
-                //   Notify("SelectTable");
-            }
+            GetBindingScoreData = GetScoreInfo().Tables[0]; // 다른그리드 컨트롤에서 가져오는 GetScoreInfomation 데이터 테이블을 가져와도 되지만   
+                                                            // 다른 그리드 컨트롤을 안쓰고 한개만 만들었다 가정 
+          //  GetBindingScoreData = GetScoreInfomation; // 도 사용가능
         }
-
-        private DataTable _selectScore;
-        public DataTable Select_Score
-        {
-            get {/* MessageBox.Show("데이터 테이블");*/ return _selectScore; }
-            set
-            {
-                _selectScore = value;
-
-                Notify("Select_Score"); // 이거없으면 프로퍼티 체인지 값이 바뀌었다고 안알려져서 적용이 안됨
-            }
-        }
-
-        private DataTable _selectdata;
-
-        public DataTable SelectContent // 컨텐트 부분 내용
-        {
-            get {/* MessageBox.Show("데이터 테이블");*/ return _selectdata; }
-            set
-            {
-                _selectdata = value;
-
-                //   Notify("SelectContent");
-            }
-        }
-
-
-        public DataTable DataTable
-        {
-            get { return _datatable; }
-            set
-            {
-                _datatable = value;
-                MessageBox.Show("데이터 테이블");
-                //   RaisePropertyChanged("DataTable");
-            }
-        }
-
-
-        private DataTable _connectBinding;
-        public DataTable ConnectBinding
-        {
-            get { return _connectBinding; }
-            set { _connectBinding = value; 
-                Notify("ConnectBinding"); }
-        }
-
-
-
-
-        public DataSet connectDB()
-        {
-            string selectQuery = ConfigurationManager.AppSettings["selectScore"];
-            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
-            connection.Open(); // DB연결
-
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(selectQuery, connection); // DB통로
-            DataSet dataSet = new DataSet();
-            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
-            return dataSet;
-        }
-
-        public DataSet UpdateDB(int score_id, string score)
-        {
-            string selectQuery = ConfigurationManager.AppSettings["Score_Modify"];
-            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
-            connection.Open(); // DB연결
-
-            SqlCommand cmd = new SqlCommand("Score_Modify", connection);
-            cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
-            cmd.Parameters.Add("@Score_id", SqlDbType.Int).Value = score_id; // 스트링으로 전달받아도 타입이 int로 들어가네?
-            cmd.Parameters.Add("@Score", SqlDbType.VarChar).Value = score;         // 프로시저 전달받을 매개변수
-
-
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
-            DataSet dataSet = new DataSet();
-            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
-            return dataSet;
-        }
-
-        public DataSet SelectDB(int score_id)
-        {
-            string selectQuery = ConfigurationManager.AppSettings["Score_Select"];
-            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
-            connection.Open(); // DB연결
-
-            SqlCommand cmd = new SqlCommand("Score_Select", connection);
-            cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
-            cmd.Parameters.Add("@Score_id", SqlDbType.Int).Value = score_id;
-
-
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
-            DataSet dataSet = new DataSet();
-            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
-            return dataSet;
-
-
-        }
-
-
-        public DataSet SaveDB(DataTable table)
-        {
-            string selectQuery = ConfigurationManager.AppSettings["Save_Score"];
-            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
-            connection.Open(); // DB연결
-
-            SqlCommand cmd = new SqlCommand("Save_Score", connection);
-            cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
-            cmd.Parameters.Add("@Get_SaveScore", SqlDbType.Structured).Value = table;
-
-
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
-            DataSet dataSet = new DataSet();
-            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
-            return dataSet;
-
-
-        }
-
-
-        private DataTable _originalDB;
-        public DataTable OriginalDB // DB원본
-        {
-            get { return _originalDB; }
-            set
-            {
-                _originalDB = value;
-
-           
-            }
-        }
-        /******************************************************************************/
-        #endregion
-
-        #region 클릭이벤트
-        /******************************************************************************/
-        private void SaveColumnFunction(object obj)
+        private void SaveColumnFunction(object obj) // 저장
         {
             // string value = _selectdata.GetChanges(DataRowState.Modified); // 수정, 추가 여부 구분하는거 잠시 보류
 
             var convert = (GridControl)obj;
-            SaveDB(_selectdata); // 테이블 통째로 전달
-            MessageBox.Show("저장 되었습니다");
-            SelectContent = _selectdata; // merge문 할때 들어가있던 datatable DB다시 호출 (새로 고침)
+            ModifyScoreInfo(GetScoreInfomation); // 테이블 통째로 전달하여 수정, 추가 처리함
+            MessageBox.Show("데이터가 저장되었습니다");
+            GetScoreInfomation = _getScoreInfomation; // 수정할때 들어가있던 datatable DB다시 호출 (새로 고침)
   
         }
 
@@ -417,7 +214,7 @@ namespace WPF_Tranning
 
         private void CheckBoxFun(object obj)
         {
-            foreach (DataRow row in _selectdata.Rows) // 실제 지정 컬럼은 _selectdata에 있음
+            foreach (DataRow row in _getScoreInfomation.Rows) // 실제 지정 컬럼은 _selectdata에 있음
             {
                 int score_id = (int)row.Field<int>("Score_id");
                 bool check = row.Field<bool>("체크박스");
@@ -469,24 +266,159 @@ namespace WPF_Tranning
          
         }
 
-        public void AddContent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
+        public void AddContentEvent(object obj) // new Action<Object>타입으로 넣어서 여기도 대리자 형에 맞게 넣어야 됨
         {
             var convert = (GridControl)obj;
-            DataRow oRow = _selectdata.NewRow();
-            _selectdata.Rows.Add(oRow);
-
-            // convert.CurrentItem = (convert).GetRowByListIndex( (int)convert.ItemsSource
+            DataRow oRow = GetScoreInfomation.NewRow();
+            GetScoreInfomation.Rows.Add(oRow);
             convert.View.ShowEditor();
         }
-
-    
-
-   
 
 
         /******************************************************************************/
         #endregion
 
+
+
+        #region 로드 이벤트 
+        /******************************************************************************/
+
+        private void LoadedBinding(object obj) // 그리드 컨트롤 로딩시
+        {
+            var convert = (GridControl)obj;
+            convert.SelectItem(0); // 포커스 0번으로 선택시켜 자동 선택 처리함
+        }
+        /******************************************************************************/
+
+        #endregion
+
+
+
+
+        #region 데이터 바인딩 + DB
+        /******************************************************************************/
+        public DataTable _selecttable;
+        public DataTable SelectTable
+        {
+            get {/* MessageBox.Show("데이터 테이블");*/ return _selecttable; }
+            set
+            {
+                _selecttable = value;
+
+                //   OnPropertyChanged("SelectTable");
+            }
+        }
+
+        private DataTable _selectScore;
+        public DataTable Select_Score
+        {
+            get {/* MessageBox.Show("데이터 테이블");*/ return _selectScore; }
+            set
+            {
+                _selectScore = value;
+
+                OnPropertyChanged("Select_Score"); // 이거없으면 프로퍼티 체인지 값이 바뀌었다고 안알려져서 적용이 안됨
+            }
+        }
+
+        private DataTable _getScoreInfomation;
+
+        public DataTable GetScoreInfomation
+        {
+            get {/* MessageBox.Show("데이터 테이블");*/ return _getScoreInfomation; }
+            set
+            {
+                _getScoreInfomation = value;
+
+                //    OnPropertyChanged("GetScoreInfomation"); // 최초로 가져올 데이터는 property change해서 알려줄 필요가 없다
+            }
+        }
+
+        public DataSet GetScoreInfo()
+        {
+            string selectQuery = ConfigurationManager.AppSettings["selectScore"];
+            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+            connection.Open(); // DB연결
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(selectQuery, connection); // DB통로
+            DataSet dataSet = new DataSet();
+            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            return dataSet;
+        }
+
+        public DataSet UpdateDB(int score_id, string score)
+        {
+            string selectQuery = ConfigurationManager.AppSettings["Score_Modify"];
+            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+            connection.Open(); // DB연결
+
+            SqlCommand cmd = new SqlCommand("Score_Modify", connection);
+            cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
+            cmd.Parameters.Add("@Score_id", SqlDbType.Int).Value = score_id; // 스트링으로 전달받아도 타입이 int로 들어가네?
+            cmd.Parameters.Add("@Score", SqlDbType.VarChar).Value = score;         // 프로시저 전달받을 매개변수
+
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
+            DataSet dataSet = new DataSet();
+            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            return dataSet;
+        }
+
+        public DataSet SelectDB(int score_id)
+        {
+            string selectQuery = ConfigurationManager.AppSettings["Score_Select"];
+            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+            connection.Open(); // DB연결
+
+            SqlCommand cmd = new SqlCommand("Score_Select", connection);
+            cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
+            cmd.Parameters.Add("@Score_id", SqlDbType.Int).Value = score_id;
+
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
+            DataSet dataSet = new DataSet();
+            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            return dataSet;
+
+
+        }
+
+
+        public DataSet ModifyScoreInfo(DataTable table)
+        {
+            string selectQuery = ConfigurationManager.AppSettings["Save_Score"];
+            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+            connection.Open(); // DB연결
+
+            SqlCommand cmd = new SqlCommand("Save_Score", connection);
+            cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
+            cmd.Parameters.Add("@Get_SaveScore", SqlDbType.Structured).Value = table;
+
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
+            DataSet dataSet = new DataSet();
+            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            return dataSet;
+
+
+        }
+
+
+        private DataTable _getBindingScoreData;
+        public DataTable GetBindingScoreData // 바인딩 요청시 가져올 데이터 (초반엔 빈 데이터임)
+        {
+            get { return _getBindingScoreData; }
+            set
+            {
+                _getBindingScoreData = value;
+                OnPropertyChanged("GetBindingScoreData");// 최초로 가져올 데이터는 property change해서 알려줄 필요가 없지만
+                                              // 버튼이나 콤보박스 같은 이벤트를 통해 데이터를 불러오려면 알려줘야 함
+
+
+            }
+        }
+        /******************************************************************************/
+        #endregion
 
     }
 }

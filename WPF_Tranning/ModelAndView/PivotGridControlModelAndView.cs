@@ -15,7 +15,7 @@ namespace WPF_Tranning.ModelAndView
 
         public PivotGridControlModelAndView()
         {
-            SelectContent = connectDB().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+            SelectContent = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             // DataRow[] DataRows = SelectContent.Select("DISTINCT Score");
             DataView view = SelectContent.DefaultView;
             //   view.RowFilter = "Score = 'AAAAAA' ";
@@ -74,7 +74,7 @@ namespace WPF_Tranning.ModelAndView
         }
 
 
-        public DataSet connectDB()
+        public DataSet GetScoreInfo()
         {
             string selectQuery = ConfigurationManager.AppSettings["selectScore"];
             SqlConnection connection = new SqlConnection(AppconfigDBSetting);

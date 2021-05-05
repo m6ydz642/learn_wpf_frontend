@@ -36,7 +36,10 @@
 
         </Grid.ColumnDefinitions>
 
-        <dxg:GridControl  Grid.Column="0" Grid.Row="1"  SelectionMode="Row" SelectedItem="{Binding SelectEvent}" AutoGenerateColumns="AddNew" x:Name="scoreListViewD2B"  ItemsSource="{Binding SelectContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="80,25,40,347" >
+        <dxg:GridControl  Grid.Column="0" Grid.Row="1"  SelectionMode="Row" SelectedItem="{Binding SelectEvent}" 
+                          AutoGenerateColumns="None" x:Name="scoreListViewD2B"  
+                          ItemsSource="{Binding GetScoreInfomation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Margin="80,25,40,347" >
 
             <dxg:GridControl.View>
                 <dxg:TableView x:Name="ScoreDBTableView">
@@ -175,12 +178,13 @@
                 ToolTip="{Binding DataModel.GridExcelHelp}">Grid엑셀저장</Button>
 
 
-        <Button Command="{Binding ConnectDB}" Margin="0,384,41,310" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Width="105">바인딩 요청</Button>
+        <Button Command="{Binding GetBindingScoreInfomation}" Margin="0,384,41,310" Grid.Row="1" Grid.Column="1" 
+                HorizontalAlignment="Right" Width="105">바인딩 요청</Button>
 
 
         <dxg:GridControl Grid.Row="1" Background="Yellow" 
                            x:Name="bindingDB" AutoGenerateColumns="AddNew" 
-                           Margin="30,415,41,31" ItemsSource="{Binding ConnectBinding, Mode=TwoWay,  
+                           Margin="30,415,41,31" ItemsSource="{Binding GetBindingScoreData, Mode=TwoWay,  
                             UpdateSourceTrigger=PropertyChanged}" Grid.Column="1">
 
 
