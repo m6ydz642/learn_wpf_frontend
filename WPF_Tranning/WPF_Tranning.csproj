@@ -97,6 +97,7 @@
     </ApplicationDefinition>
     <Compile Include="ModelAndView\ChartModelView.cs" />
     <Compile Include="ModelAndView\MainModelAndView.cs" />
+    <Compile Include="ModelAndView\PivotGridControlModelAndView.cs" />
     <Compile Include="Model\ChartBindingModel.cs" />
     <Compile Include="View\ChartBindingView.xaml.cs">
       <DependentUpon>ChartBindingView.xaml</DependentUpon>

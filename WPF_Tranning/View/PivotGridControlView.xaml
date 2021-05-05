@@ -17,17 +17,36 @@
       >
 
     <Grid>
-        <dxg:GridControl Margin="320,149,336,246">
+        <dxg:GridControl  Grid.Column="0" Grid.Row="1"  SelectionMode="Row" SelectedItem="{Binding SelectEvent}" AutoGenerateColumns="AddNew" x:Name="scoreListViewD2B"  ItemsSource="{Binding SelectContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="80,25,40,347" >
+
+            <dxg:GridControl.View>
+                <dxg:TableView x:Name="ScoreDBTableView">
+                </dxg:TableView>
+            </dxg:GridControl.View>
+
+            <!--체크박스 및 체크박스 영역, 컬럼-->
+            <dxg:GridColumn FieldName="체크박스" Header="체크박스" Width="100" VisibleIndex="0">
+                <dxg:GridColumn.EditSettings>
+                    <dxe:CheckEditSettings/>
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+
+            <dxg:GridColumn Width="auto" FieldName="Score_id" Header="스코어번호">
+
+                <dxg:GridColumn.EditSettings>
+                    <!--text 왼쪽 정렬-->
+                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+
             <dxg:GridColumn Width="auto" FieldName="Score" Header="스코어점수" >
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings  HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
 
-            <dxg:GridControl.View>
-                <dxg:TableView x:Name="PivotView">
-                </dxg:TableView>
-            </dxg:GridControl.View>
+            <!-- 컬럼 추가시 읽기전용으로 되서 일단 주석처리함-->
+            <!--체크박스 및 체크박스 영역, 컬럼-->
 
         </dxg:GridControl>
     </Grid>
