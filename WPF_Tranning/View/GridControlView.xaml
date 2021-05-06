@@ -148,17 +148,24 @@
         <!--선택한 값 - ValueMember -->
         <!--선택할 값 - DisplayMember -->
 
-        <dxe:ComboBoxEdit  x:Name="combobox" ItemsSource="{Binding SelectContent}"
-                           SelectedItem="{Binding ComboSelect}"
-                          ValueMember="Score_id" 
-                          Margin="560,63,40,7" 
-                          DisplayMember="Score_id"
-                          >
+        <dxe:ComboBoxEdit  x:Name="combobox" ItemsSource="{Binding ComboBoxSelect}"
+                          
+                           ValueMember="Code" 
+                           DisplayMember="Name" 
+                           SelectedIndex="0"
+                           Margin="560,63,40,7">
 
             <dxmvvm:Interaction.Behaviors>
+
+                <dxmvvm:EventToCommand EventName="Loaded" 
+                                       PassEventArgsToCommand="True" Command="{Binding ComboboxLoaded, 
+                                        UpdateSourceTrigger=PropertyChanged}"
+                                       CommandParameter="{Binding ElementName=combobox}"
+                                       />
+                
                 <dxmvvm:EventToCommand EventName="EditValueChanged" 
-                                       PassEventArgsToCommand="True" Command="{Binding ComboSelect, 
-                    UpdateSourceTrigger=PropertyChanged}"
+                                       PassEventArgsToCommand="True" Command="{Binding ComboSelectedEvent, 
+                                        UpdateSourceTrigger=PropertyChanged}"
                                        CommandParameter="{Binding ElementName=combobox}"
                                        />
             </dxmvvm:Interaction.Behaviors>

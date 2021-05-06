@@ -12,8 +12,10 @@ using System.Windows;
 using System.Windows.Input;
 using WPF_Tranning.Model;
 using DevExpress.Utils;
-using DevExpress.XtraEditors;
+
 using DevExpress.Xpf.Grid;
+using DevExpress.Xpf.Editors;
+
 /*using GridControl = DevExpress.Xpf.Grid.GridControl; 
 // ExportToXlsx사용사 참조 모호오류떠서 바인딩할때 인자로 받아 쓰던 그리드 컨트롤은 xpf.grid로 직접 지정*/
 
@@ -31,16 +33,19 @@ namespace WPF_Tranning
         public ICommand SaveColumn { get; set; }
         public ICommand CheckBox { get; set; }
         public ICommand Loaded { get; set; }
-        public ICommand ComboSelect { get; set; }
+        public ICommand ComboSelectedEvent { get; set; }
         public ICommand SaveExcel { get; set; }
         public ICommand GetBindingScoreInfomation { get; set; }
         public ICommand SaveExcelGrid { get; set; }
+        public ICommand ComboboxLoaded { get; set; }
 
+        public string ComboSelected { get; set; }
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
         /**********************************************************************/
 
         private DataSet _scoreDataSet;
+        public DataTable TestData;
 
         private Tranning_Model _dataModel;
         public Tranning_Model DataModel
@@ -65,10 +70,11 @@ namespace WPF_Tranning
             CheckBinding = new RelayCommand(new Action<object>(this.CheckBoxFun));
             CheckBox = new RelayCommand(new Action<object>(this.CheckBoxFun));
             Loaded = new RelayCommand(new Action<object>(this.LoadedBinding));
-            ComboSelect = new RelayCommand(new Action<object>(this.ComboSelectBinding));
+            ComboSelectedEvent = new RelayCommand(new Action<object>(this.ComboSelectBinding));
             SaveExcel = new RelayCommand(new Action<object>(this.SaveExcelFun));
             SaveExcelGrid = new RelayCommand(new Action<object>(this.SaveExcelGridFunction));
             GetBindingScoreInfomation = new RelayCommand(new Action<object>(this.GetBindingScoreInfo));
+            ComboboxLoaded = new RelayCommand(new Action<object>(this.GetComboboxLoaded));
 
             GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             GetBindingScoreData = new DataTable();
@@ -77,10 +83,69 @@ namespace WPF_Tranning
 
             ToolTipMessage();
 
+            ComboBoxSelect = GetSelectTestCode(); // DB로 넣었다 치고 데이터 가져와보기
+            TestData = MakeDataSet().Tables[0]; // 바인딩할 용도는 아니고 잠시 DataSet로 직접 데이터 DB처럼 해보기
+        }
+
+        private void GetComboboxLoaded(object obj) // 콤보박스 로딩 이벤트
+        {
+            var convert = (ComboBoxEdit)obj;
+            string test = (string)convert.EditValue;
+            int test2 = convert.SelectedIndex;
+
+            // 코드, 이름 에서 이름, 코드 로 반대로 되어있다고 가정할 경우에는 아래 함수를 이용하면 됨
+            DataRowView oDataRowView = convert.SelectedItem as DataRowView;
+
+            //  string Value = oDataRowView.Row["Score_id"].ToString();
+            string Value = oDataRowView.Row["Name"].ToString(); // 임시 데이터 set으로 함
+            string Value2 = oDataRowView.Row["Code"].ToString(); // 임시 데이터 set으로 함
+
+            MessageBox.Show("selectbox 로딩 이벤트\r\n\r\n이름 : " + Value2 + "\r\n" + "코드명 : " + Value);
 
         }
 
-    
+        #region 데이터 직접 만들기
+        /**********************************************************************************************/
+        private DataTable GetSelectTestCode()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Code");
+            dt.Columns.Add("Name");
+
+            dt.Rows.Add("1H80000", "코드1");
+            dt.Rows.Add("1H80010", "코드2");
+/*
+            dt.Rows.Add("코드1", "1H80000"); // 반대의 경우로 테스트
+            dt.Rows.Add("코드2", "1H80010");*/
+            
+
+
+            return dt;
+        }
+
+        private DataSet MakeDataSet()
+        {
+            DataSet ds = new DataSet();
+
+            ds.Tables.Add("Manager");
+            ds.Tables["Manager"].Columns.Add("Manager_id"); // 데이터 셋이라 테이블로 해야 됨
+            ds.Tables["Manager"].Columns.Add("Manager_name");
+
+
+            string[] str = new string[2];
+
+            str[0] = "1";
+            str[1] = "김매니저";
+            ds.Tables["Manager"].Rows.Add(str);
+
+            str[0] = "2";
+            str[1] = "메튜";
+            ds.Tables["Manager"].Rows.Add(str);
+            return ds; 
+        }
+
+        /**********************************************************************************************/
+        #endregion
 
         private void ToolTipMessage()
         {
@@ -142,21 +207,25 @@ namespace WPF_Tranning
 
 
 
-        private void OnPropertyChanged(string propertyName)
-        {
-            //  MessageBox.Show("OnPropertyChanged 호출");
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
 
 
 
 
         #region 클릭이벤트
+
+        private void ComboSelectBinding(object obj) // 콤보 박스 선택시 이벤트 호출
+        {
+            var convert = (DevExpress.Xpf.Editors.ComboBoxEdit)obj;
+            DataRowView oDataRowView = convert.SelectedItem as DataRowView;
+
+            //  string Value = oDataRowView.Row["Score_id"].ToString();
+            string Value = oDataRowView.Row["Code"].ToString(); // 임시 데이터 set으로 함
+            string Value2 = oDataRowView.Row["Name"].ToString();
+
+            MessageBox.Show("selectbox 선택 이벤트\r\n\r\n이름 : " + Value2 + "\r\n" + "코드명 : " + Value);
+
+
+        }
 
         private void SaveExcelFun(object obj)
         {
@@ -201,16 +270,7 @@ namespace WPF_Tranning
   
         }
 
-        private void ComboSelectBinding(object obj) // 콤보 박스 선택시 이벤트 호출
-        {
-            var convert = (DevExpress.Xpf.Editors.ComboBoxEdit)obj;
-            DataRowView oDataRowView = convert.SelectedItem as DataRowView;
-
-            string Value = oDataRowView.Row["Score_id"].ToString();
-
-            MessageBox.Show("selectbox 선택 : " + Value);
-
-        }
+     
 
         private void CheckBoxFun(object obj)
         {
@@ -297,6 +357,18 @@ namespace WPF_Tranning
 
         #region 데이터 바인딩 + DB
         /******************************************************************************/
+        private DataTable _comboboxSelect;
+
+        public DataTable ComboBoxSelect // 콤보박스
+        {
+            get {/* MessageBox.Show("데이터 테이블");*/ return _comboboxSelect; }
+            set
+            {
+                _comboboxSelect = value;
+                OnPropertyChanged("ComboBoxSelect");
+            }
+        }
+
         public DataTable _selecttable;
         public DataTable SelectTable
         {
@@ -419,6 +491,19 @@ namespace WPF_Tranning
         }
         /******************************************************************************/
         #endregion
+
+
+
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            //  MessageBox.Show("OnPropertyChanged 호출");
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
     }
 }

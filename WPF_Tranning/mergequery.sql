@@ -12,8 +12,20 @@ GO
 update SubScoreTable set score_id = 3 where score_id = 2;
 update ScoreTable set score_id = 2 where score_id = 2; 
 
+
+
+
 select * from ScoreTable
 select * from SubScoreTable
+
+SELECT *
+  FROM (
+         SELECT Score, Score_id
+           FROM ScoreTable
+       ) AS result
+ PIVOT ( 
+       sum(Score_id) for Score IN ([1], [2], [3], [4],[5],[10]) 
+       ) AS pivot_result
 
 
 MERGE INTO SubScoreTable --INSERT/UPDATE 할 테이블
