@@ -1,5 +1,4 @@
 # WPF_Tranning
 
-기존 WPF 프로그램 이름 BaseBall_WPF 로 변경 및 프로젝트 복사 후 WPF_Tranning 프로젝트 재생성 
-
-이전 커밋항목은 중복임
+TreeView를  이용한 메뉴 생성 기타 등등 바인딩 연습 <br>
+![image](https://user-images.githubusercontent.com/45617447/117295231-8bec6500-aeae-11eb-8443-5f9bbdc3bc01.png)
