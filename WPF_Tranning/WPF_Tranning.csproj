@@ -98,6 +98,7 @@
     <Compile Include="ModelAndView\ChartModelView.cs" />
     <Compile Include="ModelAndView\MainModelAndView.cs" />
     <Compile Include="ModelAndView\PivotGridControlModelAndView.cs" />
+    <Compile Include="ModelAndView\SearchScoreViewAndModel.cs" />
     <Compile Include="Model\ChartBindingModel.cs" />
     <Compile Include="View\ChartBindingView.xaml.cs">
       <DependentUpon>ChartBindingView.xaml</DependentUpon>
@@ -117,6 +118,9 @@
     </Compile>
     <Compile Include="View\PivotGridControlView.xaml.cs">
       <DependentUpon>PivotGridControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SearchScoreView.xaml.cs">
+      <DependentUpon>SearchScoreView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PivotGridControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SearchScoreView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

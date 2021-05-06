@@ -32,6 +32,7 @@ namespace WPF_Tranning
         public ICommand StartPage { get; set; }
         public ICommand ChartBindingMenu { get; set; }
         public ICommand PivotGridControl { get; set; }
+        public ICommand SearchScoreMenu { get; set; }
         
       
         
@@ -44,6 +45,7 @@ namespace WPF_Tranning
             StartPage = new RelayCommand(new Action<object>(this.LoadingStartPage));
             ChartBindingMenu = new RelayCommand(new Action<object>(this.LoadingChartBinding));
             PivotGridControl = new RelayCommand(new Action<object>(this.LoadingPivotGridControl));
+            SearchScoreMenu = new RelayCommand(new Action<object>(this.SearchScoreMenuBinding));
         }
 
         private void LoadingPivotGridControl(object obj)
@@ -57,6 +59,7 @@ namespace WPF_Tranning
             var convert = (NavigationFrame)obj;
             convert.Source = new ChartBindingView();
         }
+  
 
         private void LoadingStartPage(object obj)
         {
@@ -66,12 +69,19 @@ namespace WPF_Tranning
             // page, window 안됨
         }
 
-        private void GridControlMenuUri(object obj)
+        private void GridControlMenuUri(object obj) // 유저컨트롤을 사용하면 이방식으로 바인딩 까지 같이 됨
         {
             var convert = (NavigationFrame)obj;
             convert.Source = new Uri("../View/GridControlView.xaml", UriKind.RelativeOrAbsolute); // uri로 페이지 이동
             string test = convert.Source.ToString();
 
         }
+
+        private void SearchScoreMenuBinding(object obj)
+        {
+            var convert = (NavigationFrame)obj;
+            convert.Source = new SearchScoreView();
+        }
+
     }
 }

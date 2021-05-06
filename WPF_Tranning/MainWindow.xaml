@@ -60,6 +60,16 @@
                 <dxwuin:FrameNavigationService />
             </dxmvvm:Interaction.Behaviors>
             </TreeViewItem>
+
+            <!--스코어 검색 메뉴-->
+            <TreeViewItem Header="스코어 검색" FontSize="20">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:EventToCommand  EventName="Selected" CommandParameter="{Binding ElementName=nav_content}"  Command="{Binding SearchScoreMenu}"/>
+                    <dxwuin:FrameNavigationService />
+                </dxmvvm:Interaction.Behaviors>
+            </TreeViewItem>
+            
+            
         </TreeView>
 
         <dxwui:NavigationFrame Name="nav_content" Margin="205,0,0,0">

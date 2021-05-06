@@ -28,54 +28,6 @@ SELECT *
        ) AS pivot_result
 
 
-MERGE INTO SubScoreTable --INSERT/UPDATE 할 테이블
- USING (SELECT 1AS DUM) X
-      ON (score_id= 111 and score_sub = 'test')--조건2개
-    WHEN MATCHED THEN --위 조건에 맞는 데이터가 있으면 UPDATE
-            UPDATE SET
-            score_id=3
-            ,score_sub='BBB'
-			    WHEN NOT MATCHED THEN --위 조건에 맞1는 데이터가 없으면 INSERT
-            INSERT (score_id, score_sub)
-            VALUES(
-                20
-                ,'조건미달1');
-
-MERGE INTO SubScoreTable --INSERT/UPDATE 할 테이블
- USING (SELECT 1AS DUM) X
-      ON (score_id= 123)--조건
-    WHEN MATCHED THEN --위 조건에 맞는 데이터가 있으면 UPDATE
-            UPDATE SET
-            score_id=4
-            ,score_sub='BBB'		    
-			
-			WHEN NOT MATCHED THEN --위 조건에 맞1는 데이터가 없으면 INSERT
-            INSERT (score_id, score_sub)
-            VALUES(
-                30
-                ,'조건미달2');
-
-MERGE INTO SubScoreTable --INSERT/UPDATE 할 테이블
- USING (SELECT 1AS DUM) X
-      ON (score_id= 1234)--조건
-    WHEN MATCHED THEN --위 조건에 맞는 데이터가 있으면 UPDATE
-            UPDATE SET
-            score_id=2
-            ,score_sub='BBB'
-
-WHEN NOT MATCHED THEN --위 조건에 맞1는 데이터가 없으면 INSERT
-            INSERT (score_id, score_sub)
-            VALUES(
-                40
-                ,'조건미달3');
-
-    --WHEN NOT MATCHED THEN --위 조건에 맞1는 데이터가 없으면 INSERT
-    --        INSERT (score_id, score_sub)
-    --        VALUES(
-    --            5
-    --            ,'조건미달'
---  );
-          
 
 	
 
@@ -212,7 +164,7 @@ end
 USE [BaseBallGameWinform_DB]
 GO
 CREATE TYPE TYPE_SaveScore AS TABLE(
-
+-- 사용자 정의 테이블 (저장, 수정용)
     checkbox bit,
 	Score_id int,
 
@@ -223,6 +175,30 @@ CREATE TYPE TYPE_SaveScore AS TABLE(
 )
 
 GO
+
+
+------------------------------------------------- 스코어 검색 프로시저
+USE [BaseBallGameWinform_DB]
+GO
+
+
+
+create procedure Score_Search
+@Score_id int
+
+as Begin
+
+   SELECT  convert(bit,0) as '체크박스', [Score_id]
+      ,[Score] 
+   from ScoreTable 
+   where Score_Id = @Score_id;
+
+end
+
+
+
+
+
 
 
 
