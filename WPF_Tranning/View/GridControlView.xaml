@@ -145,8 +145,9 @@
                 Margin="0,61,-730,97" Grid.Column="1" HorizontalAlignment="Right" Width="75" Content="엑셀저장" Grid.RowSpan="2"/>
         </Grid>
 
-        <!--선택한 값 - ValueMember -->
-        <!--선택할 값 - DisplayMember -->
+        <!--내부적으로 선택한 값 - ValueMember -->
+        <!--화면에 보여질 선택할 값 - DisplayMember -->
+        <!--DB로 불러와 DataTable로 사용할 경우 DB에서 사용한 컬럼명을 쓰면 됨 -->
 
         <dxe:ComboBoxEdit  x:Name="combobox" ItemsSource="{Binding ComboBoxSelect}"
                           

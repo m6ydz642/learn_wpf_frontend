@@ -87,6 +87,11 @@ namespace WPF_Tranning
             TestData = MakeDataSet().Tables[0]; // 바인딩할 용도는 아니고 잠시 DataSet로 직접 데이터 DB처럼 해보기
         }
 
+        public void Loading() { // 로딩바 준비
+
+
+        }
+
         private void GetComboboxLoaded(object obj) // 콤보박스 로딩 이벤트
         {
             var convert = (ComboBoxEdit)obj;
@@ -96,12 +101,17 @@ namespace WPF_Tranning
             // 코드, 이름 에서 이름, 코드 로 반대로 되어있다고 가정할 경우에는 아래 함수를 이용하면 됨
             DataRowView oDataRowView = convert.SelectedItem as DataRowView;
 
-            //  string Value = oDataRowView.Row["Score_id"].ToString();
-            string Value = oDataRowView.Row["Name"].ToString(); // 임시 데이터 set으로 함
-            string Value2 = oDataRowView.Row["Code"].ToString(); // 임시 데이터 set으로 함
+            if (oDataRowView != null)
+            {
+                string Value = oDataRowView.Row["Name"].ToString(); // 임시 데이터 set으로 함
+                string Value2 = oDataRowView.Row["Code"].ToString(); // 임시 데이터 set으로 함
 
-            MessageBox.Show("selectbox 로딩 이벤트\r\n\r\n이름 : " + Value2 + "\r\n" + "코드명 : " + Value);
-
+                MessageBox.Show("selectbox 로딩 이벤트\r\n\r\n이름 : " + Value2 + "\r\n" + "코드명 : " + Value);
+            }
+            else
+            {
+                MessageBox.Show("가져올 데이터가 없습니다!");
+            }
         }
 
         #region 데이터 직접 만들기
@@ -122,7 +132,6 @@ namespace WPF_Tranning
 
             return dt;
         }
-
         private DataSet MakeDataSet()
         {
             DataSet ds = new DataSet();
@@ -218,12 +227,17 @@ namespace WPF_Tranning
             var convert = (DevExpress.Xpf.Editors.ComboBoxEdit)obj;
             DataRowView oDataRowView = convert.SelectedItem as DataRowView;
 
-            //  string Value = oDataRowView.Row["Score_id"].ToString();
-            string Value = oDataRowView.Row["Code"].ToString(); // 임시 데이터 set으로 함
-            string Value2 = oDataRowView.Row["Name"].ToString();
+            if (oDataRowView != null)
+            {
+                string Value = oDataRowView.Row["Code"].ToString(); // 임시 데이터 set으로 함
+                string Value2 = oDataRowView.Row["Name"].ToString();
 
-            MessageBox.Show("selectbox 선택 이벤트\r\n\r\n이름 : " + Value2 + "\r\n" + "코드명 : " + Value);
-
+                MessageBox.Show("selectbox 선택 이벤트\r\n\r\n이름 : " + Value2 + "\r\n" + "코드명 : " + Value);
+            }
+            else
+            {
+                MessageBox.Show("가져올 데이터가 없습니다");
+            }
 
         }
 

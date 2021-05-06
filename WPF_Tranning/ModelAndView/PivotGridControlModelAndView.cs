@@ -13,6 +13,7 @@ namespace WPF_Tranning.ModelAndView
     {
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
 
+
         public PivotGridControlModelAndView()
         {
             SelectContent = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
@@ -23,9 +24,6 @@ namespace WPF_Tranning.ModelAndView
             //  SelectContent = view.ToTable(true, "체크박스", "Score_id" , "Score");
             //   SelectContent = view.ToTable(true);
             //    SelectContent = SelectContent.DefaultView.ToTable(true, "Score");
-           
-
-
 
         }
         #region 중복검사 다른방법
