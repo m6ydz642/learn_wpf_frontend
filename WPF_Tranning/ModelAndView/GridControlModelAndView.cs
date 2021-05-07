@@ -275,13 +275,35 @@ namespace WPF_Tranning
         }
         private void SaveColumnFunction(object obj) // 저장
         {
-            // string value = _selectdata.GetChanges(DataRowState.Modified); // 수정, 추가 여부 구분하는거 잠시 보류
+          //  DataTable changeTable;
+          //  DataTable addTable;
+            DataTable Status;
 
-            var convert = (GridControl)obj;
-            ModifyScoreInfo(GetScoreInfomation); // 테이블 통째로 전달하여 수정, 추가 처리함
-            MessageBox.Show("데이터가 저장되었습니다");
-            GetScoreInfomation = _getScoreInfomation; // 수정할때 들어가있던 datatable DB다시 호출 (새로 고침)
-  
+            // changeTable = GetScoreInfomation.GetChanges(DataRowState.Modified);
+            // addTable = GetScoreInfomation.GetChanges(DataRowState.Added);
+            //  var addstatus = addTable; // 수정, 추가 여부 구분하는거 잠시 보류
+            //  var changestatus = changeTable; // 수정, 추가 여부 구분하는거 잠시 보류
+            Status = GetScoreInfomation.GetChanges(); // 추가, 수정 여부 구분해서 뜸
+            var datatstatus = Status;
+            if (datatstatus == null)
+            {
+                MessageBox.Show("저장할 항목이 없습니다");
+            }
+                /* if (changestatus == null || addstatus != null || changestatus == null && addstatus == null)
+                {
+                    MessageBox.Show("저장할 항목이 없습니다");
+                }*/
+            else
+            {
+
+                var convert = (GridControl)obj;
+                ModifyScoreInfo(GetScoreInfomation); // 테이블 통째로 전달하여 수정, 추가 처리함
+                MessageBox.Show("데이터가 저장되었습니다");
+                //    GetScoreInfomation = _getScoreInfomation; // 수정할때 들어가있던 datatable DB다시 호출 (새로 고침)
+                //  GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+                GetScoreInfomation.AcceptChanges(); // 커밋하여 더 이상 중복저장 되지 않게 함
+            }
+
         }
 
      
@@ -345,7 +367,7 @@ namespace WPF_Tranning
             var convert = (GridControl)obj;
             DataRow oRow = GetScoreInfomation.NewRow();
             GetScoreInfomation.Rows.Add(oRow);
-            convert.View.ShowEditor();
+         //   convert.View.ShowEditor();
         }
 
 

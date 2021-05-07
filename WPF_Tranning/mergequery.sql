@@ -195,6 +195,41 @@ as Begin
 
 end
 
+---------------------------------------------------------------------------
+USE [BaseBallGameWinform_DB]
+GO
+/****** Object:  StoredProcedure [dbo].[Save_Score]    Script Date: 2021-05-08 오전 3:36:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER procedure [dbo].[Save_Score] 
+@Get_SaveScore TYPE_SaveScore READONLY
+
+as Begin
+MERGE INTO ScoreTable as A --INSERT/UPDATE 할 테이블
+ USING @Get_SaveScore as B
+      ON (A.Score_id = B.Score_id )--조건
+
+			when Matched  and A.Score != B.Score then 
+					   UPDATE SET  A.Score = B.Score , A.modify=getdate();-- 내용변경만 가능하게 수정
+
+			--WHEN not MATCHED and B.Score_id != B.Score_id THEN --B.Score_id != B.Score_id 자체가 말이 안되는 조건이라 insert도 안됨
+		 -- 			          INSERT (score,createdt) VALUES(B.Score, getdate());
+
+MERGE INTO ScoreTable as A --INSERT/UPDATE 할 테이블
+ USING @Get_SaveScore as B
+      ON (A.Score_id = B.Score_id )--조건
+
+			--when Matched  and A.Score != B.Score then 
+			--		   UPDATE SET  A.Score = B.Score , A.modify=getdate()-- 내용변경만 가능하게 수정
+
+			WHEN not MATCHED THEN 
+		  			          INSERT (score,createdt) VALUES(B.Score, getdate());
+end
+
+
+---------------------------------------------- 프로시저 스코어 저장 이전버전
 
 
 
