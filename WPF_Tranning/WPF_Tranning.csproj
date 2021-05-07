@@ -96,6 +96,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ModelAndView\ChartModelView.cs" />
+    <Compile Include="ModelAndView\GridCotrolBandModelAndView.cs" />
     <Compile Include="ModelAndView\MainModelAndView.cs" />
     <Compile Include="ModelAndView\PivotGridControlModelAndView.cs" />
     <Compile Include="ModelAndView\SearchScoreViewAndModel.cs" />
@@ -115,6 +116,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\GridControlBandView.xaml.cs">
+      <DependentUpon>GridControlBandView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\PivotGridControlView.xaml.cs">
       <DependentUpon>PivotGridControlView.xaml</DependentUpon>
@@ -161,6 +165,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GridControlBandView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

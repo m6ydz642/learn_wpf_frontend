@@ -33,6 +33,7 @@ namespace WPF_Tranning
         public ICommand ChartBindingMenu { get; set; }
         public ICommand PivotGridControl { get; set; }
         public ICommand SearchScoreMenu { get; set; }
+        public ICommand GridControlBandMenu { get; set; }
         
       
         
@@ -46,6 +47,13 @@ namespace WPF_Tranning
             ChartBindingMenu = new RelayCommand(new Action<object>(this.LoadingChartBinding));
             PivotGridControl = new RelayCommand(new Action<object>(this.LoadingPivotGridControl));
             SearchScoreMenu = new RelayCommand(new Action<object>(this.SearchScoreMenuBinding));
+            GridControlBandMenu = new RelayCommand(new Action<object>(this.GridControlBandMenuBinding));
+        }
+
+        private void GridControlBandMenuBinding(object obj)
+        {
+            var convert = (NavigationFrame)obj;
+            convert.Source = new GridControlBandView();
         }
 
         private void LoadingPivotGridControl(object obj)
