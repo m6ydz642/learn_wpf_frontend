@@ -5,8 +5,39 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPF_Tranning"
              mc:Ignorable="d" 
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              d:DesignHeight="831" d:DesignWidth="1266">
     <Grid>
-            
+        <dxg:GridControl Background="Yellow" 
+                           x:Name="bindingDB" AutoGenerateColumns="AddNew" 
+                           Margin="275,90,61,90" ItemsSource="{Binding GetBindingScoreData, Mode=TwoWay,  
+                            UpdateSourceTrigger=PropertyChanged}">
+
+
+            <dxg:GridControl.Bands>
+                <dxg:GridControlBand Header="구분">
+                    <dxg:GridColumn FieldName="Score_id" Width="50*" Header="스코어번호"/>
+                    <dxg:GridColumn FieldName="Score" Width="100*" Header="스코어점수"  />
+                    <!--체크박스 및 체크박스 영역, 컬럼-->
+                    <dxg:GridColumn  FieldName="체크박스" Width="50*" Header="체크박스" >
+                        <dxg:GridColumn.EditSettings>
+                            <dxe:CheckEditSettings/>
+                        </dxg:GridColumn.EditSettings>
+                    </dxg:GridColumn>
+                </dxg:GridControlBand>
+
+                <dxg:GridControlBand Header="기타">
+                    <dxg:GridColumn FieldName="modify" Width="50*" Header="수정날짜"/>
+                    <dxg:GridColumn FieldName="createdt" Width="50*"  Header="생성날짜"/>
+                </dxg:GridControlBand>
+
+            </dxg:GridControl.Bands>
+
+            <dxg:GridControl.View>
+                <dxg:TableView AutoWidth="True"  />
+            </dxg:GridControl.View>
+
+        </dxg:GridControl>
     </Grid>
 </UserControl>
