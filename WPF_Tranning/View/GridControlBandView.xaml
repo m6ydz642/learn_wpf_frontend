@@ -7,30 +7,65 @@
              mc:Ignorable="d" 
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+                 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              d:DesignHeight="831" d:DesignWidth="1266">
     <Grid>
-        <dxg:GridControl Background="Yellow" 
-                           x:Name="bindingDB" AutoGenerateColumns="AddNew" 
-                           Margin="275,90,61,90" ItemsSource="{Binding GetBindingScoreData, Mode=TwoWay,  
-                            UpdateSourceTrigger=PropertyChanged}">
-
+        <dxg:GridControl ToolTip="최대 3자리 까지 입력하십시오" ToolTipOpening="GirdControlBand_ToolTipOpening"
+                         x:Name="GirdControlBand" 
+                         AutoGenerateColumns="None" 
+                         Margin="275,90,61,90" 
+                         ItemsSource="{Binding DataColumn, Mode=TwoWay,  
+                         UpdateSourceTrigger=PropertyChanged}">
+            
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Loaded">
+                    <!--로드시 바인딩-->
+                    <i:InvokeCommandAction Command="{Binding GirdControlBandLoaded}"  
+                                           CommandParameter="{Binding ElementName=GirdControlBand, Mode=OneWay}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
 
             <dxg:GridControl.Bands>
-                <dxg:GridControlBand Header="구분">
-                    <dxg:GridColumn FieldName="Score_id" Width="50*" Header="스코어번호"/>
-                    <dxg:GridColumn FieldName="Score" Width="100*" Header="스코어점수"  />
+                
+            
+                <dxg:GridControlBand Header="">
                     <!--체크박스 및 체크박스 영역, 컬럼-->
-                    <dxg:GridColumn  FieldName="체크박스" Width="50*" Header="체크박스" >
-                        <dxg:GridColumn.EditSettings>
-                            <dxe:CheckEditSettings/>
+                    <dxg:GridColumn  FieldName="Nm" Width="50*" Header="" >
+                      
+                    </dxg:GridColumn>
+                </dxg:GridControlBand>
+                
+                <dxg:GridControlBand Header="{Binding Week[6]}">
+                    <!--체크박스 및 체크박스 영역, 컬럼-->
+                    <dxg:GridColumn  FieldName="W1" Width="50*" Header="{Binding WeekDay[6]}" >
+                        <dxg:GridColumn.EditSettings> <!--정규식 테스트-->
+                            <dxe:TextEditSettings Name="manufacCol"  MaskType="RegEx" Mask="{Binding MaskRegex}"/>
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
                 </dxg:GridControlBand>
 
-                <dxg:GridControlBand Header="기타">
-                    <dxg:GridColumn FieldName="modify" Width="50*" Header="수정날짜"/>
-                    <dxg:GridColumn FieldName="createdt" Width="50*"  Header="생성날짜"/>
+                <dxg:GridControlBand Header="{Binding Week[5]}">
+                    <dxg:GridColumn FieldName="W2" Width="100*" Header="{Binding WeekDay[5]}"  />
                 </dxg:GridControlBand>
+
+
+
+                <dxg:GridControlBand Header="{Binding Week[4]}">
+
+                    <dxg:GridColumn FieldName="W3" Width="50*" Header="{Binding WeekDay[4]}"/>
+                </dxg:GridControlBand>
+
+
+
+
+                <dxg:GridControlBand Header="{Binding Week[3]}">
+                    <dxg:GridColumn FieldName="W4" Width="50*" Header="{Binding WeekDay[3]}"/>
+                </dxg:GridControlBand>
+
+                <dxg:GridControlBand Header="{Binding Week[2]}">
+                    <dxg:GridColumn FieldName="W5" Width="50*"  Header="{Binding WeekDay[2]}"/>
+                </dxg:GridControlBand>
+                
 
             </dxg:GridControl.Bands>
 

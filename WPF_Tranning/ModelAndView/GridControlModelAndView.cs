@@ -106,7 +106,7 @@ namespace WPF_Tranning
                 string Value = oDataRowView.Row["Name"].ToString(); // 임시 데이터 set으로 함
                 string Value2 = oDataRowView.Row["Code"].ToString(); // 임시 데이터 set으로 함
 
-                MessageBox.Show("selectbox 로딩 이벤트\r\n\r\n이름 : " + Value2 + "\r\n" + "코드명 : " + Value);
+              //  MessageBox.Show("selectbox 로딩 이벤트\r\n\r\n이름 : " + Value2 + "\r\n" + "코드명 : " + Value);
             }
             else
             {
