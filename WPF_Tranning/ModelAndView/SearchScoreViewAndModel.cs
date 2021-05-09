@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using WPF_Tranning.Model;
+using WPF_Tranning.View;
 
 namespace WPF_Tranning.ModelAndView
 {
@@ -29,6 +31,9 @@ namespace WPF_Tranning.ModelAndView
             ComboboxLoaded = new RelayCommand(new Action<object>(this.GetComboboxLoaded));
             ComboSelectedEvent = new RelayCommand(new Action<object>(this.ComboSelectBinding));
             GetScoreInfomation = GetScoreInfo().Tables[0]; // 콤보박스 리스트에 들어갈 스코어 전체 정보 (표시는 Score_id만 되게 xaml에서 설정 해놈)
+
+            DataModel.CurrentClassPath = typeof(SearchScoreView).FullName; // 현재 접근한 클래스
+
         }
 
 

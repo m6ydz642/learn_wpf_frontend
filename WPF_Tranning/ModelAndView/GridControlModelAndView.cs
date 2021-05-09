@@ -49,7 +49,7 @@ namespace WPF_Tranning
         public DataTable TestData;
 
         private Tranning_Model _dataModel;
-        public Tranning_Model DataModel
+        public Tranning_Model TranningDataModel
         {
             get { return _dataModel; }
             set
@@ -63,7 +63,7 @@ namespace WPF_Tranning
 
         public GridControlModelAndView()
         {
-            DataModel = new Tranning_Model();
+            TranningDataModel = new Tranning_Model();
             AddColumn = new RelayCommand(new Action<object>(this.AddContentEvent));
             SelectEvent = new RelayCommand(new Action<object>(this.SelectEventFun));
             CellValueChangedCommand = new RelayCommand(new Action<object>(this.CellValueChange));
@@ -87,6 +87,8 @@ namespace WPF_Tranning
 
             ComboBoxSelect = GetSelectTestCode(); // DB로 넣었다 치고 데이터 가져와보기
             TestData = MakeDataSet().Tables[0]; // 바인딩할 용도는 아니고 잠시 DataSet로 직접 데이터 DB처럼 해보기
+
+            DataModel.CurrentClassPath = typeof(GridControlView).FullName; // 현재 접근한 클래스
         }
 
         private void UnloadCheckEvent(object obj)
@@ -174,7 +176,7 @@ namespace WPF_Tranning
         private void ToolTipMessage()
         {
             Help = "도움말 입니다! \t\n테스트"; // 일반 스트링
-            DataModel.GridExcelHelp = "그리드 컨트롤의 엑셀파일을 다운로드할 수 있습니다";
+            TranningDataModel.GridExcelHelp = "그리드 컨트롤의 엑셀파일을 다운로드할 수 있습니다";
         }
 
         private bool FileIsUse(string strFilePath, ref string strErr)

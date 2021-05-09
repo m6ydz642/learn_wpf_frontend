@@ -3,6 +3,8 @@ using DevExpress.Xpf.Grid;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,7 +28,7 @@ namespace WPF_Tranning
             InitializeComponent();
 
             this.DataContext = new MainModelAndView(); // 바인딩 설정 (없으면 바인딩 안먹힘)
-
+          
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -42,7 +44,14 @@ namespace WPF_Tranning
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
 
-            string path = DataModel.CurrentClassPath; // 이제 text로저장하든 db로 내보내던 하면 됨
+            string textcontent = DataModel.CurrentClassPath; // 이제 text로저장하든 db로 내보내던 하면 됨
+                                                      // 저장 경로를 지정 합니다.
+            string CurrentDirectory = Directory.GetCurrentDirectory(); // 개발자 디버그 경로
+            string textFile = "\\SaveLastMenu.txt";
+            System.IO.File.WriteAllText(CurrentDirectory+textFile , textcontent, Encoding.Default); // 클래스 명 파일씀
+
+
+
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WPF_Tranning.Model;
+using WPF_Tranning.View;
 
 namespace WPF_Tranning.ModelAndView
 {
@@ -35,7 +36,8 @@ namespace WPF_Tranning.ModelAndView
         {
             model = new ChartBindingModel();
             Data = GetDataPoints();
-            DataModel.CurrentClassPath = GetType().FullName; // 현재 접근한 클래스
+            DataModel.CurrentClassPath = typeof(ChartBindingView).FullName; // 현재 접근한 클래스
+
 
 
         }

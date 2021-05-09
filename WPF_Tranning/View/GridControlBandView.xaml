@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
-                 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              d:DesignHeight="831" d:DesignWidth="1266">
     <Grid>
         <dxg:GridControl ToolTip="최대 3자리 까지 입력하십시오"

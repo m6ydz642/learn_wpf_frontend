@@ -6,6 +6,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WPF_Tranning.Model;
+using WPF_Tranning.View;
 
 namespace WPF_Tranning.ModelAndView
 {
@@ -24,6 +26,10 @@ namespace WPF_Tranning.ModelAndView
             //  SelectContent = view.ToTable(true, "체크박스", "Score_id" , "Score");
             //   SelectContent = view.ToTable(true);
             //    SelectContent = SelectContent.DefaultView.ToTable(true, "Score");
+
+            
+             DataModel.CurrentClassPath = typeof(PivotGridControlView).FullName; // 현재 접근한 클래스
+
 
         }
         #region 중복검사 다른방법

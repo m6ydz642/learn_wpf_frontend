@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Input;
 using WPF_Tranning.Model;
 
-namespace WPF_Tranning.ModelAndView 
+namespace WPF_Tranning 
 {
     class GridCotrolBandModelAndView : INotifyPropertyChanged
     {
@@ -68,8 +68,8 @@ namespace WPF_Tranning.ModelAndView
                 i++;
           }
 
-            //   DataModel.CurrentClassPath = typeof(GridControlBandView).FullName; // 현재 접근한 클래스
-            DataModel.CurrentClassPath = GetType().FullName; // 현재 접근한 클래스
+             DataModel.CurrentClassPath = typeof(GridControlBandView).FullName; // 현재 접근한 클래스
+          //  DataModel.CurrentClassPath = GetType().FullName; // 현재 접근한 클래스 (이거 하니까 현재 모델 엔 뷰를 가져와서 안됨)
                                                              
 
 
