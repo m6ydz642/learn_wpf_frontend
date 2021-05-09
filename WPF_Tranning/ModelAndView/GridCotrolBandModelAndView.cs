@@ -7,7 +7,9 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using WPF_Tranning.Model;
 
 namespace WPF_Tranning.ModelAndView 
 {
@@ -19,6 +21,9 @@ namespace WPF_Tranning.ModelAndView
         public string[] Week { get; set; }
         public string[] WeekDay { get; set; }
         public ICommand GirdControlBandLoaded { get; set; }
+        public ICommand UnloadCommand { get; set; }
+      //  public string CurrentClassPath { get; set; }
+
 
         private string _mask;
         public string MaskRegex
@@ -39,8 +44,8 @@ namespace WPF_Tranning.ModelAndView
         {
 
 
-
             GirdControlBandLoaded = new RelayCommand(new Action<object>(this.GirdControlBandLoadedEvent));
+            UnloadCommand = new RelayCommand(new Action<object>(this.UnloadEvent));
             
           //  MaskRegex = "\\d[2]\\.\\d{2}"; // 콤보박스에 따라 정규식 입력 바뀌게 하기, 데이터 테이블 다른걸로 로딩
             MaskRegex = "[0-9]{2}|[0-9]{3}"; // 최대 2자리 또는 3자리
@@ -63,7 +68,20 @@ namespace WPF_Tranning.ModelAndView
                 i++;
           }
 
-        
+            //   DataModel.CurrentClassPath = typeof(GridControlBandView).FullName; // 현재 접근한 클래스
+            DataModel.CurrentClassPath = GetType().FullName; // 현재 접근한 클래스
+                                                             
+
+
+
+        }
+
+        private void UnloadEvent(object obj)
+        {
+         //   MessageBox.Show("그리드 컨트롤 밴드 클래스 메인으로 전달 : " + DataModel.CurrentClassPath);
+          //  MainModelAndView a = new MainModelAndView(DataModel.CurrentClassPath);
+          //  a.EndPageEvent(obj);
+            
         }
 
         private void GirdControlBandLoadedEvent(object obj)

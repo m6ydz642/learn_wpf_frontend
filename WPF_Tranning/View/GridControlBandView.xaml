@@ -10,7 +10,7 @@
                  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              d:DesignHeight="831" d:DesignWidth="1266">
     <Grid>
-        <dxg:GridControl ToolTip="최대 3자리 까지 입력하십시오" ToolTipOpening="GirdControlBand_ToolTipOpening"
+        <dxg:GridControl ToolTip="최대 3자리 까지 입력하십시오"
                          x:Name="GirdControlBand" 
                          AutoGenerateColumns="None" 
                          Margin="275,90,61,90" 
@@ -23,7 +23,16 @@
                     <i:InvokeCommandAction Command="{Binding GirdControlBandLoaded}"  
                                            CommandParameter="{Binding ElementName=GirdControlBand, Mode=OneWay}"/>
                 </i:EventTrigger>
+
+                <i:EventTrigger EventName="Unloaded">
+                    <!--언 로드시 바인딩-->
+                    <i:InvokeCommandAction Command="{Binding UnloadCommand}"  
+                                           CommandParameter="{Binding ElementName=GirdControlBand, Mode=OneWay}"/>
+                </i:EventTrigger>
             </i:Interaction.Triggers>
+
+
+            
 
             <dxg:GridControl.Bands>
                 

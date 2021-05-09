@@ -28,22 +28,9 @@ namespace WPF_Tranning
             DataContext = new GridCotrolBandModelAndView();
         }
 
-        private void GirdControlBand_ToolTipOpening(object sender, ToolTipEventArgs e)
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            Ellipse ell = new Ellipse();
-            if (sender.GetType().FullName.Equals("System.Windows.Shapes.Ellipse"))
-            {
-                ell = (Ellipse)sender;
-                ell.Fill = Brushes.Blue;
-            }
-            else if (sender.GetType().FullName.Equals(
-                                     "System.Windows.Controls.ToolTip"))
-            {
-                ToolTip t = (ToolTip)sender;
-                Popup p = (Popup)t.Parent;
-                ell = (Ellipse)p.PlacementTarget;
-                ell.Fill = Brushes.Blue;
-            }
+
         }
     }
 }

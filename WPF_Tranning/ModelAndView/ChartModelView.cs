@@ -35,7 +35,9 @@ namespace WPF_Tranning.ModelAndView
         {
             model = new ChartBindingModel();
             Data = GetDataPoints();
-            
+            DataModel.CurrentClassPath = GetType().FullName; // 현재 접근한 클래스
+
+
         }
     }
 }

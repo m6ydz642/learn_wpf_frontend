@@ -101,6 +101,7 @@
     <Compile Include="ModelAndView\PivotGridControlModelAndView.cs" />
     <Compile Include="ModelAndView\SearchScoreViewAndModel.cs" />
     <Compile Include="Model\ChartBindingModel.cs" />
+    <Compile Include="Model\DataModel.cs" />
     <Compile Include="View\ChartBindingView.xaml.cs">
       <DependentUpon>ChartBindingView.xaml</DependentUpon>
     </Compile>

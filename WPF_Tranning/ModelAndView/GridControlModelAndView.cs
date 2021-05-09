@@ -38,6 +38,7 @@ namespace WPF_Tranning
         public ICommand GetBindingScoreInfomation { get; set; }
         public ICommand SaveExcelGrid { get; set; }
         public ICommand ComboboxLoaded { get; set; }
+        public ICommand UnloadDataCheck { get; set; }
 
         public string ComboSelected { get; set; }
         /**********************************************************************/
@@ -75,6 +76,7 @@ namespace WPF_Tranning
             SaveExcelGrid = new RelayCommand(new Action<object>(this.SaveExcelGridFunction));
             GetBindingScoreInfomation = new RelayCommand(new Action<object>(this.GetBindingScoreInfo));
             ComboboxLoaded = new RelayCommand(new Action<object>(this.GetComboboxLoaded));
+            UnloadDataCheck = new RelayCommand(new Action<object>(this.UnloadCheckEvent));
 
             GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             GetBindingScoreData = new DataTable();
@@ -85,6 +87,19 @@ namespace WPF_Tranning
 
             ComboBoxSelect = GetSelectTestCode(); // DB로 넣었다 치고 데이터 가져와보기
             TestData = MakeDataSet().Tables[0]; // 바인딩할 용도는 아니고 잠시 DataSet로 직접 데이터 DB처럼 해보기
+        }
+
+        private void UnloadCheckEvent(object obj)
+        {
+            DataTable Status;
+
+            Status = GetScoreInfomation.GetChanges(); // 추가, 수정 여부 구분해서 뜸
+            var datatstatus = Status;
+            if (datatstatus != null)
+            {
+                MessageBox.Show("저장되지 않은 내용이 있습니다");
+                return;
+            }
         }
 
         public void Loading() { // 로딩바 준비

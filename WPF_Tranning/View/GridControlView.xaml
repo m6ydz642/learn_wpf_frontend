@@ -22,6 +22,14 @@
 
     </UserControl.Resources>
     <Grid>
+        <!--꼭 그리드 컨트롤이나 특정 태그 안에 넣어야 하는건 아님 이런식으로 가능-->
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Unloaded">
+                <!--언 로드시 바인딩-->
+                <i:InvokeCommandAction Command="{Binding UnloadDataCheck}"  
+                                           CommandParameter="{Binding ElementName=GirdControlBand, Mode=OneWay}"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="90" />
