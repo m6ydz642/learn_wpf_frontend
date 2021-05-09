@@ -60,7 +60,7 @@ namespace WPF_Tranning.ModelAndView
             }
         }
 
-        private void ComboSelectBinding(object obj) // 콤보 박스 선택시 이벤트 호출
+        public void ComboSelectBinding(object obj) // 콤보 박스 선택시 이벤트 호출
         {
             var convert = (ComboBoxEdit)obj;
             DataRowView oDataRowView = convert.SelectedItem as DataRowView;

@@ -8,8 +8,29 @@
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
-             d:DesignHeight="831" d:DesignWidth="1266">
+             d:DesignHeight="831" d:DesignWidth="1266"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm">
     <Grid>
+
+        <dxe:ComboBoxEdit  x:Name="combobox" ItemsSource="{Binding ComboBoxSelect, UpdateSourceTrigger=PropertyChanged}"
+                           SelectedIndex="0"
+                       
+                           Margin="275,51,840,746">
+
+        <dxmvvm:Interaction.Behaviors>
+
+            <dxmvvm:EventToCommand EventName="EditValueChanged" 
+                                       
+                                       Command="{Binding DataContext.ComboSelectedEvent, 
+                                        UpdateSourceTrigger=PropertyChanged, ElementName=combobox}"
+                                       CommandParameter="{Binding ElementName=combobox}"
+                                       />
+        </dxmvvm:Interaction.Behaviors>
+
+
+        </dxe:ComboBoxEdit>
+
+    
         <dxg:GridControl ToolTip="최대 3자리 까지 입력하십시오"
                          x:Name="GirdControlBand" 
                          AutoGenerateColumns="None" 
@@ -35,9 +56,9 @@
             
 
             <dxg:GridControl.Bands>
-                
-            
-                <dxg:GridControlBand Header="">
+
+
+                <dxg:GridControlBand Header="{Binding Test2, Mode=TwoWay}">
                     <!--체크박스 및 체크박스 영역, 컬럼-->
                     <dxg:GridColumn  FieldName="Nm" Width="50*" Header="" >
                       

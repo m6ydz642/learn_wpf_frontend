@@ -26,6 +26,7 @@ namespace WPF_Tranning
         {
             InitializeComponent();
             DataContext = new GridCotrolBandModelAndView();
+           
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)

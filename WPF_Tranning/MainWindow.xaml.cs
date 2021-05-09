@@ -51,7 +51,10 @@ namespace WPF_Tranning
             System.IO.File.WriteAllText(CurrentDirectory+textFile , textcontent, Encoding.Default); // 클래스 명 파일씀
 
 
-
+        
+              string method =  System.Reflection.MethodBase.GetCurrentMethod().ReflectedType.Name+ " > " 
+                + System.Reflection.MethodBase.GetCurrentMethod().Name;
+            // 메소드 정보 가져오기 테스트
         }
     }
 }

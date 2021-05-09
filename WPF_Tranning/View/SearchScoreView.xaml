@@ -81,7 +81,7 @@
 
 
 
-        <dxe:ComboBoxEdit  x:Name="combobox" ItemsSource="{Binding GetScoreInfomation}"
+        <dxe:ComboBoxEdit  x:Name="combobox" ItemsSource="{Binding GetScoreInfomation, UpdateSourceTrigger=PropertyChanged}"
                           
                            ValueMember="Score" 
                            DisplayMember="Score_id" 
@@ -91,13 +91,14 @@
             <dxmvvm:Interaction.Behaviors>
 
                 <dxmvvm:EventToCommand EventName="Loaded" 
-                                       PassEventArgsToCommand="True" Command="{Binding ComboboxLoaded, 
-                                        UpdateSourceTrigger=PropertyChanged}"
+                                       PassEventArgsToCommand="True" 
+                                       Command="{Binding DataContext.ComboboxLoaded, 
+                                        UpdateSourceTrigger=PropertyChanged, ElementName=combobox}"
                                        CommandParameter="{Binding ElementName=combobox}"
                                        />
 
                 <dxmvvm:EventToCommand EventName="EditValueChanged" 
-                                       PassEventArgsToCommand="True" Command="{Binding ComboSelectedEvent, 
+                                       Command="{Binding ComboSelectedEvent, 
                                         UpdateSourceTrigger=PropertyChanged}"
                                        CommandParameter="{Binding ElementName=combobox}"
                                        />
