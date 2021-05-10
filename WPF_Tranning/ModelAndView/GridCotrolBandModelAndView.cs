@@ -18,7 +18,7 @@ namespace WPF_Tranning
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public string[] _week;
+    /*    public string[] _week;
         public string[] Week
         {
             get
@@ -31,9 +31,9 @@ namespace WPF_Tranning
                 OnPropertyChanged("Week");
 
             }
-        }
+        }*/
 
-
+/*
         public string[] _weekDay;
         public string[] WeekDay {
             get
@@ -45,15 +45,16 @@ namespace WPF_Tranning
                 OnPropertyChanged("WeekDay");
 
             }
-        }
+        }*/
 
         public ObservableCollection<string> ComboBoxSelect { get; set; }
+        public ObservableCollection<string> WeekDay { get; set; }
+        public ObservableCollection<string> Week { get; set; }
         public ICommand GirdControlBandLoaded { get; set; }
         public ICommand UnloadCommand { get; set; }
         public ICommand ComboSelectedEvent { get; set; }
         private string ComboMode { get; set; }
 
-        //  public string CurrentClassPath { get; set; }
 
 
         private string _mask;
@@ -86,8 +87,22 @@ namespace WPF_Tranning
                 OnPropertyChanged("Test");
             }
         }
+        private string _test2;
+        public string Test2 
 
-        public string Test2 { get; set; }
+        {
+            get
+            {
+
+                return _test2;
+            }
+            set
+            {
+                _test2 = value;
+                OnPropertyChanged("Test2");
+            }
+        }
+
 
         public GridCotrolBandModelAndView()
         {
@@ -95,6 +110,9 @@ namespace WPF_Tranning
             ComboBoxSelect.Add("데이터모드 1");
             ComboBoxSelect.Add("데이터모드 2");
             ComboMode = "데이터모드 1";
+            Week = new ObservableCollection<string>();
+            WeekDay = new ObservableCollection<string>();
+        
             GirdControlBandLoaded = new RelayCommand(new Action<object>(this.GirdControlBandLoadedEvent));
             UnloadCommand = new RelayCommand(new Action<object>(this.UnloadEvent));
             ComboSelectedEvent = new RelayCommand(new Action<object>(this.ComboSelectBinding));
@@ -105,25 +123,18 @@ namespace WPF_Tranning
             // https://docs.devexpress.com/WindowsForms/1499/controls-and-libraries/editors-and-simple-controls/common-editor-features-and-concepts/masks/mask-type-simplified-regular-expressions 
             // 정규식 설명
 
-            Week = new string[8];
-            WeekDay = new string[8];
+         /*   Week = new string[8];
+            WeekDay = new string[8];*/
 
-            DataWeek = MakeTestDataSet().Tables[0];
-            DataColumn = MakeTestDataSet().Tables[1];
+         /*   DataWeek = MakeTestDataSet().Tables[0];
+            DataColumn = MakeTestDataSet().Tables[1];*/
 
-            GetWeek_WeekDay();
+         
             Test = new string[8];
             Test2 = "데이터모드 1";
 
 
-            int j = 0;
-                foreach (DataRow row in DataWeek.Rows)
-            {
-
-
-                Test[j] = row.Field<string>("WeekDay"); // 동적으로 넣었다 치고
-                j++;
-            }
+         
             //DataWeek = TestData();
             //DataColumn = TestData2();
 
@@ -346,17 +357,15 @@ namespace WPF_Tranning
 
             for (int i=0; i<7; i++)
             {
-                Week[i] = usWeekNumber-i + "주";
+               Week.Add(usWeekNumber-i + "주");
             }
 
-            int j = 0;
             foreach (DataRow row in DataWeek.Rows)
             {
-
-
-                WeekDay[j] = row.Field<string>("WeekDay"); // 동적으로 넣었다 치고
-                j++;
+                WeekDay.Add(row.Field<string>("WeekDay")); // 동적으로 넣었다 치고
             }
+
+           string first = WeekDay.First<string> (); // 첫번째 list 반환 테스트
 
             return usWeekNumber;
         }
