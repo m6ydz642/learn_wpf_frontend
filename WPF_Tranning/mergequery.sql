@@ -1,16 +1,42 @@
+---------------------------------------------------------
+-- 사용자 정의 테이블 (저장, 수정용)
 USE [BaseBallGameWinform_DB]
 GO
+CREATE TYPE TYPE_SaveScore AS TABLE(
+-- 사용자 정의 테이블 (저장, 수정용)
+    checkbox bit,
+	Score_id int,
 
-SELECT [Score_id]
-      ,[Score_sub]
-  FROM [dbo].[SubScoreTable]
+	Score varchar(max),
+	 modify datetime,
+	 createdt datetime
+
+)
 
 GO
+-----------------------------------------------------
+-- 스코어 저장 프로시저
+USE [BaseBallGameWinform_DB]
+GO
+create procedure [dbo].[Save_Score] 
+@Get_SaveScore TYPE_SaveScore READONLY
+-- 스코어 저장 프로시저
+as Begin
+MERGE INTO ScoreTable as A --INSERT/UPDATE 할 테이블
+ USING @Get_SaveScore as B
+      ON (A.Score_id = B.Score_id )--조건
+
+			when Matched  and A.Score != B.Score then 
+					   UPDATE SET  A.Score = B.Score , A.modify=getdate()-- 내용변경만 가능하게 수정
+
+		WHEN not MATCHED  THEN --B.Score_id != B.Score_id 자체가 말이 안되는 조건이라 insert도 안됨
+		 			          INSERT (score,createdt) VALUES(B.Score, getdate());
+
+end
+
+------------------------------------------------------------------------------
 
 
---insert into SubScoreTable values (1, 'test')
-update SubScoreTable set score_id = 3 where score_id = 2;
-update ScoreTable set score_id = 2 where score_id = 2; 
 
 
 
@@ -97,10 +123,11 @@ end
 
 
 
+
 select * from information_schema.table_constraints where table_name = 'dbo.TB_AuthUser' -- 테이블 기준 외래키 조회
 
 -----------------------------------------------------------
-drop procedure Save_Score
+drop procedure [dbo].[Save_Score] 
 drop type TYPE_SaveScore
 exec Save_Score
 select * from ScoreTable
@@ -161,20 +188,7 @@ MERGE INTO ScoreTable as A --INSERT/UPDATE 할 테이블
 end
 
 -----------------------------------------------
-USE [BaseBallGameWinform_DB]
-GO
-CREATE TYPE TYPE_SaveScore AS TABLE(
--- 사용자 정의 테이블 (저장, 수정용)
-    checkbox bit,
-	Score_id int,
 
-	Score varchar(max),
-	 modify datetime,
-	 createdt datetime
-
-)
-
-GO
 
 
 ------------------------------------------------- 스코어 검색 프로시저
