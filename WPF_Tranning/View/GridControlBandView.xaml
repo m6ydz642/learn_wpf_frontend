@@ -13,7 +13,7 @@
     <Grid>
 
         <dxe:ComboBoxEdit  x:Name="combobox" ItemsSource="{Binding ComboBoxSelect, UpdateSourceTrigger=PropertyChanged}"
-                           SelectedItem="{Binding Test2}"
+                           SelectedItem="{Binding ComboMode}"
                        
                            Margin="275,51,840,746">
 

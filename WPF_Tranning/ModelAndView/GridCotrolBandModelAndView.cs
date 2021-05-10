@@ -53,7 +53,7 @@ namespace WPF_Tranning
         public ICommand GirdControlBandLoaded { get; set; }
         public ICommand UnloadCommand { get; set; }
         public ICommand ComboSelectedEvent { get; set; }
-        private string ComboMode { get; set; }
+        public string ComboMode { get; set; }
 
 
 
@@ -73,37 +73,7 @@ namespace WPF_Tranning
         }
 
 
-        private string[] _test;
-        public string[] Test
-        {
-            get
-            {
-
-                return _test;
-            }
-            set
-            {
-                _test = value;
-                OnPropertyChanged("Test");
-            }
-        }
-        private string _test2;
-        public string Test2 
-
-        {
-            get
-            {
-
-                return _test2;
-            }
-            set
-            {
-                _test2 = value;
-                OnPropertyChanged("Test2");
-            }
-        }
-
-
+   
         public GridCotrolBandModelAndView()
         {
             ComboBoxSelect = new ObservableCollection<string>();
@@ -123,24 +93,6 @@ namespace WPF_Tranning
             // https://docs.devexpress.com/WindowsForms/1499/controls-and-libraries/editors-and-simple-controls/common-editor-features-and-concepts/masks/mask-type-simplified-regular-expressions 
             // 정규식 설명
 
-         /*   Week = new string[8];
-            WeekDay = new string[8];*/
-
-         /*   DataWeek = MakeTestDataSet().Tables[0];
-            DataColumn = MakeTestDataSet().Tables[1];*/
-
-         
-            Test = new string[8];
-            Test2 = "데이터모드 1";
-
-
-         
-            //DataWeek = TestData();
-            //DataColumn = TestData2();
-
-
-
-
 
             DataModel.CurrentClassPath = typeof(GridControlBandView).FullName; // 현재 접근한 클래스
         }
@@ -149,14 +101,14 @@ namespace WPF_Tranning
         {
             var convert = (DevExpress.Xpf.Editors.ComboBoxEdit)obj;
 
-            ComboMode= convert.SelectedItem.ToString();
+            ComboMode = convert.SelectedItem.ToString();
          
             if (ComboMode.Equals("데이터모드 1"))
             {
                 MaskRegex = "[0-9]{2}|[0-9]{3}"; // 최대 2자리 또는 3자리
                 DataWeek = MakeTestDataSet().Tables[0]; 
                 DataColumn = MakeTestDataSet().Tables[1];
-                Test2 = "데이터모드 1";
+                ComboMode = "데이터모드 1";
                 GetWeek_WeekDay();
           
                 MessageBox.Show("데이터 모드 1 실행, 정규식 모드 : 숫자 세자리");
@@ -168,7 +120,7 @@ namespace WPF_Tranning
                 MaskRegex = "\\d[2]\\.\\d{2}";
                 DataWeek = MakeTestDataSet2().Tables[0]; 
                 DataColumn = MakeTestDataSet2().Tables[1];
-                Test2 = "데이터모드 2";
+                ComboMode = "데이터모드 2";
 
                 GetWeek_WeekDay();
                 MessageBox.Show("데이터 모드 2 실행, 정규식 모드 : 소수점");
