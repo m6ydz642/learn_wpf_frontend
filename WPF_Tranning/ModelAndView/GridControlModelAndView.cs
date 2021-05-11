@@ -17,6 +17,7 @@ using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Core;
 using DevExpress.Mvvm;
+using CommomCode;
 
 
 /*using GridControl = DevExpress.Xpf.Grid.GridControl; 
@@ -86,9 +87,11 @@ namespace WPF_Tranning
             TestData = MakeDataSet().Tables[0]; // 바인딩할 용도는 아니고 잠시 DataSet로 직접 데이터 DB처럼 해보기
             GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             GetBindingScoreData = new DataTable();
-            _scoreDataSet = new DataSet();
             _scoreDataSet = GetScoreInfo();
             manager.Close();
+
+            TestCom a = new TestCom();
+            a.Test();
         }
       
         public GridControlModelAndView()
@@ -250,15 +253,6 @@ namespace WPF_Tranning
    
         }
 
-     
-      
-
-
-
-
-
-
-
 
 
         #region 클릭이벤트
@@ -399,7 +393,7 @@ namespace WPF_Tranning
                 _selectScore.Rows.Add(false, CellScore_id, score2);
 
              }*/
-            _selectScore.TableName = "ScoreTable";
+
          
         }
 

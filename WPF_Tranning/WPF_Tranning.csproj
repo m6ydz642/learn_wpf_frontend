@@ -188,5 +188,11 @@
   <ItemGroup>
     <Folder Include="백업\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommomCode\CommomCode.csproj">
+      <Project>{837260ce-f9d2-4a1b-b9bb-b5c129c990dc}</Project>
+      <Name>CommomCode</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
