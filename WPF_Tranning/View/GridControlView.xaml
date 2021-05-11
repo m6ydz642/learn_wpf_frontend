@@ -22,6 +22,8 @@
 
     </UserControl.Resources>
     <Grid>
+      
+        
         <!--꼭 그리드 컨트롤이나 특정 태그 안에 넣어야 하는건 아님 이런식으로 가능-->
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Unloaded">
@@ -234,10 +236,19 @@
             </dxg:GridControl.View>
 
         </dxg:GridControl>
-      
 
 
 
+        <!--<dx:WaitIndicator Content="Loading...">
+            <dx:WaitIndicator.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Please Wait" FontSize="20"/>
+                        <TextBlock Text="{Binding WaitIndicatorText}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </dx:WaitIndicator.ContentTemplate>
+        </dx:WaitIndicator>-->
 
     </Grid>
 

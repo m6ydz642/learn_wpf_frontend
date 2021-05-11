@@ -162,14 +162,14 @@ namespace WPF_Tranning
 
             ds.Tables.Add("CssTable");
 
-             ds.Tables["CssTable"].Columns.Add("Nm");
-             ds.Tables["CssTable"].Columns.Add("W1");
-             ds.Tables["CssTable"].Columns.Add("W2");
-             ds.Tables["CssTable"].Columns.Add("W3");
-             ds.Tables["CssTable"].Columns.Add("W4");
-             ds.Tables["CssTable"].Columns.Add("W5");
-             ds.Tables["CssTable"].Columns.Add("W6");
-             ds.Tables["CssTable"].Columns.Add("W7");
+            ds.Tables["CssTable"].Columns.Add("Nm");
+            ds.Tables["CssTable"].Columns.Add("W1");
+            ds.Tables["CssTable"].Columns.Add("W2");
+            ds.Tables["CssTable"].Columns.Add("W3");
+            ds.Tables["CssTable"].Columns.Add("W4");
+            ds.Tables["CssTable"].Columns.Add("W5");
+            ds.Tables["CssTable"].Columns.Add("W6");
+            ds.Tables["CssTable"].Columns.Add("W7");
 
             ds.Tables["CssTable"].Rows.Add("IP", "널", "널2");
             ds.Tables["CssTable"].Rows.Add("FSB", "널", "널2");

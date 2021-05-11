@@ -15,6 +15,9 @@ using DevExpress.Utils;
 
 using DevExpress.Xpf.Grid;
 using DevExpress.Xpf.Editors;
+using DevExpress.Xpf.Core;
+using DevExpress.Mvvm;
+
 
 /*using GridControl = DevExpress.Xpf.Grid.GridControl; 
 // ExportToXlsx사용사 참조 모호오류떠서 바인딩할때 인자로 받아 쓰던 그리드 컨트롤은 xpf.grid로 직접 지정*/
@@ -60,9 +63,37 @@ namespace WPF_Tranning
         }
 
         public string Help { get; set; }
+        public void Loading()
+        {
+            var manager = SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                IsIndeterminate = false
+            });
+            manager.Show();
+            manager.ViewModel.Progress = 100;
 
+            SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                Copyright = "All rights reserved",
+                IsIndeterminate = true,
+                Status = "Starting...",
+                Title = "",
+                Subtitle = "Powered by DevExpress"
+            }
+            ).ShowOnStartup();
+
+            ComboBoxSelect = GetSelectTestCode(); // DB로 넣었다 치고 데이터 가져와보기
+            TestData = MakeDataSet().Tables[0]; // 바인딩할 용도는 아니고 잠시 DataSet로 직접 데이터 DB처럼 해보기
+            GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+            GetBindingScoreData = new DataTable();
+            _scoreDataSet = new DataSet();
+            _scoreDataSet = GetScoreInfo();
+            manager.Close();
+        }
+      
         public GridControlModelAndView()
         {
+            Loading();
             TranningDataModel = new Tranning_Model();
             AddColumn = new RelayCommand(new Action<object>(this.AddContentEvent));
             SelectEvent = new RelayCommand(new Action<object>(this.SelectEventFun));
@@ -78,15 +109,11 @@ namespace WPF_Tranning
             ComboboxLoaded = new RelayCommand(new Action<object>(this.GetComboboxLoaded));
             UnloadDataCheck = new RelayCommand(new Action<object>(this.UnloadCheckEvent));
 
-            GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
-            GetBindingScoreData = new DataTable();
-            _scoreDataSet = new DataSet();
-            _scoreDataSet = GetScoreInfo();
+ 
 
             ToolTipMessage();
 
-            ComboBoxSelect = GetSelectTestCode(); // DB로 넣었다 치고 데이터 가져와보기
-            TestData = MakeDataSet().Tables[0]; // 바인딩할 용도는 아니고 잠시 DataSet로 직접 데이터 DB처럼 해보기
+           
 
             DataModel.CurrentClassPath = typeof(GridControlView).FullName; // 현재 접근한 클래스
         }
@@ -104,10 +131,7 @@ namespace WPF_Tranning
             }
         }
 
-        public void Loading() { // 로딩바 준비
 
-
-        }
 
         private void GetComboboxLoaded(object obj) // 콤보박스 로딩 이벤트
         {
