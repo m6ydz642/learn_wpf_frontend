@@ -53,7 +53,20 @@ namespace WPF_Tranning
         public ICommand GirdControlBandLoaded { get; set; }
         public ICommand UnloadCommand { get; set; }
         public ICommand ComboSelectedEvent { get; set; }
-        public string ComboMode { get; set; }
+        
+        private string _combomode;
+        public string ComboMode {
+
+            get
+            {
+                return _combomode;
+            }
+            set
+            {
+                _combomode = value;
+                OnPropertyChanged("ComboMode");
+            }
+        }
 
 
 
@@ -77,9 +90,8 @@ namespace WPF_Tranning
         public GridCotrolBandModelAndView()
         {
             ComboBoxSelect = new ObservableCollection<string>();
-            ComboBoxSelect.Add("데이터모드 1");
-            ComboBoxSelect.Add("데이터모드 2");
-            ComboMode = "데이터모드 1";
+
+
             Week = new ObservableCollection<string>();
             WeekDay = new ObservableCollection<string>();
         
@@ -286,9 +298,12 @@ namespace WPF_Tranning
             }
         }
 
-        public void test()
+        public void GetData()
         {
-            MessageBox.Show("바인딩 성공");
+            ComboBoxSelect.Add("데이터모드 1");
+            ComboBoxSelect.Add("데이터모드 2");
+            ComboMode = "데이터모드 1";
+    
         }
 
         public int GetWeek_WeekDay()

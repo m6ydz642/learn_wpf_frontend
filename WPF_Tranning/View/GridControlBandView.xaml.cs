@@ -28,7 +28,10 @@ namespace WPF_Tranning
             //  DataContext = new GridCotrolBandModelAndView();
             if (DataContext is GridCotrolBandModelAndView model)
             {
-                model.test();
+                /*              model.ComboBoxSelect.Add("데이터모드 1");
+                              model.ComboBoxSelect.Add("데이터모드 2");
+                              model.ComboMode = "데이터모드 1";*/
+                model.GetData();
             }
             else
             {
