@@ -25,8 +25,16 @@ namespace WPF_Tranning
         public GridControlBandView()
         {
             InitializeComponent();
-            DataContext = new GridCotrolBandModelAndView();
-           
+            //  DataContext = new GridCotrolBandModelAndView();
+            if (DataContext is GridCotrolBandModelAndView model)
+            {
+                model.test();
+            }
+            else
+            {
+
+            }
+
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)

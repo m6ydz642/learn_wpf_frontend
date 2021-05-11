@@ -286,6 +286,10 @@ namespace WPF_Tranning
             }
         }
 
+        public void test()
+        {
+            MessageBox.Show("바인딩 성공");
+        }
 
         public int GetWeek_WeekDay()
         {

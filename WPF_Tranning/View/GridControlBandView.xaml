@@ -10,6 +10,11 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              d:DesignHeight="831" d:DesignWidth="1266"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm">
+
+    <UserControl.DataContext>
+        <local:GridCotrolBandModelAndView/>
+    </UserControl.DataContext>
+    
     <Grid>
 
         <dxe:ComboBoxEdit  x:Name="combobox" ItemsSource="{Binding ComboBoxSelect, UpdateSourceTrigger=PropertyChanged}"
