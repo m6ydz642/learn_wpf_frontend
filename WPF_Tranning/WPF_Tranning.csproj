@@ -189,6 +189,10 @@
     <Folder Include="백업\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AnotherWindow\AnotherPageProject.csproj">
+      <Project>{8840021f-58c7-4dfc-bb35-297e2f090030}</Project>
+      <Name>AnotherPageProject</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommomCode\CommomCode.csproj">
       <Project>{837260ce-f9d2-4a1b-b9bb-b5c129c990dc}</Project>
       <Name>CommomCode</Name>

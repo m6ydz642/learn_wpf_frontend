@@ -46,7 +46,7 @@
 
         <!--<Frame Source="View/GridControlView.xaml"/>-->
         <TreeView x:Name="TreeMainView" HorizontalAlignment="Left" Height="821" 
-                  Margin="0,10,0,0" VerticalAlignment="Top" Width="200">
+                  Margin="0,10,0,0" VerticalAlignment="Top" Width="240">
             <!--<dxmvvm:Interaction.Behaviors>
                 <dxmvvm:EventToCommand  EventName="Loaded" CommandParameter="{Binding ElementName=nav_content}"  Command="{Binding TreeMainView}"/>
             </dxmvvm:Interaction.Behaviors>-->
@@ -90,6 +90,17 @@
                     <!--<dxwuin:FrameNavigationService /> 얘 필요없는거 같은데 왜 있지-->
                 </dxmvvm:Interaction.Behaviors>
             </TreeViewItem>
+
+            <!--다른프로젝트페이지-->
+            <TreeViewItem Header="다른프로젝트 페이지" FontSize="20" Name="AnotherPageTreeView">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:EventToCommand  EventName="Selected" CommandParameter="{Binding ElementName=nav_content}"  Command="{Binding AnotherPage}"/>
+                    <dxmvvm:EventToCommand  EventName="Loaded" CommandParameter="{Binding ElementName=AnotherPage}"  Command="{Binding AnotherWindowLoaded}"/>
+                    <!-- 파라메터 때문에 2개 사용함 -->
+                    <!--<dxwuin:FrameNavigationService /> 얘 필요없는거 같은데 왜 있지-->
+                </dxmvvm:Interaction.Behaviors>
+            </TreeViewItem>
+            
 
         </TreeView>
 

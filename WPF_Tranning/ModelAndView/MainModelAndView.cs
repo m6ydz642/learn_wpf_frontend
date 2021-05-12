@@ -24,6 +24,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
 using System.Text;
+using AnotherPageProject.View;
+
 
 namespace WPF_Tranning
 {
@@ -41,6 +43,7 @@ namespace WPF_Tranning
         public ICommand GridControlBandMenu { get; set; }
         public ICommand GridControlBandMenuTree { get; set; }
         public ICommand EndPage { get; set; }
+        public ICommand AnotherPage { get; set; }
         
       
         
@@ -61,8 +64,16 @@ namespace WPF_Tranning
             GridControlBandMenu = new RelayCommand(new Action<object>(this.GridControlBandMenuBinding));
             GridControlBandMenuTree = new RelayCommand(new Action<object>(this.GridControlBandMenuTreeBinding));
             EndPage = new RelayCommand(new Action<object>(this.EndPageEvent));
+            AnotherPage = new RelayCommand(new Action<object>(this.AnotherPageEvent));
         }
-  
+
+        private void AnotherPageEvent(object obj)
+        {
+            var convert = (NavigationFrame)obj;
+           // convert.Source = new AnotherPage(DataModel.CurrentClassPath);
+            convert.Source = new AnotherPage();
+        }
+
         public void EndPageEvent(object obj)
         {
 
@@ -151,6 +162,7 @@ namespace WPF_Tranning
             if (type == null) { 
                 // null처리, 파일의 클래스가 강제로 바뀌거나, 파일을 읽을 수 없는 경우, 강제로 수정된 경우 포함
                 type = Type.GetType("WPF_Tranning.GridControlBandView"); // 강제로 설정
+                MessageBox.Show(type + " 의 인스턴스가 발견되지 않아 GridControlBandView로 새로 생성합니다");
             }
             return Activator.CreateInstance(type);
         }
