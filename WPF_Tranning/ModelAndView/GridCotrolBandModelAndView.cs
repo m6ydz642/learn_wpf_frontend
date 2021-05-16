@@ -7,6 +7,7 @@ using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -53,6 +54,9 @@ namespace WPF_Tranning
         public ICommand GirdControlBandLoaded { get; set; }
         public ICommand UnloadCommand { get; set; }
         public ICommand ComboSelectedEvent { get; set; }
+        public ICommand CheckRegexIntCommand { get; set; }
+        public ICommand CheckRegexDoubleCommand { get; set; }
+        public ICommand CellValueChangedCommand { get; set; }
         
         private string _combomode;
         public string ComboMode {
@@ -85,8 +89,21 @@ namespace WPF_Tranning
             }
         }
 
+        private string _regex;
+        public string _Regex
+        {          
+                get
+            {
 
-   
+                    return _regex;
+                }
+                set
+            {
+                    _regex = value;
+                    OnPropertyChanged("_Regex");
+                }
+            }
+
         public GridCotrolBandModelAndView()
         {
             ComboBoxSelect = new ObservableCollection<string>();
@@ -98,15 +115,110 @@ namespace WPF_Tranning
             GirdControlBandLoaded = new RelayCommand(new Action<object>(this.GirdControlBandLoadedEvent));
             UnloadCommand = new RelayCommand(new Action<object>(this.UnloadEvent));
             ComboSelectedEvent = new RelayCommand(new Action<object>(this.ComboSelectBinding));
+            CheckRegexIntCommand = new RelayCommand(new Action<object>(this.CheckIntRegexEvent));
+            CheckRegexDoubleCommand = new RelayCommand(new Action<object>(this.CheckDoubleRegexEvent));
+          //  CellValueChangedCommand = new RelayCommandEvent<object, CellValueChangedEventArgs> (this.CellValueChangedEvent);
+            CellValueChangedCommand = new RelayCommand(new Action<object>(this.CellValueChangedEvent));
+
 
             //  MaskRegex = "\\d[2]\\.\\d{2}"; // 콤보박스에 따라 정규식 입력 바뀌게 하기, 데이터 테이블 다른걸로 로딩
-            // MaskRegex = "[0-9]{2}|[0-9]{3}"; // 최대 2자리 또는 3자리
-
+            // _Regex = "";
             // https://docs.devexpress.com/WindowsForms/1499/controls-and-libraries/editors-and-simple-controls/common-editor-features-and-concepts/masks/mask-type-simplified-regular-expressions 
             // 정규식 설명
 
+        // https://www.regextester.com/97491
+        // 정규식 테스트 홈페이지
 
-            DataModel.CurrentClassPath = typeof(GridControlBandView).FullName; // 현재 접근한 클래스
+        DataModel.CurrentClassPath = typeof(GridControlBandView).FullName; // 현재 접근한 클래스
+        }
+
+
+        /*         public ICommand MouseWheelCommand
+
+     {
+
+         get
+
+         {
+
+             return this._mouseWheelCommand ??
+
+                  (this._mouseWheelCommand = new RelayCommand<MouseWheelEventArgs>(this.ExecuteMouseWheel));
+
+         }
+
+     }
+*/
+
+
+
+        private int test() { return 0;  }
+        private void CellValueChangedEvent(object obj)
+        {
+            var convert = (GridControl)obj;
+            Regex rgx = new Regex(_Regex);
+            CellValueChangedEventArgs e;
+         //   var convert2 = (CellValueChangedEventArgs) obj;
+
+            
+          //  string a = convert2.Cell.ToString();
+
+             string text = convert.CurrentCellValue.ToString();
+
+            var errorInt = new Action(() =>
+            {
+                MessageBox.Show("올바른 형식을 확인해주세요 숫자 1~4자리까지 입력가능합니다");
+            });
+
+            var errorDouble = new Action(() =>
+            {
+                MessageBox.Show("올바른 형식을 확인해주세요 소수점 2자리까지 입력가능합니다 예) 1.12");
+            });
+
+            var keepgoing = new Action(() =>
+            {
+            });
+
+            if (ComboMode.Equals("데이터모드 1"))
+            {
+               Action result = rgx.IsMatch(text) ? keepgoing : errorInt;
+                // MessageBox.Show("올바른 형식을 확인해주세요 숫자 1~4자리까지 입력가능합니다");
+            }
+
+            if (ComboMode.Equals("데이터모드 2"))
+            {
+               Action result = rgx.IsMatch(text) ? keepgoing : errorDouble;
+                // MessageBox.Show("올바른 형식을 확인해주세요 소수점 2자리까지 입력가능합니다 예) 1.12");
+            }
+
+
+            // if else문 축약형
+            var a1 = new Action(() => { /* if code block */  });/* if code  */
+            var a2 = new Action(() => { /* else code block */ }); /* else code  */
+           //  Action resultingAction = test_variable ? a1 : a2;
+        }
+
+        private void CheckDoubleRegexEvent(object obj)
+        {
+            var convert = (GridControl)obj;
+            string text = convert.CurrentCellValue.ToString();
+            if (!CheckRegex(text))
+            {
+                MessageBox.Show("올바른 형식을 확인해주세요 소수점 2자리까지 입력가능합니다 예) 1.12");
+
+            }
+            
+        }
+
+        private void CheckIntRegexEvent(object obj)
+        {
+            var convert = (GridControl)obj;
+            string text = convert.CurrentCellValue.ToString();
+            if (!CheckRegex(text))
+            {
+                MessageBox.Show("올바른 형식을 확인해주세요 숫자 1~4자리까지 입력가능합니다");
+
+            }
         }
 
         private void ComboSelectBinding(object obj) // 콤보 박스 선택시 이벤트 호출
@@ -117,25 +229,25 @@ namespace WPF_Tranning
          
             if (ComboMode.Equals("데이터모드 1"))
             {
-                MaskRegex = "[0-9]{2}|[0-9]{3}"; // 최대 2자리 또는 3자리
+                // MaskRegex = "[0-9]{2}|[0-9]{3}"; // 최대 2자리 또는 3자리
                 DataWeek = MakeTestDataSet().Tables[0]; 
                 DataColumn = MakeTestDataSet().Tables[1];
                 ComboMode = "데이터모드 1";
+                _Regex = "^[0-9]{1,5}$"; // 숫자 0~9까지 1자리부터 5자리까지 ( ^시작 $종료)
                 GetWeek_WeekDay();
-          
-                MessageBox.Show("데이터 모드 1 실행, 정규식 모드 : 숫자 세자리");
+                //  MessageBox.Show("데이터 모드 1 실행, 정규식 모드 : 숫자 세자리");
 
 
             }
             if (ComboMode.Equals("데이터모드 2"))
             {
-                MaskRegex = "\\d[2]\\.\\d{2}";
+               //  _Regex = "\\d[2]\\.\\d{2}";
                 DataWeek = MakeTestDataSet2().Tables[0]; 
                 DataColumn = MakeTestDataSet2().Tables[1];
                 ComboMode = "데이터모드 2";
-
+                _Regex = "^[0-9]{1,1}[.][0-9]{1,2}$"; // 소수점 1.23 형식만 사용가능
                 GetWeek_WeekDay();
-                MessageBox.Show("데이터 모드 2 실행, 정규식 모드 : 소수점");
+             //   MessageBox.Show("데이터 모드 2 실행, 정규식 모드 : 소수점");
 
 
             }
@@ -227,75 +339,22 @@ namespace WPF_Tranning
         }
 
 
-        #region 데이터 테이블로 만들기 (이제 데이터 셋으로 넣음)
-        /*    public DataTable TestData()
+
+        private bool CheckRegex(string text)
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("WeekDay");
-
-          
-                dt.Rows.Add("1/1"); // 동적으로 가져왔다 치고
-                dt.Rows.Add("1/2");
-                dt.Rows.Add("1/3");
-                dt.Rows.Add("1/4");
-                dt.Rows.Add("1/5");
-                dt.Rows.Add("1/6");
-                dt.Rows.Add("1/7");
-       
-
-            return dt;
-        }
-
-        public DataTable TestData2()
-        {
-            DataTable dt = new DataTable();
-
-            dt.Columns.Add("Nm");
-            dt.Columns.Add("W1");
-            dt.Columns.Add("W2");
-            dt.Columns.Add("W3");
-            dt.Columns.Add("W4");
-            dt.Columns.Add("W5");
-            dt.Columns.Add("W6");
-            dt.Columns.Add("W7");
-
-            dt.Rows.Add("IP", "널", "널2");
-            dt.Rows.Add("FSB", "널", "널2");
-            dt.Rows.Add("TBP", "널", "널2");
-            dt.Rows.Add("Memb_설치", "널", "널2");
-            dt.Rows.Add("Memb_용접", "널", "널2");
-
-
-            return dt;
-        }*/
-        #endregion
-
-        private DataTable _dataWeek;
-        public DataTable DataWeek // 주차
-        {
-            get {
-
-                 return _dataWeek; }
-            set
+            bool result = false;
+            Regex rgx = new Regex(_Regex);
+            if (ComboMode.Equals("데이터모드 1"))
             {
-                _dataWeek = value;
-                OnPropertyChanged("DataWeek");
+                result = rgx.IsMatch(text);
             }
-        }
 
-        private DataTable _dataColumn;
-        public DataTable DataColumn // 주차
-        {
-            get
+            if (ComboMode.Equals("데이터모드 2"))
             {
+              result = rgx.IsMatch(text);
+            } 
 
-                return _dataColumn;
-            }
-            set
-            {
-                _dataColumn = value;
-                  OnPropertyChanged("DataColumn");
-            }
+            return result;
         }
 
         public void GetData()
@@ -370,6 +429,79 @@ namespace WPF_Tranning
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #region 데이터 테이블로 만들기 (이제 데이터 셋으로 넣음)
+        /*    public DataTable TestData()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("WeekDay");
+
+          
+                dt.Rows.Add("1/1"); // 동적으로 가져왔다 치고
+                dt.Rows.Add("1/2");
+                dt.Rows.Add("1/3");
+                dt.Rows.Add("1/4");
+                dt.Rows.Add("1/5");
+                dt.Rows.Add("1/6");
+                dt.Rows.Add("1/7");
+       
+
+            return dt;
+        }
+
+        public DataTable TestData2()
+        {
+            DataTable dt = new DataTable();
+
+            dt.Columns.Add("Nm");
+            dt.Columns.Add("W1");
+            dt.Columns.Add("W2");
+            dt.Columns.Add("W3");
+            dt.Columns.Add("W4");
+            dt.Columns.Add("W5");
+            dt.Columns.Add("W6");
+            dt.Columns.Add("W7");
+
+            dt.Rows.Add("IP", "널", "널2");
+            dt.Rows.Add("FSB", "널", "널2");
+            dt.Rows.Add("TBP", "널", "널2");
+            dt.Rows.Add("Memb_설치", "널", "널2");
+            dt.Rows.Add("Memb_용접", "널", "널2");
+
+
+            return dt;
+        }*/
+        #endregion
+
+        private DataTable _dataWeek;
+        public DataTable DataWeek // 주차
+        {
+            get
+            {
+
+                return _dataWeek;
+            }
+            set
+            {
+                _dataWeek = value;
+                OnPropertyChanged("DataWeek");
+            }
+        }
+
+        private DataTable _dataColumn;
+        public DataTable DataColumn // 주차
+        {
+            get
+            {
+
+                return _dataColumn;
+            }
+            set
+            {
+                _dataColumn = value;
+                OnPropertyChanged("DataColumn");
             }
         }
     }

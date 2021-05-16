@@ -74,7 +74,7 @@
             </TreeViewItem>
 
             <!--스코어 검색 메뉴-->
-            <TreeViewItem Header="스코어 검색" FontSize="20">
+            <TreeViewItem Header="스코어 검색, 콤보박스" FontSize="20">
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:EventToCommand  EventName="Selected" CommandParameter="{Binding ElementName=nav_content}"  Command="{Binding SearchScoreMenu}"/>
                     <dxwuin:FrameNavigationService />
@@ -82,7 +82,7 @@
             </TreeViewItem>
 
             <!--그리드 컨트롤 밴드-->
-            <TreeViewItem Header="그리드 컨트롤 밴드" FontSize="20" Name="GridControlBandTree">
+            <TreeViewItem Header="컨트롤 밴드, 콤보박스" FontSize="20" Name="GridControlBandTree" Width="230">
                 <dxmvvm:Interaction.Behaviors>
                     <dxmvvm:EventToCommand  EventName="Selected" CommandParameter="{Binding ElementName=nav_content}"  Command="{Binding GridControlBandMenu}"/>
                     <dxmvvm:EventToCommand  EventName="Loaded" CommandParameter="{Binding ElementName=GridControlBandTree}"  Command="{Binding GridControlBandMenuTree}"/>

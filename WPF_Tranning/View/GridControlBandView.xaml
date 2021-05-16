@@ -9,7 +9,13 @@
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              d:DesignHeight="831" d:DesignWidth="1266"
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm">
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             Name="test"
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+
+
+
+>
 
     <UserControl.DataContext>
         <local:GridCotrolBandModelAndView/>
@@ -35,13 +41,21 @@
 
         </dxe:ComboBoxEdit>
 
-    
-        <dxg:GridControl ToolTip="최대 3자리 까지 입력하십시오"
-                         x:Name="GirdControlBand" 
+
+        <Button Command="{Binding CheckRegexIntCommand}" CommandParameter="{Binding ElementName=GirdControlBand}"
+            Margin="459,51,686,746">정수 정규식 체크</Button>
+
+        <Button Command="{Binding CheckRegexDoubleCommand}" CommandParameter="{Binding ElementName=GirdControlBand}"
+            Margin="585,51,551,746">소수점 정규식 체크</Button>
+        
+        <dxg:GridControl x:Name="GirdControlBand" 
                          AutoGenerateColumns="None" 
                          Margin="275,90,61,90" 
                          ItemsSource="{Binding DataColumn, Mode=TwoWay,  
-                         UpdateSourceTrigger=PropertyChanged}">
+                         UpdateSourceTrigger=PropertyChanged}"
+                        
+                         >
+            
             
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded">
@@ -58,8 +72,6 @@
             </i:Interaction.Triggers>
 
 
-            
-
             <dxg:GridControl.Bands>
 
 
@@ -75,6 +87,7 @@
                     <dxg:GridColumn  FieldName="W1" Width="50*" Header="{Binding WeekDay[6]}" >
                         <dxg:GridColumn.EditSettings> <!--정규식 테스트-->
                             <dxe:TextEditSettings Name="manufacCol"  MaskType="RegEx" Mask="{Binding MaskRegex}"/>
+                                                                             <!--마스크 타입-->
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
                 </dxg:GridControlBand>
@@ -104,8 +117,30 @@
 
             </dxg:GridControl.Bands>
 
+
+
+            
             <dxg:GridControl.View>
-                <dxg:TableView AutoWidth="True"  />
+                <dxg:TableView Name="bandtableview" 
+                               AutoWidth="True" 
+                               ShowAutoFilterRow="False" 
+                               >
+
+                    <!--셀값 변경 추가-->
+                    <dxmvvm:Interaction.Behaviors>
+                        <dxmvvm:EventToCommand 
+                            Command="{Binding CellValueChangedCommand}"  
+                            EventName="CellValueChanged" 
+                            CommandParameter="{Binding ElementName=GirdControlBand}"
+                            PassEventArgsToCommand="True">
+   
+                        </dxmvvm:EventToCommand>
+                        
+                        
+                    </dxmvvm:Interaction.Behaviors>
+
+                    
+                </dxg:TableView>
             </dxg:GridControl.View>
 
         </dxg:GridControl>

@@ -20,6 +20,7 @@ using DevExpress.Mvvm;
 using CommomCode;
 
 
+
 /*using GridControl = DevExpress.Xpf.Grid.GridControl; 
 // ExportToXlsx사용사 참조 모호오류떠서 바인딩할때 인자로 받아 쓰던 그리드 컨트롤은 xpf.grid로 직접 지정*/
 
