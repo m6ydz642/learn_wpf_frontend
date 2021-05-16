@@ -11,52 +11,46 @@
              d:DesignHeight="831" d:DesignWidth="1266"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              Name="test"
-             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
-
-
-
->
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions">
 
     <UserControl.DataContext>
         <local:GridCotrolBandModelAndView/>
     </UserControl.DataContext>
-    
+
     <Grid>
 
         <dxe:ComboBoxEdit  x:Name="combobox" ItemsSource="{Binding ComboBoxSelect, UpdateSourceTrigger=PropertyChanged}"
                            SelectedItem="{Binding ComboMode}"
                        
-                           Margin="275,51,840,746">
+                           Margin="115,51,0,0" HorizontalAlignment="Left" Width="151" Height="34" VerticalAlignment="Top">
 
-        <dxmvvm:Interaction.Behaviors>
+            <dxmvvm:Interaction.Behaviors>
 
-            <dxmvvm:EventToCommand EventName="EditValueChanged" 
+                <dxmvvm:EventToCommand EventName="EditValueChanged" 
                                        
                                        Command="{Binding DataContext.ComboSelectedEvent, 
                                         UpdateSourceTrigger=PropertyChanged, ElementName=combobox}"
                                        CommandParameter="{Binding ElementName=combobox}"
                                        />
-        </dxmvvm:Interaction.Behaviors>
+            </dxmvvm:Interaction.Behaviors>
 
 
         </dxe:ComboBoxEdit>
 
 
         <Button Command="{Binding CheckRegexIntCommand}" CommandParameter="{Binding ElementName=GirdControlBand}"
-            Margin="459,51,686,746">정수 정규식 체크</Button>
+            Margin="290,51,0,0" HorizontalAlignment="Left" Width="121" Height="34" VerticalAlignment="Top">정수 정규식 체크</Button>
 
         <Button Command="{Binding CheckRegexDoubleCommand}" CommandParameter="{Binding ElementName=GirdControlBand}"
-            Margin="585,51,551,746">소수점 정규식 체크</Button>
-        
+            Margin="416,51,0,0" HorizontalAlignment="Left" Width="130" Height="34" VerticalAlignment="Top">소수점 정규식 체크</Button>
+
         <dxg:GridControl x:Name="GirdControlBand" 
                          AutoGenerateColumns="None" 
-                         Margin="275,90,61,90" 
+                         Margin="115,90,551,176" 
                          ItemsSource="{Binding DataColumn, Mode=TwoWay,  
-                         UpdateSourceTrigger=PropertyChanged}"
-                        
-                         >
-            
-            
+                         UpdateSourceTrigger=PropertyChanged}">
+
+
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded">
                     <!--로드시 바인딩-->
@@ -78,16 +72,17 @@
                 <dxg:GridControlBand Header="{Binding Test2, Mode=TwoWay}">
                     <!--체크박스 및 체크박스 영역, 컬럼-->
                     <dxg:GridColumn  FieldName="Nm" Width="50*" Header="" >
-                      
+
                     </dxg:GridColumn>
                 </dxg:GridControlBand>
-                
+
                 <dxg:GridControlBand Header="{Binding Week[6]}">
                     <!--체크박스 및 체크박스 영역, 컬럼-->
                     <dxg:GridColumn  FieldName="W1" Width="50*" Header="{Binding WeekDay[6]}" >
-                        <dxg:GridColumn.EditSettings> <!--정규식 테스트-->
+                        <dxg:GridColumn.EditSettings>
+                            <!--정규식 테스트-->
                             <dxe:TextEditSettings Name="manufacCol"  MaskType="RegEx" Mask="{Binding MaskRegex}"/>
-                                                                             <!--마스크 타입-->
+                            <!--마스크 타입-->
                         </dxg:GridColumn.EditSettings>
                     </dxg:GridColumn>
                 </dxg:GridControlBand>
@@ -113,18 +108,17 @@
                 <dxg:GridControlBand Header="{Binding Week[2]}">
                     <dxg:GridColumn FieldName="W5" Width="50*"  Header="{Binding WeekDay[2]}"/>
                 </dxg:GridControlBand>
-                
+
 
             </dxg:GridControl.Bands>
 
 
 
-            
+
             <dxg:GridControl.View>
                 <dxg:TableView Name="bandtableview" 
                                AutoWidth="True" 
-                               ShowAutoFilterRow="False" 
-                               >
+                               ShowAutoFilterRow="False">
 
                     <!--셀값 변경 추가-->
                     <dxmvvm:Interaction.Behaviors>
@@ -133,16 +127,72 @@
                             EventName="CellValueChanged" 
                             CommandParameter="{Binding ElementName=GirdControlBand}"
                             PassEventArgsToCommand="True">
-   
+
                         </dxmvvm:EventToCommand>
-                        
-                        
+
+
                     </dxmvvm:Interaction.Behaviors>
 
-                    
+
+                </dxg:TableView>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+
+
+
+        <!-- decimal 데이터 테스트 전용 -->
+        <dxg:GridControl  x:Name="doublescorelist"  
+                          Grid.Column="0" 
+                          AutoGenerateColumns="None" 
+                         
+                          ItemsSource="{Binding GetDoubleScoreDataTable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Margin="735,90,10,176" >
+
+            <dxg:GridControl.View>
+                <dxg:TableView x:Name="doublescoretableview">
+              
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged" >
+                            <i:InvokeCommandAction Command="{Binding}" CommandParameter="{Binding ElementName=scoreListViewD2B, Mode=OneWay}" />
+                        </i:EventTrigger>
+
+                    </i:Interaction.Triggers>
+
+                    <!--NuGet관리자에서 Install-Package Expression.Blend.Sdk 
+                    Install-Package Microsoft.Xaml.Behaviors.Wpf -Version 1.1.31 2개 설치해야 interaction.Triggers 설치 됨-->
+                    <!--오류있어서 잠시보류-->
+
+                    <!--셀값 변경 추가-->
+                    <dxmvvm:Interaction.Behaviors>
+                        <dxmvvm:EventToCommand Command="{Binding }"  
+                               EventName="CellValueChanged" CommandParameter="{Binding ElementName=scoreListViewD2B}">
+
+                        </dxmvvm:EventToCommand>
+                    </dxmvvm:Interaction.Behaviors>
+
                 </dxg:TableView>
             </dxg:GridControl.View>
 
+            <!--체크박스 및 체크박스 영역, 컬럼-->
+            <dxg:GridColumn FieldName="Score_id" Header="체크박스" Width="100" VisibleIndex="0">
+            </dxg:GridColumn>
+
+            <dxg:GridColumn Width="auto" FieldName="Score_double" Header="스코어번호">
+
+                <dxg:GridColumn.EditSettings>
+                    <!--text 왼쪽 정렬-->
+                    <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
+                </dxg:GridColumn.EditSettings>
+            </dxg:GridColumn>
+
+
+     
+
         </dxg:GridControl>
+        <Button Command="{Binding CheckRegexDoubleDBCommand}" CommandParameter="{Binding ElementName=doublescorelist}"
+            Margin="1126,51,0,0" HorizontalAlignment="Left" Width="130" Height="34" VerticalAlignment="Top" Content="DB 정규식 체크"/>
+        <Button Command="{Binding CheckRegexDoubleDBSaveCommand}" CommandParameter="{Binding ElementName=doublescorelist}"
+            Margin="991,51,0,0" HorizontalAlignment="Left" Width="130" Height="34" VerticalAlignment="Top" Content="Decimal 저장"/>
+
     </Grid>
 </UserControl>

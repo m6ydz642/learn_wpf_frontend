@@ -1,7 +1,61 @@
+
+
+exec [Save_Double_Score]
+exec CheckScoreDouble
+
+drop type TYPE_SaveDoubleScore
+drop procedure [dbo].[Save_Double_Score] 
+
 ---------------------------------------------------------
--- 사용자 정의 테이블 (저장, 수정용)
+-- decimal 조회
 USE [BaseBallGameWinform_DB]
 GO
+
+exec [dbo].[CheckScoreDouble]
+
+select * from dbo.ScoreDouble
+--------------------------------------------------------------------------------
+USE [BaseBallGameWinform_DB]
+GO
+create procedure [dbo].[CheckScoreDouble] 
+-- 정규식 검사전용 테스트 테이블
+as Begin
+
+select * from ScoreDouble
+
+end
+------------------------------------------------------------------------------
+
+
+CREATE TYPE TYPE_SaveDoubleScore AS TABLE(
+-- 사용자 정의 테이블 (소수점 컬럼 수정내용 저장)
+    Score_id bit,
+	Score_double decimal,
+	updatedate date
+)
+
+--------------------
+-- 스코어 decimal 저장 프로시저
+USE [BaseBallGameWinform_DB]
+GO
+Create procedure [dbo].[Save_Double_Score] 
+@Get_SaveDoubleScore TYPE_SaveDoubleScore READONLY
+-- decimal 스코어 저장 프로시저
+as Begin
+MERGE INTO ScoreDouble as A --INSERT/UPDATE 할 테이블
+ USING @Get_SaveDoubleScore as B
+      ON (A.Score_id = B.Score_id )--조건
+
+			when Matched  then  
+				UPDATE SET  A.Score_double = B.Score_double, A.updatedate=getdate() -- 내용변경만 가능하게 수정
+
+			WHEN not MATCHED THEN 
+		 	INSERT (Score_id,Score_double, updatedate) VALUES(B.Score_id, B.Score_double, getdate());
+
+end
+------------------------------------------------------------------------------
+
+
 CREATE TYPE TYPE_SaveScore AS TABLE(
 -- 사용자 정의 테이블 (저장, 수정용)
     checkbox bit,
@@ -244,6 +298,7 @@ end
 
 
 ---------------------------------------------- 프로시저 스코어 저장 이전버전
+
 
 
 

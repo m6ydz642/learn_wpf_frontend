@@ -1,9 +1,13 @@
-﻿using DevExpress.Xpf.Grid;
+﻿using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Grid;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -56,7 +60,9 @@ namespace WPF_Tranning
         public ICommand ComboSelectedEvent { get; set; }
         public ICommand CheckRegexIntCommand { get; set; }
         public ICommand CheckRegexDoubleCommand { get; set; }
+        public ICommand CheckRegexDoubleDBCommand { get; set; }
         public ICommand CellValueChangedCommand { get; set; }
+        public ICommand CheckRegexDoubleDBSaveCommand { get; set; }
         
         private string _combomode;
         public string ComboMode {
@@ -103,9 +109,12 @@ namespace WPF_Tranning
                     OnPropertyChanged("_Regex");
                 }
             }
-
+        /**********************************************************************/
+        string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
+        /**********************************************************************/
         public GridCotrolBandModelAndView()
         {
+            Loading();
             ComboBoxSelect = new ObservableCollection<string>();
 
 
@@ -119,6 +128,8 @@ namespace WPF_Tranning
             CheckRegexDoubleCommand = new RelayCommand(new Action<object>(this.CheckDoubleRegexEvent));
           //  CellValueChangedCommand = new RelayCommandEvent<object, CellValueChangedEventArgs> (this.CellValueChangedEvent);
             CellValueChangedCommand = new RelayCommand(new Action<object>(this.CellValueChangedEvent));
+            CheckRegexDoubleDBCommand = new RelayCommand(new Action<object>(this.CheckRegexDBDoubleDBEvent));
+            CheckRegexDoubleDBSaveCommand = new RelayCommand(new Action<object>(this.CheckRegexDBDoubleSaveDBEvent));
 
 
             //  MaskRegex = "\\d[2]\\.\\d{2}"; // 콤보박스에 따라 정규식 입력 바뀌게 하기, 데이터 테이블 다른걸로 로딩
@@ -132,8 +143,43 @@ namespace WPF_Tranning
         DataModel.CurrentClassPath = typeof(GridControlBandView).FullName; // 현재 접근한 클래스
         }
 
+        private void CheckRegexDBDoubleSaveDBEvent(object obj)
+        {
+            MessageBox.Show("decimal 데이터를 저장합니다");
+            DataTable check = GetDoubleScoreDataTable.GetChanges();
+            if (check != null)
+            {
 
-        /*         public ICommand MouseWheelCommand
+                SaveDecimalDB(GetDoubleScoreDataTable);
+            }
+        }
+
+        private void CheckRegexDBDoubleDBEvent(object obj)
+        {
+            #region 소수점 컬럼 수동검사
+            int count = 0;
+            foreach (DataRow row in GetDoubleScoreDataTable.Rows)
+            {
+                decimal value = row.Field<decimal>("Score_double");
+                if (!CheckRegex(value.ToString()))
+                {
+                    count++;
+                }
+                
+            }
+            if (count >= 1)
+                MessageBox.Show("소수점형식이 맞지 않습니다 2.23형식으로 2자리로 입력해주세요\r\n그래도 맞지 않을경우 데이터 모드2인지 확인해주십시오\r\n" +
+                    "정규식 카운트 결과 : " + count);
+            #endregion
+
+
+        }
+
+
+
+
+        /*         
+         *         public ICommand MouseWheelCommand // ICommand생성자 안쓰는 방식
 
      {
 
@@ -151,8 +197,33 @@ namespace WPF_Tranning
 */
 
 
+        public void Loading()
+        {
+            var manager = SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                IsIndeterminate = false
+            });
+            manager.Show();
+            manager.ViewModel.Progress = 100;
 
-        private int test() { return 0;  }
+            SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                Copyright = "All rights reserved",
+                IsIndeterminate = true,
+                Status = "Starting...",
+                Title = "",
+                Subtitle = "Powered by DevExpress"
+
+            }
+            ).ShowOnStartup();
+
+            GetDoubleScoreDataTable = GetDoubleScoreInfo().Tables[0];
+
+            manager.Close();
+
+
+        }
+    
         private void CellValueChangedEvent(object obj)
         {
             var convert = (GridControl)obj;
@@ -270,76 +341,7 @@ namespace WPF_Tranning
             
         }
 
-        private DataSet MakeTestDataSet()
-
-        {
-            DataSet ds = new DataSet();
-            ds.Tables.Add("WeekSets");
-            ds.Tables["WeekSets"].Columns.Add("WeekDay"); // 데이터 셋이라 테이블로 해야 됨
-            ds.Tables["WeekSets"].Rows.Add("1/1"); 
-            ds.Tables["WeekSets"].Rows.Add("1/2");
-            ds.Tables["WeekSets"].Rows.Add("1/3");
-            ds.Tables["WeekSets"].Rows.Add("1/4");
-            ds.Tables["WeekSets"].Rows.Add("1/5");
-            ds.Tables["WeekSets"].Rows.Add("1/6");
-            ds.Tables["WeekSets"].Rows.Add("1/7");
-
-            ds.Tables.Add("CssTable");
-
-            ds.Tables["CssTable"].Columns.Add("Nm");
-            ds.Tables["CssTable"].Columns.Add("W1");
-            ds.Tables["CssTable"].Columns.Add("W2");
-            ds.Tables["CssTable"].Columns.Add("W3");
-            ds.Tables["CssTable"].Columns.Add("W4");
-            ds.Tables["CssTable"].Columns.Add("W5");
-            ds.Tables["CssTable"].Columns.Add("W6");
-            ds.Tables["CssTable"].Columns.Add("W7");
-
-            ds.Tables["CssTable"].Rows.Add("IP", "널", "널2");
-            ds.Tables["CssTable"].Rows.Add("FSB", "널", "널2");
-            ds.Tables["CssTable"].Rows.Add("TBP", "널", "널2");
-            ds.Tables["CssTable"].Rows.Add("Memb_설치", "널", "널2");
-            ds.Tables["CssTable"].Rows.Add("Memb_용접", "널", "널2");
-
-            return ds;
-        }
-
-        private DataSet MakeTestDataSet2()
-
-        {
-            DataSet ds = new DataSet();
-            ds.Tables.Add("WeekSets");
-            ds.Tables["WeekSets"].Columns.Add("WeekDay"); // 데이터 셋이라 테이블로 해야 됨
-            ds.Tables["WeekSets"].Rows.Add("2/1");
-            ds.Tables["WeekSets"].Rows.Add("2/2");
-            ds.Tables["WeekSets"].Rows.Add("2/3");
-            ds.Tables["WeekSets"].Rows.Add("2/4");
-            ds.Tables["WeekSets"].Rows.Add("2/5");
-            ds.Tables["WeekSets"].Rows.Add("2/6");
-            ds.Tables["WeekSets"].Rows.Add("2/7");
-
-            ds.Tables.Add("CssTable");
-
-            ds.Tables["CssTable"].Columns.Add("Nm");
-            ds.Tables["CssTable"].Columns.Add("W1");
-            ds.Tables["CssTable"].Columns.Add("W2");
-            ds.Tables["CssTable"].Columns.Add("W3");
-            ds.Tables["CssTable"].Columns.Add("W4");
-            ds.Tables["CssTable"].Columns.Add("W5");
-            ds.Tables["CssTable"].Columns.Add("W6");
-            ds.Tables["CssTable"].Columns.Add("W7");
-
-            ds.Tables["CssTable"].Rows.Add("IP", "널2", "널2");
-            ds.Tables["CssTable"].Rows.Add("FSB", "널2", "널2");
-            ds.Tables["CssTable"].Rows.Add("TBP", "널2", "널2");
-            ds.Tables["CssTable"].Rows.Add("Memb_설치2", "널", "널2");
-            ds.Tables["CssTable"].Rows.Add("Memb_용접2", "널", "널2");
-
-            return ds;
-        }
-
-
-
+      
         private bool CheckRegex(string text)
         {
             bool result = false;
@@ -475,6 +477,36 @@ namespace WPF_Tranning
         }*/
         #endregion
 
+
+        public DataSet SaveDecimalDB(DataTable table)
+        {
+            string selectQuery = ConfigurationManager.AppSettings["Save_Double_AppKey"];
+            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+            connection.Open(); // DB연결
+
+            SqlCommand cmd = new SqlCommand(selectQuery, connection);
+            cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
+            cmd.Parameters.Add("@Get_SaveDoubleScore", SqlDbType.Structured).Value = table;
+
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
+            DataSet dataSet = new DataSet();
+            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            return dataSet;
+        }
+
+        public DataSet GetDoubleScoreInfo()
+        {
+            string selectQuery = ConfigurationManager.AppSettings["Score_double"];
+            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+            connection.Open(); // DB연결
+
+            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(selectQuery, connection); // DB통로
+            DataSet dataSet = new DataSet();
+            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            return dataSet;
+        }
+
         private DataTable _dataWeek;
         public DataTable DataWeek // 주차
         {
@@ -504,5 +536,95 @@ namespace WPF_Tranning
                 OnPropertyChanged("DataColumn");
             }
         }
+
+
+        private DataTable _getdoublescoreinfo;
+        public DataTable GetDoubleScoreDataTable
+        {
+            get
+            {
+
+                return _getdoublescoreinfo;
+            }
+            set
+            {
+                _getdoublescoreinfo = value;
+                OnPropertyChanged("GetDoubleScoreDataTable");
+            }
+        }
+
+
+
+        private DataSet MakeTestDataSet()
+
+        {
+            DataSet ds = new DataSet();
+            ds.Tables.Add("WeekSets");
+            ds.Tables["WeekSets"].Columns.Add("WeekDay"); // 데이터 셋이라 테이블로 해야 됨
+            ds.Tables["WeekSets"].Rows.Add("1/1");
+            ds.Tables["WeekSets"].Rows.Add("1/2");
+            ds.Tables["WeekSets"].Rows.Add("1/3");
+            ds.Tables["WeekSets"].Rows.Add("1/4");
+            ds.Tables["WeekSets"].Rows.Add("1/5");
+            ds.Tables["WeekSets"].Rows.Add("1/6");
+            ds.Tables["WeekSets"].Rows.Add("1/7");
+
+            ds.Tables.Add("CssTable");
+
+            ds.Tables["CssTable"].Columns.Add("Nm");
+            ds.Tables["CssTable"].Columns.Add("W1");
+            ds.Tables["CssTable"].Columns.Add("W2");
+            ds.Tables["CssTable"].Columns.Add("W3");
+            ds.Tables["CssTable"].Columns.Add("W4");
+            ds.Tables["CssTable"].Columns.Add("W5");
+            ds.Tables["CssTable"].Columns.Add("W6");
+            ds.Tables["CssTable"].Columns.Add("W7");
+
+            ds.Tables["CssTable"].Rows.Add("IP", "널", "널2");
+            ds.Tables["CssTable"].Rows.Add("FSB", "널", "널2");
+            ds.Tables["CssTable"].Rows.Add("TBP", "널", "널2");
+            ds.Tables["CssTable"].Rows.Add("Memb_설치", "널", "널2");
+            ds.Tables["CssTable"].Rows.Add("Memb_용접", "널", "널2");
+
+            return ds;
+        }
+
+        private DataSet MakeTestDataSet2()
+
+        {
+            DataSet ds = new DataSet();
+            ds.Tables.Add("WeekSets");
+            ds.Tables["WeekSets"].Columns.Add("WeekDay"); // 데이터 셋이라 테이블로 해야 됨
+            ds.Tables["WeekSets"].Rows.Add("2/1");
+            ds.Tables["WeekSets"].Rows.Add("2/2");
+            ds.Tables["WeekSets"].Rows.Add("2/3");
+            ds.Tables["WeekSets"].Rows.Add("2/4");
+            ds.Tables["WeekSets"].Rows.Add("2/5");
+            ds.Tables["WeekSets"].Rows.Add("2/6");
+            ds.Tables["WeekSets"].Rows.Add("2/7");
+
+            ds.Tables.Add("CssTable");
+
+            ds.Tables["CssTable"].Columns.Add("Nm");
+            ds.Tables["CssTable"].Columns.Add("W1");
+            ds.Tables["CssTable"].Columns.Add("W2");
+            ds.Tables["CssTable"].Columns.Add("W3");
+            ds.Tables["CssTable"].Columns.Add("W4");
+            ds.Tables["CssTable"].Columns.Add("W5");
+            ds.Tables["CssTable"].Columns.Add("W6");
+            ds.Tables["CssTable"].Columns.Add("W7");
+
+            ds.Tables["CssTable"].Rows.Add("IP", "널2", "널2");
+            ds.Tables["CssTable"].Rows.Add("FSB", "널2", "널2");
+            ds.Tables["CssTable"].Rows.Add("TBP", "널2", "널2");
+            ds.Tables["CssTable"].Rows.Add("Memb_설치2", "널", "널2");
+            ds.Tables["CssTable"].Rows.Add("Memb_용접2", "널", "널2");
+
+            return ds;
+        }
+
+
+
+
     }
 }
