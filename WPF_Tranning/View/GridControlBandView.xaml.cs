@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DevExpress.Xpf.Grid;
+using DevExpress.XtraGrid.Views.Grid;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +27,9 @@ namespace WPF_Tranning
         public GridControlBandView()
         {
             InitializeComponent();
+            GridOptionsView a = new GridOptionsView();
+            a.ShowErrorPanel = (DevExpress.Utils.DefaultBoolean)1;
+            doublescoretableview.ItemsSourceErrorInfoShowMode = 0;
             //  DataContext = new GridCotrolBandModelAndView();
             if (DataContext is GridCotrolBandModelAndView model)
             {
@@ -42,6 +47,24 @@ namespace WPF_Tranning
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
+
+        }
+
+        private void GridColumn_Validate(object sender, DevExpress.Xpf.Grid.GridCellValidationEventArgs e)
+        {
+
+        }
+
+        private void GridColumn_Validate_1(object sender, DevExpress.Xpf.Grid.GridCellValidationEventArgs e)
+        {
+             e.ErrorContent = string.Format("비하인드 코드 오류 메시지 (입력 형식 오류표시)");
+            
+        }
+
+        private void doublescoretableview_InvalidRowException(object sender, DevExpress.Xpf.Grid.InvalidRowExceptionEventArgs e)
+        {
+            e.ExceptionMode = ExceptionMode.NoAction;
+            
 
         }
     }

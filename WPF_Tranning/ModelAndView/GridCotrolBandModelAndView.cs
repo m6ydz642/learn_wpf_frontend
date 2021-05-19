@@ -14,11 +14,42 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using WPF_Tranning.Model;
 
-namespace WPF_Tranning 
+namespace WPF_Tranning.ModelAndView
 {
+    public class TestConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        { 
+             string value1 = null;
+             string value2 = null;
+            try
+            {
+                string getvalue = value.ToString();
+                value1 = string.Format("{0:0.00}", double.Parse(getvalue));
+                value2  = string.Format("{0:0.00}", double.Parse(getvalue));
+                
+                if (value1.IndexOf(".") == null)
+                    return value2;
+
+            }catch (Exception e)
+            {
+                value1 = "";
+                return value1;
+            }
+
+           return value1;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            object test = "";
+            return test;
+        }
+    }
     class GridCotrolBandModelAndView : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -226,39 +257,22 @@ namespace WPF_Tranning
     
         private void CellValueChangedEvent(object obj)
         {
-            var convert = (GridControl)obj;
+            var convert = (TableView)obj;
             Regex rgx = new Regex(_Regex);
-            CellValueChangedEventArgs e;
-         //   var convert2 = (CellValueChangedEventArgs) obj;
 
-            
-          //  string a = convert2.Cell.ToString();
+          //   string text = convert.CurrentCellValue.ToString();
 
-             string text = convert.CurrentCellValue.ToString();
-
-            var errorInt = new Action(() =>
-            {
-                MessageBox.Show("올바른 형식을 확인해주세요 숫자 1~4자리까지 입력가능합니다");
-            });
-
-            var errorDouble = new Action(() =>
-            {
-                MessageBox.Show("올바른 형식을 확인해주세요 소수점 2자리까지 입력가능합니다 예) 1.12");
-            });
-
-            var keepgoing = new Action(() =>
-            {
-            });
 
             if (ComboMode.Equals("데이터모드 1"))
             {
-               Action result = rgx.IsMatch(text) ? keepgoing : errorInt;
-                // MessageBox.Show("올바른 형식을 확인해주세요 숫자 1~4자리까지 입력가능합니다");
+             /*   string value1 = string.Format("{0:0.00}", double.Parse(getvalue)); // 정규식 없애고 이걸로 테이블로 다시 보내면 될듯
+                string value2 = string.Format("{0:0.00}", double.Parse(getvalue));
+*/
             }
 
             if (ComboMode.Equals("데이터모드 2"))
             {
-               Action result = rgx.IsMatch(text) ? keepgoing : errorDouble;
+            //   Action result = rgx.IsMatch(text) ? keepgoing : errorDouble;
                 // MessageBox.Show("올바른 형식을 확인해주세요 소수점 2자리까지 입력가능합니다 예) 1.12");
             }
 
@@ -272,13 +286,19 @@ namespace WPF_Tranning
         private void CheckDoubleRegexEvent(object obj)
         {
             var convert = (GridControl)obj;
-            string text = convert.CurrentCellValue.ToString();
-            if (!CheckRegex(text))
-            {
-                MessageBox.Show("올바른 형식을 확인해주세요 소수점 2자리까지 입력가능합니다 예) 1.12");
+            string getvalue = convert.CurrentCellValue.ToString();
+            string value1 = string.Format("{0:0.00}", double.Parse(getvalue));
+            string value2 = string.Format("{0:0.00}", double.Parse(getvalue));
 
-            }
-            
+            /* if (!CheckRegex(getvalue))
+             {
+                 MessageBox.Show("올바른 형식을 확인해주세요 소수점 2자리까지 입력가능합니다 예) 1.12");
+
+             }*/
+
+
+
+
         }
 
         private void CheckIntRegexEvent(object obj)

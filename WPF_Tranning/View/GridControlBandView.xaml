@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WPF_Tranning"
+             xmlns:local="clr-namespace:WPF_Tranning.ModelAndView"
+             xmlns:wow="clr-namespace:WPF_Tranning.ModelAndView"
              mc:Ignorable="d" 
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
@@ -13,9 +14,26 @@
              Name="test"
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions">
 
+
     <UserControl.DataContext>
         <local:GridCotrolBandModelAndView/>
     </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <wow:TestConverter x:Key="converter"/>
+
+        <DataTemplate x:Key="editcell">
+            <TextBox Text="{Binding Value, Converter={StaticResource converter}}">
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+        </DataTemplate>
+
+
+    </UserControl.Resources>
 
     <Grid>
 
@@ -70,14 +88,12 @@
 
 
                 <dxg:GridControlBand Header="{Binding Test2, Mode=TwoWay}">
-                    <!--체크박스 및 체크박스 영역, 컬럼-->
                     <dxg:GridColumn  FieldName="Nm" Width="50*" Header="" >
 
                     </dxg:GridColumn>
                 </dxg:GridControlBand>
 
                 <dxg:GridControlBand Header="{Binding Week[6]}">
-                    <!--체크박스 및 체크박스 영역, 컬럼-->
                     <dxg:GridColumn  FieldName="W1" Width="50*" Header="{Binding WeekDay[6]}" >
                         <dxg:GridColumn.EditSettings>
                             <!--정규식 테스트-->
@@ -88,7 +104,7 @@
                 </dxg:GridControlBand>
 
                 <dxg:GridControlBand Header="{Binding Week[5]}">
-                    <dxg:GridColumn FieldName="W2" Width="100*" Header="{Binding WeekDay[5]}"  />
+                    <dxg:GridColumn FieldName="W2" Width="100*" Header="{Binding WeekDay[5]}" />
                 </dxg:GridControlBand>
 
 
@@ -125,7 +141,7 @@
                         <dxmvvm:EventToCommand 
                             Command="{Binding CellValueChangedCommand}"  
                             EventName="CellValueChanged" 
-                            CommandParameter="{Binding ElementName=GirdControlBand}"
+                            CommandParameter="{Binding ElementName=bandtableview}"
                             PassEventArgsToCommand="True">
 
                         </dxmvvm:EventToCommand>
@@ -144,13 +160,15 @@
         <dxg:GridControl  x:Name="doublescorelist"  
                           Grid.Column="0" 
                           AutoGenerateColumns="None" 
-                         
+                          
                           ItemsSource="{Binding GetDoubleScoreDataTable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Margin="735,90,10,176" >
 
             <dxg:GridControl.View>
-                <dxg:TableView x:Name="doublescoretableview">
-              
+                <dxg:TableView x:Name="doublescoretableview" 
+                               InvalidRowException="doublescoretableview_InvalidRowException" ShowValidationAttributeErrors="False"
+                               >
+
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged" >
                             <i:InvokeCommandAction Command="{Binding}" CommandParameter="{Binding ElementName=scoreListViewD2B, Mode=OneWay}" />
@@ -174,19 +192,29 @@
             </dxg:GridControl.View>
 
             <!--체크박스 및 체크박스 영역, 컬럼-->
-            <dxg:GridColumn FieldName="Score_id" Header="체크박스" Width="100" VisibleIndex="0">
+            <dxg:GridColumn FieldName="Score_id" Header="체크박스" Width="102.833333333333" VisibleIndex="0" SortOrder="Ascending" SortIndex="0" >
             </dxg:GridColumn>
 
-            <dxg:GridColumn Width="auto" FieldName="Score_double" Header="스코어번호">
+            <dxg:GridColumn Width="auto" Name="Score_double" FieldName="Score_double" Header="스코어번호" 
+                            
+                           UnboundType="Boolean">
 
                 <dxg:GridColumn.EditSettings>
                     <!--text 왼쪽 정렬-->
                     <dxe:TextEditSettings HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
+
+                <!--컨버터 할 내용-->
+                <dxg:GridColumn.DisplayTemplate>
+                    <ControlTemplate>
+                        <TextBlock Text="{Binding Value, Converter={StaticResource  converter}}"/>
+                    </ControlTemplate>
+                </dxg:GridColumn.DisplayTemplate>
+
             </dxg:GridColumn>
 
 
-     
+
 
         </dxg:GridControl>
         <Button Command="{Binding CheckRegexDoubleDBCommand}" CommandParameter="{Binding ElementName=doublescorelist}"
