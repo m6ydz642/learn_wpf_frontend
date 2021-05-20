@@ -94,6 +94,7 @@ namespace WPF_Tranning.ModelAndView
         public ICommand CheckRegexDoubleDBCommand { get; set; }
         public ICommand CellValueChangedCommand { get; set; }
         public ICommand CheckRegexDoubleDBSaveCommand { get; set; }
+        public ICommand CheckDoubleCellChangeEventCommand { get; set; }
         
         private string _combomode;
         public string ComboMode {
@@ -161,6 +162,7 @@ namespace WPF_Tranning.ModelAndView
             CellValueChangedCommand = new RelayCommand(new Action<object>(this.CellValueChangedEvent));
             CheckRegexDoubleDBCommand = new RelayCommand(new Action<object>(this.CheckRegexDBDoubleDBEvent));
             CheckRegexDoubleDBSaveCommand = new RelayCommand(new Action<object>(this.CheckRegexDBDoubleSaveDBEvent));
+            CheckDoubleCellChangeEventCommand = new RelayCommand(new Action<object>(this.CheckDoubleCellChangeEvent));
 
 
             //  MaskRegex = "\\d[2]\\.\\d{2}"; // 콤보박스에 따라 정규식 입력 바뀌게 하기, 데이터 테이블 다른걸로 로딩
@@ -173,6 +175,8 @@ namespace WPF_Tranning.ModelAndView
 
         DataModel.CurrentClassPath = typeof(GridControlBandView).FullName; // 현재 접근한 클래스
         }
+
+ 
 
         private void CheckRegexDBDoubleSaveDBEvent(object obj)
         {
@@ -235,7 +239,7 @@ namespace WPF_Tranning.ModelAndView
                 IsIndeterminate = false
             });
             manager.Show();
-            manager.ViewModel.Progress = 100;
+            manager.ViewModel.Progress = 100; // 로딩바 퍼센트
 
             SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
             {
@@ -254,7 +258,8 @@ namespace WPF_Tranning.ModelAndView
 
 
         }
-    
+
+       
         private void CellValueChangedEvent(object obj)
         {
             var convert = (TableView)obj;
@@ -301,6 +306,19 @@ namespace WPF_Tranning.ModelAndView
 
         }
 
+        #region 그리드 컨트롤 2번째꺼 
+        // 셀 변경 이벤트
+        private void CheckDoubleCellChangeEvent(object obj)
+        {
+            var converter = (TableView)obj;
+
+
+
+            // string value = string.Format("{0:0.00}", double.Parse(getvalue));
+
+        }
+
+
         private void CheckIntRegexEvent(object obj)
         {
             var convert = (GridControl)obj;
@@ -311,6 +329,7 @@ namespace WPF_Tranning.ModelAndView
 
             }
         }
+        #endregion
 
         private void ComboSelectBinding(object obj) // 콤보 박스 선택시 이벤트 호출
         {

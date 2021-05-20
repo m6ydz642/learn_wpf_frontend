@@ -182,8 +182,8 @@
 
                     <!--셀값 변경 추가-->
                     <dxmvvm:Interaction.Behaviors>
-                        <dxmvvm:EventToCommand Command="{Binding }"  
-                               EventName="CellValueChanged" CommandParameter="{Binding ElementName=scoreListViewD2B}">
+                        <dxmvvm:EventToCommand Command="{Binding CheckDoubleCellChangeEventCommand}"  
+                               EventName="CellValueChanged" CommandParameter="{Binding ElementName=doublescoretableview}">
 
                         </dxmvvm:EventToCommand>
                     </dxmvvm:Interaction.Behaviors>
