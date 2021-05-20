@@ -193,7 +193,7 @@ namespace WPF_Tranning.ModelAndView
         {
             #region 소수점 컬럼 수동검사
             int count = 0;
-            foreach (DataRow row in GetDoubleScoreDataTable.Rows)
+           /* foreach (DataRow row in GetDoubleScoreDataTable.Rows)
             {
                 decimal value = row.Field<decimal>("Score_double");
                 if (!CheckRegex(value.ToString()))
@@ -201,6 +201,29 @@ namespace WPF_Tranning.ModelAndView
                     count++;
                 }
                 
+            }*/ // 람다식으로 변경
+            
+            foreach (DataRow row in GetDoubleScoreDataTable.Rows)
+            {
+                decimal value = row.Field<decimal>("Score_double");
+
+                #region 데이터 모드2에서 람다식 정규식 체크
+                Func<string, bool> CheckRegex = (text) =>
+                {
+                    bool result = false;
+                    Regex rgx = new Regex(_Regex);
+                    if (ComboMode.Equals("데이터모드 2"))
+                    {
+                        result = rgx.IsMatch(text);
+                    }
+                    return result;
+                };
+                #endregion
+
+                if (!CheckRegex(value.ToString()))
+                {
+                    count++;
+                }  
             }
             if (count >= 1)
                 MessageBox.Show("소수점형식이 맞지 않습니다 2.23형식으로 2자리로 입력해주세요\r\n그래도 맞지 않을경우 데이터 모드2인지 확인해주십시오\r\n" +
@@ -231,6 +254,7 @@ namespace WPF_Tranning.ModelAndView
      }
 */
 
+        // 람다식으로 변경해서 안씀
         private bool CheckRegex(string text)
         {
             bool result = false;
@@ -337,8 +361,20 @@ namespace WPF_Tranning.ModelAndView
         private void CheckIntRegexEvent(object obj)
         {
             var convert = (GridControl)obj;
-            string text = convert.CurrentCellValue.ToString();
-            if (!CheckRegex(text))
+            string value = convert.CurrentCellValue.ToString();
+
+            Func<string, bool> CheckRegex = (text) =>
+            {
+                bool result = false;
+                Regex rgx = new Regex(_Regex);
+                if (ComboMode.Equals("데이터모드 1"))
+                {
+                    result = rgx.IsMatch(text);
+                }
+                return result;
+            };
+
+            if (!CheckRegex(value))
             {
                 MessageBox.Show("올바른 형식을 확인해주세요 숫자 1~4자리까지 입력가능합니다");
 
