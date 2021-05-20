@@ -50,7 +50,7 @@ namespace WPF_Tranning.ModelAndView
             return test;
         }
     }
-    class GridCotrolBandModelAndView : INotifyPropertyChanged
+    public class GridCotrolBandModelAndView : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -231,7 +231,22 @@ namespace WPF_Tranning.ModelAndView
      }
 */
 
+        private bool CheckRegex(string text)
+        {
+            bool result = false;
+            Regex rgx = new Regex(_Regex);
+            if (ComboMode.Equals("데이터모드 1"))
+            {
+                result = rgx.IsMatch(text);
+            }
 
+            if (ComboMode.Equals("데이터모드 2"))
+            {
+                result = rgx.IsMatch(text);
+            }
+
+            return result;
+        }
         public void Loading()
         {
             var manager = SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
@@ -381,22 +396,7 @@ namespace WPF_Tranning.ModelAndView
         }
 
       
-        private bool CheckRegex(string text)
-        {
-            bool result = false;
-            Regex rgx = new Regex(_Regex);
-            if (ComboMode.Equals("데이터모드 1"))
-            {
-                result = rgx.IsMatch(text);
-            }
-
-            if (ComboMode.Equals("데이터모드 2"))
-            {
-              result = rgx.IsMatch(text);
-            } 
-
-            return result;
-        }
+    
 
         public void GetData()
         {

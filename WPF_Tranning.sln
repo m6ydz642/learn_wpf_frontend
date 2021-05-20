@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommomCode", "CommomCode\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnotherPageProject", "AnotherWindow\AnotherPageProject.csproj", "{8840021F-58C7-4DFC-BB35-297E2F090030}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject2", "UnitTestProject2\UnitTestProject2.csproj", "{1F15ED86-BAD3-4DDA-BAA6-2B2020F9854F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{8840021F-58C7-4DFC-BB35-297E2F090030}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8840021F-58C7-4DFC-BB35-297E2F090030}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8840021F-58C7-4DFC-BB35-297E2F090030}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F15ED86-BAD3-4DDA-BAA6-2B2020F9854F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F15ED86-BAD3-4DDA-BAA6-2B2020F9854F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F15ED86-BAD3-4DDA-BAA6-2B2020F9854F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F15ED86-BAD3-4DDA-BAA6-2B2020F9854F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
