@@ -297,7 +297,7 @@ namespace WPF_Tranning
                     worksheet.Range("C1:D2").Merge();
                     worksheet.Cell("C1").Value = "와우";
 
-                    if (worksheet.Cell("A3").Value.Equals(worksheet.Cell("A4").Value = "test")) // 값 끼리 같으면 merge
+                    if (worksheet.Cell("A3").Value.Equals(worksheet.Cell("A4").Value)) // 값 끼리 같으면 merge
                         worksheet.Range("A3:A4").Merge();
 
                     workbook.SaveAs(filepath);
