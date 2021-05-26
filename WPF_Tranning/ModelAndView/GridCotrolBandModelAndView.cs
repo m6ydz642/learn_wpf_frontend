@@ -84,8 +84,34 @@ namespace WPF_Tranning.ModelAndView
         }*/
 
         public ObservableCollection<string> ComboBoxSelect { get; set; }
-        public ObservableCollection<string> WeekDay { get; set; }
-        public ObservableCollection<string> Week { get; set; }
+        
+        private ObservableCollection<string> _weekday;
+        public ObservableCollection<string> WeekDay
+        {
+            get
+            {
+                return _weekday;
+            }
+            set
+            {
+                _weekday = value;
+                OnPropertyChanged("WeekDay");
+            }
+        }
+        private ObservableCollection<string> _week;
+
+        public ObservableCollection<string> Week
+        {
+            get
+            {
+                return _week;
+            }
+            set
+            {
+                _week = value;
+                OnPropertyChanged("Week");
+            }
+        }
         public ICommand GirdControlBandLoaded { get; set; }
         public ICommand UnloadCommand { get; set; }
         public ICommand ComboSelectedEvent { get; set; }
@@ -191,8 +217,11 @@ namespace WPF_Tranning.ModelAndView
 
         private void CheckRegexDBDoubleDBEvent(object obj)
         {
+
+
             #region 소수점 컬럼 수동검사
             int count = 0;
+
            /* foreach (DataRow row in GetDoubleScoreDataTable.Rows)
             {
                 decimal value = row.Field<decimal>("Score_double");
@@ -461,6 +490,8 @@ namespace WPF_Tranning.ModelAndView
             int usWeekNumber = calenderCalc.GetWeekOfYear(calculationDate, CalendarWeekRule.FirstDay, DayOfWeek.Sunday) - calenderCalc.GetWeekOfYear(calculationDate1, CalendarWeekRule.FirstDay, DayOfWeek.Sunday) + 1;
 
             // GetWeekOfYear함수는 해당 년도의 주차를 구해주기 때문에 위와 같이 해주면 해당월의 주차가 계산됨
+            Week = new ObservableCollection<string>(); // 초기화
+            WeekDay = new ObservableCollection<string>();
 
             for (int i=0; i<7; i++)
             {
