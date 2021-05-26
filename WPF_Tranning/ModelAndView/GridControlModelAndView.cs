@@ -289,8 +289,17 @@ namespace WPF_Tranning
                     string filepath = @"C:\\Users\\m6ydz642\\source\\repos\\WPF_Tranning\\WPF_Tranning\\HelloWorld.xlsx";
                     worksheet.Cell("A1").Value = "Hello World!";
                     worksheet.Cell("A2").FormulaA1 = "=MID(A1, 7, 6)"; // FormulaA1 (A1) 의 셀을 참조에 7번째부터 6자리수 까지 출력
+
+                    // 임의로 같은 값 만들기
+                    worksheet.Cell("A3").Value = "test";
+                    worksheet.Cell("A4").Value = "test";
+
                     worksheet.Range("C1:D2").Merge();
                     worksheet.Cell("C1").Value = "와우";
+
+                    if (worksheet.Cell("A3").Value.Equals(worksheet.Cell("A4").Value = "test")) // 값 끼리 같으면 merge
+                        worksheet.Range("A3:A4").Merge();
+
                     workbook.SaveAs(filepath);
                     MessageBox.Show("엑셀을 저장후 실행 합니다\r\n파일경로 : " + filepath);
                     Process.Start(filepath); // 자동실행
