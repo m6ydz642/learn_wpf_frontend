@@ -18,6 +18,8 @@ using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.Core;
 using DevExpress.Mvvm;
 using CommomCode;
+using System.Linq;
+using System.Collections.Generic;
 
 
 
@@ -177,6 +179,34 @@ namespace WPF_Tranning
 
             return dt;
         }
+
+        public DataTable ExcelexportTable()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("컬럼1");
+            dt.Columns.Add("컬럼2");
+            dt.Rows.Add("abc");
+            dt.Rows.Add("def");
+            dt.Rows.Add("설치1과");
+            dt.Rows.Add("설치1과");
+            dt.Rows.Add("설치2과");
+            dt.Rows.Add("설치2과");
+            dt.Rows.Add("설치2과");
+            dt.Rows.Add("설치3과");
+            dt.Rows.Add("설치3과");
+            dt.Rows.Add("설치3과");
+            dt.Rows.Add("설치4과");
+            dt.Rows.Add("설치4과");
+            dt.Rows.Add("설치5과");
+            dt.Rows.Add("설치5과");
+            dt.Rows.Add("설치5과");
+            dt.Rows.Add("설치5과");
+            dt.Rows.Add("설치5과");
+           
+
+            return dt;
+
+        }
         private DataSet MakeDataSet()
         {
             DataSet ds = new DataSet();
@@ -285,6 +315,8 @@ namespace WPF_Tranning
 
                 try
                 {
+                    DataTable exceltest = ExcelexportTable();
+
                     var worksheet = workbook.Worksheets.Add("Sample Sheet");
                     string filepath = @"C:\\Users\\m6ydz642\\source\\repos\\WPF_Tranning\\WPF_Tranning\\HelloWorld.xlsx";
                     worksheet.Cell("A1").Value = "Hello World!";
@@ -299,6 +331,63 @@ namespace WPF_Tranning
 
                     if (worksheet.Cell("A3").Value.Equals(worksheet.Cell("A4").Value)) // 값 끼리 같으면 merge
                         worksheet.Range("A3:A4").Merge();
+                    int j = 0;
+
+                    #region 중복제거
+                    var newDt = exceltest.AsEnumerable()
+                              .GroupBy(x => x.Field<string>("컬럼1"))
+                              .Select(y => y.First())
+                               .CopyToDataTable();
+                    #endregion
+
+                    for (int i = 0; i<exceltest.Rows.Count; i++)
+                    {
+                        string rows = exceltest.Rows[i].Field<string>("컬럼1");
+                        worksheet.Range("A" + (i + 10)).Value = rows;
+                        worksheet.Range("A" + (i + 11)).Value = rows;
+
+  
+                       
+                    }
+
+                    int count = 0;
+                    string first = "";
+                    string last = "";
+                    string tempcell = "";
+                    string temp2cell = "";
+                    string temp = "";
+
+                    List <string>  duplicateArray = new List<string>();
+                    for (int i = 0; i < exceltest.Rows.Count; i++)
+                    {
+                        string beforedata = worksheet.Cell("A" + (i + 10)).Value.ToString(); // 0
+                        string afterdata = worksheet.Cell("A" + (i + 11)).Value.ToString(); // 1
+                    //    int size = worksheet.Column("A").CellCount();
+
+                    /*    for (int j=0; j<size; j++) { 
+                        }*/
+
+                        if (beforedata.Equals(afterdata))
+                               {
+                                   count++;
+                           
+
+                                   tempcell = worksheet.Cell("A" + (i + 10)).ToString();
+                                   duplicateArray.Add(tempcell);
+
+                               }
+
+                        if (!beforedata.Equals(afterdata) && count > 1)
+                             // 널이 아니고 한번이상 중복되었으며 앞데이터랑 뒤에 데이터가 다른경우 merge의 마지막 대상으로 간주
+                         {
+                             first = duplicateArray.First();
+                             last = duplicateArray.Last();
+                             worksheet.Range(first + ":" + last).Merge();
+                             // 다시 초기화
+                             count = 0;
+                             duplicateArray = new List<string>();
+                         }
+                    }
 
                     workbook.SaveAs(filepath);
                     MessageBox.Show("엑셀을 저장후 실행 합니다\r\n파일경로 : " + filepath);
