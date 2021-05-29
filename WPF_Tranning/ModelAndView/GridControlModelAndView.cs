@@ -200,13 +200,27 @@ namespace WPF_Tranning
             dt.Rows.Add("설치5과");
             dt.Rows.Add("설치5과");
             dt.Rows.Add("설치5과");
-
-            dt.Rows.Add("merge안시키고 공백처리하기");
-            dt.Rows.Add("merge안시키고 공백처리하기");
-            dt.Rows.Add("merge안시키고 공백처리하기");
-            dt.Rows.Add("merge안시키고 공백처리하기");
             return dt;
 
+        }
+
+        private DataTable ExcelDataBlankTable()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("컬럼2");
+            dt.Rows.Add("merge안시키고 공백처리하기");
+            dt.Rows.Add("merge안시키고 공백처리하기");
+            dt.Rows.Add("merge안시키고 공백처리하기");
+            dt.Rows.Add("merge안시키고 공백처리하기");
+            dt.Rows.Add("merge안시키고 공백처리하기");
+            dt.Rows.Add("중복추가");
+            dt.Rows.Add("중복추가");
+            dt.Rows.Add("중복추가");
+            dt.Rows.Add("중복추가");
+            dt.Rows.Add("중복추가");
+            dt.Rows.Add("중복추가");
+           
+            return dt;
         }
         private DataSet MakeDataSet()
         {
@@ -317,6 +331,7 @@ namespace WPF_Tranning
                 try
                 {
                     DataTable exceltest = ExcelexportTable();
+                    DataTable blankexcel = ExcelDataBlankTable();
 
                     var worksheet = workbook.Worksheets.Add("Sample Sheet");
                     string filepath = @"C:\\Users\\m6ydz642\\source\\repos\\WPF_Tranning\\WPF_Tranning\\HelloWorld.xlsx";
@@ -344,9 +359,11 @@ namespace WPF_Tranning
                     {
                         string rows = exceltest.Rows[i].Field<string>("컬럼1");
                         worksheet.Range("A" + (i + 10)).Value = rows;
-
-  
-                       
+                    }
+                    for (int i = 0; i < blankexcel.Rows.Count; i++)
+                    {
+                        string rows = blankexcel.Rows[i].Field<string>("컬럼2");
+                        worksheet.Range("B" + (i + 10)).Value = rows;
                     }
 
                     int count = 0;
@@ -354,13 +371,13 @@ namespace WPF_Tranning
                     string last = "";
                     string tempcell = "";
 
-                   
+                    #region 같은 값 동적 merge
+                    List<string> duplicateArray = new List<string>();
 
                     for (int j = 0; j < exceltest.Rows.Count; j++)
                         {
 
-                        #region 같은 값 동적 merge
-                        List<string> duplicateArray = new List<string>();
+                       
                         // 같은 값 동적 merge 
                         // 데이터 영역 0, 1, 2번째
                         string beforedata = worksheet.Cell("A" + (j + 10)).Value.ToString(); // 머지 대상
@@ -391,14 +408,53 @@ namespace WPF_Tranning
                                 duplicateArray = new List<string>();
                             }
                         }
-                        #endregion
+                  
 
-                        #region 같은 값 공백처리 
+        
+                    }
+                    #endregion
 
-                        #endregion
+                    #region 같은 값 공백처리 
+                    List<string> duplicateArray2 = new List<string>();
+
+                    for (int j = 0; j < exceltest.Rows.Count; j++)
+                    {
+
+
+                        // 같은 값 동적 merge 
+                        // 데이터 영역 0, 1, 2번째
+                        string beforedata = worksheet.Cell("B" + (j + 10)).Value.ToString(); // 머지 대상
+                        string afterdata = worksheet.Cell("B" + (j + 11)).Value.ToString(); // 머지대상 그다음
+                        string jumpdata = worksheet.Cell("B" + (j + 12)).Value.ToString(); // 머지대상 그 다음 데이터
+
+                        // cell 번호
+                        string beforecell = worksheet.Cell("B" + (j + 10)).ToString(); // cell 이름
+                        string aftercell = worksheet.Cell("B" + (j + 11)).ToString(); // cell 이름
+
+
+                        bool check = false;
+
+                        if (beforedata.Equals(afterdata) && !beforedata.Equals("")) // 0번째 1번째 검사 
+                        {
+                            duplicateArray2.Add(aftercell); // 원본데이터를 넣으면 대상에 포함되어 공백처리되기 때문에 그 다음 데이터부터 넣음
+                            check = true;
+                        }
+                        if (beforedata.Equals(afterdata) && check) // 0번째 1번째가 맞고 위에 if문에 들어왔었으면
+                        {
+                            if (!jumpdata.Equals(beforedata) && !beforedata.Equals("")) // 1, 2 번째 데이터 검사 (한줄씩 밀어서 검사)
+                            {
+                                first = duplicateArray2.First();
+                                last = duplicateArray2.Last();
+                                worksheet.Range(first + ":" + last).Value="공백"; // 공백처리
+                                check = false;
+                                duplicateArray2 = new List<string>();
+                            }
+                        }
+
 
 
                     }
+                    #endregion
 
 
                     workbook.SaveAs(filepath);
