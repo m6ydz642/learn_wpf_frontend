@@ -219,6 +219,11 @@ namespace WPF_Tranning
             dt.Rows.Add("중복추가");
             dt.Rows.Add("중복추가");
             dt.Rows.Add("중복추가");
+            dt.Rows.Add("중복추가");
+            dt.Rows.Add("중복추가");
+            dt.Rows.Add("중복추가2");
+            dt.Rows.Add("중복추가2");
+            dt.Rows.Add("중복추가2");
            
             return dt;
         }
@@ -380,11 +385,11 @@ namespace WPF_Tranning
                        
                         // 같은 값 동적 merge 
                         // 데이터 영역 0, 1, 2번째
-                        string beforedata = worksheet.Cell("A" + (j + 10)).Value.ToString(); // 머지 대상
+                        string beforedata = worksheet.Cell("A" + (j + 10)).Value.ToString(); // 머지 원본
                         string afterdata = worksheet.Cell("A" + (j + 11)).Value.ToString(); // 머지대상 그다음
                         string jumpdata = worksheet.Cell("A" + (j + 12)).Value.ToString(); // 머지대상 그 다음 데이터
 
-                        // cell 번호
+                        // cell 이름
                         string beforecell = worksheet.Cell("A" + (j + 10)).ToString(); // cell 이름
                         string aftercell = worksheet.Cell("A" + (j + 11)).ToString(); // cell 이름
 
@@ -423,11 +428,11 @@ namespace WPF_Tranning
 
                         // 같은 값 동적 merge 
                         // 데이터 영역 0, 1, 2번째
-                        string beforedata = worksheet.Cell("B" + (j + 10)).Value.ToString(); // 머지 대상
+                        string beforedata = worksheet.Cell("B" + (j + 10)).Value.ToString(); // 머지 원본
                         string afterdata = worksheet.Cell("B" + (j + 11)).Value.ToString(); // 머지대상 그다음
                         string jumpdata = worksheet.Cell("B" + (j + 12)).Value.ToString(); // 머지대상 그 다음 데이터
 
-                        // cell 번호
+                        // cell 이름
                         string beforecell = worksheet.Cell("B" + (j + 10)).ToString(); // cell 이름
                         string aftercell = worksheet.Cell("B" + (j + 11)).ToString(); // cell 이름
 
