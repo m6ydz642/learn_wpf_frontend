@@ -381,8 +381,6 @@ namespace WPF_Tranning
 
                     for (int j = 0; j < exceltest.Rows.Count; j++)
                         {
-
-                       
                         // 같은 값 동적 merge 
                         // 데이터 영역 0, 1, 2번째
                         string beforedata = worksheet.Cell("A" + (j + 10)).Value.ToString(); // 머지 원본
@@ -408,7 +406,9 @@ namespace WPF_Tranning
                             {
                                 first = duplicateArray.First();
                                 last = duplicateArray.Last();
+                                worksheet.Range(first + ":" + last).Style.Alignment.Vertical = XLAlignmentVerticalValues.Top; // 위쪽정렬
                                 worksheet.Range(first + ":" + last).Merge();
+            
                                 check = false;
                                 duplicateArray = new List<string>();
                             }
@@ -442,6 +442,8 @@ namespace WPF_Tranning
                         if (beforedata.Equals(afterdata) && !beforedata.Equals("")) // 0번째 1번째 검사 
                         {
                             duplicateArray2.Add(aftercell); // 원본데이터를 넣으면 대상에 포함되어 공백처리되기 때문에 그 다음 데이터부터 넣음
+                            worksheet.Cell(beforecell).Style.Fill.BackgroundColor = XLColor.FromArgb(171, 195, 223); // 공백대상 첫번째 색상
+
                             check = true;
                         }
                         if (beforedata.Equals(afterdata) && check) // 0번째 1번째가 맞고 위에 if문에 들어왔었으면
@@ -450,6 +452,7 @@ namespace WPF_Tranning
                             {
                                 first = duplicateArray2.First();
                                 last = duplicateArray2.Last();
+                                worksheet.Range(first + ":" + last).Style.Fill.BackgroundColor = XLColor.FromArgb(171, 195, 223); // 공백데이터 범위 색상
                                 worksheet.Range(first + ":" + last).Value="공백"; // 공백처리
                                 check = false;
                                 duplicateArray2 = new List<string>();
