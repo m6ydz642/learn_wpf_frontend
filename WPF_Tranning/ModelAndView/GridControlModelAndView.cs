@@ -331,8 +331,7 @@ namespace WPF_Tranning
 
                     if (worksheet.Cell("A3").Value.Equals(worksheet.Cell("A4").Value)) // 값 끼리 같으면 merge
                         worksheet.Range("A3:A4").Merge();
-                    int j = 0;
-
+                  
                     #region 중복제거
                     var newDt = exceltest.AsEnumerable()
                               .GroupBy(x => x.Field<string>("컬럼1"))
@@ -358,36 +357,93 @@ namespace WPF_Tranning
                     string temp = "";
 
                     List <string>  duplicateArray = new List<string>();
-                    for (int i = 0; i < exceltest.Rows.Count; i++)
-                    {
-                        string beforedata = worksheet.Cell("A" + (i + 10)).Value.ToString(); // 0
-                        string afterdata = worksheet.Cell("A" + (i + 11)).Value.ToString(); // 1
-                    //    int size = worksheet.Column("A").CellCount();
+                    //for (int i = 0; i < exceltest.Rows.Count; i++)
+                    //{
+                    //string beforedata = worksheet.Cell("A" + (i + 10)).Value.ToString(); // value
+                    //string afterdata = worksheet.Cell("A" + (i + 11)).Value.ToString(); // value
 
-                    /*    for (int j=0; j<size; j++) { 
-                        }*/
+                    //string beforedata2 = worksheet.Cell("A" + (i + 10)).ToString(); // cell
+                    //string afterdata2 = worksheet.Cell("A" + (i + 11)).ToString(); // cell
+
+                    /*         Hashtable hash = new Hashtable();
+                             DataTable dt = new DataTable();
+                             dt.Columns.Add("key");
+                             dt.Columns.Add("value");*/
+        
+                    for (int j = 0; j < exceltest.Rows.Count; j++)
+                        {
+
+                        string beforedata = worksheet.Cell("A" + (j + 10)).Value.ToString(); // 머지 대상
+                        string afterdata = worksheet.Cell("A" + (j + 11)).Value.ToString(); // 머지대상 그다음
+                        string beforedata2 = worksheet.Cell("A" + (j + 12)).Value.ToString(); // 머지대상 그 다음 데이터
+
+
+                        string beforecell = worksheet.Cell("A" + (j + 10)).ToString(); // cell
+                        string aftercell = worksheet.Cell("A" + (j + 11)).ToString(); // cell
+
+
+                        string cell = worksheet.Cell("A" + (j + 10)).ToString(); // cell
+
+
+                        bool check = false;
 
                         if (beforedata.Equals(afterdata))
-                               {
-                                   count++;
-                           
+                        {
+                            duplicateArray.Add(beforecell);
+                            duplicateArray.Add(aftercell);
+                            check = true;
+                        }
+                        if (beforedata.Equals(afterdata) && check)
+                        {
+                            if (!beforedata2.Equals(beforedata))
+                            {
+                                first = duplicateArray.First();
+                                last = duplicateArray.Last();
+                                worksheet.Range(first + ":" + last).Merge();
+                                check = false;
+                                duplicateArray = new List<string>();
+                            }
+                        }
 
-                                   tempcell = worksheet.Cell("A" + (i + 10)).ToString();
-                                   duplicateArray.Add(tempcell);
 
-                               }
+                        /*dt.Rows.Add(cell, beforedata);*/
 
-                        if (!beforedata.Equals(afterdata) && count > 1)
-                             // 널이 아니고 한번이상 중복되었으며 앞데이터랑 뒤에 데이터가 다른경우 merge의 마지막 대상으로 간주
-                         {
-                             first = duplicateArray.First();
-                             last = duplicateArray.Last();
-                             worksheet.Range(first + ":" + last).Merge();
-                             // 다시 초기화
-                             count = 0;
-                             duplicateArray = new List<string>();
-                         }
+
+                        //  worksheet.Range(beforecell + ":" + aftercell).Merge();
+
+                        //   }
+                        /*        if (beforedata.Equals(afterdata))
+                            {
+                                tempcell = worksheet.Cell("A" + (i + 10)).ToString();
+                                worksheet.Range(beforedata2 + ":" + afterdata2).Merge();
+                              //  afterdata2 = worksheet.LastCellUsed().ToString();
+                            }*/
+
+                        //if (beforedata.Equals(afterdata))
+                        //       {
+                        //           count++;
+                        //           tempcell = worksheet.Cell("A" + (i + 10)).ToString();
+                        //           duplicateArray.Add(tempcell);
+
+                        //       }
+
+                        //if (!beforedata.Equals(afterdata) && count > 1)
+                        //     // 널이 아니고 한번이상 중복되었으며 앞데이터랑 뒤에 데이터가 다른경우 merge의 마지막 대상으로 간주
+                        // {
+                        //     first = duplicateArray.First();
+                        //     last = duplicateArray.Last();
+                        //     worksheet.Range(first + ":" + last).Merge();
+                        //     // 다시 초기화
+                        //     count = 0;
+                        //     duplicateArray = new List<string>();
+                        // }
                     }
+
+                    /*     foreach(DataRow row in dt.Rows)
+                         {
+                             string key = row.Field<string>("key");
+                             string value = row.Field<string>("value");
+                         }*/
 
                     workbook.SaveAs(filepath);
                     MessageBox.Show("엑셀을 저장후 실행 합니다\r\n파일경로 : " + filepath);
@@ -409,14 +465,10 @@ namespace WPF_Tranning
         }
         private void SaveColumnFunction(object obj) // 저장
         {
-          //  DataTable changeTable;
-          //  DataTable addTable;
+
             DataTable Status;
 
-            // changeTable = GetScoreInfomation.GetChanges(DataRowState.Modified);
-            // addTable = GetScoreInfomation.GetChanges(DataRowState.Added);
-            //  var addstatus = addTable; // 수정, 추가 여부 구분하는거 잠시 보류
-            //  var changestatus = changeTable; // 수정, 추가 여부 구분하는거 잠시 보류
+
             Status = GetScoreInfomation.GetChanges(); // 추가, 수정 여부 구분해서 뜸
             var datatstatus = Status;
             if (datatstatus == null)
