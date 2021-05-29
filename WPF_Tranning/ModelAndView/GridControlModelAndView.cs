@@ -200,8 +200,11 @@ namespace WPF_Tranning
             dt.Rows.Add("설치5과");
             dt.Rows.Add("설치5과");
             dt.Rows.Add("설치5과");
-           
 
+            dt.Rows.Add("merge안시키고 공백처리하기");
+            dt.Rows.Add("merge안시키고 공백처리하기");
+            dt.Rows.Add("merge안시키고 공백처리하기");
+            dt.Rows.Add("merge안시키고 공백처리하기");
             return dt;
 
         }
@@ -330,7 +333,7 @@ namespace WPF_Tranning
                     if (worksheet.Cell("A3").Value.Equals(worksheet.Cell("A4").Value)) // 값 끼리 같으면 merge
                         worksheet.Range("A3:A4").Merge();
                   
-                    #region 중복제거
+                    #region 중복제거 Linq
                     var newDt = exceltest.AsEnumerable()
                               .GroupBy(x => x.Field<string>("컬럼1"))
                               .Select(y => y.First())
@@ -350,49 +353,36 @@ namespace WPF_Tranning
                     string first = "";
                     string last = "";
                     string tempcell = "";
-                    string temp2cell = "";
-                    string temp = "";
 
-                    List <string>  duplicateArray = new List<string>();
-                    //for (int i = 0; i < exceltest.Rows.Count; i++)
-                    //{
-                    //string beforedata = worksheet.Cell("A" + (i + 10)).Value.ToString(); // value
-                    //string afterdata = worksheet.Cell("A" + (i + 11)).Value.ToString(); // value
+                   
 
-                    //string beforedata2 = worksheet.Cell("A" + (i + 10)).ToString(); // cell
-                    //string afterdata2 = worksheet.Cell("A" + (i + 11)).ToString(); // cell
-
-                    /*         Hashtable hash = new Hashtable();
-                             DataTable dt = new DataTable();
-                             dt.Columns.Add("key");
-                             dt.Columns.Add("value");*/
-        
                     for (int j = 0; j < exceltest.Rows.Count; j++)
                         {
 
+                        #region 같은 값 동적 merge
+                        List<string> duplicateArray = new List<string>();
+                        // 같은 값 동적 merge 
+                        // 데이터 영역 0, 1, 2번째
                         string beforedata = worksheet.Cell("A" + (j + 10)).Value.ToString(); // 머지 대상
                         string afterdata = worksheet.Cell("A" + (j + 11)).Value.ToString(); // 머지대상 그다음
-                        string beforedata2 = worksheet.Cell("A" + (j + 12)).Value.ToString(); // 머지대상 그 다음 데이터
+                        string jumpdata = worksheet.Cell("A" + (j + 12)).Value.ToString(); // 머지대상 그 다음 데이터
 
-
-                        string beforecell = worksheet.Cell("A" + (j + 10)).ToString(); // cell
-                        string aftercell = worksheet.Cell("A" + (j + 11)).ToString(); // cell
-
-
-                        string cell = worksheet.Cell("A" + (j + 10)).ToString(); // cell
+                        // cell 번호
+                        string beforecell = worksheet.Cell("A" + (j + 10)).ToString(); // cell 이름
+                        string aftercell = worksheet.Cell("A" + (j + 11)).ToString(); // cell 이름
 
 
                         bool check = false;
 
-                        if (beforedata.Equals(afterdata))
+                        if (beforedata.Equals(afterdata)) // 0번째 1번째 검사 
                         {
                             duplicateArray.Add(beforecell);
                             duplicateArray.Add(aftercell);
                             check = true;
                         }
-                        if (beforedata.Equals(afterdata) && check)
+                        if (beforedata.Equals(afterdata) && check) // 0번째 1번째가 맞고 위에 if문에 들어왔었으면
                         {
-                            if (!beforedata2.Equals(beforedata))
+                            if (!jumpdata.Equals(beforedata)) // 1, 2 번째 데이터 검사 (한줄씩 밀어서 검사)
                             {
                                 first = duplicateArray.First();
                                 last = duplicateArray.Last();
@@ -401,6 +391,11 @@ namespace WPF_Tranning
                                 duplicateArray = new List<string>();
                             }
                         }
+                        #endregion
+
+                        #region 같은 값 공백처리 
+
+                        #endregion
 
 
                     }
