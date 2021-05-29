@@ -189,16 +189,14 @@ namespace WPF_Tranning
             dt.Rows.Add("def");
             dt.Rows.Add("설치1과");
             dt.Rows.Add("설치1과");
+            dt.Rows.Add("설치1과");
+            dt.Rows.Add("머지방해 데이터");
+            dt.Rows.Add("설치2과");
             dt.Rows.Add("설치2과");
             dt.Rows.Add("설치2과");
             dt.Rows.Add("설치2과");
             dt.Rows.Add("설치3과");
             dt.Rows.Add("설치3과");
-            dt.Rows.Add("설치3과");
-            dt.Rows.Add("설치4과");
-            dt.Rows.Add("설치4과");
-            dt.Rows.Add("설치5과");
-            dt.Rows.Add("설치5과");
             dt.Rows.Add("설치5과");
             dt.Rows.Add("설치5과");
             dt.Rows.Add("설치5과");
@@ -343,7 +341,6 @@ namespace WPF_Tranning
                     {
                         string rows = exceltest.Rows[i].Field<string>("컬럼1");
                         worksheet.Range("A" + (i + 10)).Value = rows;
-                        worksheet.Range("A" + (i + 11)).Value = rows;
 
   
                        
@@ -406,44 +403,8 @@ namespace WPF_Tranning
                         }
 
 
-                        /*dt.Rows.Add(cell, beforedata);*/
-
-
-                        //  worksheet.Range(beforecell + ":" + aftercell).Merge();
-
-                        //   }
-                        /*        if (beforedata.Equals(afterdata))
-                            {
-                                tempcell = worksheet.Cell("A" + (i + 10)).ToString();
-                                worksheet.Range(beforedata2 + ":" + afterdata2).Merge();
-                              //  afterdata2 = worksheet.LastCellUsed().ToString();
-                            }*/
-
-                        //if (beforedata.Equals(afterdata))
-                        //       {
-                        //           count++;
-                        //           tempcell = worksheet.Cell("A" + (i + 10)).ToString();
-                        //           duplicateArray.Add(tempcell);
-
-                        //       }
-
-                        //if (!beforedata.Equals(afterdata) && count > 1)
-                        //     // 널이 아니고 한번이상 중복되었으며 앞데이터랑 뒤에 데이터가 다른경우 merge의 마지막 대상으로 간주
-                        // {
-                        //     first = duplicateArray.First();
-                        //     last = duplicateArray.Last();
-                        //     worksheet.Range(first + ":" + last).Merge();
-                        //     // 다시 초기화
-                        //     count = 0;
-                        //     duplicateArray = new List<string>();
-                        // }
                     }
 
-                    /*     foreach(DataRow row in dt.Rows)
-                         {
-                             string key = row.Field<string>("key");
-                             string value = row.Field<string>("value");
-                         }*/
 
                     workbook.SaveAs(filepath);
                     MessageBox.Show("엑셀을 저장후 실행 합니다\r\n파일경로 : " + filepath);
