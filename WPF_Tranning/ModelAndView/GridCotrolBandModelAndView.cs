@@ -20,6 +20,75 @@ using WPF_Tranning.Model;
 
 namespace WPF_Tranning.ModelAndView
 {
+    public class MyTemplateSelector : System.Windows.Controls.DataTemplateSelector
+    {
+        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        {
+            CellEditor cellEditor = container as CellEditor;
+            EditGridCellData cellData = item as EditGridCellData;
+            if (cellData.Column.FieldName != "ID1")
+            {
+                cellEditor.Margin = new Thickness(0, 0, 0, 0);
+                return base.SelectTemplate(item, container);
+            }
+            TableView view = cellData.View as TableView;
+
+            TryMerge(cellEditor, cellData, view.Grid.GetRowVisibleIndexByHandle(cellData.RowData.RowHandle.Value));
+            return base.SelectTemplate(item, container);
+        }
+        protected bool TryMerge(CellEditor container, EditGridCellData cellData, int curIndex)
+        {
+            int mergCount = 0;
+            TableView view = (TableView)cellData.View;
+            GridControl grid = view.Grid;
+
+            //for (int i = curIndex + 1; i < grid.VisibleRowCount; i++)
+            //{
+            //    int nextRH = grid.GetRowHandleByVisibleIndex(i);
+            //    if (object.Equals(grid.GetCellValue(nextRH, (GridColumn)cellData.Column), cellData.Value) && nextRH > 0)
+            //        mergCount++;
+            //    else
+            //        break;
+            //}
+
+            double width = 0;
+            for (int i = cellData.Column.VisibleIndex + 1; i < view.VisibleColumns.Count; i++)
+            {
+                var c = view.VisibleColumns[i];
+                if (object.Equals(grid.GetCellValue(curIndex, c), cellData.Value))
+                    width += c.ActualDataWidth;
+                else
+                    break;
+            }
+            container.Margin = new Thickness(0, 0, -width, 0);
+            return true;
+        }
+    }
+    public class NegativeConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return -(int)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+    public class MyStackVisibleIndexPanel : StackVisibleIndexPanel
+    {
+        protected override Size MeasureSortedChildrenOverride(Size availableSize, IList<UIElement> sortedChildren)
+        {
+            Size origAvalSize = availableSize;
+            Size baseMeasureSize = base.MeasureSortedChildrenOverride(availableSize, sortedChildren);
+            if (origAvalSize.Width < baseMeasureSize.Width)
+                baseMeasureSize.Width = origAvalSize.Width;
+            return baseMeasureSize;
+        }
+
+    }
+
     public class TestConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -7,21 +7,61 @@
              xmlns:wow="clr-namespace:WPF_Tranning.ModelAndView"
              mc:Ignorable="d" 
              xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
              d:DesignHeight="831" d:DesignWidth="1266"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              Name="test"
-             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions">
+        xmlns:dxgcore="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
+      
+
+             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" 
+             xmlns:dxght1="http://schemas.devexpress.com/winfx/2008/xaml/grid/internal"
+             
+>
 
 
     <UserControl.DataContext>
         <local:GridCotrolBandModelAndView/>
+
     </UserControl.DataContext>
+
 
     <UserControl.Resources>
         <wow:TestConverter x:Key="converter"/>
+        <local:NegativeConverter x:Key="negConverter" />
+        <local:MyTemplateSelector x:Key="cellTS" />
 
+
+        <DataTemplate x:Key="CellDataTemplate">
+            <Grid Background="White">
+                <Border Name="editorBorder" dxg:FadeSelectionHelper.IsKeyboardFocusWithinView="{Binding Path=View.IsKeyboardFocusWithinView}" dxg:FadeSelectionHelper.FadeSelectionOnLostFocus="{Binding Path=View.ActualFadeSelectionOnLostFocus}">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=RowData.SelectionState}" Value="Focused">
+                                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource {dxgt:GridRowThemeKey ResourceKey=TextFocusedBrush}}" />
+                                    <Setter Property="Background" Value="{DynamicResource {dxgt:GridRowThemeKey ResourceKey=BorderFocusedBrush}}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=RowData.SelectionState}" Value="None">
+                                    <Setter Property="TextBlock.Foreground" Value="Black" />
+                                    <Setter Property="Background" Value="White" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=IsFocusedCell}" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource {dxgt:GridRowThemeKey ResourceKey=CellBorderFocusedBrush}}" />
+                                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource {dxgt:GridRowThemeKey ResourceKey=CellTextFocusedBrush}}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
+                <dxe:TextEdit Name="PART_Editor" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
+        </DataTemplate>
+        
         <DataTemplate x:Key="editcell">
             <TextBox Text="{Binding Value, Converter={StaticResource converter}}">
                 <TextBox.Style>
@@ -32,7 +72,37 @@
             </TextBox>
         </DataTemplate>
 
-
+        <Style TargetType="{x:Type dxg:GridScrollablePart}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type dxg:GridScrollablePart}">
+                        <dx:DXDockPanel x:Name="PART_ScrollablePartPanel" LastChildFill="True">
+                            <ContentPresenter Name="PART_FixedLeftContent" dxgcore:TableViewProperties.FixedAreaStyle="Left" dx:DXDockPanel.Dock="Left" />
+                            <ContentPresenter x:Name="PART_FixedLeftLinePlaceHolder" dx:DXDockPanel.Dock="Left" Visibility="Collapsed">
+                                <dxg:GridViewHitInfoBase.HitTestAcceptor>
+                                    <dxght1:FixedLeftDivTableViewHitTestAcceptor />
+                                </dxg:GridViewHitInfoBase.HitTestAcceptor>
+                            </ContentPresenter>
+                            <Border Name="PART_FixedNoneCellsBorder" Clip="M 0,0 H 50000 V 50000 H 0" dx:DXDockPanel.Dock="Left">
+                                <dxgcore:FocusRectPresenter.IsHorizontalScrollHost>
+                                    True
+                                </dxgcore:FocusRectPresenter.IsHorizontalScrollHost>
+                                <ContentPresenter Name="PART_FixedNoneContent" />
+                            </Border>
+                            <ContentPresenter x:Name="PART_FixedRightLinePlaceHolder" dx:DXDockPanel.Dock="Left" Visibility="Collapsed">
+                                <dxg:GridViewHitInfoBase.HitTestAcceptor>
+                                    <dxght1:FixedRightDivTableViewHitTestAcceptor />
+                                </dxg:GridViewHitInfoBase.HitTestAcceptor>
+                            </ContentPresenter>
+                            <ContentPresenter Name="PART_FixedRightContent" dxgcore:TableViewProperties.FixedAreaStyle="Left" dx:DXDockPanel.Dock="Left" />
+                            <dxg:FitContentContainer>
+                                <ContentPresenter Name="PART_FitContent" />
+                            </dxg:FitContentContainer>
+                        </dx:DXDockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -94,7 +164,7 @@
                 </dxg:GridControlBand>
 
                 <dxg:GridControlBand Header="{Binding Week[6]}">
-                    <dxg:GridColumn  FieldName="W1" Width="50*" Header="{Binding WeekDay[6]}" >
+                    <dxg:GridColumn  FieldName="W1" Width="50*" Header="{Binding WeekDay[6]}"  CellTemplate="{StaticResource CellDataTemplate}" >
                         <dxg:GridColumn.EditSettings>
                             <!--정규식 테스트-->
                             <dxe:TextEditSettings Name="manufacCol"  MaskType="RegEx" Mask="{Binding MaskRegex}"/>
@@ -104,7 +174,7 @@
                 </dxg:GridControlBand>
 
                 <dxg:GridControlBand Header="{Binding Week[5]}">
-                    <dxg:GridColumn FieldName="W2" Width="100*" Header="{Binding WeekDay[5]}" />
+                    <dxg:GridColumn FieldName="W2" Width="100*" Header="{Binding WeekDay[5]}"  CellTemplate="{StaticResource CellDataTemplate}"/>
                 </dxg:GridControlBand>
 
 
@@ -135,7 +205,15 @@
                 <dxg:TableView Name="bandtableview" 
                                AutoWidth="True" 
                                ShowAutoFilterRow="False">
+                    
+                    <dxg:TableView.CellStyle>
+                        <!--<Style TargetType="dxg:GridCellContentPresenter" BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=CellStyle}}">-->
+                        <Style BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}" TargetType="{x:Type dxg:LightweightCellEditor}">
 
+                            <Setter Property="Panel.ZIndex" Value="{Binding Column.VisibleIndex, Converter={StaticResource negConverter}}"/>
+                        </Style>
+                    </dxg:TableView.CellStyle>
+                    
                     <!--셀값 변경 추가-->
                     <dxmvvm:Interaction.Behaviors>
                         <dxmvvm:EventToCommand 
@@ -160,7 +238,7 @@
         <dxg:GridControl  x:Name="doublescorelist"  
                           Grid.Column="0" 
                           AutoGenerateColumns="None" 
-                          
+                     
                           ItemsSource="{Binding GetDoubleScoreDataTable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Margin="735,90,10,176" >
 
@@ -168,6 +246,9 @@
                 <dxg:TableView x:Name="doublescoretableview" 
                                InvalidRowException="doublescoretableview_InvalidRowException" ShowValidationAttributeErrors="False"
                                >
+
+               
+
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged" >
@@ -192,7 +273,7 @@
             </dxg:GridControl.View>
 
             <!--체크박스 및 체크박스 영역, 컬럼-->
-            <dxg:GridColumn FieldName="Score_id" Header="체크박스" Width="102.833333333333" VisibleIndex="0" SortOrder="Ascending" SortIndex="0" >
+            <dxg:GridColumn FieldName="Score_id" Header="체크박스" Width="102.833333333333" VisibleIndex="0" SortOrder="Ascending" SortIndex="0"  >
             </dxg:GridColumn>
 
             <dxg:GridColumn Width="auto" Name="Score_double" FieldName="Score_double" Header="스코어번호" 
