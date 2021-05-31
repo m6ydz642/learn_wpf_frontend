@@ -350,6 +350,11 @@ namespace WPF_Tranning
                     worksheet.Range("C1:D2").Merge();
                     worksheet.Cell("C1").Value = "와우";
 
+                    worksheet.Cell("E10").Value = "셀 테두리 테스트";
+                    worksheet.Cell("E10").Style.Border.RightBorder = XLBorderStyleValues.Thin;
+                    worksheet.Cell("E10").Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                    worksheet.Cell("E10").Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                    worksheet.Cell("E10").Style.Border.LeftBorder = XLBorderStyleValues.Thin;
                     if (worksheet.Cell("A3").Value.Equals(worksheet.Cell("A4").Value)) // 값 끼리 같으면 merge
                         worksheet.Range("A3:A4").Merge();
                   
@@ -418,6 +423,7 @@ namespace WPF_Tranning
         
                     }
                     #endregion
+                    worksheet.Cell("E10").Style.Border.LeftBorder = XLBorderStyleValues.None;
 
                     #region 같은 값 공백처리 
                     List<string> duplicateArray2 = new List<string>();
@@ -453,10 +459,19 @@ namespace WPF_Tranning
                                 first = duplicateArray2.First();
                                 last = duplicateArray2.Last();
                                 worksheet.Range(first + ":" + last).Style.Fill.BackgroundColor = XLColor.FromArgb(171, 195, 223); // 공백데이터 범위 색상
-                                worksheet.Range(first + ":" + last).Value="공백"; // 공백처리
+                                worksheet.Range(first + ":" + last).Style.Border.TopBorder = XLBorderStyleValues.Thin;
+                                worksheet.Range(first + ":" + last).Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                                worksheet.Range(first + ":" + last).Value = "공백"; // 공백처리
+
+                                if (afterdata.Equals("중복추가"))
+                                {
+                                    worksheet.Cell(first).Style.Border.LeftBorder = XLBorderStyleValues.None;
+
+                                }
+                            }
                                 check = false;
                                 duplicateArray2 = new List<string>();
-                            }
+                            
                         }
 
 
