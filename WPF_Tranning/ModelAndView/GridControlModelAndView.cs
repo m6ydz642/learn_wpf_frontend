@@ -51,6 +51,16 @@ namespace WPF_Tranning
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
         /**********************************************************************/
+        private List<string> _textboxList;
+        public List<string> TextBoxList
+        {
+            get { return _textboxList; }
+            set
+            {
+                _textboxList = value;
+                  OnPropertyChanged("TextBoxList"); // 왜 여기서는 안써도 되지 ㅡ.ㅡ? 
+            }
+        }
 
         private DataSet _scoreDataSet;
         public DataTable TestData;
@@ -114,14 +124,36 @@ namespace WPF_Tranning
             GetBindingScoreInfomation = new RelayCommand(new Action<object>(this.GetBindingScoreInfo));
             ComboboxLoaded = new RelayCommand(new Action<object>(this.GetComboboxLoaded));
             UnloadDataCheck = new RelayCommand(new Action<object>(this.UnloadCheckEvent));
+            TextBoxInit();
 
- 
+
 
             ToolTipMessage();
 
            
 
             DataModel.CurrentClassPath = typeof(GridControlView).FullName; // 현재 접근한 클래스
+        }
+
+        private void TextBoxInit()
+        {
+            TextBoxList = new List<string>();
+            string column = "";
+            List<string> Value = new List<string>();
+  
+
+            Value.Add("테스트 데이터 벨류 : ");
+            Value.Add("데이터 벨류2 : ");
+            Value.Add("데이터 벨류3 : ");
+            Value.Add("데이터 벨류4 : ");
+            int i = 0;
+            foreach (DataRow row in TextBoxData().Rows)
+            {
+                column = row.Field<string>("Value");
+                TextBoxList.Add(Value[i] + column);
+                i++;
+           
+            }
         }
 
         private void UnloadCheckEvent(object obj)
@@ -179,7 +211,21 @@ namespace WPF_Tranning
 
             return dt;
         }
+        public DataTable TextBoxData()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("컬럼1");
+            dt.Columns.Add("컬럼2");
+            dt.Columns.Add("컬럼3");
+            dt.Columns.Add("Value");
+            dt.Rows.Add("abc", "def", "설치1과", "1234" );
+            dt.Rows.Add("abc", "def", "설치1과", "5678" );
+            dt.Rows.Add("abc", "def", "설치1과", "9,10,11,12" );
+            dt.Rows.Add("abc", "def", "설치1과", "13,14,15,16" );
+      
+            return dt;
 
+        }
         public DataTable ExcelexportTable()
         {
             DataTable dt = new DataTable();
