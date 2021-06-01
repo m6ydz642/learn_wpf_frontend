@@ -140,19 +140,17 @@ namespace WPF_Tranning
             TextBoxList = new List<string>();
             string column = "";
             List<string> Value = new List<string>();
-  
 
-            Value.Add("테스트 데이터 벨류 : ");
-            Value.Add("데이터 벨류2 : ");
-            Value.Add("데이터 벨류3 : ");
-            Value.Add("데이터 벨류4 : ");
+            Value.Add("테스트 \r\n데이터 벨류 : ");
+            Value.Add("데이터 \r\n벨류2 : ");
+            Value.Add("데이터 \r\n벨류3 : ");
+            Value.Add("데이터 \r\n벨류4 : ");
             int i = 0;
             foreach (DataRow row in TextBoxData().Rows)
             {
                 column = row.Field<string>("Value");
                 TextBoxList.Add(Value[i] + column);
                 i++;
-           
             }
         }
 
@@ -401,6 +399,16 @@ namespace WPF_Tranning
                     worksheet.Cell("E10").Style.Border.TopBorder = XLBorderStyleValues.Thin;
                     worksheet.Cell("E10").Style.Border.BottomBorder = XLBorderStyleValues.Thin;
                     worksheet.Cell("E10").Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+
+
+                    for (int i=0; i<4; i++)
+                    {
+                        // 리스트 내용 [0] ~ [4]까지 바인딩
+                        worksheet.Cell("E1" + (i+1)).Value = TextBoxList[i];
+                    }
+
+
+
                     if (worksheet.Cell("A3").Value.Equals(worksheet.Cell("A4").Value)) // 값 끼리 같으면 merge
                         worksheet.Range("A3:A4").Merge();
                   
