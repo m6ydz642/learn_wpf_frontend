@@ -412,7 +412,8 @@ namespace WPF_Tranning
                     worksheet.Cell("N1").Value = "test2";
                     worksheet.Cell("AA1").Value = "test3";
 
-                   
+                    worksheet.Cell("E10").Style.Border.LeftBorder = XLBorderStyleValues.None;
+
 
                     for (int i=0; i<4; i++)
                     {
@@ -420,17 +421,10 @@ namespace WPF_Tranning
                         worksheet.Cell("E1" + (i+1)).Value = TextBoxList[i];
                     }
 
-
-
                     if (worksheet.Cell("A3").Value.Equals(worksheet.Cell("A4").Value)) // 값 끼리 같으면 merge
                         worksheet.Range("A3:A4").Merge();
                   
-                    #region 중복제거 Linq
-                    var newDt = exceltest.AsEnumerable()
-                              .GroupBy(x => x.Field<string>("컬럼1"))
-                              .Select(y => y.First())
-                               .CopyToDataTable();
-                    #endregion
+                 
 
                     for (int i = 0; i<exceltest.Rows.Count; i++)
                     {
@@ -447,6 +441,13 @@ namespace WPF_Tranning
                     string first = "";
                     string last = "";
                     string tempcell = "";
+
+                    #region 중복제거 Linq
+                    var newDt = exceltest.AsEnumerable()
+                              .GroupBy(x => x.Field<string>("컬럼1"))
+                              .Select(y => y.First())
+                               .CopyToDataTable();
+                    #endregion
 
                     #region 같은 값 동적 merge
                     List<string> duplicateArray = new List<string>();
@@ -490,7 +491,6 @@ namespace WPF_Tranning
         
                     }
                     #endregion
-                    worksheet.Cell("E10").Style.Border.LeftBorder = XLBorderStyleValues.None;
 
                     #region 같은 값 공백처리 
                     List<string> duplicateArray2 = new List<string>();
@@ -598,8 +598,41 @@ namespace WPF_Tranning
 
                     #endregion
 
+                    // 테스트 데이터 생성, 마지막 색깔에 선 긋기
+                    List<string> LastColorList = new List<string>();
+                    string LastColorCell = "";
+                    for (int j = 0; j < exceltest.Rows.Count; j++)
+                    {
 
+                        string rows = exceltest.Rows[j].Field<string>("컬럼1");
+                        worksheet.Range("O" + (j + 10)).Value = rows;
+                        worksheet.Range("O10:O13").Style.Fill.BackgroundColor = XLColor.FromArgb(255, 255, 0); // 노란색
+                        worksheet.Range("N10:N13").Style.Fill.BackgroundColor = XLColor.FromArgb(255, 255, 0); // 노란색
+                        string CololStatus2s = worksheet.Cell("O" + (j + 10)).Style.Fill.BackgroundColor.ToString();
+                        string CololStatusCells = worksheet.Cell("O" + (j + 10)).Style.Fill.BackgroundColor.ToString();
 
+                    
+                        if (CololStatus2s.Equals("FFFFFF00"))
+                        {
+                            LastColorCell = worksheet.Cell("O" + (j + 10)).ToString();
+                            LastColorList.Add(LastColorCell); // 사실 반복문 돌고 계속 대입되다가 반복문 마지막에 값이 대입됨 Range로 설정할꺼 아니면 마지막껀 일반 변수로 해도 됨
+                            // 대신 반복문으로 할경우 마지막 값에만 선긋기를 할거라면 반복문이 끝나고 선을 긋던지 해야 됨
+                        }
+
+                    }
+                    worksheet.Cell(LastColorCell).Style.Border.BottomBorder = XLBorderStyleValues.Thin; // 마지막 색상에 선긋기 
+
+                    // 색깔여부 확인
+                    string CololStatus = worksheet.Cell("B10").Style.Fill.BackgroundColor.ToString();
+                    string CololStatusUsed = worksheet.Column("B").LastCellUsed().ToString();
+                    string CololStatus2 = worksheet.Cell("C10").Style.Fill.BackgroundColor.ToString();
+                    var CellUsed = worksheet.CellsUsed();
+
+                    foreach(var cell in CellUsed)
+                    {
+                        string usedcell = cell.ToString();
+                        string CololStatustest = worksheet.Cell(usedcell).Style.Fill.BackgroundColor.ToString();
+                    }
 
                     workbook.SaveAs(filepath);
                     MessageBox.Show("엑셀을 저장후 실행 합니다\r\n파일경로 : " + filepath);
