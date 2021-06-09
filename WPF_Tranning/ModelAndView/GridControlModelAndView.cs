@@ -20,6 +20,7 @@ using DevExpress.Mvvm;
 using CommomCode;
 using System.Linq;
 using System.Collections.Generic;
+using System.Globalization;
 
 
 
@@ -399,6 +400,34 @@ namespace WPF_Tranning
                     worksheet.Cell("E10").Style.Border.TopBorder = XLBorderStyleValues.Thin;
                     worksheet.Cell("E10").Style.Border.BottomBorder = XLBorderStyleValues.Thin;
                     worksheet.Cell("E10").Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+
+                    worksheet.Cell("G1").Value = "test";
+                    worksheet.Cell("H1").Value = "test";
+                    worksheet.Cell("I1").Value = "test2";
+                    worksheet.Cell("J1").Value = "test";
+                    worksheet.Cell("K1").Value = "test";
+                    worksheet.Cell("K1").Value = "test2";
+                    worksheet.Cell("L1").Value = "test";
+                    worksheet.Cell("M1").Value = "test";
+                    worksheet.Cell("N1").Value = "test2";
+
+                    #region 동적 셀 값 찾기
+                    var test = worksheet.CellsUsed(cell => cell.GetString() == "test"); // test라는 셀을 찾아서 저장
+                      var test2 = worksheet.CellsUsed(cell => cell.GetString() == "test2");
+                  // var test = worksheet.Search("test", CompareOptions.OrdinalIgnoreCase); // 이걸로 하니 셀 전체를 찾아서 안됨
+                  // var test2 = worksheet.Search("test2", CompareOptions.OrdinalIgnoreCase);
+
+                    foreach (var row in test)
+                    {
+                        string cell = row.ToString();
+                        worksheet.Cell(cell).Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+                    }
+                    foreach (var row in test2)
+                    {
+                        string cell = row.ToString();
+                        worksheet.Cell(cell).Style.Border.LeftBorder = XLBorderStyleValues.Dotted;
+                    }
+                    #endregion
 
 
                     for (int i=0; i<4; i++)
