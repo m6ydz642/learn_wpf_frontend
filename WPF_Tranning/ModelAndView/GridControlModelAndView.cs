@@ -410,25 +410,9 @@ namespace WPF_Tranning
                     worksheet.Cell("L1").Value = "test";
                     worksheet.Cell("M1").Value = "test";
                     worksheet.Cell("N1").Value = "test2";
+                    worksheet.Cell("AA1").Value = "test3";
 
-                    #region 동적 셀 값 찾기
-                    var test = worksheet.CellsUsed(cell => cell.GetString() == "test"); // test라는 셀을 찾아서 저장
-                      var test2 = worksheet.CellsUsed(cell => cell.GetString() == "test2");
-                  // var test = worksheet.Search("test", CompareOptions.OrdinalIgnoreCase); // 이걸로 하니 셀 전체를 찾아서 안됨
-                  // var test2 = worksheet.Search("test2", CompareOptions.OrdinalIgnoreCase);
-
-                    foreach (var row in test)
-                    {
-                        string cell = row.ToString();
-                        worksheet.Cell(cell).Style.Border.LeftBorder = XLBorderStyleValues.Thin;
-                    }
-                    foreach (var row in test2)
-                    {
-                        string cell = row.ToString();
-                        worksheet.Cell(cell).Style.Border.LeftBorder = XLBorderStyleValues.Dotted;
-                    }
-                    #endregion
-
+                   
 
                     for (int i=0; i<4; i++)
                     {
@@ -561,6 +545,60 @@ namespace WPF_Tranning
 
                     }
                     #endregion
+
+                    #region 동적으로 셀 값 찾아 선긋기
+                    var value = worksheet.CellsUsed(cell => cell.GetString() == "test"); // test라는 셀을 찾아서 저장
+                    var value2 = worksheet.CellsUsed(cell => cell.GetString() == "test2");
+                    var value3 = worksheet.CellsUsed(cell => cell.GetString() == "test3");
+                    // var test = worksheet.Search("test", CompareOptions.OrdinalIgnoreCase); // 이걸로 하니 셀 전체를 찾아서 안됨
+                    // var test2 = worksheet.Search("test", CompareOptions.OrdinalIgnoreCase); // 이걸로 하니 셀 전체를 찾아서 안됨
+
+                    List<string> DynamicColumnsThin = new List<string>(); // 선긋기용 컬럼 저장
+                    List<string> DynamicColumnsDotted = new List<string>(); // 점선용 컬럼 저장
+
+                    foreach (var row in value)
+                    {
+                        string cell = row.ToString();
+                        string[] columns = cell.Split('1'); // 컬럼으로 쓰기위해 셀번호 뺌 (ColumnsUsed) 해서 컬럼 찾아내 사용할 수 있는 함수가 없음
+                        // 예) G1에서 G만 가져감 어짜피 밑에 for문 에서 G ( i + 6) 셀번호 만큼 반복시켜서 쓸거라 컬럼만 있으면 됨
+                        DynamicColumnsThin.Add(columns[0]);
+                    }
+                    foreach (var row in value2)
+                    {
+                        string cell = row.ToString();
+                        string[] columns = cell.Split('1');
+   
+                        DynamicColumnsDotted.Add(columns[0]);
+
+                    }
+                    foreach (var row in value3)
+                    {
+                        string cell = row.ToString();
+                        string[] columns = cell.Split('1');
+
+                        DynamicColumnsDotted.Add(columns[0]);
+
+                    }
+
+                    // 동적 컬럼 꺼내온걸로 길이 개수만큼 추가
+
+                    for (int i = 0; i < exceltest.Rows.Count; i++)
+                    {
+                        for (int k = 0; k < DynamicColumnsThin.Count; k++)
+                        {
+                            worksheet.Cell(DynamicColumnsThin[k] + (i + 10)).Style.Border.LeftBorder = XLBorderStyleValues.Thin;
+
+
+                            for (int m = 0; m < DynamicColumnsDotted.Count; m++)
+                            {
+                                worksheet.Cell(DynamicColumnsDotted[m] + (i + 10)).Style.Border.LeftBorder = XLBorderStyleValues.Dotted;
+                            }
+                        }
+                    }
+
+                    #endregion
+
+
 
 
                     workbook.SaveAs(filepath);
