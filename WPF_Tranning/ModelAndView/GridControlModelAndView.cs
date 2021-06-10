@@ -21,6 +21,7 @@ using CommomCode;
 using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 
 
@@ -249,6 +250,35 @@ namespace WPF_Tranning
 
         }
 
+        public DataTable ExceldaDate()
+        {
+            DataTable dt = new DataTable();
+            dt.Columns.Add("날짜1");
+            dt.Columns.Add("날짜2");
+            dt.Columns.Add("날짜3");
+            dt.Columns.Add("날짜4");
+            dt.Columns.Add("날짜5");
+
+            dt.Rows.Add("2020-05-08", "2021-06-01", "2021-06-01", "2021-06-01", "2021-06-01");
+            dt.Rows.Add("2020-05-10", "2021-02-01", "2021-06-01", "2021-06-01", "2021-02-01");
+            dt.Rows.Add("2020-06-08", "2021-01-01", "2021-06-01", "2021-06-01", "2021-01-01");
+            dt.Rows.Add("2020-05-08", "2021-06-01", "2021-06-01", "2021-06-01", "2021-06-01");
+            dt.Rows.Add("2020-01-08", "2021-03-01", "2021-06-01", "2021-08-01", "2021-06-07");
+            dt.Rows.Add("2020-02-08", "2021-02-01", "2021-07-01", "2021-06-01", "2021-02-01");
+            dt.Rows.Add("2020-03-08", "2021-06-01", "2021-06-01", "2021-06-01", "2021-06-01");
+            dt.Rows.Add("2020-04-08", "2021-05-01", "2021-06-01", "2021-06-01", "2021-06-19");
+            dt.Rows.Add("2020-05-08", "2021-05-01", "2020-06-01", "2021-06-01", "2021-05-01");
+            dt.Rows.Add("2020-05-01", "2021-06-09", "2021-06-01", "2021-06-01", "2021-06-08");
+            dt.Rows.Add("          ", "2021-06-09", "2021-06-01", "2021-06-01", "2021-06-08");
+            dt.Rows.Add("2021-07-01", "2021-06-09", "2021-06-01", "2021-06-01", "2021-06-08");
+            dt.Rows.Add("2020-05-01", "2021-08-10", "2021-06-01", "2021-06-01", "2021-08-10");
+    
+            return dt;
+
+        }
+
+
+
         private DataTable ExcelDataBlankTable()
         {
             DataTable dt = new DataTable();
@@ -382,11 +412,15 @@ namespace WPF_Tranning
                 {
                     DataTable exceltest = ExcelexportTable();
                     DataTable blankexcel = ExcelDataBlankTable();
+                    DataTable dateexcel = ExceldaDate();
 
                     var worksheet = workbook.Worksheets.Add("Sample Sheet");
                     string filepath = @"C:\\Users\\m6ydz642\\source\\repos\\WPF_Tranning\\WPF_Tranning\\HelloWorld.xlsx";
                     worksheet.Cell("A1").Value = "Hello World!";
                     worksheet.Cell("A2").FormulaA1 = "=MID(A1, 7, 6)"; // FormulaA1 (A1) 의 셀을 참조에 7번째부터 6자리수 까지 출력
+
+             
+
 
                     // 임의로 같은 값 만들기
                     worksheet.Cell("A3").Value = "test";
@@ -435,6 +469,26 @@ namespace WPF_Tranning
                     {
                         string rows = blankexcel.Rows[i].Field<string>("컬럼2");
                         worksheet.Range("B" + (i + 10)).Value = rows;
+                    }
+
+                    for (int i = 0; i < dateexcel.Rows.Count; i++)
+                    {
+                        string rows = dateexcel.Rows[i].Field<string>("날짜1");
+                        worksheet.Range("G" + (i + 30)).Value = rows;
+
+                        string rows2 = dateexcel.Rows[i].Field<string>("날짜2");
+                        worksheet.Range("H" + (i + 30)).Value = rows2;
+
+                        string rows3 = dateexcel.Rows[i].Field<string>("날짜3");
+                        worksheet.Range("I" + (i + 30)).Value = rows3;     
+                        
+                        string rows4 = dateexcel.Rows[i].Field<string>("날짜4");
+                        worksheet.Range("J" + (i + 30)).Value = rows4;
+
+
+                        string rows5 = dateexcel.Rows[i].Field<string>("날짜5");
+
+                        worksheet.Range("K" + (i + 30)).Value = rows5;
                     }
 
                     int count = 0;
@@ -598,41 +652,140 @@ namespace WPF_Tranning
 
                     #endregion
 
+
+                    #region 동적 날짜 테두리 칠하기 (일반 버전)
                     // 테스트 데이터 생성, 마지막 색깔에 선 긋기
-                    List<string> LastColorList = new List<string>();
-                    string LastColorCell = "";
-                    for (int j = 0; j < exceltest.Rows.Count; j++)
+
+                    /*                    worksheet.Cell("G30").Value = "2021-06-09";
+                                        worksheet.Cell("G31").Value = "2021-06-08";
+                                        worksheet.Cell("H30").Value = "2021-05-08";
+                                        worksheet.Cell("H29").Value = "2021-05-07";
+                                        worksheet.Cell("I29").Value = "2021-05-01";*/
+
+                    string Nowtime = DateTime.Now.ToString("yyyy-MM-dd");
+
+                
+                    for (int j = 0; j < dateexcel.Rows.Count; j++)
                     {
-
-                        string rows = exceltest.Rows[j].Field<string>("컬럼1");
-                        worksheet.Range("O" + (j + 10)).Value = rows;
-                        worksheet.Range("O10:O13").Style.Fill.BackgroundColor = XLColor.FromArgb(255, 255, 0); // 노란색
-                        worksheet.Range("N10:N13").Style.Fill.BackgroundColor = XLColor.FromArgb(255, 255, 0); // 노란색
-                        string CololStatus2s = worksheet.Cell("O" + (j + 10)).Style.Fill.BackgroundColor.ToString();
-                        string CololStatusCells = worksheet.Cell("O" + (j + 10)).Style.Fill.BackgroundColor.ToString();
-
-                    
-                        if (CololStatus2s.Equals("FFFFFF00"))
+                
+                        string Value = worksheet.Cell("G" + (j + 30)).Value.ToString();
+                        string Value2 = worksheet.Cell("H" + (j + 30)).Value.ToString();
+                       /* if (!Value.Equals(""))
                         {
-                            LastColorCell = worksheet.Cell("O" + (j + 10)).ToString();
-                            LastColorList.Add(LastColorCell); // 사실 반복문 돌고 계속 대입되다가 반복문 마지막에 값이 대입됨 Range로 설정할꺼 아니면 마지막껀 일반 변수로 해도 됨
-                            // 대신 반복문으로 할경우 마지막 값에만 선긋기를 할거라면 반복문이 끝나고 선을 긋던지 해야 됨
-                        }
+                            int celldate = DateTime.Compare(DateTime.Parse(Nowtime), DateTime.Parse(Value)); // 현재보다 미래면 -1 
+                            int celldate2 = DateTime.Compare(DateTime.Parse(Nowtime), DateTime.Parse(Value2)); // 현재보다 미래면 -1 
+                            if (celldate < 0) { // 1이면 과거
+                                worksheet.Cell("G" + (j + 30)).Style.Border.BottomBorder = XLBorderStyleValues.Medium;
+    
+                                //     worksheet.Cell("C10").Style.Border.BottomBorder = XLBorderStyleValues.Medium;
+                            }
+
+                            if (celldate2 < 0)
+                            { // 1이면 과거
+    
+                                worksheet.Cell("H" + (j + 30)).Style.Border.BottomBorder = XLBorderStyleValues.Medium;
+                                //     worksheet.Cell("C10").Style.Border.BottomBorder = XLBorderStyleValues.Medium;
+                            }
+                        }*/
 
                     }
-                    worksheet.Cell(LastColorCell).Style.Border.BottomBorder = XLBorderStyleValues.Thin; // 마지막 색상에 선긋기 
 
-                    // 색깔여부 확인
-                    string CololStatus = worksheet.Cell("B10").Style.Fill.BackgroundColor.ToString();
-                    string CololStatusUsed = worksheet.Column("B").LastCellUsed().ToString();
-                    string CololStatus2 = worksheet.Cell("C10").Style.Fill.BackgroundColor.ToString();
-                    var CellUsed = worksheet.CellsUsed();
+                    #endregion
 
-                    foreach(var cell in CellUsed)
+
+
+                    #region 동적 날짜 테두리 칠하기 (리스트 버전)
+                 
+                    // 테스트 데이터 생성, 마지막 색깔에 선 긋기
+
+                    /*                    worksheet.Cell("G30").Value = "2021-06-09";
+                                        worksheet.Cell("G31").Value = "2021-06-08";
+                                        worksheet.Cell("H30").Value = "2021-05-08";
+                                        worksheet.Cell("H29").Value = "2021-05-07";
+                                        worksheet.Cell("I29").Value = "2021-05-01";*/
+
+                    List<string> LastDate = new List<string>();
+                    Nowtime = DateTime.Now.ToString("yyyy-MM-dd");
+
+
+                    for (int j = 0; j < dateexcel.Rows.Count; j++)
                     {
-                        string usedcell = cell.ToString();
-                        string CololStatustest = worksheet.Cell(usedcell).Style.Fill.BackgroundColor.ToString();
+
+                        string Value = worksheet.Cell("G" + (j + 30)).Value.ToString();
+                        string Value2 = worksheet.Cell("H" + (j + 30)).Value.ToString();
+                        /*if (!Value.Equals(""))
+                        {
+                            int celldate = DateTime.Compare(DateTime.Parse(Nowtime), DateTime.Parse(Value)); // 현재보다 미래면 -1 
+                            int celldate2 = DateTime.Compare(DateTime.Parse(Nowtime), DateTime.Parse(Value2)); // 현재보다 미래면 -1 
+                            if (celldate < 0)
+                            { // 1이면 과거
+                                worksheet.Cell("G" + (j + 30)).Style.Border.BottomBorder = XLBorderStyleValues.Medium;
+
+                                //     worksheet.Cell("C10").Style.Border.BottomBorder = XLBorderStyleValues.Medium;
+                            }
+
+                            if (celldate2 < 0)
+                            { // 1이면 과거
+
+                                worksheet.Cell("H" + (j + 30)).Style.Border.BottomBorder = XLBorderStyleValues.Medium;
+                                //     worksheet.Cell("C10").Style.Border.BottomBorder = XLBorderStyleValues.Medium;
+                            }
+                        }*/
+
                     }
+
+
+                    #endregion
+
+
+                    #region 셀 전체탐색 후 과거보다 큰곳에 하단 선 그리기
+                    worksheet.Column("G").Style.DateFormat.Format = "mm-dd"; // 셀 서식 날짜로
+                    worksheet.Column("H").Style.DateFormat.Format = "mm-dd"; // 셀 서식 날짜로
+                    worksheet.Column("I").Style.DateFormat.Format = "mm-dd"; // 셀 서식 날짜로
+                    worksheet.Column("I").Style.DateFormat.Format = "mm-dd"; // 셀 서식 날짜로
+                    worksheet.Column("J").Style.DateFormat.Format = "mm-dd"; // 셀 서식 날짜로
+                    worksheet.Column("K").Style.DateFormat.Format = "mm-dd"; // 셀 서식 날짜로
+
+                    var dynamicColumn = worksheet.CellsUsed();
+                    foreach (var row in dynamicColumn)
+                    {
+                        string cell = row.ToString();
+                        string Value = worksheet.Cell(cell).Value.ToString();
+                      //  Regex regex = new Regex("^[A-Z]");
+                      //  string[] splitNumber = regex.Split(cell);
+
+
+
+                        DateTime Celltime; // 참조될 Cell Type
+                        if (DateTime.TryParse(Value, out Celltime)) // 날짜 타입이면
+                        {
+                            int celldate = DateTime.Compare(DateTime.Parse(Nowtime),Celltime); // 현재보다 미래면 -1 
+                            if (celldate < 0)
+                            {
+                              //  worksheet.Cell(cell).Style.Border.TopBorder = XLBorderStyleValues.Medium;
+                              // 이전셀을 못구해서 잠시 보류
+                            }
+                        
+
+                        }
+                    }
+                    #endregion
+
+
+                    DateBottomBorder(worksheet, dateexcel, "G"); // 하단 줄긋기 함수
+                    DateBottomBorder(worksheet, dateexcel, "H");
+                    DateBottomBorder(worksheet, dateexcel, "I");
+                    DateBottomBorder(worksheet, dateexcel, "J");
+                    DateBottomBorder(worksheet, dateexcel, "K");
+
+                    DateBottomBorder(worksheet, dateexcel, "G", "H");
+                    DateBottomBorder(worksheet, dateexcel, "H", "I");
+                    DateBottomBorder(worksheet, dateexcel, "I", "J");
+                    DateBottomBorder(worksheet, dateexcel, "J", "K");
+
+
+
+
 
                     workbook.SaveAs(filepath);
                     MessageBox.Show("엑셀을 저장후 실행 합니다\r\n파일경로 : " + filepath);
@@ -642,9 +795,120 @@ namespace WPF_Tranning
                 {
                     MessageBox.Show("파일이 사용중입니다\r\n다른곳에서 파일이 사용중이거나 기타 오류가 발생하여 사용할 수 없습니다");
                 }
+                catch (Exception e)
+                {
+
+                }
             }
         }
 
+
+        #region 셀 전체탐색 후 과거보다 오른쪽에 선 그리기
+        public void DateBottomBorder(IXLWorksheet worksheet, DataTable dateexcel, string BeforeCell, string NextCell)
+        {
+            string saveCellNumber = "";
+            string saveCellNumber2 = "";
+            string BeforeBottomCell = "";
+            string NextBottomCell = "";
+
+            for (int b = dateexcel.Rows.Count; b > 0; b--)
+            {
+                string Value = worksheet.Cell(BeforeCell + (b + 28)).Value.ToString();
+                string Value2 = worksheet.Cell(NextCell + (b + 28)).Value.ToString();
+
+      /*          BeforeBottomCell = worksheet.Cell(BeforeCell + (b + 28)).ToString(); // cell 이름
+                NextBottomCell  = worksheet.Cell(NextCell + (b + 28)).ToString(); // cell 이름*/
+
+                DateTime Celltime; // 참조될 Cell Type
+                DateTime Celltime2; // 참조될 Cell Type
+
+                string BeforeBottomCellValue = worksheet.Cell(BeforeCell + (b + 28)).Style.Border.BottomBorder.ToString(); // 하단 셀 찾기
+                string NextBottomCellValue = worksheet.Cell(NextCell + (b + 28)).Style.Border.BottomBorder.ToString(); // 하단 셀 찾기
+
+                   if (NextBottomCellValue.Equals("Medium"))
+                { // 다음셀에서 사용할 미디움 발견 즉시 바로 번호 저장
+                    saveCellNumber2 = (b + 28).ToString();
+
+                }
+
+                if (BeforeBottomCellValue.Equals("Medium"))
+                { // 이전셀에서 미디움 발견 즉시 바로 번호 저장
+                    saveCellNumber = (b + 28).ToString();
+
+                }
+             
+
+                //   worksheet.Cell("I" + (b + 29)).Style.Border.LeftBorder = XLBorderStyleValues.Medium;
+
+                //   worksheet.Range(beforecell + ":" + returnIcolumn).Style.Border.LeftBorder = XLBorderStyleValues.Medium;
+
+                /*if (DateTime.TryParse(Value, out Celltime) && DateTime.TryParse(Value2, out Celltime2)) // 날짜 타입이면
+                {
+                    int celldate = DateTime.Compare(DateTime.Parse(Nowtime), Celltime); // 현재보다 미래면 -1 
+                    int celldateCompare = DateTime.Compare(DateTime.Parse(Nowtime), Celltime2); // 현재보다 미래면 -1 
+
+                    if (celldateCompare < 0) // 과거인 날짜 찾기
+                    {
+                        worksheet.Cell("H"+ (b + 29)).Style.Border.RightBorder = XLBorderStyleValues.Medium;
+                                    // worksheet.Range("H41:I34").Style.Border.RightBorder = XLBorderStyleValues.Medium;
+
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+
+                }*/
+            }
+             // int MinusnSaveCellnumber = Int32.Parse(saveCellNumber2) + 1;
+             int MinusnSaveCellnumber = Int32.Parse(saveCellNumber2);
+
+            worksheet.Range(NextCell + MinusnSaveCellnumber.ToString() + ":" + (NextCell + saveCellNumber)).Style.Border.LeftBorder = XLBorderStyleValues.Medium;
+            // 반복문을 거꾸로 했기때문에 역순임
+
+        }
+#endregion
+
+
+
+#region 날짜 조건 하단 선 긋기 함수
+
+public string DateBottomBorder(IXLWorksheet worksheet, DataTable dateexcel, string Cell)
+        {
+            string Nowtime = DateTime.Now.ToString("yyyy-MM-dd");
+            string beforecell = "";
+            for (int j = 0; j < dateexcel.Rows.Count; j++)
+            {
+
+                // 데이터 영역 0, 1, 2번째
+                string beforedata = worksheet.Cell(Cell + (j + 30)).Value.ToString();
+                string afterdata = worksheet.Cell(Cell + (j + 31)).Value.ToString();
+                string jumpdata = worksheet.Cell(Cell+ (j + 32)).Value.ToString();
+
+                // cell 이름
+                beforecell = worksheet.Cell(Cell + (j + 29)).ToString(); // cell 이름
+                string aftercell = worksheet.Cell(Cell + (j + 31)).ToString(); // cell 이름
+
+
+                DateTime Celltime;
+                if (DateTime.TryParse(beforedata, out Celltime))// 날짜타입이 맞으면
+                {
+                    int celldate = DateTime.Compare(DateTime.Parse(Nowtime), Celltime);
+                    if (celldate < 0)
+                    {
+                        worksheet.Cell(beforecell).Style.Border.BottomBorder = XLBorderStyleValues.Medium;
+                    }
+
+
+                }
+
+       
+
+            }
+            return beforecell;// 선 그은 셀 리턴함
+        }
+        #endregion
         /******************************************************************************/
         private void GetBindingScoreInfo(object obj) // 바인딩 요청 클릭시 가져오는 데이터
         {
@@ -888,6 +1152,8 @@ namespace WPF_Tranning
 
 
         private DataTable _getBindingScoreData;
+        private DateTime j;
+
         public DataTable GetBindingScoreData // 바인딩 요청시 가져올 데이터 (초반엔 빈 데이터임)
         {
             get { return _getBindingScoreData; }
