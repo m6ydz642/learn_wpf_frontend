@@ -783,6 +783,13 @@ namespace WPF_Tranning
                     DateBottomBorder(worksheet, dateexcel, "I", "J");
                     DateBottomBorder(worksheet, dateexcel, "J", "K");
 
+                    DateDeleteBorder(worksheet, dateexcel, "H");
+                    DateDeleteBorder(worksheet, dateexcel, "I");
+                    DateDeleteBorder(worksheet, dateexcel, "J");
+                    DateDeleteBorder(worksheet, dateexcel, "K");
+                    DateDeleteBorder(worksheet, dateexcel, "L");
+
+
 
 
 
@@ -810,6 +817,28 @@ namespace WPF_Tranning
             string saveCellNumber2 = "";
             string BeforeBottomCell = "";
             string NextBottomCell = "";
+            int range = 27;
+            string Nowtime = DateTime.Now.ToString("yyyy-MM-dd");
+
+            // 사용중인 컬럼 담기
+            var value = worksheet.ColumnsUsed();
+            string[] splitColumns = new string[2];
+            List<string> Columns = new List<string>();
+            List<string> ValueTest = new List<string>();
+
+            // 값 확인용
+            for (int i = 0; i < Columns.Count; i++)
+            {
+                string a = Columns[i];
+            }
+
+            foreach (var row in value)
+            {
+                string test = row.RangeAddress.ToString();
+                splitColumns = test.Split(':');
+                Columns.Add(splitColumns[0]);
+            }
+
 
             for (int b = dateexcel.Rows.Count; b > 0; b--)
             {
@@ -836,7 +865,33 @@ namespace WPF_Tranning
                     saveCellNumber = (b + 28).ToString();
 
                 }
-             
+
+
+                // 사용중인 컬럼 값 조회 & 날짜 확인
+                for (int i = Columns.Count; i > 0 ; i--)
+                {
+                    string columnValue = Columns[i-1];
+                    string compare = worksheet.Cell(columnValue + (b + 28)).Value.ToString();
+                    if (DateTime.TryParse(compare, out Celltime)) // 날짜 타입이면
+                    {
+                        int celldate = DateTime.Compare(DateTime.Parse(Nowtime), Celltime); // 현재보다 미래면 -1 
+                     //   int celldateCompare = DateTime.Compare(DateTime.Parse(Nowtime), Celltime2); // 현재보다 미래면 -1 
+
+                       // if (celldate > 0) // 과거인 날짜 찾기
+                        if (celldate < 0) // 미래인 날짜 찾기
+                        {
+                            // worksheet.Cell("H" + (b + 29)).Style.Border.RightBorder = XLBorderStyleValues.Medium;
+                            // worksheet.Range("H41:I34").Style.Border.RightBorder = XLBorderStyleValues.Medium;
+                            ValueTest.Add(columnValue + (b + 29)); // 과거인 날짜 컬럼 담기
+                            worksheet.Cell(columnValue + (b + 29)).Style.Fill.BackgroundColor = XLColor.FromArgb(171, 195, 223); // 공백데이터 범위 색상
+
+                        }
+
+
+
+                    }
+
+                }
 
                 //   worksheet.Cell("I" + (b + 29)).Style.Border.LeftBorder = XLBorderStyleValues.Medium;
 
@@ -861,6 +916,7 @@ namespace WPF_Tranning
 
                 }*/
             }
+            ValueTest.Sort();
              // int MinusnSaveCellnumber = Int32.Parse(saveCellNumber2) + 1;
              int MinusnSaveCellnumber = Int32.Parse(saveCellNumber2);
 
@@ -909,6 +965,46 @@ public string DateBottomBorder(IXLWorksheet worksheet, DataTable dateexcel, stri
             return beforecell;// 선 그은 셀 리턴함
         }
         #endregion
+
+
+        #region 날짜 조건 하단 선 삭제 함수
+
+        public string DateDeleteBorder(IXLWorksheet worksheet, DataTable dateexcel, string Cell)
+        {
+            string Nowtime = DateTime.Now.ToString("yyyy-MM-dd");
+            string beforecell = "";
+            for (int j = 0; j < dateexcel.Rows.Count; j++)
+            {
+
+                // 데이터 영역 0, 1, 2번째
+                string beforedata = worksheet.Cell(Cell + (j + 30)).Value.ToString();
+                string afterdata = worksheet.Cell(Cell + (j + 31)).Value.ToString();
+                string jumpdata = worksheet.Cell(Cell + (j + 32)).Value.ToString();
+
+                // cell 이름
+                beforecell = worksheet.Cell(Cell + (j + 28)).ToString(); // cell 이름
+                string aftercell = worksheet.Cell(Cell + (j + 31)).ToString(); // cell 이름
+
+
+                DateTime Celltime;
+                if (DateTime.TryParse(beforedata, out Celltime))// 날짜타입이 맞으면
+                {
+                    int celldate = DateTime.Compare(DateTime.Parse(Nowtime), Celltime);
+                    if (celldate < 0)
+                    {
+                        worksheet.Cell(beforecell).Style.Border.LeftBorder = XLBorderStyleValues.None;
+                    }
+
+
+                }
+
+
+
+            }
+            return beforecell;// 선 그은 셀 리턴함
+        }
+        #endregion
+
         /******************************************************************************/
         private void GetBindingScoreInfo(object obj) // 바인딩 요청 클릭시 가져오는 데이터
         {
