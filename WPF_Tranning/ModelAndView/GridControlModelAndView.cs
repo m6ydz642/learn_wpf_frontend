@@ -817,7 +817,7 @@ namespace WPF_Tranning
             string saveCellNumber2 = "";
             string BeforeBottomCell = "";
             string NextBottomCell = "";
-            int range = 27;
+            int range = 29;
             string Nowtime = DateTime.Now.ToString("yyyy-MM-dd");
 
             // 사용중인 컬럼 담기
@@ -871,7 +871,7 @@ namespace WPF_Tranning
                 for (int i = Columns.Count; i > 0 ; i--)
                 {
                     string columnValue = Columns[i-1];
-                    string compare = worksheet.Cell(columnValue + (b + 28)).Value.ToString();
+                    string compare = worksheet.Cell(columnValue + (b + range)).Value.ToString();
                     if (DateTime.TryParse(compare, out Celltime)) // 날짜 타입이면
                     {
                         int celldate = DateTime.Compare(DateTime.Parse(Nowtime), Celltime); // 현재보다 미래면 -1 
@@ -882,9 +882,9 @@ namespace WPF_Tranning
                         {
                             // worksheet.Cell("H" + (b + 29)).Style.Border.RightBorder = XLBorderStyleValues.Medium;
                             // worksheet.Range("H41:I34").Style.Border.RightBorder = XLBorderStyleValues.Medium;
-                            ValueTest.Add(columnValue + (b + 29)); // 과거인 날짜 컬럼 담기
-                            worksheet.Cell(columnValue + (b + 29)).Style.Fill.BackgroundColor = XLColor.FromArgb(171, 195, 223); // 공백데이터 범위 색상
-
+                            ValueTest.Add(columnValue + (b + range)); // 과거인 날짜 컬럼 담기
+                            worksheet.Cell(columnValue + (b + range)).Style.Fill.BackgroundColor = XLColor.FromArgb(255, 255, 0); // 노란색 
+                            // 미래 데이터 노란색
                         }
 
 
