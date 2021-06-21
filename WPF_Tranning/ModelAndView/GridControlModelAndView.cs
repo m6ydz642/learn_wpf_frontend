@@ -137,6 +137,8 @@ namespace WPF_Tranning
             DataModel.CurrentClassPath = typeof(GridControlView).FullName; // 현재 접근한 클래스
         }
 
+    
+
         private void TextBoxInit()
         {
             TextBoxList = new List<string>();
@@ -670,23 +672,7 @@ namespace WPF_Tranning
                 
                         string Value = worksheet.Cell("G" + (j + 30)).Value.ToString();
                         string Value2 = worksheet.Cell("H" + (j + 30)).Value.ToString();
-                       /* if (!Value.Equals(""))
-                        {
-                            int celldate = DateTime.Compare(DateTime.Parse(Nowtime), DateTime.Parse(Value)); // 현재보다 미래면 -1 
-                            int celldate2 = DateTime.Compare(DateTime.Parse(Nowtime), DateTime.Parse(Value2)); // 현재보다 미래면 -1 
-                            if (celldate < 0) { // 1이면 과거
-                                worksheet.Cell("G" + (j + 30)).Style.Border.BottomBorder = XLBorderStyleValues.Medium;
-    
-                                //     worksheet.Cell("C10").Style.Border.BottomBorder = XLBorderStyleValues.Medium;
-                            }
-
-                            if (celldate2 < 0)
-                            { // 1이면 과거
-    
-                                worksheet.Cell("H" + (j + 30)).Style.Border.BottomBorder = XLBorderStyleValues.Medium;
-                                //     worksheet.Cell("C10").Style.Border.BottomBorder = XLBorderStyleValues.Medium;
-                            }
-                        }*/
+                      
 
                     }
 
@@ -713,24 +699,7 @@ namespace WPF_Tranning
 
                         string Value = worksheet.Cell("G" + (j + 30)).Value.ToString();
                         string Value2 = worksheet.Cell("H" + (j + 30)).Value.ToString();
-                        /*if (!Value.Equals(""))
-                        {
-                            int celldate = DateTime.Compare(DateTime.Parse(Nowtime), DateTime.Parse(Value)); // 현재보다 미래면 -1 
-                            int celldate2 = DateTime.Compare(DateTime.Parse(Nowtime), DateTime.Parse(Value2)); // 현재보다 미래면 -1 
-                            if (celldate < 0)
-                            { // 1이면 과거
-                                worksheet.Cell("G" + (j + 30)).Style.Border.BottomBorder = XLBorderStyleValues.Medium;
-
-                                //     worksheet.Cell("C10").Style.Border.BottomBorder = XLBorderStyleValues.Medium;
-                            }
-
-                            if (celldate2 < 0)
-                            { // 1이면 과거
-
-                                worksheet.Cell("H" + (j + 30)).Style.Border.BottomBorder = XLBorderStyleValues.Medium;
-                                //     worksheet.Cell("C10").Style.Border.BottomBorder = XLBorderStyleValues.Medium;
-                            }
-                        }*/
+                       
 
                     }
 
@@ -893,28 +862,6 @@ namespace WPF_Tranning
 
                 }
 
-                //   worksheet.Cell("I" + (b + 29)).Style.Border.LeftBorder = XLBorderStyleValues.Medium;
-
-                //   worksheet.Range(beforecell + ":" + returnIcolumn).Style.Border.LeftBorder = XLBorderStyleValues.Medium;
-
-                /*if (DateTime.TryParse(Value, out Celltime) && DateTime.TryParse(Value2, out Celltime2)) // 날짜 타입이면
-                {
-                    int celldate = DateTime.Compare(DateTime.Parse(Nowtime), Celltime); // 현재보다 미래면 -1 
-                    int celldateCompare = DateTime.Compare(DateTime.Parse(Nowtime), Celltime2); // 현재보다 미래면 -1 
-
-                    if (celldateCompare < 0) // 과거인 날짜 찾기
-                    {
-                        worksheet.Cell("H"+ (b + 29)).Style.Border.RightBorder = XLBorderStyleValues.Medium;
-                                    // worksheet.Range("H41:I34").Style.Border.RightBorder = XLBorderStyleValues.Medium;
-
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-
-                }*/
             }
             ValueTest.Sort();
              // int MinusnSaveCellnumber = Int32.Parse(saveCellNumber2) + 1;

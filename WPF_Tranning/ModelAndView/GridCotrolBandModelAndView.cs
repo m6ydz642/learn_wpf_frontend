@@ -42,14 +42,7 @@ namespace WPF_Tranning.ModelAndView
             TableView view = (TableView)cellData.View;
             GridControl grid = view.Grid;
 
-            //for (int i = curIndex + 1; i < grid.VisibleRowCount; i++)
-            //{
-            //    int nextRH = grid.GetRowHandleByVisibleIndex(i);
-            //    if (object.Equals(grid.GetCellValue(nextRH, (GridColumn)cellData.Column), cellData.Value) && nextRH > 0)
-            //        mergCount++;
-            //    else
-            //        break;
-            //}
+ 
 
             double width = 0;
             for (int i = cellData.Column.VisibleIndex + 1; i < view.VisibleColumns.Count; i++)
@@ -190,7 +183,9 @@ namespace WPF_Tranning.ModelAndView
         public ICommand CellValueChangedCommand { get; set; }
         public ICommand CheckRegexDoubleDBSaveCommand { get; set; }
         public ICommand CheckDoubleCellChangeEventCommand { get; set; }
-        
+        public ICommand ClearData { get; set; }
+
+
         private string _combomode;
         public string ComboMode {
 
@@ -258,6 +253,7 @@ namespace WPF_Tranning.ModelAndView
             CheckRegexDoubleDBCommand = new RelayCommand(new Action<object>(this.CheckRegexDBDoubleDBEvent));
             CheckRegexDoubleDBSaveCommand = new RelayCommand(new Action<object>(this.CheckRegexDBDoubleSaveDBEvent));
             CheckDoubleCellChangeEventCommand = new RelayCommand(new Action<object>(this.CheckDoubleCellChangeEvent));
+            ClearData = new RelayCommand(new Action<object>(this.ClearDataEvent));
 
 
             //  MaskRegex = "\\d[2]\\.\\d{2}"; // 콤보박스에 따라 정규식 입력 바뀌게 하기, 데이터 테이블 다른걸로 로딩
@@ -265,13 +261,24 @@ namespace WPF_Tranning.ModelAndView
             // https://docs.devexpress.com/WindowsForms/1499/controls-and-libraries/editors-and-simple-controls/common-editor-features-and-concepts/masks/mask-type-simplified-regular-expressions 
             // 정규식 설명
 
-        // https://www.regextester.com/97491
-        // 정규식 테스트 홈페이지
+            // https://www.regextester.com/97491
+            // 정규식 테스트 홈페이지
 
-        DataModel.CurrentClassPath = typeof(GridControlBandView).FullName; // 현재 접근한 클래스
+            DataModel.CurrentClassPath = typeof(GridControlBandView).FullName; // 현재 접근한 클래스
         }
 
- 
+
+        private void ClearDataEvent(object obj)
+        {
+            var convert = (GridControl)obj;
+            //DataWeek = MakeTestDataSet().Tables[0];
+            //DataColumn = MakeTestDataSet().Tables[1];
+            DataWeek = new DataTable();
+            DataColumn = new DataTable();
+               
+
+        }
+
 
         private void CheckRegexDBDoubleSaveDBEvent(object obj)
         {

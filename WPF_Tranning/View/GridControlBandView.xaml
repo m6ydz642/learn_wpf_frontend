@@ -127,11 +127,15 @@
 
 
         <Button Command="{Binding CheckRegexIntCommand}" CommandParameter="{Binding ElementName=GirdControlBand}"
-            Margin="290,51,0,0" HorizontalAlignment="Left" Width="121" Height="34" VerticalAlignment="Top">정수 정규식 체크</Button>
+            Margin="271,51,0,0" HorizontalAlignment="Left" Width="121" Height="34" VerticalAlignment="Top">정수 정규식 체크</Button>
 
         <Button Command="{Binding CheckRegexDoubleCommand}" CommandParameter="{Binding ElementName=GirdControlBand}"
-            Margin="416,51,0,0" HorizontalAlignment="Left" Width="130" Height="34" VerticalAlignment="Top">소수점 정규식 체크</Button>
+            Margin="397,51,0,0" HorizontalAlignment="Left" Width="130" Height="34" VerticalAlignment="Top">소수점 정규식 체크</Button>
 
+        <Button Command="{Binding ClearData}" CommandParameter="{Binding ElementName=GirdControlBand}"
+            Margin="532,51,0,0" HorizontalAlignment="Left" Width="130" Height="34" VerticalAlignment="Top">데이터 클리어</Button>
+
+        
         <dxg:GridControl x:Name="GirdControlBand" 
                          AutoGenerateColumns="None" 
                          Margin="115,90,551,176" 
@@ -269,6 +273,14 @@
                         </dxmvvm:EventToCommand>
                     </dxmvvm:Interaction.Behaviors>
 
+
+                    <dxg:TableView.RuntimeLocalizationStrings>
+                        <dxg:GridRuntimeStringCollection>
+                            <dxg:RuntimeStringIdInfo Id="NoRecords" Value="검색된 결과가 없습니다"/>
+                            <dxg:RuntimeStringIdInfo Id="NoRecordsFound" Value="검색된 결과가 없습니다"/>
+                        </dxg:GridRuntimeStringCollection>
+                    </dxg:TableView.RuntimeLocalizationStrings>
+                    
                 </dxg:TableView>
             </dxg:GridControl.View>
 
