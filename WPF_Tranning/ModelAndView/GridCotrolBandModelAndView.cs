@@ -15,8 +15,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Forms;
 using System.Windows.Input;
 using WPF_Tranning.Model;
+using MessageBox = System.Windows.MessageBox;
 
 namespace WPF_Tranning.ModelAndView
 {
@@ -84,6 +86,14 @@ namespace WPF_Tranning.ModelAndView
 
     public class TestConverter : IValueConverter
     {
+        // 다른클래스 값 전달 테스트 
+        public string Value { get; set; }
+        public TestConverter(string value)
+        {
+            Value = value;
+            MessageBox.Show("컨버터 값 전달 완료 선택 값 : " + Value);
+        }
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         { 
              string value1 = null;
@@ -116,34 +126,8 @@ namespace WPF_Tranning.ModelAndView
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-    /*    public string[] _week;
-        public string[] Week
-        {
-            get
-            {
-                return _week;
-            }
-            set
-            {
-                _week = value;
-                OnPropertyChanged("Week");
+    
 
-            }
-        }*/
-
-/*
-        public string[] _weekDay;
-        public string[] WeekDay {
-            get
-            {
-                return _weekDay;
-            }
-
-            set { _weekDay = value;
-                OnPropertyChanged("WeekDay");
-
-            }
-        }*/
 
         public ObservableCollection<string> ComboBoxSelect { get; set; }
         
@@ -271,8 +255,6 @@ namespace WPF_Tranning.ModelAndView
         private void ClearDataEvent(object obj)
         {
             var convert = (GridControl)obj;
-            //DataWeek = MakeTestDataSet().Tables[0];
-            //DataColumn = MakeTestDataSet().Tables[1];
             DataWeek = new DataTable();
             DataColumn = new DataTable();
                
@@ -409,20 +391,15 @@ namespace WPF_Tranning.ModelAndView
             var convert = (TableView)obj;
             Regex rgx = new Regex(_Regex);
 
-          //   string text = convert.CurrentCellValue.ToString();
-
 
             if (ComboMode.Equals("데이터모드 1"))
             {
-             /*   string value1 = string.Format("{0:0.00}", double.Parse(getvalue)); // 정규식 없애고 이걸로 테이블로 다시 보내면 될듯
-                string value2 = string.Format("{0:0.00}", double.Parse(getvalue));
-*/
+           
             }
 
             if (ComboMode.Equals("데이터모드 2"))
             {
-            //   Action result = rgx.IsMatch(text) ? keepgoing : errorDouble;
-                // MessageBox.Show("올바른 형식을 확인해주세요 소수점 2자리까지 입력가능합니다 예) 1.12");
+
             }
 
 
@@ -492,7 +469,7 @@ namespace WPF_Tranning.ModelAndView
             var convert = (DevExpress.Xpf.Editors.ComboBoxEdit)obj;
 
             ComboMode = convert.SelectedItem.ToString();
-         
+       
             if (ComboMode.Equals("데이터모드 1"))
             {
                 // MaskRegex = "[0-9]{2}|[0-9]{3}"; // 최대 2자리 또는 3자리
@@ -503,6 +480,8 @@ namespace WPF_Tranning.ModelAndView
                 GetWeek_WeekDay();
                 //  MessageBox.Show("데이터 모드 1 실행, 정규식 모드 : 숫자 세자리");
 
+                TestConverter combovalue = new TestConverter(ComboMode);
+                combovalue.Value = "의미는 없지만 값을 넣기위해 호출";
 
             }
             if (ComboMode.Equals("데이터모드 2"))
@@ -513,9 +492,10 @@ namespace WPF_Tranning.ModelAndView
                 ComboMode = "데이터모드 2";
                 _Regex = "^[0-9]{1,1}[.][0-9]{1,2}$"; // 소수점 1.23 형식만 사용가능
                 GetWeek_WeekDay();
-             //   MessageBox.Show("데이터 모드 2 실행, 정규식 모드 : 소수점");
+                //   MessageBox.Show("데이터 모드 2 실행, 정규식 모드 : 소수점");
 
-
+                TestConverter combovalue = new TestConverter(ComboMode);
+                combovalue.Value = "의미는 없지만 값을 넣기위해 호출2";
             }
 
         }

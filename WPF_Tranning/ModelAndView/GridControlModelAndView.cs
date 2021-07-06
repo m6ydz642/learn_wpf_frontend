@@ -30,7 +30,12 @@ using System.Text.RegularExpressions;
 
 namespace WPF_Tranning
 {
+    public class AnotherClassValue
+    {
+        // 클래스간 변수 공유
+        public string TestValue;
 
+    }
     class GridControlModelAndView : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
