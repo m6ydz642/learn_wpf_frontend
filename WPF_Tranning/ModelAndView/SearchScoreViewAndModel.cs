@@ -15,6 +15,15 @@ using WPF_Tranning.View;
 
 namespace WPF_Tranning.ModelAndView
 {
+    public class ScoreTableModel{
+        public string Score_id;
+        public string Score;
+    }
+
+    public interface DBContext
+    {
+        List<ScoreTableModel> GetDatas();
+    }
     public class SearchScoreViewAndModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -22,12 +31,12 @@ namespace WPF_Tranning.ModelAndView
         public ICommand ComboSelectedEvent { get; set; }
 
         /**********************************************************************/
-        string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
+        string AppconfigDBSetting;
         /**********************************************************************/
 
         public SearchScoreViewAndModel()
         {
-
+            AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
             ComboboxLoaded = new RelayCommand(new Action<object>(this.GetComboboxLoaded));
             ComboSelectedEvent = new RelayCommand(new Action<object>(this.ComboSelectBinding));
             GetScoreInfomation = GetScoreInfo().Tables[0]; // 콤보박스 리스트에 들어갈 스코어 전체 정보 (표시는 Score_id만 되게 xaml에서 설정 해놈)
@@ -35,9 +44,26 @@ namespace WPF_Tranning.ModelAndView
             DataModel.CurrentClassPath = typeof(SearchScoreView).FullName; // 현재 접근한 클래스
 
         }
+        /************************************************************************************/
+        // mock 객체 테스트 용
+        private DBContext result;
 
 
+        public SearchScoreViewAndModel(DBContext context)
+        {
+            result = context;
+        }
 
+        public string GetSum()
+        { 
+            string result = "";
+            foreach (ScoreTableModel b in this.result.GetDatas())
+            {
+                result += b.Score_id;
+            }
+            return result;
+        }
+        /************************************************************************************/
         private void GetComboboxLoaded(object obj) // 콤보박스 로딩 이벤트
         {
             var convert = (ComboBoxEdit)obj;
