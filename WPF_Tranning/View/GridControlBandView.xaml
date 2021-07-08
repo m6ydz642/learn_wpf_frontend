@@ -31,7 +31,7 @@
 
 
     <UserControl.Resources>
-        <wow:TestConverter x:Key="converter"/>
+        <!--<wow:TestConverter x:Key="converter"/>-->
         <local:NegativeConverter x:Key="negConverter" />
         <local:MyTemplateSelector x:Key="cellTS" />
 
@@ -62,7 +62,7 @@
             </Grid>
         </DataTemplate>
         
-        <DataTemplate x:Key="editcell">
+        <!--<DataTemplate x:Key="editcell">
             <TextBox Text="{Binding Value, Converter={StaticResource converter}}">
                 <TextBox.Style>
                     <Style TargetType="{x:Type TextBox}">
@@ -70,7 +70,7 @@
                     </Style>
                 </TextBox.Style>
             </TextBox>
-        </DataTemplate>
+        </DataTemplate>-->
 
         <Style TargetType="{x:Type dxg:GridScrollablePart}">
             <Setter Property="Template">
@@ -298,11 +298,11 @@
                 </dxg:GridColumn.EditSettings>
 
                 <!--컨버터 할 내용-->
-                <dxg:GridColumn.DisplayTemplate>
+                <!--<dxg:GridColumn.DisplayTemplate>
                     <ControlTemplate>
                         <TextBlock Text="{Binding Value, Converter={StaticResource  converter}}"/>
                     </ControlTemplate>
-                </dxg:GridColumn.DisplayTemplate>
+                </dxg:GridColumn.DisplayTemplate>-->
 
             </dxg:GridColumn>
 

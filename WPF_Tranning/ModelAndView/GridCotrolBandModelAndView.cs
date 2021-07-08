@@ -84,14 +84,14 @@ namespace WPF_Tranning.ModelAndView
 
     }
 
-    public class TestConverter : IValueConverter
+    /*public class TestConverter : IValueConverter
     {
         // 다른클래스 값 전달 테스트 
         public string Value { get; set; }
         public TestConverter(string value)
         {
-            Value = value;
-            MessageBox.Show("컨버터 값 전달 완료 선택 값 : " + Value);
+          //  Value = value;
+          //  MessageBox.Show("컨버터 값 전달 완료 선택 값 : " + Value);
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -121,7 +121,9 @@ namespace WPF_Tranning.ModelAndView
             object test = "";
             return test;
         }
+    
     }
+    */
     public class GridCotrolBandModelAndView : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -480,8 +482,8 @@ namespace WPF_Tranning.ModelAndView
                 GetWeek_WeekDay();
                 //  MessageBox.Show("데이터 모드 1 실행, 정규식 모드 : 숫자 세자리");
 
-                TestConverter combovalue = new TestConverter(ComboMode);
-                combovalue.Value = "의미는 없지만 값을 넣기위해 호출";
+         /*       TestConverter combovalue = new TestConverter(ComboMode);
+                combovalue.Value = "의미는 없지만 값을 넣기위해 호출";*/
 
             }
             if (ComboMode.Equals("데이터모드 2"))
@@ -494,9 +496,9 @@ namespace WPF_Tranning.ModelAndView
                 GetWeek_WeekDay();
                 //   MessageBox.Show("데이터 모드 2 실행, 정규식 모드 : 소수점");
 
-                TestConverter combovalue = new TestConverter(ComboMode);
-                combovalue.Value = "의미는 없지만 값을 넣기위해 호출2";
-            }
+/*                TestConverter combovalue = new TestConverter(ComboMode);
+*//*                combovalue.Value = "의미는 없지만 값을 넣기위해 호출2";
+*/            }
 
         }
 

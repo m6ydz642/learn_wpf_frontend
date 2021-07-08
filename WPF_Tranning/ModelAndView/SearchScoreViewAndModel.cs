@@ -15,7 +15,7 @@ using WPF_Tranning.View;
 
 namespace WPF_Tranning.ModelAndView
 {
-    class SearchScoreViewAndModel : INotifyPropertyChanged
+    public class SearchScoreViewAndModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand ComboboxLoaded { get; set; }
