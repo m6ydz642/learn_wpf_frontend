@@ -24,6 +24,11 @@ namespace WPF_Tranning.ModelAndView
     {
         List<ScoreTableModel> GetDatas();
     }
+
+    public interface DBContextDataTable
+    {
+        List<ScoreTableModel> GetDataTable();
+    }
     public class SearchScoreViewAndModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -47,14 +52,22 @@ namespace WPF_Tranning.ModelAndView
         /************************************************************************************/
         // mock 객체 테스트 용
         private DBContext result;
+        private DBContextDataTable datatableresult;
 
 
-        public SearchScoreViewAndModel(DBContext context)
+        public SearchScoreViewAndModel(DBContext context) // list타입
         {
             result = context;
         }
 
-        public string GetSum()
+        public SearchScoreViewAndModel(DBContextDataTable context) // 데이터 테이블 타입
+        {
+            datatableresult = context;
+        }
+
+
+
+        public string GetSum() // 스트링 리턴
         { 
             string result = "";
             foreach (ScoreTableModel b in this.result.GetDatas())
@@ -63,6 +76,23 @@ namespace WPF_Tranning.ModelAndView
             }
             return result;
         }
+
+        public DataTable GetTableReturn() // 테이블 리턴
+        {
+            DataTable dt = new DataTable() ;
+
+
+            dt.Columns.Add("Score_id");
+            dt.Columns.Add("Score점수");
+
+            foreach (ScoreTableModel model in datatableresult.GetDataTable())
+            {
+     
+                dt.Rows.Add(model.Score_id, model.Score);
+            }
+            return dt;
+        }
+
         /************************************************************************************/
         private void GetComboboxLoaded(object obj) // 콤보박스 로딩 이벤트
         {

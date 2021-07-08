@@ -75,6 +75,31 @@ namespace UnitTestProject_UI
 
 
         }
+
+        [TestMethod]
+        public void MockDataTableTest()
+        {
+            /*       DataTable datatable = new DataTable();
+                   datatable.Columns.Add("123");
+                   datatable.Rows.Add("점수띠");
+                   Mock<DBContextDataTable> mocks = new Mock<DBContextDataTable>();*/
+            List<ScoreTableModel> datalist = new List<ScoreTableModel>()
+            {
+                new ScoreTableModel() { Score_id = "1", Score = "점수 100점" },
+                new ScoreTableModel() {Score_id=  "2", Score = "점수 10점"}
+            };
+            Mock<DBContextDataTable> datatablemock = new Mock<DBContextDataTable>();
+
+
+            datatablemock.Setup(b => b.GetDataTable()).Returns(datalist);
+
+            SearchScoreViewAndModel process = new SearchScoreViewAndModel(datatablemock.Object);
+            DataTable testtable = process.GetTableReturn();
+            Assert.IsNotNull(process.GetTableReturn());
+
+
+        }
+
     }
 
 }
