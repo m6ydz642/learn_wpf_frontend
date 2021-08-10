@@ -20,7 +20,7 @@
             Name="spreadsheetcontrol">
             <dxmvvm:Interaction.Behaviors>
                 <dxmvvm:EventToCommand 
-                            Command="{Binding SpreadsheetControlLoaded}"  
+                            Command="{Binding IGridSheetLoaded}"  
                             EventName="Loaded" 
                             CommandParameter="{Binding ElementName=spreadsheetcontrol}"
                             PassEventArgsToCommand="True">
