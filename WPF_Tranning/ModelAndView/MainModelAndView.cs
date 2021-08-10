@@ -44,6 +44,7 @@ namespace WPF_Tranning
         public ICommand GridControlBandMenuTree { get; set; }
         public ICommand EndPage { get; set; }
         public ICommand AnotherPage { get; set; }
+        public ICommand ISpreadSheetControl { get; set; }
         
       
         
@@ -65,8 +66,10 @@ namespace WPF_Tranning
             GridControlBandMenuTree = new RelayCommand(new Action<object>(this.GridControlBandMenuTreeBinding));
             EndPage = new RelayCommand(new Action<object>(this.EndPageEvent));
             AnotherPage = new RelayCommand(new Action<object>(this.AnotherPageEvent));
+            ISpreadSheetControl = new RelayCommand(new Action<object>(this.SpreadSheetControl));
         }
 
+  
         private void AnotherPageEvent(object obj)
         {
             var convert = (NavigationFrame)obj;
@@ -143,7 +146,12 @@ namespace WPF_Tranning
         }
 
 
-     
+        private void SpreadSheetControl(object obj)
+        {
+            var convert = (NavigationFrame)obj;
+            convert.Source = new SpreadsheetControlView();
+        }
+
         private void LoadingPivotGridControl(object obj)
         {
             var convert = (NavigationFrame)obj;
@@ -190,8 +198,6 @@ namespace WPF_Tranning
         {
             var convert = (NavigationFrame)obj;
             convert.Source = new GridControlBandView();
-            // convert.Source = AutoMenu;
-            string test = convert.ToString();
         }
 
 
