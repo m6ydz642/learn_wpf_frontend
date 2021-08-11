@@ -26,8 +26,6 @@
                             PassEventArgsToCommand="True">
 
                 </dxmvvm:EventToCommand>
-
-
             </dxmvvm:Interaction.Behaviors>
             
         </dxsps:SpreadsheetControl>
