@@ -12,12 +12,15 @@
 
     <UserControl.DataContext>
         <local:SpreadsheetControlMV/>
-
     </UserControl.DataContext>
 
     <Grid>
+
+        <Button Command="{Binding IDeleteSheets}" CommandParameter="{Binding ElementName=spreadsheetcontrol}" 
+                Margin="0,22,0,771" HorizontalAlignment="Right" Width="116">시트삭제</Button>
+        
         <dxsps:SpreadsheetControl 
-            Name="spreadsheetcontrol">
+            Name="spreadsheetcontrol" Margin="0,65,0,0">
             <dxmvvm:Interaction.Behaviors>
                 <dxmvvm:EventToCommand 
                             Command="{Binding IGridSheetLoaded}"  
