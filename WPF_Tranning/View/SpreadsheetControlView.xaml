@@ -17,8 +17,8 @@
     <Grid>
 
         <Button Command="{Binding IDeleteSheets}" CommandParameter="{Binding ElementName=spreadsheetcontrol}" 
-                Margin="0,22,0,771" HorizontalAlignment="Right" Width="116">시트삭제</Button>
-        
+                Margin="0,22,0,0" HorizontalAlignment="Right" Width="116" Height="38" VerticalAlignment="Top">시트삭제</Button>
+
         <dxsps:SpreadsheetControl 
             Name="spreadsheetcontrol" Margin="0,65,0,0">
             <dxmvvm:Interaction.Behaviors>
@@ -30,9 +30,13 @@
 
                 </dxmvvm:EventToCommand>
             </dxmvvm:Interaction.Behaviors>
-            
+
         </dxsps:SpreadsheetControl>
         <Button Command="{Binding IExportClosedXML_Sheets}" CommandParameter="{Binding ElementName=spreadsheetcontrol}" 
-            Margin="0,22,131,771" HorizontalAlignment="Right" Width="116" Content="시트Export"/>
+            Margin="0,22,131,0" HorizontalAlignment="Right" Width="116" Content="시트Export" Height="38" VerticalAlignment="Top"/>
+        <Button Command="{Binding ICreateNewDocument}" CommandParameter="{Binding ElementName=spreadsheetcontrol}" 
+            Margin="0,22,260,0" HorizontalAlignment="Right" Width="116" Content="새문서만들기" Height="38" VerticalAlignment="Top"/>
+        <Button Command="{Binding IRollBack}" CommandParameter="{Binding ElementName=spreadsheetcontrol}" 
+            Margin="0,22,381,0" HorizontalAlignment="Right" Width="116" Content="원상복구" Height="38" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

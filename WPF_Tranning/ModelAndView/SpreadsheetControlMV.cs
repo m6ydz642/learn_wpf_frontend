@@ -23,15 +23,39 @@ namespace WPF_Tranning.ModelAndView
         public ICommand IGridSheetLoaded { get; set; }
         public ICommand IDeleteSheets { get; set; }
         public ICommand IExportClosedXML_Sheets { get; set; }
+        public ICommand ICreateNewDocument { get; set; }
+        public ICommand IRollBack { get; set; }
         public SpreadsheetControlMV()
         {
             DataModel.CurrentClassPath = typeof(ChartBindingView).FullName; // 현재 접근한 클래스
             IGridSheetLoaded = new RelayCommand(new Action<object>(this.GridSheetControlLoaded));
             IDeleteSheets = new RelayCommand(new Action<object>(this.deleteSheets_add));
             IExportClosedXML_Sheets = new RelayCommand(new Action<object>(this.ExportClosedXML_Sheets));
+            ICreateNewDocument = new RelayCommand(new Action<object>(this.CreateNewDocument));
+            IRollBack = new RelayCommand(new Action<object>(this.RollBack));
         }
 
- 
+        private void RollBack(object obj)
+        {
+
+            string[] resourceNames = (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceNames());
+            
+            if (obj is SpreadsheetControl sheetcontrol) // 형변환
+            {
+                using (BinaryReader reader = new BinaryReader
+                    (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("WPF_Tranning.Resources.output.xlsx")))
+                {
+                    sheetcontrol.LoadDocument(reader.BaseStream); // resources파일에 추가된 엑셀을 stream에 읽어 그리드 엑셀에 표시
+                                                                  // (엑셀 리소스 포함 리소스 처리)
+                    MakeDataWorksheets(sheetcontrol);
+                    MakeDataWorkBooks(sheetcontrol);
+                }
+            }
+        
+
+        }
+
+
         // private IWorkbook workbook { get; set; } 
         // 전역변수로 해도 되고 이벤트 파라메터에서 다시 형변환해서 써도 되고 
         // MakeDataWorkBooks에서 사용하는 것을 형변환 해서 써도 됨 (어짜피 workbook호출해서 쓰면 SpreadsheetControl에 반영 되어있음)
@@ -70,6 +94,46 @@ namespace WPF_Tranning.ModelAndView
                     MakeDataWorkBooks(sheetcontrol);
                 }
             }
+        }
+
+        private void CreateNewDocument(object obj)
+        {
+            string[] resourceNames = (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceNames());
+
+            if (obj is SpreadsheetControl sheetcontrol) // 형변환
+            {
+                using (BinaryReader reader = new BinaryReader
+                    (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("WPF_Tranning.Resources.output.xlsx")))
+                {
+                    sheetcontrol.CreateNewDocument();
+                    sheetcontrol.LoadDocument(reader.BaseStream);
+                    MakeDataNewDocuments(sheetcontrol);
+                }
+            }
+        }
+
+        private void MakeDataNewDocuments(SpreadsheetControl sheetcontrol)
+        {
+            IWorkbook workbook = sheetcontrol.Document;
+
+            /*        workbook.Worksheets.Add().Name = "CreatNewDocument";
+                    Worksheet worksheet = workbook.Worksheets["CreatNewDocument"];
+                    worksheet.Cells.Style.NumberFormat = "mm/dd";
+                    worksheet.Cells["D11"].Value = "데이터 새로 생성";
+                    worksheet.Cells["D15"].Value = "데이터 새로 생성";*/
+
+            Worksheet worksheet = sheetcontrol.Document.Worksheets[0];
+            worksheet.Name = "CreateDocument";
+            worksheet.Cells["D5"].Value = "새로추가";
+            worksheet.Cells["D6"].Value = "새로추가";
+            worksheet.Cells["D7"].Value = "새로추가";
+            worksheet.Cells["D8"].Value = "새로추가";
+            worksheet.Cells["D9"].Value = "새로추가";
+            string getSheetsName = workbook.Worksheets.ActiveWorksheet.ToString(); // 값 확인용
+          //   Worksheet worksheet = workbook.Worksheets["CreatNewDocument"]; // sheets이름 얻어와 확인 (workbook으로 해도 되고)
+
+
+  
         }
 
         private void MakeDataWorkBooks(SpreadsheetControl sheetcontrol)
