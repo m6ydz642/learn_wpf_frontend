@@ -288,6 +288,7 @@ namespace WPF_Tranning.ModelAndView
         {
             Stream fs = new MemoryStream();
             excelWorkbook.SaveAs(fs);
+            excelWorkbook.SaveAs("파일이름.xlsx");
             fs.Position = 0;
             return fs;
         }
