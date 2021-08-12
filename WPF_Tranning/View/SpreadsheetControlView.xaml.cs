@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.Spreadsheet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,18 @@ namespace WPF_Tranning.View
         public SpreadsheetControlView()
         {
             InitializeComponent();
+        }
+
+        private void spreadsheetcontrol_CellValueChanged(object sender, DevExpress.XtraSpreadsheet.SpreadsheetCellEventArgs e)
+        {
+
+        }
+
+        private void spreadsheetcontrol_Loaded(object sender, RoutedEventArgs e)
+        {
+   
+
+        
         }
     }
 }

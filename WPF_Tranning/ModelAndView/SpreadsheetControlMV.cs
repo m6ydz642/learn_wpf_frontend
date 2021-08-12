@@ -25,6 +25,8 @@ namespace WPF_Tranning.ModelAndView
         public ICommand IExportClosedXML_Sheets { get; set; }
         public ICommand ICreateNewDocument { get; set; }
         public ICommand IRollBack { get; set; }
+        public ICommand IBinaryLoadExcel { get; set; }
+        public ICommand IBinaryLoadExcel2 { get; set; }
         public SpreadsheetControlMV()
         {
             DataModel.CurrentClassPath = typeof(ChartBindingView).FullName; // 현재 접근한 클래스
@@ -33,8 +35,11 @@ namespace WPF_Tranning.ModelAndView
             IExportClosedXML_Sheets = new RelayCommand(new Action<object>(this.ExportClosedXML_Sheets));
             ICreateNewDocument = new RelayCommand(new Action<object>(this.CreateNewDocument));
             IRollBack = new RelayCommand(new Action<object>(this.RollBack));
+            IBinaryLoadExcel = new RelayCommand(new Action<object>(this.BinaryCreateNewDocument));
+            IBinaryLoadExcel2 = new RelayCommand(new Action<object>(this.BinaryCreateNewDocument2));
         }
 
+    
         private void RollBack(object obj)
         {
 
@@ -107,8 +112,31 @@ namespace WPF_Tranning.ModelAndView
                 {
                     sheetcontrol.CreateNewDocument();
                     sheetcontrol.LoadDocument(reader.BaseStream);
+           
                     MakeDataNewDocuments(sheetcontrol);
                 }
+            }
+        }
+        private void BinaryCreateNewDocument2(object obj)
+        {
+            string[] resourceNames = (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceNames());
+
+            if (obj is SpreadsheetControl sheetcontrol) // 형변환
+            {
+                //   sheetcontrol.CreateNewDocument();
+                sheetcontrol.LoadDocument(ExcelExport_ClosedXML2());
+            }
+        }
+
+  
+        private void BinaryCreateNewDocument(object obj)
+        {
+            string[] resourceNames = (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceNames());
+
+            if (obj is SpreadsheetControl sheetcontrol) // 형변환
+            {
+                 //   sheetcontrol.CreateNewDocument();
+                    sheetcontrol.LoadDocument(ExcelExport_ClosedXML());
             }
         }
 
@@ -172,8 +200,7 @@ namespace WPF_Tranning.ModelAndView
             ExcelExport_ClosedXML();
         }
 
-
-        private void ExcelExport_ClosedXML()
+        private Stream ExcelExport_ClosedXML2()
         {
             using (var workbook = new XLWorkbook())
             {
@@ -191,6 +218,51 @@ namespace WPF_Tranning.ModelAndView
                     {
                         int count = (int)reader.BaseStream.Length;
                         byte[] buffer = reader.ReadBytes(count);
+                        writer.Write(buffer);
+                    }
+                }
+
+                worksheet.Cell("D1").Value = "Hello World!2";
+                worksheet.Cell("D2").FormulaA1 = "=MID(A1, 7, 6)"; // FormulaA1 (A1) 의 셀을 참조에 7번째부터 6자리수 까지 출력
+                                                                   // 임의로 같은 값 만들기
+                worksheet.Cell("D3").Value = "엑셀 export2";
+                worksheet.Cell("D4").Value = "2021-08-12";
+                worksheet.Cell("D5").Value = "바이너리 로드 성공2";
+
+
+                for (int i = 0; i < 1000; i++)
+                {
+                    worksheet.Cell("D" + (6 + i)).Value = "바이너리 속도 테스트2";
+                }
+                // workbook.SaveAs(GetStream(workbook));
+
+                return GetStream(workbook);
+            }
+         
+        }
+
+        private Stream ExcelExport_ClosedXML()
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                // https://github.com/closedxml/closedxml
+
+                string[] resourceNames = (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceNames());
+
+                var worksheet = workbook.Worksheets.Add("Test_Sheet");
+                SaveFileDialog file = new SaveFileDialog();
+
+                using (BinaryReader reader = new BinaryReader
+                    (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("WPF_Tranning.Resources.output.xlsx")))
+                {
+                     using (BinaryWriter writer = new BinaryWriter(new FileStream("파일이름.xlsx", FileMode.Create)))
+                    //int countmem = (int)reader.BaseStream.Length;
+
+                    //using (BinaryWriter writer = new BinaryWriter(new MemoryStream(reader.ReadBytes(countmem))))
+
+                    {
+                        int count = (int)reader.BaseStream.Length;
+                        byte[] buffer = reader.ReadBytes(count);
                         writer.Write(buffer);                
                     }
                 }
@@ -199,11 +271,26 @@ namespace WPF_Tranning.ModelAndView
                 worksheet.Cell("D2").FormulaA1 = "=MID(A1, 7, 6)"; // FormulaA1 (A1) 의 셀을 참조에 7번째부터 6자리수 까지 출력
                                                                    // 임의로 같은 값 만들기
                 worksheet.Cell("D3").Value = "엑셀 export";
-               //  workbook.Save();
-                workbook.SaveAs("파일이름s.xlsx");
+                worksheet.Cell("D4").Value = "2021-08-12";
+                worksheet.Cell("D5").Value = "바이너리 로드 성공";
 
-
+                
+                for (int i = 0; i < 1000; i++)
+                {
+                    worksheet.Cell("D" + (6 + i)).Value = "바이너리 속도 테스트";
+                }
+                // workbook.SaveAs(GetStream(workbook));
+                return GetStream(workbook);
             }
         }
+
+        public Stream GetStream(XLWorkbook excelWorkbook)
+        {
+            Stream fs = new MemoryStream();
+            excelWorkbook.SaveAs(fs);
+            fs.Position = 0;
+            return fs;
+        }
+
     }
 }

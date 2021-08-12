@@ -20,7 +20,10 @@
                 Margin="0,22,0,0" HorizontalAlignment="Right" Width="116" Height="38" VerticalAlignment="Top">시트삭제</Button>
 
         <dxsps:SpreadsheetControl 
-            Name="spreadsheetcontrol" Margin="0,65,0,0">
+            Name="spreadsheetcontrol" 
+            CellValueChanged="spreadsheetcontrol_CellValueChanged" 
+            Margin="0,65,0,0"
+            Loaded="spreadsheetcontrol_Loaded">
             <dxmvvm:Interaction.Behaviors>
                 <dxmvvm:EventToCommand 
                             Command="{Binding IGridSheetLoaded}"  
@@ -37,6 +40,10 @@
         <Button Command="{Binding ICreateNewDocument}" CommandParameter="{Binding ElementName=spreadsheetcontrol}" 
             Margin="0,22,260,0" HorizontalAlignment="Right" Width="116" Content="새문서만들기" Height="38" VerticalAlignment="Top"/>
         <Button Command="{Binding IRollBack}" CommandParameter="{Binding ElementName=spreadsheetcontrol}" 
-            Margin="0,22,381,0" HorizontalAlignment="Right" Width="116" Content="원상복구" Height="38" VerticalAlignment="Top"/>
+            Margin="0,22,381,0" HorizontalAlignment="Right" Width="116" Content="원상복구" Height="38" VerticalAlignment="Top" RenderTransformOrigin="0.052,0.605"/>
+        <Button Command="{Binding IBinaryLoadExcel}" CommandParameter="{Binding ElementName=spreadsheetcontrol}" 
+            Margin="0,22,502,0" HorizontalAlignment="Right" Width="116" Content="바이너리로드" Height="38" VerticalAlignment="Top" RenderTransformOrigin="0.052,0.605"/>
+        <Button Command="{Binding IBinaryLoadExcel2}" CommandParameter="{Binding ElementName=spreadsheetcontrol}" 
+            Margin="0,22,623,0" HorizontalAlignment="Right" Width="116" Content="바이너리로드2" Height="38" VerticalAlignment="Top" RenderTransformOrigin="0.052,0.605"/>
     </Grid>
 </UserControl>
