@@ -1,4 +1,5 @@
-﻿using DevExpress.Spreadsheet;
+﻿using ClosedXML.Excel;
+using DevExpress.Spreadsheet;
 using DevExpress.Xpf.Spreadsheet;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 using WPF_Tranning.Model;
 using WPF_Tranning.View;
@@ -20,12 +22,16 @@ namespace WPF_Tranning.ModelAndView
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand IGridSheetLoaded { get; set; }
         public ICommand IDeleteSheets { get; set; }
+        public ICommand IExportClosedXML_Sheets { get; set; }
         public SpreadsheetControlMV()
         {
             DataModel.CurrentClassPath = typeof(ChartBindingView).FullName; // 현재 접근한 클래스
             IGridSheetLoaded = new RelayCommand(new Action<object>(this.GridSheetControlLoaded));
             IDeleteSheets = new RelayCommand(new Action<object>(this.deleteSheets_add));
+            IExportClosedXML_Sheets = new RelayCommand(new Action<object>(this.ExportClosedXML_Sheets));
         }
+
+ 
         // private IWorkbook workbook { get; set; } 
         // 전역변수로 해도 되고 이벤트 파라메터에서 다시 형변환해서 써도 되고 
         // MakeDataWorkBooks에서 사용하는 것을 형변환 해서 써도 됨 (어짜피 workbook호출해서 쓰면 SpreadsheetControl에 반영 되어있음)
@@ -96,6 +102,44 @@ namespace WPF_Tranning.ModelAndView
                 Formatting formatting = range.BeginUpdateFormatting();
                 range.EndUpdateFormatting(formatting);
             */
+        }
+        private void ExportClosedXML_Sheets(object obj)
+        {
+            ExcelExport_ClosedXML();
+        }
+
+
+        private void ExcelExport_ClosedXML()
+        {
+            using (var workbook = new XLWorkbook())
+            {
+                // https://github.com/closedxml/closedxml
+
+                string[] resourceNames = (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceNames());
+
+                var worksheet = workbook.Worksheets.Add("Test_Sheet");
+                SaveFileDialog file = new SaveFileDialog();
+
+                using (BinaryReader reader = new BinaryReader
+                    (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("WPF_Tranning.Resources.output.xlsx")))
+                {
+                    using (BinaryWriter writer = new BinaryWriter(new FileStream("파일이름.xlsx", FileMode.Create)))
+                    {
+                        int count = (int)reader.BaseStream.Length;
+                        byte[] buffer = reader.ReadBytes(count);
+                        writer.Write(buffer);                
+                    }
+                }
+
+                worksheet.Cell("D1").Value = "Hello World!";
+                worksheet.Cell("D2").FormulaA1 = "=MID(A1, 7, 6)"; // FormulaA1 (A1) 의 셀을 참조에 7번째부터 6자리수 까지 출력
+                                                                   // 임의로 같은 값 만들기
+                worksheet.Cell("D3").Value = "엑셀 export";
+               //  workbook.Save();
+                workbook.SaveAs("파일이름s.xlsx");
+
+
+            }
         }
     }
 }
