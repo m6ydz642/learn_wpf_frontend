@@ -144,12 +144,6 @@ namespace WPF_Tranning.ModelAndView
         {
             IWorkbook workbook = sheetcontrol.Document;
 
-            /*        workbook.Worksheets.Add().Name = "CreatNewDocument";
-                    Worksheet worksheet = workbook.Worksheets["CreatNewDocument"];
-                    worksheet.Cells.Style.NumberFormat = "mm/dd";
-                    worksheet.Cells["D11"].Value = "데이터 새로 생성";
-                    worksheet.Cells["D15"].Value = "데이터 새로 생성";*/
-
             Worksheet worksheet = sheetcontrol.Document.Worksheets[0];
             worksheet.Name = "CreateDocument";
             worksheet.Cells["D5"].Value = "새로추가";
@@ -192,7 +186,12 @@ namespace WPF_Tranning.ModelAndView
         }
         private void ExportClosedXML_Sheets(object obj)
         {
-            ExcelExport_ClosedXML();
+            // export와 동시에 바로 spreadworksheet로 보여주는 메소드
+            if (obj is SpreadsheetControl sheetcontrol) // 형변환
+            {
+                //   sheetcontrol.CreateNewDocument();
+                sheetcontrol.LoadDocument(ExcelExport_ClosedXML());
+            }
         }
 
         private Stream ExcelExport_ClosedXML2()
@@ -202,7 +201,6 @@ namespace WPF_Tranning.ModelAndView
                 string[] resourceNames = (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceNames());
 
                 var worksheet = workbook.Worksheets.Add("Test_Sheet");
-             //   SaveFileDialog file = new SaveFileDialog();
 
                 using (BinaryReader reader = new BinaryReader
                     (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("WPF_Tranning.Resources.output.xlsx")))
