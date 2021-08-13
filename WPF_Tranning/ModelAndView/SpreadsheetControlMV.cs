@@ -136,7 +136,7 @@ namespace WPF_Tranning.ModelAndView
             if (obj is SpreadsheetControl sheetcontrol) // 형변환
             {
                  //   sheetcontrol.CreateNewDocument();
-                    sheetcontrol.LoadDocument(ExcelExport_ClosedXML());
+                 //   sheetcontrol.LoadDocument(ExcelExport_ClosedXML());
             }
         }
 
@@ -189,11 +189,6 @@ namespace WPF_Tranning.ModelAndView
 
             worksheet.Cells["D5"].Value = "2021-08-11";
             worksheet.Cells["D10"].Value = DateTime.Now.ToString("yyyy-MM-dd");
-
-            /*  CellRange range = worksheet.Range["D5:D10"];
-                Formatting formatting = range.BeginUpdateFormatting();
-                range.EndUpdateFormatting(formatting);
-            */
         }
         private void ExportClosedXML_Sheets(object obj)
         {
@@ -203,13 +198,11 @@ namespace WPF_Tranning.ModelAndView
         private Stream ExcelExport_ClosedXML2()
         {
             using (var workbook = new XLWorkbook())
-            {
-                // https://github.com/closedxml/closedxml
-
+            { 
                 string[] resourceNames = (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceNames());
 
                 var worksheet = workbook.Worksheets.Add("Test_Sheet");
-                SaveFileDialog file = new SaveFileDialog();
+             //   SaveFileDialog file = new SaveFileDialog();
 
                 using (BinaryReader reader = new BinaryReader
                     (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("WPF_Tranning.Resources.output.xlsx")))
@@ -234,7 +227,6 @@ namespace WPF_Tranning.ModelAndView
                 {
                     worksheet.Cell("D" + (6 + i)).Value = "바이너리 속도 테스트2";
                 }
-                // workbook.SaveAs(GetStream(workbook));
 
                 return GetStream(workbook);
             }
@@ -243,45 +235,53 @@ namespace WPF_Tranning.ModelAndView
 
         private Stream ExcelExport_ClosedXML()
         {
-            using (var workbook = new XLWorkbook())
-            {
-                // https://github.com/closedxml/closedxml
-
+         
+                string path = "파일이름1234.xlsx";
+           
+        
                 string[] resourceNames = (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceNames());
 
-                var worksheet = workbook.Worksheets.Add("Test_Sheet");
-                SaveFileDialog file = new SaveFileDialog();
-
-                using (BinaryReader reader = new BinaryReader
-                    (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("WPF_Tranning.Resources.output.xlsx")))
+            using (BinaryReader reader = new BinaryReader
+                (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("WPF_Tranning.Resources.output.xlsx")))
+            {
+                using (BinaryWriter writer = new BinaryWriter(new FileStream(path, FileMode.Create)))
                 {
-                     using (BinaryWriter writer = new BinaryWriter(new FileStream("파일이름.xlsx", FileMode.Create)))
-                    //int countmem = (int)reader.BaseStream.Length;
-
-                    //using (BinaryWriter writer = new BinaryWriter(new MemoryStream(reader.ReadBytes(countmem))))
-
-                    {
-                        int count = (int)reader.BaseStream.Length;
-                        byte[] buffer = reader.ReadBytes(count);
-                        writer.Write(buffer);                
-                    }
+                    int count = (int)reader.BaseStream.Length;
+                    byte[] buffer = reader.ReadBytes(count);
+                    writer.Write(buffer);
                 }
+            }
+                var workbook = new XLWorkbook(path); // BinaryWriter에서 BinaryReader로
+                                                     // 양식을 읽어 FileStream으로 만든 파일을 가져옴
+            var worksheet = workbook.Worksheet(1); // 가져온 첫번째 엑셀시트 불러옴
+                try
+                {
+                    worksheet.Cell("D1").Value = "Hello World!";
+                    worksheet.Cell("D2").FormulaA1 = "=MID(A1, 7, 6)"; // FormulaA1 (A1) 의 셀을 참조에 7번째부터 6자리수 까지 출력
+                                                                       // 임의로 같은 값 만들기
+                    worksheet.Cell("D3").Value = "엑셀 export";
+                    worksheet.Cell("D4").Value = "2021-08-12";
+                    worksheet.Cell("D5").Value = "바이너리 로드 성공";
 
-                worksheet.Cell("D1").Value = "Hello World!";
-                worksheet.Cell("D2").FormulaA1 = "=MID(A1, 7, 6)"; // FormulaA1 (A1) 의 셀을 참조에 7번째부터 6자리수 까지 출력
-                                                                   // 임의로 같은 값 만들기
-                worksheet.Cell("D3").Value = "엑셀 export";
-                worksheet.Cell("D4").Value = "2021-08-12";
-                worksheet.Cell("D5").Value = "바이너리 로드 성공";
+
+                    for (int i = 0; i < 1000; i++)
+                    {
+                        worksheet.Cell("D" + (6 + i)).Value = "바이너리 속도 테스트";
+                    }
+                    workbook.SaveAs(path); // 파일 + 양식 저장
+                }
 
                 
-                for (int i = 0; i < 1000; i++)
+                catch (Exception e)
                 {
-                    worksheet.Cell("D" + (6 + i)).Value = "바이너리 속도 테스트";
+
                 }
-                // workbook.SaveAs(GetStream(workbook));
-                return GetStream(workbook);
-            }
+                Stream fs = new MemoryStream();
+                fs.Position = 0;
+                workbook.SaveAs(fs); // 스트림 저장
+            
+            return fs;
+            
         }
 
         public Stream GetStream(XLWorkbook excelWorkbook)
