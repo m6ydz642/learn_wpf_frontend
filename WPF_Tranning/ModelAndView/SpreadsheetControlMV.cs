@@ -1,5 +1,7 @@
 ﻿using ClosedXML.Excel;
+using DevExpress.Mvvm;
 using DevExpress.Spreadsheet;
+using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Spreadsheet;
 using System;
 using System.Collections.Generic;
@@ -87,7 +89,23 @@ namespace WPF_Tranning.ModelAndView
         private void GridSheetControlLoaded(object obj)
         {
             string[] resourceNames = (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceNames());
-            
+            var manager = SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                IsIndeterminate = false
+            });
+            manager.Show();
+            manager.ViewModel.Progress = 100;
+
+            SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                Copyright = "All rights reserved",
+                IsIndeterminate = true,
+                Status = "SpreadSheetControl Loading...",
+                Title = "",
+                Subtitle = "WPF Tranning Project"
+            }
+            ).ShowOnStartup();
+
             if (obj is SpreadsheetControl sheetcontrol) // 형변환
             {
                 using (BinaryReader reader = new BinaryReader
@@ -99,6 +117,7 @@ namespace WPF_Tranning.ModelAndView
                     MakeDataWorkBooks(sheetcontrol);
                 }
             }
+            manager.Close();
         }
 
         private void CreateNewDocument(object obj)
