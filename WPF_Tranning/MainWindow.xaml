@@ -96,8 +96,14 @@
                     <dxmvvm:EventToCommand  EventName="Selected" CommandParameter="{Binding ElementName=nav_content}"  Command="{Binding ISpreadSheetControl}"/>
                 </dxmvvm:Interaction.Behaviors>
             </TreeViewItem>
-            
-            
+
+
+            <TreeViewItem Header="파일복사 붙여넣기 UI" FontSize="20" Name="FileCopyControl" Width="230">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:EventToCommand  EventName="Selected" CommandParameter="{Binding ElementName=nav_content}"  Command="{Binding IFileCopyControl}"/>
+                </dxmvvm:Interaction.Behaviors>
+            </TreeViewItem>
+
             <!--다른프로젝트페이지-->
             <TreeViewItem Header="다른프로젝트 페이지" FontSize="20" Name="AnotherPageTreeView">
                 <dxmvvm:Interaction.Behaviors>
