@@ -39,9 +39,11 @@ namespace WPF_Tranning.ModelAndView
             IRollBack = new RelayCommand(new Action<object>(this.RollBack));
             IBinaryLoadExcel = new RelayCommand(new Action<object>(this.BinaryCreateNewDocument));
             IBinaryLoadExcel2 = new RelayCommand(new Action<object>(this.BinaryCreateNewDocument2));
+            DataModel.CurrentClassPath = typeof(SpreadsheetControlView).FullName; // 현재 접근한 클래스
+
         }
 
-    
+
         private void RollBack(object obj)
         {
 

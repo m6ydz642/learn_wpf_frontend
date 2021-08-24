@@ -16,7 +16,7 @@ namespace WPF_Tranning.ModelAndView
        
         public FileCopyVM()
         {
-
+            DataModel.CurrentClassPath = typeof(FileCopyV).FullName; // 현재 접근한 클래스
         }
     }
 }

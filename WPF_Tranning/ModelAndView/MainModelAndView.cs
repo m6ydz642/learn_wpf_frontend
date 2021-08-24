@@ -124,10 +124,7 @@ namespace WPF_Tranning
         }
         private void LoadingStartPage(object obj)
         {
-            var convert = (NavigationFrame)obj;
-            // convert.Source = new GridControlView(); // 메인으로 지정할 페이지
-
-    
+            var convert = (NavigationFrame)obj;   
             convert.Source = GetInstance(_classpath); // 텍스트로 불러와 마지막 실행 메뉴 저장 
             /*  
              다이렉트로 바로 쓸경우  
@@ -144,7 +141,7 @@ namespace WPF_Tranning
         private void FileCopyControl(object obj)
         {
             var convert = (NavigationFrame)obj;
-            convert.Source = new AnotherPage();
+            convert.Source = new FileCopyV();
         }
 
         private void AnotherPageEvent(object obj)
@@ -170,22 +167,16 @@ namespace WPF_Tranning
             convert.Source = new ChartBindingView();
         }
 
-        public object GetInstance(string classname)
-        {
-            Type type = Type.GetType(classname);
-            if (type == null) { 
-                // null처리, 파일의 클래스가 강제로 바뀌거나, 파일을 읽을 수 없는 경우, 강제로 수정된 경우 포함
-                type = Type.GetType("WPF_Tranning.GridControlBandView"); // 강제로 설정
-                MessageBox.Show(type + " 의 인스턴스가 발견되지 않아 GridControlBandView로 새로 생성합니다");
-            }
-            return Activator.CreateInstance(type);
-        }
+     
       
         private void GridControlMenuUri(object obj) // 유저컨트롤을 사용하면 이방식으로 바인딩 까지 같이 됨
         {
+            // 다른 방식
+            //var convert = (NavigationFrame)obj;
+            //convert.Source = new Uri("../View/GridControlView.xaml", UriKind.RelativeOrAbsolute); // uri로 페이지 이동
+
             var convert = (NavigationFrame)obj;
-            convert.Source = new Uri("../View/GridControlView.xaml", UriKind.RelativeOrAbsolute); // uri로 페이지 이동
-            string test = convert.Source.ToString();
+            convert.Source = new GridControlView();
 
         }
 
@@ -204,6 +195,18 @@ namespace WPF_Tranning
         {
             var convert = (NavigationFrame)obj;
             convert.Source = new GridControlBandView();
+        }
+
+        public object GetInstance(string classname)
+        {
+            Type type = Type.GetType(classname);
+            if (type == null)
+            {
+                // null처리, 파일의 클래스가 강제로 바뀌거나, 파일을 읽을 수 없는 경우, 강제로 수정된 경우 포함
+                type = Type.GetType("WPF_Tranning.GridControlBandView"); // 강제로 설정
+                MessageBox.Show(type + " 의 인스턴스가 발견되지 않아 GridControlBandView로 새로 생성합니다");
+            }
+            return Activator.CreateInstance(type);
         }
 
 
