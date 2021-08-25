@@ -8,16 +8,54 @@
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              Height="831" 
              Width="1266"
-             xmlns:local="clr-namespace:WPF_Tranning.ModelAndView">
+             xmlns:local="clr-namespace:WPF_Tranning.ModelAndView" 
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core">
 
     <UserControl.DataContext>
         <local:FileCopyVM/>
     </UserControl.DataContext>
 
+
     <Grid>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="230" Margin="100,155,0,0" VerticalAlignment="Top" Width="1055"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="200" Margin="100,435,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="1055" AllowDrop="True"/>
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>-->
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Name="ColumnDefinition0" Width="Auto" />
+            <ColumnDefinition Name="ColumnDefinition1" Width="0"    />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Name="RowDefinition0" Height="Auto" />
+            <RowDefinition Name="RowDefinition1" Height="*"    />
+        </Grid.RowDefinitions>
+        
+        <dx:BackgroundPanel>
+        <dx:DXTabControl>
+            <dx:DXTabItem Header="탭1">
+                    <Grid>
+                        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="158" Margin="150,95,0,0" VerticalAlignment="Top" Width="875" AllowDrop="True"/>
+                        <TextBox x:Name="textBox" TextWrapping="Wrap" Text="TextBox" Margin="150,315,215,353"/>
+                    </Grid>
+            </dx:DXTabItem>
+
+            <dx:DXTabItem Header="탭2">
+            </dx:DXTabItem>
+
+        </dx:DXTabControl>
+        </dx:BackgroundPanel>
+        <!--<TabControl>
+            <TabItem Header="General">
+                <Label Content="Content goes here..." />
+            </TabItem>
+            <TabItem Header="Security" />
+            <TabItem Header="Details" />
+        </TabControl>-->
     </Grid>
+        
 </UserControl>
