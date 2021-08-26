@@ -9,7 +9,8 @@
              Height="831" 
              Width="1266"
              xmlns:local="clr-namespace:WPF_Tranning.ModelAndView" 
-             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core">
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                     xmlns:dxre="http://schemas.devexpress.com/winfx/2008/xaml/richedit">
 
     <UserControl.DataContext>
         <local:FileCopyVM/>
@@ -34,21 +35,34 @@
             <RowDefinition Name="RowDefinition0" Height="Auto" />
             <RowDefinition Name="RowDefinition1" Height="*"    />
         </Grid.RowDefinitions>
-        
-        <dx:BackgroundPanel>
-        <dx:DXTabControl>
-            <dx:DXTabItem Header="탭1">
+
+        <dx:DXDockPanel>
+
+            <dx:DXTabControl Width="990" Margin="0,0,0,-520">
+                <dx:DXTabItem Header="탭1">
                     <Grid>
-                        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="158" Margin="150,95,0,0" VerticalAlignment="Top" Width="875" AllowDrop="True"/>
+                        <ListBox x:Name="listBox" Height="158" Margin="93,83,1,0" VerticalAlignment="Top" AllowDrop="True"/>
                         <TextBox x:Name="textBox" TextWrapping="Wrap" Text="TextBox" Margin="150,315,215,353"/>
+
+
                     </Grid>
-            </dx:DXTabItem>
+                </dx:DXTabItem>
 
-            <dx:DXTabItem Header="탭2">
-            </dx:DXTabItem>
+                <dx:DXTabItem Header="탭2">
+                    <Grid>
+                        <Button CommandParameter="{Binding ElementName=richEditControl1}" 
+                                x:Name="button" Content="Button" Margin="657,-43,239,487"
+                                Command="{Binding IWord}"/>
+                        <dxre:RichEditControl CommandBarStyle="Ribbon" Name="richEditControl1" Margin="0,0,-13,-13">
 
-        </dx:DXTabControl>
-        </dx:BackgroundPanel>
+                        </dxre:RichEditControl>
+                    </Grid>
+                </dx:DXTabItem>
+                <dx:DXTabItem Header="Tab">
+                </dx:DXTabItem>
+
+            </dx:DXTabControl>
+        </dx:DXDockPanel>
         <!--<TabControl>
             <TabItem Header="General">
                 <Label Content="Content goes here..." />
@@ -57,5 +71,5 @@
             <TabItem Header="Details" />
         </TabControl>-->
     </Grid>
-        
+
 </UserControl>

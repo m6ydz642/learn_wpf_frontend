@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF_Tranning.ModelAndView;
 
 namespace WPF_Tranning.View
 {
@@ -23,8 +24,9 @@ namespace WPF_Tranning.View
         public FileCopyV()
         {
             InitializeComponent();
+            this.DataContext = new FileCopyVM();
         }
 
-     
+   
     }
 }
