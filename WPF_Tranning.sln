@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject2", "UnitTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject_UI", "UnitTestProject_UI\UnitTestProject_UI.csproj", "{BF463E76-ECFB-44AF-B232-BC10B41058D5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SizeTest", "..\SizeTest\SizeTest\SizeTest.csproj", "{3D11B939-BAC9-4AD4-983F-9BD96032867A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{BF463E76-ECFB-44AF-B232-BC10B41058D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF463E76-ECFB-44AF-B232-BC10B41058D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF463E76-ECFB-44AF-B232-BC10B41058D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D11B939-BAC9-4AD4-983F-9BD96032867A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D11B939-BAC9-4AD4-983F-9BD96032867A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D11B939-BAC9-4AD4-983F-9BD96032867A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D11B939-BAC9-4AD4-983F-9BD96032867A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
