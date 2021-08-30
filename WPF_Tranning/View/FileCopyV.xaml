@@ -10,7 +10,8 @@
              Width="1266"
              xmlns:local="clr-namespace:WPF_Tranning.ModelAndView" 
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
-                     xmlns:dxre="http://schemas.devexpress.com/winfx/2008/xaml/richedit">
+                     xmlns:dxre="http://schemas.devexpress.com/winfx/2008/xaml/richedit"
+              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
 
     <UserControl.DataContext>
         <local:FileCopyVM/>
@@ -41,9 +42,21 @@
             <dx:DXTabControl Width="990" Margin="0,0,0,-520">
                 <dx:DXTabItem Header="탭1">
                     <Grid>
-                        <ListBox x:Name="listBox" Height="158" Margin="93,83,1,0" VerticalAlignment="Top" AllowDrop="True"/>
-                        <TextBox x:Name="textBox" TextWrapping="Wrap" Text="TextBox" Margin="150,315,215,353"/>
+                        <ListBox x:Name="listBox" Height="158" Margin="37,10,57,0" VerticalAlignment="Top" AllowDrop="True"/>
 
+                        <dxe:ListBoxEdit Name="listboxedit" Margin="37,198,532,252" SelectedIndexChanged="ListBoxEdit_SelectedIndexChanged">
+                            <dxe:ListBoxEditItem>Item1</dxe:ListBoxEditItem>
+                            <dxe:ListBoxEditItem>Item2</dxe:ListBoxEditItem>
+                            <dxe:ListBoxEditItem>Item3</dxe:ListBoxEditItem>
+                        </dxe:ListBoxEdit>
+
+                        <dxe:ListBoxEdit Name="listboxedit2" Margin="457,198,112,252" 
+                                         SelectedIndexChanged="listboxedit2_SelectedIndexChanged"
+                                         SelectionMode="Multiple">
+                            <dxe:ListBoxEditItem>테스트1</dxe:ListBoxEditItem>
+                            <dxe:ListBoxEditItem>테스트2</dxe:ListBoxEditItem>
+                            <dxe:ListBoxEditItem>테스트3</dxe:ListBoxEditItem>
+                        </dxe:ListBoxEdit>
 
                     </Grid>
                 </dx:DXTabItem>
@@ -63,13 +76,7 @@
 
             </dx:DXTabControl>
         </dx:DXDockPanel>
-        <!--<TabControl>
-            <TabItem Header="General">
-                <Label Content="Content goes here..." />
-            </TabItem>
-            <TabItem Header="Security" />
-            <TabItem Header="Details" />
-        </TabControl>-->
+        
     </Grid>
 
 </UserControl>
