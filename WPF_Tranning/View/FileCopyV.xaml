@@ -44,7 +44,8 @@
                     <Grid>
                         <ListBox x:Name="listBox" Height="158" Margin="37,10,57,0" VerticalAlignment="Top" AllowDrop="True"/>
 
-                        <dxe:ListBoxEdit Name="listboxedit" Margin="37,198,532,252" SelectedIndexChanged="ListBoxEdit_SelectedIndexChanged">
+                        <dxe:ListBoxEdit Name="listboxedit" Margin="37,198,532,252" 
+                                         SelectedIndexChanged="ListBoxEdit_SelectedIndexChanged">
                             <dxe:ListBoxEditItem>Item1</dxe:ListBoxEditItem>
                             <dxe:ListBoxEditItem>Item2</dxe:ListBoxEditItem>
                             <dxe:ListBoxEditItem>Item3</dxe:ListBoxEditItem>
@@ -52,11 +53,13 @@
 
                         <dxe:ListBoxEdit Name="listboxedit2" Margin="457,198,112,252" 
                                          SelectedIndexChanged="listboxedit2_SelectedIndexChanged"
-                                         SelectionMode="Multiple">
+                                         SelectionMode="Multiple"
+                                         EditValue="{Binding ISelectedItems, Mode=TwoWay}" >
                             <dxe:ListBoxEditItem>테스트1</dxe:ListBoxEditItem>
                             <dxe:ListBoxEditItem>테스트2</dxe:ListBoxEditItem>
                             <dxe:ListBoxEditItem>테스트3</dxe:ListBoxEditItem>
                         </dxe:ListBoxEdit>
+                        <Button x:Name="button1" Content="멀티선택 값 확인(viewmodel용)" Command="{Binding ICheckValue}" CommandParameter="{Binding ElementName=listboxedit2}" Margin="857,198,37,286"/>
 
                     </Grid>
                 </dx:DXTabItem>
@@ -71,12 +74,11 @@
                         </dxre:RichEditControl>
                     </Grid>
                 </dx:DXTabItem>
-                <dx:DXTabItem Header="Tab">
-                </dx:DXTabItem>
+
 
             </dx:DXTabControl>
         </dx:DXDockPanel>
-        
+
     </Grid>
 
 </UserControl>

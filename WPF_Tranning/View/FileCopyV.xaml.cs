@@ -1,6 +1,7 @@
 ﻿using DevExpress.Spreadsheet;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -22,18 +23,33 @@ namespace WPF_Tranning.View
     public partial class FileCopyV : UserControl
     {
         public int selectindexlistbox1 { get; set; }
+        List<object> SelectedItems { get; set; }
+        FileCopyVM vm;
         public FileCopyV()
         {
             InitializeComponent();
             this.DataContext = new FileCopyVM();
+            SelectedItems = new List<object>();
+
             List<string> item = new List<string>();
-            item.Add("버튼1");
+    
+
+        item.Add("버튼1");
             item.Add("버튼2");
             item.Add("버튼3");
 
-         //   listboxedit.ItemsSource = item;
-         // item리스트로 안넣고 직접 xaml에서 받아와 사용하기
+               listboxedit.ItemsSource = item;
 
+            List<string> item2 = new List<string>();
+            item2.Add("멀티버튼1");
+            item2.Add("멀티버튼2");
+            item2.Add("멀티버튼3");
+
+            listboxedit2.ItemsSource = item2;
+
+            // item리스트로 안넣고 직접 xaml에서 받아와 사용하기
+
+            vm = (FileCopyVM)DataContext; // ViewModel 객체 가져와 쓰기
         }
 
         private void ListBoxEdit_SelectedIndexChanged(object sender, RoutedEventArgs e)
@@ -43,7 +59,8 @@ namespace WPF_Tranning.View
             selectindexlistbox1 = listboxedit.SelectedIndex;
             listboxedit.Items.EndUpdate();
 
-            var mulitpleselect = listboxedit2.SelectedIndex = 2; // 강제선택
+            var mulitpleselect2 = listboxedit2.SelectedIndex = 2; // 강제선택
+            var mulitpleselect = listboxedit.SelectedIndex = 2; // 강제선택
         }
 
         private void listboxedit2_SelectedIndexChanged(object sender, RoutedEventArgs e)
@@ -54,14 +71,18 @@ namespace WPF_Tranning.View
             string buttonvalue1 = listboxedit.EditValue.ToString();
             string buttonvalue2 = listboxedit2.EditValue.ToString();
             var objectvalue = listboxedit2.EditValue;
-            var mulitpleselect = listboxedit2.SelectedItems ;
+            var mulitpleselect = listboxedit2.EditValue;
 
+            List<string> list1 = new List<string>();
 
-            for (int i = 0; i < mulitpleselect.Count; i++)
+            for (int i = 0; i < listboxedit2.SelectedItems.Count; i++)
             {
-                var value = mulitpleselect.Select(x=>x.ToString().Equals("테스트1"));
-               
+                // var value = mulitpleselect.Select(x=>x.ToString().Equals("테스트1"));
+                var value = mulitpleselect.ToString();
+                SelectedItems.Add(value);
             }
+            object a = vm.ISelectedItems;
+            string b = a.ToString();
             
             listboxedit2.Items.EndUpdate();
         }

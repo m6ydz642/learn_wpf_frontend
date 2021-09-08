@@ -1,5 +1,111 @@
 
 
+-- html 테스트 DB생성
+
+CREATE Table Notice(
+    Notice_id  int IDENTITY(1,1), -- autoincrement (IDENTITY)
+	NoticeContent NVARCHAR(max),
+	NoticeWriterEmpNo varchar(100),
+	NoticeWriteDate DateTime default(getdate()),
+	NoticeModifyEmpNo varchar(100),
+	NoticeModifyDate DateTime default(getdate())
+)
+
+-- 공지 조회 프로시저
+USE [BaseBallGameWinform_DB]
+GO
+create procedure [dbo].[SelectNotice] 
+-- 공지 조회
+/* exec [dbo].[SelectNotice] */
+as Begin
+
+select * from [dbo].[Notice]
+
+end
+
+-- 공지 추가 프로시저
+USE [BaseBallGameWinform_DB]
+GO
+create procedure [dbo].[WriteNotice] 
+-- 공지 추가
+/* exec [dbo].[WriteNotice] '내용','작성자' */
+ @Content NVARCHAR(max)
+  ,@WriterEmpNo NVARCHAR(100)
+
+as Begin
+insert into [Notice](NoticeContent, NoticeWriterEmpNo ) values
+	(@Content, @WriterEmpNo)
+
+end
+
+-- 공지 수정 프로시저
+USE [BaseBallGameWinform_DB]
+GO
+create procedure [dbo].[ModifyNotice] 
+-- 공지 수정
+/* exec [dbo].[ModifyNotice] 1, '내용','작성자' */
+@Notice_id int,
+@Content NVARCHAR(max),
+@ModifyEmpNo NVARCHAR(100)
+
+as Begin
+update [Notice] 
+	set 
+		NoticeContent = @Content,
+		NoticeModifyEmpNo = @ModifyEmpNo
+	where Notice_id = @Notice_id
+end
+
+
+--------------------------------------------------------------------
+-- 공지 수정 or 추가
+USE [BaseBallGameWinform_DB]
+GO
+Create procedure [dbo].[SaveNotice]
+@Notice_id int,
+@Content NVARCHAR(max),
+--@ModifyEmpNo NVARCHAR(100),
+@EmpNo NVARCHAR(100)
+
+as Begin
+MERGE INTO notice as A --INSERT/UPDATE 할 테이블
+ USING (SELECT 1AS DUM) X
+ ON (A.notice_id = @Notice_id )--조건
+
+			when Matched  then  
+				UPDATE SET  A.NoticeContent = @Content, A.NoticeModifyDate = getdate(), A.NoticeModifyEmpNo = @EmpNo
+
+			WHEN not MATCHED THEN 
+		 	INSERT (notice_id,NoticeContent, NoticeWriterEmpNo, NoticeWriteDate) VALUES(@Notice_id, @Content, @EmpNo, getdate());
+
+end
+
+--------------------------------------------------------------------
+select top 1 notice_id from notice order by notice_id desc
+
+--------------------------------------------------------------------
+SET IDENTITY_INSERT notice ON
+
+exec [dbo].[SaveNotice] 1, '
+<head>
+
+<title>Title is here</title>
+
+</head>
+
+<body>
+
+<script>
+
+alert("Hello, world!");
+
+</script>
+
+</body>
+', '준2'
+
+------------------------------------------------------------------------------
+
 exec [Save_Double_Score]
 exec CheckScoreDouble
 
@@ -24,7 +130,8 @@ as Begin
 select * from ScoreDouble
 
 end
-------------------------------------------------------------------------------
+
+
 
 
 CREATE TYPE TYPE_SaveDoubleScore AS TABLE(
