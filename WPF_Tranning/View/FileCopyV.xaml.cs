@@ -28,6 +28,8 @@ namespace WPF_Tranning.View
         public FileCopyV()
         {
             InitializeComponent();
+
+
             this.DataContext = new FileCopyVM();
             SelectedItems = new List<object>();
 
@@ -50,6 +52,11 @@ namespace WPF_Tranning.View
             // item리스트로 안넣고 직접 xaml에서 받아와 사용하기
 
             vm = (FileCopyVM)DataContext; // ViewModel 객체 가져와 쓰기
+
+            var mulitpleselect2 = listboxedit2.SelectedIndex = 2; // 강제선택
+            var mulitpleselect = listboxedit.SelectedIndex = 2; // 강제선택
+
+
         }
 
         private void ListBoxEdit_SelectedIndexChanged(object sender, RoutedEventArgs e)
@@ -59,8 +66,7 @@ namespace WPF_Tranning.View
             selectindexlistbox1 = listboxedit.SelectedIndex;
             listboxedit.Items.EndUpdate();
 
-            var mulitpleselect2 = listboxedit2.SelectedIndex = 2; // 강제선택
-            var mulitpleselect = listboxedit.SelectedIndex = 2; // 강제선택
+        
         }
 
         private void listboxedit2_SelectedIndexChanged(object sender, RoutedEventArgs e)
@@ -79,12 +85,32 @@ namespace WPF_Tranning.View
             {
                 // var value = mulitpleselect.Select(x=>x.ToString().Equals("테스트1"));
                 var value = mulitpleselect.ToString();
-                SelectedItems.Add(value);
             }
+
+            // 뷰 모델 값 확인
             object a = vm.ISelectedItems;
             string b = a.ToString();
             
             listboxedit2.Items.EndUpdate();
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            var ListTest = listboxedit2.EditValue;
+            var listcasting = (List<object>)ListTest; // list로 형변환 ㅡㅡ; 
+
+            List<string> selected = new List<string>();
+
+            string list = listcasting[0].ToString();
+            string list2 = listcasting[1].ToString();
+            string list3 = listcasting[2].ToString();
+
+            for (int i = 0; i < listcasting.Count; i++)
+            {
+                selected.Add(listcasting[i].ToString());
+            }
+   
+
         }
     }
 }

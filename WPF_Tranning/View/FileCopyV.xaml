@@ -59,7 +59,8 @@
                             <dxe:ListBoxEditItem>테스트2</dxe:ListBoxEditItem>
                             <dxe:ListBoxEditItem>테스트3</dxe:ListBoxEditItem>
                         </dxe:ListBoxEdit>
-                        <Button x:Name="button1" Content="멀티선택 값 확인(viewmodel용)" Command="{Binding ICheckValue}" CommandParameter="{Binding ElementName=listboxedit2}" Margin="857,198,37,286"/>
+                        <Button x:Name="button1" Content="멀티선택 값 확인(viewmodel용)" Command="{Binding ICheckValue}" CommandParameter="{Binding ElementName=listboxedit2}" Margin="457,173,312,321"/>
+                        <Button x:Name="button2" Content="멀티선택 값 확인(비하인드용)"  Margin="667,173,112,321" Click="button2_Click"/>
 
                     </Grid>
                 </dx:DXTabItem>
