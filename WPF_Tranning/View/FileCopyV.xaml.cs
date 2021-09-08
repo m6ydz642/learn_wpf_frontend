@@ -53,8 +53,6 @@ namespace WPF_Tranning.View
 
             vm = (FileCopyVM)DataContext; // ViewModel 객체 가져와 쓰기
 
-            var mulitpleselect2 = listboxedit2.SelectedIndex = 2; // 강제선택
-            var mulitpleselect = listboxedit.SelectedIndex = 2; // 강제선택
 
 
         }
@@ -66,7 +64,9 @@ namespace WPF_Tranning.View
             selectindexlistbox1 = listboxedit.SelectedIndex;
             listboxedit.Items.EndUpdate();
 
-        
+
+            var mulitpleselect2 = listboxedit2.SelectedIndex = 2; // 강제선택
+            var mulitpleselect = listboxedit.SelectedIndex = 2; // 강제선택
         }
 
         private void listboxedit2_SelectedIndexChanged(object sender, RoutedEventArgs e)
@@ -79,12 +79,16 @@ namespace WPF_Tranning.View
             var objectvalue = listboxedit2.EditValue;
             var mulitpleselect = listboxedit2.EditValue;
 
-            List<string> list1 = new List<string>();
+
+
+            // 또 다른 버전 (selecteditems)
+            var test = listboxedit2.SelectedItems;
+            var castingobserble = (ObservableCollection<object>)test;
 
             for (int i = 0; i < listboxedit2.SelectedItems.Count; i++)
             {
                 // var value = mulitpleselect.Select(x=>x.ToString().Equals("테스트1"));
-                var value = mulitpleselect.ToString();
+                var value = castingobserble[i].ToString();
             }
 
             // 뷰 모델 값 확인
