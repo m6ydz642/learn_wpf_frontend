@@ -1,4 +1,6 @@
-﻿using DevExpress.Xpf.Editors;
+﻿using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
+using DevExpress.Xpf.Editors;
 using DevExpress.Xpf.RichEdit;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,7 @@ namespace WPF_Tranning.ModelAndView
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand IWord { get; set; }
         public ICommand ICheckValue { get; set; }
+        public ICommand IRichEditControlLoaded { get; set; }
         public virtual List<object> ISelectedItems { get; set; }
 
         public OtherTabsVM()
@@ -28,8 +31,32 @@ namespace WPF_Tranning.ModelAndView
 
             IWord = new RelayCommand(new Action<object>(this.RoadRichEditControl));
             ICheckValue = new RelayCommand(new Action<object>(this.CheckValue));
+            IRichEditControlLoaded = new RelayCommand(new Action<object>(this.LoadedRichEditControl));
 
             ISelectedItems = new List<object>(); // 이렇게 둬도 값 editvalue값 바인딩 해서 가져와짐 (twowayBinding)
+
+        }
+
+        private void LoadedRichEditControl(object obj)
+        {
+            var manager = SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                IsIndeterminate = false
+            });
+            manager.Show();
+            manager.ViewModel.Progress = 100;
+
+            SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                Copyright = "All rights reserved",
+                IsIndeterminate = true,
+                Status = "RichEditControl Loading...",
+                Title = "",
+                Subtitle = "WPF Tranning Project"
+            }
+            ).ShowOnStartup();
+
+            manager.Close();
 
         }
 

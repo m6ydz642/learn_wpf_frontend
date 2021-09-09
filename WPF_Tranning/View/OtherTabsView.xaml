@@ -71,13 +71,21 @@
 
              
                 
-                <dx:DXTabItem Header="리치에디트박스">
+                <dx:DXTabItem Header="리치에디트컨트롤" Loaded="DXTabItem_Loaded">
                     <Grid>
                         <Button CommandParameter="{Binding ElementName=richEditControl1}" 
                                 x:Name="button" Content="Html변환" Margin="909,-43,-13,487"
                                 Command="{Binding IWord}"/>
                         <dxre:RichEditControl CommandBarStyle="Ribbon" Name="richEditControl1" Margin="0,0,-13,-13">
+                            <!--<dxmvvm:Interaction.Behaviors>
+                                <dxmvvm:EventToCommand 
+                            Command="{Binding IRichEditControlLoaded}"  
+                            EventName="Loaded" 
+                            CommandParameter="{Binding ElementName=spreadsheetcontrol1}"
+                            PassEventArgsToCommand="True">
 
+                                </dxmvvm:EventToCommand>
+                            </dxmvvm:Interaction.Behaviors>-->
                         </dxre:RichEditControl>
                     </Grid>
                 </dx:DXTabItem>

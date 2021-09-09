@@ -1,4 +1,6 @@
-﻿using DevExpress.Spreadsheet;
+﻿using DevExpress.Mvvm;
+using DevExpress.Spreadsheet;
+using DevExpress.Xpf.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -36,7 +38,7 @@ namespace WPF_Tranning.View
             List<string> item = new List<string>();
     
 
-        item.Add("버튼1");
+            item.Add("버튼1");
             item.Add("버튼2");
             item.Add("버튼3");
 
@@ -115,6 +117,28 @@ namespace WPF_Tranning.View
             }
    
 
+        }
+
+        private void DXTabItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            var manager = SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                IsIndeterminate = false
+            });
+            manager.Show();
+            manager.ViewModel.Progress = 100;
+
+            SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                Copyright = "All rights reserved",
+                IsIndeterminate = true,
+                Status = "RichEditControl Loading...",
+                Title = "",
+                Subtitle = "WPF Tranning Project"
+            }
+            ).ShowOnStartup();
+
+            manager.Close();
         }
     }
 }
