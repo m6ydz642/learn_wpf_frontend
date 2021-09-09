@@ -14,7 +14,7 @@ using WPF_Tranning.View;
 
 namespace WPF_Tranning.ModelAndView
 {
-    class FileCopyVM : INotifyPropertyChanged
+    class OtherTabsVM : INotifyPropertyChanged
 
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -22,9 +22,9 @@ namespace WPF_Tranning.ModelAndView
         public ICommand ICheckValue { get; set; }
         public virtual List<object> ISelectedItems { get; set; }
 
-        public FileCopyVM()
+        public OtherTabsVM()
         {
-            DataModel.CurrentClassPath = typeof(FileCopyV).FullName; // 현재 접근한 클래스
+            DataModel.CurrentClassPath = typeof(OtherTabsView).FullName; // 현재 접근한 클래스
 
             IWord = new RelayCommand(new Action<object>(this.RoadRichEditControl));
             ICheckValue = new RelayCommand(new Action<object>(this.CheckValue));

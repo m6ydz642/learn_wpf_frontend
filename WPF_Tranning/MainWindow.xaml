@@ -98,9 +98,9 @@
             </TreeViewItem>
 
 
-            <TreeViewItem Header="파일복사 붙여넣기 UI" FontSize="20" Name="FileCopyControl" Width="230">
+            <TreeViewItem Header="기타 탭" FontSize="20" Name="OtherTabsViewControl" Width="230">
                 <dxmvvm:Interaction.Behaviors>
-                    <dxmvvm:EventToCommand  EventName="Selected" CommandParameter="{Binding ElementName=nav_content}"  Command="{Binding IFileCopyControl}"/>
+                    <dxmvvm:EventToCommand  EventName="Selected" CommandParameter="{Binding ElementName=nav_content}"  Command="{Binding IOtherTabsViewControl}"/>
                 </dxmvvm:Interaction.Behaviors>
             </TreeViewItem>
 

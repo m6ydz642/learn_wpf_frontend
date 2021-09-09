@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WPF_Tranning.View.FileCopyV"
+﻿<UserControl x:Class="WPF_Tranning.View.OtherTabsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,7 +14,7 @@
               xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
 
     <UserControl.DataContext>
-        <local:FileCopyVM/>
+        <local:OtherTabsVM/>
     </UserControl.DataContext>
 
 
@@ -38,37 +38,43 @@
         </Grid.RowDefinitions>
 
         <dx:DXDockPanel>
-
+            
             <dx:DXTabControl Width="990" Margin="0,0,0,-520">
-                <dx:DXTabItem Header="탭1">
-                    <Grid>
-                        <ListBox x:Name="listBox" Height="158" Margin="37,10,57,0" VerticalAlignment="Top" AllowDrop="True"/>
-
-                        <dxe:ListBoxEdit Name="listboxedit" Margin="37,198,532,252" 
+                <dx:DXTabItem Header="리스트 에디트박스">
+                <Grid>
+                    <dxe:ListBoxEdit Name="listboxedit" Margin="37,198,532,252" 
                                          SelectedIndexChanged="ListBoxEdit_SelectedIndexChanged">
-                            <dxe:ListBoxEditItem>Item1</dxe:ListBoxEditItem>
-                            <dxe:ListBoxEditItem>Item2</dxe:ListBoxEditItem>
-                            <dxe:ListBoxEditItem>Item3</dxe:ListBoxEditItem>
-                        </dxe:ListBoxEdit>
+                        <dxe:ListBoxEditItem>Item1</dxe:ListBoxEditItem>
+                        <dxe:ListBoxEditItem>Item2</dxe:ListBoxEditItem>
+                        <dxe:ListBoxEditItem>Item3</dxe:ListBoxEditItem>
+                    </dxe:ListBoxEdit>
 
-                        <dxe:ListBoxEdit Name="listboxedit2" Margin="457,198,112,252" 
+                    <dxe:ListBoxEdit Name="listboxedit2" Margin="457,198,112,252" 
                                          SelectedIndexChanged="listboxedit2_SelectedIndexChanged"
                                          SelectionMode="Multiple"
                                          EditValue="{Binding ISelectedItems, Mode=TwoWay}" >
-                            <dxe:ListBoxEditItem>테스트1</dxe:ListBoxEditItem>
-                            <dxe:ListBoxEditItem>테스트2</dxe:ListBoxEditItem>
-                            <dxe:ListBoxEditItem>테스트3</dxe:ListBoxEditItem>
-                        </dxe:ListBoxEdit>
-                        <Button x:Name="button1" Content="멀티선택 값 확인(viewmodel용)" Command="{Binding ICheckValue}" CommandParameter="{Binding ElementName=listboxedit2}" Margin="457,173,312,321"/>
-                        <Button x:Name="button2" Content="멀티선택 값 확인(비하인드용)"  Margin="667,173,112,321" Click="button2_Click"/>
+                        <dxe:ListBoxEditItem>테스트1</dxe:ListBoxEditItem>
+                        <dxe:ListBoxEditItem>테스트2</dxe:ListBoxEditItem>
+                        <dxe:ListBoxEditItem>테스트3</dxe:ListBoxEditItem>
+                    </dxe:ListBoxEdit>
+                    <Button x:Name="button1" Content="멀티선택 값 확인(viewmodel용)" Command="{Binding ICheckValue}" CommandParameter="{Binding ElementName=listboxedit2}" Margin="457,173,312,321"/>
+                    <Button x:Name="button2" Content="멀티선택 값 확인(비하인드용)"  Margin="667,173,112,321" Click="button2_Click"/>
+                </Grid>
 
+            </dx:DXTabItem>
+            
+                <dx:DXTabItem Header="파일복사">
+                    <Grid>
+                        <ListBox x:Name="listBox" Height="158" Margin="37,10,57,0" VerticalAlignment="Top" AllowDrop="True"/>
                     </Grid>
                 </dx:DXTabItem>
 
-                <dx:DXTabItem Header="탭2">
+             
+                
+                <dx:DXTabItem Header="리치에디트박스">
                     <Grid>
                         <Button CommandParameter="{Binding ElementName=richEditControl1}" 
-                                x:Name="button" Content="Button" Margin="657,-43,239,487"
+                                x:Name="button" Content="Html변환" Margin="909,-43,-13,487"
                                 Command="{Binding IWord}"/>
                         <dxre:RichEditControl CommandBarStyle="Ribbon" Name="richEditControl1" Margin="0,0,-13,-13">
 

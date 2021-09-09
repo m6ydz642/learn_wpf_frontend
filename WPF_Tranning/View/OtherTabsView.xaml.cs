@@ -18,19 +18,19 @@ using WPF_Tranning.ModelAndView;
 namespace WPF_Tranning.View
 {
     /// <summary>
-    /// Interaction logic for FileCopyV.xaml
+    /// Interaction logic for OtherTabsView.xaml
     /// </summary>
-    public partial class FileCopyV : UserControl
+    public partial class OtherTabsView : UserControl
     {
         public int selectindexlistbox1 { get; set; }
         List<object> SelectedItems { get; set; }
-        FileCopyVM vm;
-        public FileCopyV()
+        OtherTabsVM vm;
+        public OtherTabsView()
         {
             InitializeComponent();
 
 
-            this.DataContext = new FileCopyVM();
+            this.DataContext = new OtherTabsVM();
             SelectedItems = new List<object>();
 
             List<string> item = new List<string>();
@@ -51,7 +51,7 @@ namespace WPF_Tranning.View
 
             // item리스트로 안넣고 직접 xaml에서 받아와 사용하기
 
-            vm = (FileCopyVM)DataContext; // ViewModel 객체 가져와 쓰기
+            vm = (OtherTabsVM)DataContext; // ViewModel 객체 가져와 쓰기
 
 
 

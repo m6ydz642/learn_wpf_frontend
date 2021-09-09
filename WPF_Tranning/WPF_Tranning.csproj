@@ -133,7 +133,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ModelAndView\FileCopyVM.cs" />
+    <Compile Include="ModelAndView\OtherTabsVM.cs" />
     <Compile Include="ModelAndView\SpreadsheetControlMV.cs" />
     <Compile Include="ModelAndView\ChartModelView.cs" />
     <Compile Include="ModelAndView\GridCotrolBandModelAndView.cs" />
@@ -167,8 +167,8 @@
     <Compile Include="View\SearchScoreView.xaml.cs">
       <DependentUpon>SearchScoreView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\FileCopyV.xaml.cs">
-      <DependentUpon>FileCopyV.xaml</DependentUpon>
+    <Compile Include="View\OtherTabsView.xaml.cs">
+      <DependentUpon>OtherTabsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\SpreadsheetControlView.xaml.cs">
       <DependentUpon>SpreadsheetControlView.xaml</DependentUpon>
@@ -228,7 +228,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\FileCopyV.xaml">
+    <Page Include="View\OtherTabsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

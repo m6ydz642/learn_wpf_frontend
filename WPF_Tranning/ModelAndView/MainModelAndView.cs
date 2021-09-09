@@ -45,7 +45,7 @@ namespace WPF_Tranning
         public ICommand EndPage { get; set; }
         public ICommand AnotherPage { get; set; }
         public ICommand ISpreadSheetControl { get; set; }
-        public ICommand IFileCopyControl { get; set; }
+        public ICommand IOtherTabsViewControl { get; set; }
         
       
         
@@ -68,7 +68,7 @@ namespace WPF_Tranning
             EndPage = new RelayCommand(new Action<object>(this.EndPageEvent));
             AnotherPage = new RelayCommand(new Action<object>(this.AnotherPageEvent));
             ISpreadSheetControl = new RelayCommand(new Action<object>(this.SpreadSheetControl));
-            IFileCopyControl = new RelayCommand(new Action<object>(this.FileCopyControl));
+            IOtherTabsViewControl = new RelayCommand(new Action<object>(this.OtherTabsViewControl));
         }
 
    
@@ -138,10 +138,10 @@ namespace WPF_Tranning
             // page, window 안됨
         }
 
-        private void FileCopyControl(object obj)
+        private void OtherTabsViewControl(object obj)
         {
             var convert = (NavigationFrame)obj;
-            convert.Source = new FileCopyV();
+            convert.Source = new OtherTabsView();
         }
 
         private void AnotherPageEvent(object obj)
