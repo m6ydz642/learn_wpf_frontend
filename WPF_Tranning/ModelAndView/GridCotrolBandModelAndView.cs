@@ -18,6 +18,7 @@ using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using WPF_Tranning.Model;
+using WPF_Tranning.View;
 using MessageBox = System.Windows.MessageBox;
 
 namespace WPF_Tranning.ModelAndView

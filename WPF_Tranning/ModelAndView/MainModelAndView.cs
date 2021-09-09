@@ -25,7 +25,8 @@ using System.Reflection;
 using System.IO;
 using System.Text;
 using AnotherPageProject.View;
-
+using DevExpress.Xpf.Core;
+using DevExpress.Mvvm;
 
 namespace WPF_Tranning
 {
@@ -53,6 +54,9 @@ namespace WPF_Tranning
         public string Help { get; set; }
         private string _classpath { get; set; }
         private string _unloadClass { get; set; }
+        private string _getNameSpace { get; set; }
+
+        private string _loadingSelectPage { get; set; }
         public GridControlBandView AutoMenu { get; set; }
         public MainModelAndView()
         {
@@ -66,9 +70,12 @@ namespace WPF_Tranning
             GridControlBandMenu = new RelayCommand(new Action<object>(this.GridControlBandMenuBinding));
             GridControlBandMenuTree = new RelayCommand(new Action<object>(this.GridControlBandMenuTreeBinding));
             EndPage = new RelayCommand(new Action<object>(this.EndPageEvent));
-            AnotherPage = new RelayCommand(new Action<object>(this.AnotherPageEvent));
+            AnotherPage = new RelayCommand(new Action<object>(this.LoadedAnotherPage));
             ISpreadSheetControl = new RelayCommand(new Action<object>(this.SpreadSheetControl));
             IOtherTabsViewControl = new RelayCommand(new Action<object>(this.OtherTabsViewControl));
+
+            _getNameSpace = "WPF_Tranning.View";
+            _loadingSelectPage = "LoadingSelectPage";
         }
 
    
@@ -124,8 +131,9 @@ namespace WPF_Tranning
         }
         private void LoadingStartPage(object obj)
         {
-            var convert = (NavigationFrame)obj;   
-            convert.Source = GetInstance(_classpath); // 텍스트로 불러와 마지막 실행 메뉴 저장 
+            var convert = (NavigationFrame)obj;
+            string checkPage = "LoadingStartPage";
+            convert.Source = CreateInstance(_classpath, checkPage); // 텍스트로 불러와 마지막 실행 메뉴 저장 
             /*  
              다이렉트로 바로 쓸경우  
              string path = "WPF_Tranning.View.PivotGridControlView";
@@ -141,30 +149,42 @@ namespace WPF_Tranning
         private void OtherTabsViewControl(object obj)
         {
             var convert = (NavigationFrame)obj;
-            convert.Source = new OtherTabsView();
+            // convert.Source = new OtherTabsView();
+            object getInstance = CreateInstance(_getNameSpace + "." + "OtherTabsView", _loadingSelectPage);
+
+            if (getInstance != null)
+                convert.Source = getInstance;
         }
 
-        private void AnotherPageEvent(object obj)
-        {
-            var convert = (NavigationFrame)obj;
-            convert.Source = new AnotherPage();
-        }
+     
         private void SpreadSheetControl(object obj)
         {
             var convert = (NavigationFrame)obj;
-            convert.Source = new SpreadsheetControlView();
+            //  convert.Source = new SpreadsheetControlView();
+            object getInstance = CreateInstance(_getNameSpace + "." + "SpreadsheetControlView", _loadingSelectPage);
+
+            if (getInstance != null)
+                convert.Source = getInstance;
         }
 
         private void LoadingPivotGridControl(object obj)
         {
             var convert = (NavigationFrame)obj;
-            convert.Source = new PivotGridControlView();
+            // convert.Source = new PivotGridControlView();
+            object getInstance = CreateInstance(_getNameSpace + "." + "PivotGridControlView", _loadingSelectPage);
+
+            if (getInstance != null)
+                convert.Source = getInstance;
         }
 
         private void LoadingChartBinding(object obj)
         {
             var convert = (NavigationFrame)obj;
-            convert.Source = new ChartBindingView();
+            // convert.Source = new ChartBindingView();
+            object getInstance = CreateInstance(_getNameSpace + "." + "ChartBindingView", _loadingSelectPage);
+
+            if (getInstance != null)
+                convert.Source = getInstance;
         }
 
      
@@ -176,39 +196,130 @@ namespace WPF_Tranning
             //convert.Source = new Uri("../View/GridControlView.xaml", UriKind.RelativeOrAbsolute); // uri로 페이지 이동
 
             var convert = (NavigationFrame)obj;
-            convert.Source = new GridControlView();
+            // convert.Source = new GridControlView();
+            object getInstance = CreateInstance(_getNameSpace + "." + "GridControlView", _loadingSelectPage);
+
+            if (getInstance != null)
+                convert.Source = getInstance;
 
         }
 
         private void SearchScoreMenuBinding(object obj)
         {
             var convert = (NavigationFrame)obj;
-            convert.Source = new SearchScoreView();
+            // convert.Source = new SearchScoreView();
+            object getInstance = CreateInstance(_getNameSpace + "." + "SearchScoreView", _loadingSelectPage);
+
+            if (getInstance != null)
+                convert.Source = getInstance;
         }
 
+ 
+        private void GridControlBandMenuBinding(object obj)
+        {
+            var convert = (NavigationFrame)obj;
+            // convert.Source = new GridControlBandView();
+            object getInstance = CreateInstance(_getNameSpace + "." + "GridControlBandView", _loadingSelectPage);
+
+            if (getInstance != null)
+                convert.Source = getInstance;
+        }
+
+        // 테스트용
         private void GridControlBandMenuTreeBinding(object obj)
         {
             var convert = (TreeViewItem)obj;
             string header = convert.Header.ToString(); // 헤더 가져옴
         }
-        private void GridControlBandMenuBinding(object obj)
+
+        private void LoadedAnotherPage(object obj)
         {
             var convert = (NavigationFrame)obj;
-            convert.Source = new GridControlBandView();
+            convert.Source = new AnotherPage();
+            // 다른프로젝트는  이방식 안되서 보류
+
         }
 
-        public object GetInstance(string classname)
+        /*  /// <summary>
+          /// 메뉴 선택으로 인해 생성하는 인스턴스 함수
+          /// </summary>
+          /// <param name="classname"></param>
+          /// <returns></returns>
+          public object CreateInstance(string classname)
+          {
+              object getInstance = null;
+              Type type = Type.GetType(classname);
+              if (type == null)
+              {
+                  // null처리, 파일의 클래스가 강제로 바뀌거나, 파일을 읽을 수 없는 경우, 강제로 수정된 경우 포함
+                  type = Type.GetType("WPF_Tranning.GridControlBandView"); // 강제로 설정
+                  MessageBox.Show(type + " 의 인스턴스가 발견되지 않았습니다");
+              }
+              else
+              {
+                  getInstance = Activator.CreateInstance(type);
+              }
+              return getInstance;
+          }
+  */
+
+        /// <summary>
+        /// 인스턴스 텍스트로 생성
+        /// </summary>
+        /// <param name="classname"></param>
+        /// <returns></returns>
+        public object CreateInstance(string classname, string checkPage)
         {
+            object getInstance = null;
             Type type = Type.GetType(classname);
-            if (type == null)
+
+    
+
+            if (type == null && checkPage.Equals("LoadingStartPage"))
             {
                 // null처리, 파일의 클래스가 강제로 바뀌거나, 파일을 읽을 수 없는 경우, 강제로 수정된 경우 포함
                 type = Type.GetType("WPF_Tranning.GridControlBandView"); // 강제로 설정
-                MessageBox.Show(type + " 의 인스턴스가 발견되지 않아 GridControlBandView로 새로 생성합니다");
+                MessageBox.Show(type + "의 인스턴스가 발견되지 않아 GridControlBandView로 새로 생성합니다");
             }
-            return Activator.CreateInstance(type);
+            else if (type == null && checkPage.Equals("LoadingSelectPage"))
+            {
+                // null처리, 파일의 클래스가 강제로 바뀌거나, 파일을 읽을 수 없는 경우, 강제로 수정된 경우 포함
+                MessageBox.Show(type + "의 인스턴스가 발견되지않았습니다","객체오류");
+            }
+            else
+            {
+                getInstance = Activator.CreateInstance(type);
+            }
+       
+
+            return getInstance;
         }
 
+        // 로딩시 꺼짐 현상 있어서 잠시 보류
+        private object LoadingPage(string classname, string checkPage)
+        {
+            var manager = SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                IsIndeterminate = false
+            });
+            manager.Show();
+            manager.ViewModel.Progress = 100;
+
+            SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                Copyright = "All rights reserved",
+                IsIndeterminate = true,
+                Status = "WPF Loading...",
+                Title = "",
+                Subtitle = "WPF Tranning Project"
+            }
+            ).ShowOnStartup();
+            object getInstance = CreateInstance(classname, checkPage);
+
+            manager.Close();
+
+            return getInstance;
+        }
 
     }
 }
