@@ -31,7 +31,6 @@ namespace WPF_Tranning
             InitializeComponent();
 
             this.DataContext = new MainModelAndView(); // 바인딩 설정 (없으면 바인딩 안먹힘)
-
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

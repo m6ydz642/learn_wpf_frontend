@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,10 +16,63 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using WPF_Tranning.ModelAndView;
 
 namespace WPF_Tranning.View
 {
+
+
+    public abstract class WinFormsApp
+    {
+        const string WinformsJITPrecompilerThreadName = "Framework.WinForms JIT Precompiler";
+
+        protected WinFormsApp()
+        {
+            CreateJITPrecompilerThread().Start();
+        }
+
+        protected virtual void BackgroundThreadInitialize()
+        { }
+
+        Thread CreateJITPrecompilerThread()
+        {
+            var result = new Thread(BackgroundThreadInitialize)
+            {
+                Priority = ThreadPriority.Highest,
+                IsBackground = true,
+                Name = WinformsJITPrecompilerThreadName
+            };
+
+            result.SetApartmentState(ApartmentState.STA);
+
+            return result;
+        }
+
+        public static bool IsBackgroundInitializeThread()
+        {
+            return Thread.CurrentThread.Name == WinformsJITPrecompilerThreadName;
+        }
+    }
+    public class MyApp : WinFormsApp
+    {
+        public MyApp() : base()
+        { }
+
+        public int Run()
+        {
+            // Do whatever here to really start your application (whatever is in Program.Main() now)  
+            return 0;
+        }
+
+        protected override void BackgroundThreadInitialize()
+        {
+            new OtherTabsView();
+            //... Repeat for any complex controls  
+        }
+    }
+
+
     /// <summary>
     /// Interaction logic for OtherTabsView.xaml
     /// </summary>
@@ -29,8 +83,20 @@ namespace WPF_Tranning.View
         OtherTabsVM vm;
         public OtherTabsView()
         {
+            // new MyApp().Run();
+            /*    DispatcherTimer timer = new DispatcherTimer();
+                timer.Interval = TimeSpan.FromSeconds(10);
+                timer.Tick += Timer_Tick;
+                timer.Start();*/
+
+            Thread thread = Thread.CurrentThread; this.DataContext = new { ThreadId = thread.ManagedThreadId };
+           // CallThread();
+
             InitializeComponent();
 
+
+            bool test = WinFormsApp.IsBackgroundInitializeThread();
+            if (test) return;
 
             this.DataContext = new OtherTabsVM();
             SelectedItems = new List<object>();
@@ -57,6 +123,15 @@ namespace WPF_Tranning.View
 
 
 
+        }
+
+        private void CallThread()
+        {
+            Thread thread = new Thread(() => { MainWindow window = new MainWindow(); window.Closed += (sender2, e2) => window.Dispatcher.InvokeShutdown(); window.Show(); System.Windows.Threading.Dispatcher.Run(); }); thread.SetApartmentState(ApartmentState.STA); thread.Start();
+
+        }
+            private void Timer_Tick(object sender, EventArgs e)
+        {
         }
 
         private void ListBoxEdit_SelectedIndexChanged(object sender, RoutedEventArgs e)

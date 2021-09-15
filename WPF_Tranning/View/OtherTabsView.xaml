@@ -71,7 +71,7 @@
 
              
                 
-                <dx:DXTabItem Header="리치에디트컨트롤" Loaded="DXTabItem_Loaded">
+                <dx:DXTabItem Header="리치에디트컨트롤">
                     <Grid>
                         <Button CommandParameter="{Binding ElementName=richEditControl1}" 
                                 x:Name="button" Content="Html변환" Margin="909,-43,-13,487"

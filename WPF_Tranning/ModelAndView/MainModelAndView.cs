@@ -240,31 +240,8 @@ namespace WPF_Tranning
 
         }
 
-        /*  /// <summary>
-          /// 메뉴 선택으로 인해 생성하는 인스턴스 함수
-          /// </summary>
-          /// <param name="classname"></param>
-          /// <returns></returns>
-          public object CreateInstance(string classname)
-          {
-              object getInstance = null;
-              Type type = Type.GetType(classname);
-              if (type == null)
-              {
-                  // null처리, 파일의 클래스가 강제로 바뀌거나, 파일을 읽을 수 없는 경우, 강제로 수정된 경우 포함
-                  type = Type.GetType("WPF_Tranning.GridControlBandView"); // 강제로 설정
-                  MessageBox.Show(type + " 의 인스턴스가 발견되지 않았습니다");
-              }
-              else
-              {
-                  getInstance = Activator.CreateInstance(type);
-              }
-              return getInstance;
-          }
-  */
-
         /// <summary>
-        /// 인스턴스 텍스트로 생성
+        /// 객체 텍스트로 생성
         /// </summary>
         /// <param name="classname"></param>
         /// <returns></returns>

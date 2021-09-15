@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
-namespace WPF_Tranning
+namespace WPF_Tranning.View
 {
     /// <summary>
     /// MainWindow.xaml에 대한 상호 작용 논리

@@ -14,4 +14,7 @@ namespace WPF_Tranning
     public partial class App : Application
     {
     }
+
+
 }
+

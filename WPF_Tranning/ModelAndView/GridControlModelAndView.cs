@@ -22,6 +22,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using WPF_Tranning.View;
 
 
 
@@ -106,7 +107,7 @@ namespace WPF_Tranning
             ComboBoxSelect = GetSelectTestCode(); // DB로 넣었다 치고 데이터 가져와보기
             TestData = MakeDataSet().Tables[0]; // 바인딩할 용도는 아니고 잠시 DataSet로 직접 데이터 DB처럼 해보기
             GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
-            GetBindingScoreData = new DataTable();
+            // GetBindingScoreData = new DataTable();
             _scoreDataSet = GetScoreInfo();
             manager.Close();
 
@@ -960,7 +961,7 @@ public string DateBottomBorder(IXLWorksheet worksheet, DataTable dateexcel, stri
         /******************************************************************************/
         private void GetBindingScoreInfo(object obj) // 바인딩 요청 클릭시 가져오는 데이터
         {
-            GetBindingScoreData = GetScoreInfo().Tables[0]; // 다른그리드 컨트롤에서 가져오는 GetScoreInfomation 데이터 테이블을 가져와도 되지만   
+           GetBindingScoreData = GetScoreInfo().Tables[0]; // 다른그리드 컨트롤에서 가져오는 GetScoreInfomation 데이터 테이블을 가져와도 되지만   
                                                             // 다른 그리드 컨트롤을 안쓰고 한개만 만들었다 가정 
           //  GetBindingScoreData = GetScoreInfomation; // 도 사용가능
         }
@@ -1200,8 +1201,6 @@ public string DateBottomBorder(IXLWorksheet worksheet, DataTable dateexcel, stri
 
 
         private DataTable _getBindingScoreData;
-        private DateTime j;
-
         public DataTable GetBindingScoreData // 바인딩 요청시 가져올 데이터 (초반엔 빈 데이터임)
         {
             get { return _getBindingScoreData; }
@@ -1209,9 +1208,7 @@ public string DateBottomBorder(IXLWorksheet worksheet, DataTable dateexcel, stri
             {
                 _getBindingScoreData = value;
                 OnPropertyChanged("GetBindingScoreData");// 최초로 가져올 데이터는 property change해서 알려줄 필요가 없지만
-                                              // 버튼이나 콤보박스 같은 이벤트를 통해 데이터를 불러오려면 알려줘야 함
-
-
+                                                         // 버튼이나 콤보박스 같은 이벤트를 통해 데이터를 불러오려면 알려줘야 함
             }
         }
         /******************************************************************************/
