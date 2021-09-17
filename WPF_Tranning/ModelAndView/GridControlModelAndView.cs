@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using WPF_Tranning.View;
+using System.Windows.Controls;
 
 
 
@@ -83,7 +84,7 @@ namespace WPF_Tranning
               //  OnPropertyChanged("DataModel"); // 왜 여기서는 안써도 되지 ㅡ.ㅡ? 
             }
         }
-
+        public Button obbutton { get; set; }
         public string Help { get; set; }
         public void Loading()
         {
@@ -113,8 +114,20 @@ namespace WPF_Tranning
 
             TestCom a = new TestCom();
             a.Test();
+
+            
         }
-      
+        public GridControlModelAndView(GridControlView view) : this()
+        {
+            var a = view.obbutton;
+            a.Click += A_Click;
+        }
+
+        private void A_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
         public GridControlModelAndView()
         {
             Loading();

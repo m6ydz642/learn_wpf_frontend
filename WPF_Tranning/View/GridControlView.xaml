@@ -240,6 +240,7 @@
         <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="40" Margin="235,10,0,0" TextWrapping="Wrap" Text="{Binding TextBoxList[1]}" VerticalAlignment="Top" Width="110"/>
         <TextBox x:Name="textBox3" HorizontalAlignment="Left" Height="40" Margin="375,10,0,0" TextWrapping="Wrap" Text="{Binding TextBoxList[2]}" VerticalAlignment="Top" Width="100" RenderTransformOrigin="-3.5,-0.783"/>
         <TextBox x:Name="textBox4" HorizontalAlignment="Left" Height="40" Margin="500,10,0,0" TextWrapping="Wrap" Text="{Binding TextBoxList[3]}" VerticalAlignment="Top" Width="110"/>
+        <Button x:Name="obbutton" Content="객체전달" Grid.Column="1" HorizontalAlignment="Left" Margin="45,40,0,0" VerticalAlignment="Top" Width="75"/>
 
 
 
