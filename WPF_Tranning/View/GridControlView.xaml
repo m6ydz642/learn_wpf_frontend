@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPF_Tranning.View"
         xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
@@ -13,7 +12,9 @@
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
         x:Class="WPF_Tranning.View.GridControlView"
         mc:Ignorable="d"
-        Name="GridControlViewName" Height="831" Width="1266">
+        Name="GridControlViewName" Height="831" Width="1266"
+    xmlns:local="clr-namespace:WPF_Tranning" 
+    >
 
     <UserControl.Resources>
         <Style x:Key="RowStyle" TargetType="{x:Type dxg:GridRowContent}">
@@ -21,6 +22,11 @@
         </Style>
 
     </UserControl.Resources>
+
+    <!--<UserControl.DataContext>
+        <local:GridControlModelAndView/>
+    </UserControl.DataContext>-->
+    
     <Grid>
 
 

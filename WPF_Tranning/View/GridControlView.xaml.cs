@@ -23,13 +23,13 @@ namespace WPF_Tranning.View
         {
             InitializeComponent();
             GridControlModelAndView model;
-            this.DataContext = new GridControlModelAndView(this); // 바인딩 설정 (없으면 바인딩 안먹힘) 
-                                                              // xaml 에서 vm 키워드로 설정해도 무방
+              this.DataContext = new GridControlModelAndView(this); // 바인딩 설정 (없으면 바인딩 안먹힘) 
+            // xaml 에서 DataContext키워드로 설정해도 무방
             if (DataContext is GridControlModelAndView gridControlModelAndView)
             {
-              //  gridControlModelAndView.obbutton = obbutton; // 뷰모델로 버튼객체 전달
+                gridControlModelAndView.obbutton = obbutton; // 뷰모델로 버튼객체 전달
             }
-           
+
 
         }
 
