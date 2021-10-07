@@ -1,0 +1,28 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WPF_Tranning.View"
+             xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" 
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    x:Class="WPF_Tranning.View.PopupView"
+             mc:Ignorable="d" 
+             d:DesignHeight="831" d:DesignWidth="1266">
+    <Grid>
+        <dxe:ButtonEdit HorizontalAlignment="Left" 
+                        Margin="140,230,0,0" 
+                        VerticalAlignment="Top" 
+                        Width="980" 
+                        Height="25"
+                        DefaultButtonClick="ButtonEdit_DefaultButtonClick"> <!--이벤트 오류나서 비하인드로 사용-->
+            
+            <!--<dxmvvm:Interaction.Triggers>
+                <dxmvvm:EventToCommand EventName="DefaultButtonClick" Command="{Binding IPopupClick}" PassEventArgsToCommand="True"/>
+            </dxmvvm:Interaction.Triggers>-->
+
+         
+        </dxe:ButtonEdit>
+    </Grid>
+</UserControl>

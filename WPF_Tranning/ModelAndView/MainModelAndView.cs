@@ -47,6 +47,7 @@ namespace WPF_Tranning
         public ICommand AnotherPage { get; set; }
         public ICommand ISpreadSheetControl { get; set; }
         public ICommand IOtherTabsViewControl { get; set; }
+        public ICommand IPopupControl { get; set; }
         
       
         
@@ -73,12 +74,11 @@ namespace WPF_Tranning
             AnotherPage = new RelayCommand(new Action<object>(this.LoadedAnotherPage));
             ISpreadSheetControl = new RelayCommand(new Action<object>(this.SpreadSheetControl));
             IOtherTabsViewControl = new RelayCommand(new Action<object>(this.OtherTabsViewControl));
+            IPopupControl = new RelayCommand(new Action<object>(this.PopupControl));
 
             _getNameSpace = "WPF_Tranning.View";
             _loadingSelectPage = "LoadingSelectPage";
         }
-
-   
 
         public void EndPageEvent(object obj)
         {
@@ -225,6 +225,18 @@ namespace WPF_Tranning
                 convert.Source = getInstance;
         }
 
+
+        private void PopupControl(object obj)
+        {
+            var convert = (NavigationFrame)obj;
+            object getInstance = CreateInstance(_getNameSpace + "." + "PopupView", _loadingSelectPage);
+
+            if (getInstance != null)
+                convert.Source = getInstance;
+        }
+
+
+
         // 테스트용
         private void GridControlBandMenuTreeBinding(object obj)
         {
@@ -234,9 +246,17 @@ namespace WPF_Tranning
 
         private void LoadedAnotherPage(object obj)
         {
+            /*   var convert = (NavigationFrame)obj;
+               convert.Source = new AnotherPage();
+               // 다른프로젝트는  이방식 안되서 보류*/
+
             var convert = (NavigationFrame)obj;
-            convert.Source = new AnotherPage();
-            // 다른프로젝트는  이방식 안되서 보류
+            // convert.Source = new GridControlBandView();
+            object getInstance = CreateInstance(_getNameSpace + "." + "GridControlBandView", _loadingSelectPage);
+
+            if (getInstance != null)
+                convert.Source = getInstance;
+
 
         }
 
