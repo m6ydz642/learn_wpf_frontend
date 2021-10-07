@@ -106,10 +106,10 @@ namespace WPF_Tranning
             ).ShowOnStartup();
 
             ComboBoxSelect = GetSelectTestCode(); // DB로 넣었다 치고 데이터 가져와보기
-            TestData = MakeDataSet().Tables[0]; // 바인딩할 용도는 아니고 잠시 DataSet로 직접 데이터 DB처럼 해보기
-            GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+        //    TestData = MakeDataSet().Tables[0]; // 바인딩할 용도는 아니고 잠시 DataSet로 직접 데이터 DB처럼 해보기
+         //   GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             // GetBindingScoreData = new DataTable();
-            _scoreDataSet = GetScoreInfo();
+         //   _scoreDataSet = GetScoreInfo();
             manager.Close();
 
             TestCom a = new TestCom();
@@ -117,15 +117,17 @@ namespace WPF_Tranning
 
             
         }
+        public Button button { get; set; }
         public GridControlModelAndView(GridControlView view) : this()
         {
             var a = view.obbutton;
             a.Click += A_Click;
+           button = view.obbutton;
         }
 
         private void A_Click(object sender, RoutedEventArgs e)
         {
-           
+            MessageBox.Show("클릭 이벤트 호출");
         }
 
         public GridControlModelAndView()
@@ -179,9 +181,9 @@ namespace WPF_Tranning
 
         private void UnloadCheckEvent(object obj)
         {
-            DataTable Status;
+            DataTable Status = null;
 
-            Status = GetScoreInfomation.GetChanges(); // 추가, 수정 여부 구분해서 뜸
+         //   Status = GetScoreInfomation.GetChanges(); // 추가, 수정 여부 구분해서 뜸
             var datatstatus = Status;
             if (datatstatus != null)
             {
@@ -415,6 +417,8 @@ namespace WPF_Tranning
                 string Value2 = oDataRowView.Row["Name"].ToString();
 
                 MessageBox.Show("selectbox 선택 이벤트\r\n\r\n이름 : " + Value2 + "\r\n" + "코드명 : " + Value);
+                var ob = button; // 버튼객체 테스트
+                var data = ob.Content;
             }
             else
             {
@@ -974,7 +978,7 @@ public string DateBottomBorder(IXLWorksheet worksheet, DataTable dateexcel, stri
         /******************************************************************************/
         private void GetBindingScoreInfo(object obj) // 바인딩 요청 클릭시 가져오는 데이터
         {
-           GetBindingScoreData = GetScoreInfo().Tables[0]; // 다른그리드 컨트롤에서 가져오는 GetScoreInfomation 데이터 테이블을 가져와도 되지만   
+         //  GetBindingScoreData = GetScoreInfo().Tables[0]; // 다른그리드 컨트롤에서 가져오는 GetScoreInfomation 데이터 테이블을 가져와도 되지만   
                                                             // 다른 그리드 컨트롤을 안쓰고 한개만 만들었다 가정 
           //  GetBindingScoreData = GetScoreInfomation; // 도 사용가능
         }
