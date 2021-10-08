@@ -15,6 +15,7 @@ using System.Windows.Input;
 using WPF_Tranning.Model;
 using WPF_Tranning.View;
 using static WPF_Tranning.ModelAndView.PopupMainMV;
+using static WPF_Tranning.View.PopupMainView;
 
 namespace WPF_Tranning.ModelAndView
 {
@@ -22,19 +23,27 @@ namespace WPF_Tranning.ModelAndView
 
     {
         public event PropertyChangedEventHandler PropertyChanged;
-         public ICommand IClick { get; set; }
-     //   public DataGetEventHandler DataGetEvent; // 자식에서 부모창에게 전달
+        public DataGetEventHandler DataSetVM_Main; // 서브뷰모델에서 메인뷰모델에게 전달
+
+        public ICommand IClick { get; set; }
+     
 
 
         public PopupSubMV()
         {
-            IClick = new RelayCommand(new Action<object>(this.Send));
+            IClick = new RelayCommand(new Action<object>(this.Click));
+           // DataSetVM_Main += new DataGetEventHandler(SetMainData);
 
         }
 
-        private void Send(object obj)
+        private void SetMainData(string main)
         {
-        //    DataGetEvent("자식에서 부모에게 전달내용");
+
+        }
+
+        private void Click(object obj)
+        {
+            DataSetVM_Main("서브뷰모델 에서 메인 뷰모델에게 전달");
         }
 
         private void OnPropertyChanged(string propertyName)

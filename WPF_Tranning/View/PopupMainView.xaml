@@ -24,5 +24,7 @@
 
          
         </dxe:ButtonEdit>
+        <!--<Frame x:Name="myFrame" Source="/View/PopupSubView.xaml"/>-->
+        <local:PopupSubView x:Name="local" Visibility="Visible"></local:PopupSubView>
     </Grid>
 </UserControl>

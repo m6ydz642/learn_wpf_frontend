@@ -23,19 +23,24 @@ namespace WPF_Tranning.View
     {
         public delegate void DataPushEventHandler(string main);  // 메인폼 --> 서브폼으로 값 전달 델리게이트
         public delegate void DataGetEventHandler(string sub); // 서브폼 --> 메인폼으로 값 전달 델리게이트
-
-       // public DataPushEventHandler DataSetEvent; // 메인에서 서브에게 전달
-
+        PopupSubMV PopupSubMv;
         public PopupMainView()
         {
             InitializeComponent();
             DataContext = new PopupMainMV();
-           
+
+            // local로 같은 페이지에 포함 시켰을때 동일한 new 생성 시점으로 호출되어 값 전달 SubViewModel->PopupView.xaml 비하인드로 전달 잘됨
+            var test = (PopupSubMV)local.DataContext;
+            test.DataSetVM_Main += new DataGetEventHandler(this.GetViewModelSubPopupData); // 서브뷰모델 에서 비하인드 메인으로 받음
         }
         private void GetSubPopupData(string sub)
         {
         }
 
+        private void GetViewModelSubPopupData(string sub)
+        {
+
+        }
 
         private void ButtonEdit_DefaultButtonClick(object sender, RoutedEventArgs e)
         {
@@ -44,10 +49,18 @@ namespace WPF_Tranning.View
             popupSubView.DataGetEvent += new DataGetEventHandler(this.GetSubPopupData); // 서브에서 메인으로 받음
             // popupSubView.DataSetEvent += new DataPushEventHandler(this.SetMainPopupData); // 메인에서 서브로 전달
             popupSubView.DataSetEvent("메인에서 서브로 전달"); // 위에꺼 굳이 할 필요없음 (팝업 SubView에서 New EventHandler해서
+
+           
+           /* var content = ((FrameworkElement)myFrame.Content);
+            var PopupSubMvdataContext = (PopupSubMV)content.DataContext;*/
+
+            // 얘들은 new 호출 시점이 달라 안됨 (local로 한번 new, 팝업 띄울때 한번 new 해서 2번 됨)
+            var test = (PopupSubMV)local.DataContext;
+            test.DataSetVM_Main += new DataGetEventHandler(this.GetViewModelSubPopupData); // 서브뷰모델 에서 비하인드 메인으로 받음
+
             window.Content = popupSubView;
             window.Show();
         }
 
-     
     }
 }
