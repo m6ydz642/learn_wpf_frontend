@@ -14,19 +14,19 @@ using System.Windows;
 using System.Windows.Input;
 using WPF_Tranning.Model;
 using WPF_Tranning.View;
-using static WPF_Tranning.ModelAndView.PopupViewMV;
+using static WPF_Tranning.ModelAndView.PopupMainMV;
 
 namespace WPF_Tranning.ModelAndView
 {
-    class ClickPopupViewMV : INotifyPropertyChanged
+    class PopupSubMV : INotifyPropertyChanged
 
     {
         public event PropertyChangedEventHandler PropertyChanged;
          public ICommand IClick { get; set; }
-        public DataGetEventHandler DataGetEvent; // 자식에서 부모창에게 전달
+     //   public DataGetEventHandler DataGetEvent; // 자식에서 부모창에게 전달
 
 
-        public ClickPopupViewMV()
+        public PopupSubMV()
         {
             IClick = new RelayCommand(new Action<object>(this.Send));
 
@@ -34,7 +34,7 @@ namespace WPF_Tranning.ModelAndView
 
         private void Send(object obj)
         {
-            DataGetEvent("자식에서 부모에게 전달내용");
+        //    DataGetEvent("자식에서 부모에게 전달내용");
         }
 
         private void OnPropertyChanged(string propertyName)

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WPF_Tranning.View"
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-    x:Class="WPF_Tranning.View.PopupUserControlView"
+    x:Class="WPF_Tranning.View.PopupSubView"
              mc:Ignorable="d" 
              d:DesignHeight="831" d:DesignWidth="1266"
     Unloaded="UserControl_Unloaded">

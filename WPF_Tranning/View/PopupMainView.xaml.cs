@@ -19,22 +19,28 @@ namespace WPF_Tranning.View
     /// <summary>
     /// ChartBindingView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class PopupView : UserControl
+    public partial class PopupMainView : UserControl
     {
-        public PopupView()
+        public delegate void DataPushEventHandler(string value);  // 메인폼 --> 자식폼 으로 값 전달 델리게이트
+        public delegate void DataGetEventHandler(string item); // 자식폼 --> 메인폼으로 값 전달 델리게이트
+
+
+        public PopupMainView()
         {
             InitializeComponent();
-            DataContext = new PopupViewMV();
+            DataContext = new PopupMainMV();
+           
+        }
+        private void GetSubPopupData(string item)
+        {
 
         }
-
         private void ButtonEdit_DefaultButtonClick(object sender, RoutedEventArgs e)
         {
             Window window = new Window();
-            PopupUserControlView popupUserControlView = new PopupUserControlView();
-            //   this.DataSendEvent += new DataPushEventHandler(popupUserControlView.SetActionValue1);
-            // 자식에서 부모에게만 전달하는걸로 변경
-            window.Content = popupUserControlView;
+            PopupSubView popupSubView = new PopupSubView();
+            popupSubView.DataGetEvent = new DataGetEventHandler(this.GetSubPopupData);
+            window.Content = popupSubView;
             window.Show();
         }
     }

@@ -13,20 +13,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPF_Tranning.ModelAndView;
-using static WPF_Tranning.ModelAndView.PopupViewMV;
+using static WPF_Tranning.View.PopupMainView;
 
 namespace WPF_Tranning.View
 {
     /// <summary>
     /// PopupUserControlView.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class PopupUserControlView : UserControl
+    public partial class PopupSubView : UserControl
     {
         public DataGetEventHandler DataGetEvent; // 자식에서 부모창에게 전달
-        public PopupUserControlView()
+        public PopupSubView()
         {
             InitializeComponent();
-            DataContext = new ClickPopupViewMV();
+            DataContext = new PopupSubMV();
 
         }
 
@@ -37,7 +37,13 @@ namespace WPF_Tranning.View
 
         private void send_Click(object sender, RoutedEventArgs e)
         {
-            DataGetEvent("내용 전달");
+            try
+            {
+                DataGetEvent("내용 전달");
+            }catch (Exception ex)
+            {
+
+            }
         }
     }
 }

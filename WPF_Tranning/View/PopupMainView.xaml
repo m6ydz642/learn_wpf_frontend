@@ -7,7 +7,7 @@
              xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts" 
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors" 
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
-    x:Class="WPF_Tranning.View.PopupView"
+    x:Class="WPF_Tranning.View.PopupMainView"
              mc:Ignorable="d" 
              d:DesignHeight="831" d:DesignWidth="1266">
     <Grid>

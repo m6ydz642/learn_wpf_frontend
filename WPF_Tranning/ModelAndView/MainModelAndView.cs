@@ -229,7 +229,7 @@ namespace WPF_Tranning
         private void PopupControl(object obj)
         {
             var convert = (NavigationFrame)obj;
-            object getInstance = CreateInstance(_getNameSpace + "." + "PopupView", _loadingSelectPage);
+            object getInstance = CreateInstance(_getNameSpace + "." + "PopupMainView", _loadingSelectPage);
 
             if (getInstance != null)
                 convert.Source = getInstance;
