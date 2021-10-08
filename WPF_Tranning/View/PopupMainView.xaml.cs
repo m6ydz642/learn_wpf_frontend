@@ -21,9 +21,10 @@ namespace WPF_Tranning.View
     /// </summary>
     public partial class PopupMainView : UserControl
     {
-        public delegate void DataPushEventHandler(string value);  // 메인폼 --> 자식폼 으로 값 전달 델리게이트
-        public delegate void DataGetEventHandler(string item); // 자식폼 --> 메인폼으로 값 전달 델리게이트
+        public delegate void DataPushEventHandler(string main);  // 메인폼 --> 서브폼으로 값 전달 델리게이트
+        public delegate void DataGetEventHandler(string sub); // 서브폼 --> 메인폼으로 값 전달 델리게이트
 
+        public DataPushEventHandler DataSetEvent; // 메인에서 서브에게 전달
 
         public PopupMainView()
         {
@@ -31,7 +32,11 @@ namespace WPF_Tranning.View
             DataContext = new PopupMainMV();
            
         }
-        private void GetSubPopupData(string item)
+        private void GetSubPopupData(string sub)
+        {
+        }
+
+        private void SetMainPopupData(string main)
         {
 
         }
@@ -39,9 +44,13 @@ namespace WPF_Tranning.View
         {
             Window window = new Window();
             PopupSubView popupSubView = new PopupSubView();
-            popupSubView.DataGetEvent = new DataGetEventHandler(this.GetSubPopupData);
+            popupSubView.DataGetEvent += new DataGetEventHandler(this.GetSubPopupData); // 서브에서 메인으로 받음
+            popupSubView.DataSetEvent += new DataPushEventHandler(this.SetMainPopupData); // 메인에서 서브로 전달
+            popupSubView.DataSetEvent("메인에서 전달");
             window.Content = popupSubView;
             window.Show();
         }
+
+     
     }
 }

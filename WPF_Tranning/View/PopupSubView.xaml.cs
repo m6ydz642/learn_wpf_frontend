@@ -22,11 +22,17 @@ namespace WPF_Tranning.View
     /// </summary>
     public partial class PopupSubView : UserControl
     {
-        public DataGetEventHandler DataGetEvent; // 자식에서 부모창에게 전달
+        public DataGetEventHandler DataGetEvent; // 서브에서 메인에게 전달
+        public DataPushEventHandler DataSetEvent; // 메인에서 서브에게 전달
         public PopupSubView()
         {
             InitializeComponent();
             DataContext = new PopupSubMV();
+            DataSetEvent += new DataPushEventHandler(GetMainData);
+        }
+
+        private void GetMainData(string main)
+        {
 
         }
 
@@ -37,13 +43,7 @@ namespace WPF_Tranning.View
 
         private void send_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                DataGetEvent("내용 전달");
-            }catch (Exception ex)
-            {
-
-            }
+         DataGetEvent("서브에서 메인으로 내용 전달");
         }
     }
 }
