@@ -110,6 +110,15 @@
                 </dxmvvm:Interaction.Behaviors>
             </TreeViewItem>
             
+ 
+
+            <TreeViewItem Header="멀티바인딩" FontSize="20" Name="MultibindingTreeView" Width="230">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:EventToCommand  EventName="Selected" CommandParameter="{Binding ElementName=nav_content}"  Command="{Binding IMultibindingView}"/>
+                </dxmvvm:Interaction.Behaviors>
+            </TreeViewItem>
+            
+
             <!--다른프로젝트페이지-->
             <TreeViewItem Header="다른프로젝트 페이지" FontSize="20" Name="AnotherPageTreeView">
                 <dxmvvm:Interaction.Behaviors>

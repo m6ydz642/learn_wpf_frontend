@@ -48,6 +48,7 @@ namespace WPF_Tranning
         public ICommand ISpreadSheetControl { get; set; }
         public ICommand IOtherTabsViewControl { get; set; }
         public ICommand IPopupControl { get; set; }
+        public ICommand IMultibindingView { get; set; }
         
       
         
@@ -75,6 +76,7 @@ namespace WPF_Tranning
             ISpreadSheetControl = new RelayCommand(new Action<object>(this.SpreadSheetControl));
             IOtherTabsViewControl = new RelayCommand(new Action<object>(this.OtherTabsViewControl));
             IPopupControl = new RelayCommand(new Action<object>(this.PopupControl));
+            IMultibindingView = new RelayCommand(new Action<object>(this.MultibindingView));
 
             _getNameSpace = "WPF_Tranning.View";
             _loadingSelectPage = "LoadingSelectPage";
@@ -230,6 +232,14 @@ namespace WPF_Tranning
         {
             var convert = (NavigationFrame)obj;
             object getInstance = CreateInstance(_getNameSpace + "." + "PopupMainView", _loadingSelectPage);
+
+            if (getInstance != null)
+                convert.Source = getInstance;
+        }    
+        private void MultibindingView(object obj)
+        {
+            var convert = (NavigationFrame)obj;
+            object getInstance = CreateInstance(_getNameSpace + "." + "StyleMultibinding_GridControlView", _loadingSelectPage);
 
             if (getInstance != null)
                 convert.Source = getInstance;
