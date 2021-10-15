@@ -24,10 +24,22 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using WPF_Tranning.View;
 using System.Windows.Controls;
-
+using System.Windows.Data;
 
 namespace WPF_Tranning.ModelAndView
 {
+    public class ColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return -(int)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
     class StyleMultibinding_GridControlVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;

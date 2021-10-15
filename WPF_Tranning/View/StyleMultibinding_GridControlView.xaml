@@ -16,8 +16,22 @@
         xmlns:vm="clr-namespace:WPF_Tranning.ModelAndView">
 
     <UserControl.Resources>
+
+        <vm:ColorConverter x:Key="ColorConverter" />
+
         <Style x:Key="RowStyle" TargetType="{x:Type dxg:GridRowContent}">
             <Setter Property="Background" Value="Red" />
+        </Style>
+
+        <Style  x:Key="Style2" TargetType="{x:Type dxg:GridColumn}">
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <MultiBinding Converter="{StaticResource ColorConverter}" >
+                        <Binding Path="Temperature" />
+                        <Binding Path="Time" />
+                    </MultiBinding>
+                </Setter.Value>
+            </Setter>
         </Style>
 
     </UserControl.Resources>
@@ -66,7 +80,7 @@
                 </dxg:TableView>
             </dxg:GridControl.View>
 
-            <dxg:GridColumn Width="auto" FieldName="Score_id" Header="스코어번호">
+            <dxg:GridColumn Width="auto" FieldName="Score_id" Header="순서">
 
                 <dxg:GridColumn.EditSettings>
                     <!--text 왼쪽 정렬-->
@@ -74,7 +88,7 @@
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
 
-            <dxg:GridColumn Width="auto" FieldName="Score" Header="스코어점수" >
+            <dxg:GridColumn Width="auto" FieldName="Score" Header="스코어점수" Style="{StaticResource Style2}">
                 <dxg:GridColumn.EditSettings>
                     <dxe:TextEditSettings  HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
