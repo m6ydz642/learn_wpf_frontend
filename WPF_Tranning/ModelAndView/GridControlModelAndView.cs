@@ -107,7 +107,7 @@ namespace WPF_Tranning
 
             ComboBoxSelect = GetSelectTestCode(); // DB로 넣었다 치고 데이터 가져와보기
         //    TestData = MakeDataSet().Tables[0]; // 바인딩할 용도는 아니고 잠시 DataSet로 직접 데이터 DB처럼 해보기
-         //   GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+            GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             // GetBindingScoreData = new DataTable();
          //   _scoreDataSet = GetScoreInfo();
             manager.Close();
@@ -183,7 +183,7 @@ namespace WPF_Tranning
         {
             DataTable Status = null;
 
-         //   Status = GetScoreInfomation.GetChanges(); // 추가, 수정 여부 구분해서 뜸
+            Status = GetScoreInfomation.GetChanges(); // 추가, 수정 여부 구분해서 뜸
             var datatstatus = Status;
             if (datatstatus != null)
             {
@@ -980,7 +980,7 @@ public string DateBottomBorder(IXLWorksheet worksheet, DataTable dateexcel, stri
         {
          //  GetBindingScoreData = GetScoreInfo().Tables[0]; // 다른그리드 컨트롤에서 가져오는 GetScoreInfomation 데이터 테이블을 가져와도 되지만   
                                                             // 다른 그리드 컨트롤을 안쓰고 한개만 만들었다 가정 
-          //  GetBindingScoreData = GetScoreInfomation; // 도 사용가능
+            GetBindingScoreData = GetScoreInfomation; // 도 사용가능
         }
         private void SaveColumnFunction(object obj) // 저장
         {
@@ -1004,8 +1004,6 @@ public string DateBottomBorder(IXLWorksheet worksheet, DataTable dateexcel, stri
                 var convert = (GridControl)obj;
                 ModifyScoreInfo(GetScoreInfomation); // 테이블 통째로 전달하여 수정, 추가 처리함
                 MessageBox.Show("데이터가 저장되었습니다");
-                //    GetScoreInfomation = _getScoreInfomation; // 수정할때 들어가있던 datatable DB다시 호출 (새로 고침)
-                //  GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
                 GetScoreInfomation.AcceptChanges(); // 커밋하여 더 이상 중복저장 되지 않게 함
             }
 
