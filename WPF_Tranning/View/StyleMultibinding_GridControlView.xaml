@@ -24,12 +24,34 @@
         </Style>
 
         <Style  x:Key="Style2" TargetType="{x:Type dxg:GridColumn}">
-            <Setter Property="CellStyle">
+            <Setter Property="DisplayTemplate">
                 <Setter.Value>
-                    <MultiBinding Converter="{StaticResource ColorConverter}" >
-                        <Binding Path="Temperature" />
-                        <Binding Path="Time" />
-                    </MultiBinding>
+                    <ControlTemplate>
+                        <Grid Margin="0.5, 0.5, 0.5, 0.5">
+                            <Grid.Style>
+                                <Style TargetType="{x:Type Grid}">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{StaticResource ColorConverter}" >
+                                                <Binding Path="EditValue" ElementName="Combobox" />
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Grid.Style>
+
+                            <TextBlock Grid.Row="0" Text="{Binding Value, StringFormat={}{0}%}"
+                                       HorizontalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            
+                        </Grid>
+                    </ControlTemplate>
+                  
                 </Setter.Value>
             </Setter>
         </Style>

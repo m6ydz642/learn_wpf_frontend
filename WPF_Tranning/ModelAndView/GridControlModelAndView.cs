@@ -106,10 +106,7 @@ namespace WPF_Tranning
             ).ShowOnStartup();
 
             ComboBoxSelect = GetSelectTestCode(); // DB로 넣었다 치고 데이터 가져와보기
-        //    TestData = MakeDataSet().Tables[0]; // 바인딩할 용도는 아니고 잠시 DataSet로 직접 데이터 DB처럼 해보기
             GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
-            // GetBindingScoreData = new DataTable();
-         //   _scoreDataSet = GetScoreInfo();
             manager.Close();
 
             TestCom a = new TestCom();
@@ -1147,48 +1144,88 @@ public string DateBottomBorder(IXLWorksheet worksheet, DataTable dateexcel, stri
 
         public DataSet GetScoreInfo()
         {
-            string selectQuery = ConfigurationManager.AppSettings["selectScore"];
-            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
-            connection.Open(); // DB연결
+            DataSet dataSet = null;
+            try
+            {
+                string selectQuery = ConfigurationManager.AppSettings["selectScore"];
+                SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+                connection.Open(); // DB연결
 
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(selectQuery, connection); // DB통로
-            DataSet dataSet = new DataSet();
-            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(selectQuery, connection); // DB통로
+                dataSet = new DataSet();
+                sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            } catch (Exception e)
+            {
+                MessageBox.Show("데이터가 없어 테스트 데이터로 전환합니다");
+                dataSet = GetTestData();
+                GetScoreInfomation = dataSet.Tables[0];
+            }
             return dataSet;
+        }
+        private DataSet GetTestData()
+        {
+            DataSet dataSet = new DataSet();
+            dataSet.Tables.Add("TestDataScore");
+            dataSet.Tables["TestDataScore"].Columns.Add("Score_id");
+            dataSet.Tables["TestDataScore"].Columns.Add("Score");
+
+            dataSet.Tables["TestDataScore"].Rows.Add("1", "10점");
+            dataSet.Tables["TestDataScore"].Rows.Add("2", "40점");
+            dataSet.Tables["TestDataScore"].Rows.Add("3", "50점");
+            
+
+            return dataSet;
+            
         }
 
         public DataSet UpdateDB(int score_id, string score)
         {
-            string selectQuery = ConfigurationManager.AppSettings["Score_Modify"];
-            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
-            connection.Open(); // DB연결
+            DataSet dataSet = null;
 
-            SqlCommand cmd = new SqlCommand("Score_Modify", connection);
-            cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
-            cmd.Parameters.Add("@Score_id", SqlDbType.Int).Value = score_id; // 스트링으로 전달받아도 타입이 int로 들어가네?
-            cmd.Parameters.Add("@Score", SqlDbType.VarChar).Value = score;         // 프로시저 전달받을 매개변수
+            try
+            {
+                string selectQuery = ConfigurationManager.AppSettings["Score_Modify"];
+                SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+                connection.Open(); // DB연결
+
+                SqlCommand cmd = new SqlCommand("Score_Modify", connection);
+                cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
+                cmd.Parameters.Add("@Score_id", SqlDbType.Int).Value = score_id; // 스트링으로 전달받아도 타입이 int로 들어가네?
+                cmd.Parameters.Add("@Score", SqlDbType.VarChar).Value = score;         // 프로시저 전달받을 매개변수
 
 
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
-            DataSet dataSet = new DataSet();
-            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
+                dataSet = new DataSet();
+                sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            }catch(Exception e)
+            {
+            }
             return dataSet;
         }
 
         public DataSet SelectDB(int score_id)
         {
-            string selectQuery = ConfigurationManager.AppSettings["Score_Select"];
-            SqlConnection connection = new SqlConnection(AppconfigDBSetting);
-            connection.Open(); // DB연결
+            DataSet dataSet = null;
+            try
+            {
+                string selectQuery = ConfigurationManager.AppSettings["Score_Select"];
+                SqlConnection connection = new SqlConnection(AppconfigDBSetting);
+                connection.Open(); // DB연결
 
-            SqlCommand cmd = new SqlCommand("Score_Select", connection);
-            cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
-            cmd.Parameters.Add("@Score_id", SqlDbType.Int).Value = score_id;
+                SqlCommand cmd = new SqlCommand("Score_Select", connection);
+                cmd.CommandType = CommandType.StoredProcedure; // 프로시저 타입 선언
+                cmd.Parameters.Add("@Score_id", SqlDbType.Int).Value = score_id;
 
 
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
-            DataSet dataSet = new DataSet();
-            sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(cmd); // DB통로
+                sqlDataAdapter.Fill(dataSet); // dataset으로 채움
+            }catch(Exception e)
+            {
+                dataSet = new DataSet();
+                DataTable dataTable = GetScoreInfomation.Copy();
+                dataSet.Tables.Add(dataTable);
+            }
             return dataSet;
 
 
