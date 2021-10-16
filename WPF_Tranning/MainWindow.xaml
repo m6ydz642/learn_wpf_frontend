@@ -117,6 +117,12 @@
                     <dxmvvm:EventToCommand  EventName="Selected" CommandParameter="{Binding ElementName=nav_content}"  Command="{Binding IMultibindingView}"/>
                 </dxmvvm:Interaction.Behaviors>
             </TreeViewItem>
+
+            <TreeViewItem Header="그리드2개" FontSize="20" Name="TwoGridControlView" Width="230">
+                <dxmvvm:Interaction.Behaviors>
+                    <dxmvvm:EventToCommand  EventName="Selected" CommandParameter="{Binding ElementName=nav_content}"  Command="{Binding ITwoGridControlView}"/>
+                </dxmvvm:Interaction.Behaviors>
+            </TreeViewItem>
             
 
             <!--다른프로젝트페이지-->
