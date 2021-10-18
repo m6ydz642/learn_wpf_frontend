@@ -49,7 +49,12 @@
                         <dxe:ListBoxEditItem>Item3</dxe:ListBoxEditItem>
                     </dxe:ListBoxEdit>
 
-                    <dxe:ListBoxEdit Name="listboxedit2" Margin="457,198,112,252" 
+
+                        <RadioButton Margin="147,147,742,326">비밀참조</RadioButton>
+                        <RadioButton Margin="93,149,817,329">참조</RadioButton>
+                        <RadioButton IsChecked="False" Margin="43,149,871,329">수신</RadioButton>
+                    
+                        <dxe:ListBoxEdit Name="listboxedit2" Margin="457,198,112,252" 
                                          SelectedIndexChanged="listboxedit2_SelectedIndexChanged"
                                          SelectionMode="Multiple"
                                          EditValue="{Binding ISelectedItems, Mode=TwoWay}" >

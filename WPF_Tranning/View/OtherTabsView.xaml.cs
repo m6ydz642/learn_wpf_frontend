@@ -111,9 +111,10 @@ namespace WPF_Tranning.View
                listboxedit.ItemsSource = item;
 
             List<string> item2 = new List<string>();
-            item2.Add("멀티버튼1");
-            item2.Add("멀티버튼2");
-            item2.Add("멀티버튼3");
+            item2.Add("수신" + "/" + "1234@naver.com" + "/" + "네이버");
+            item2.Add("참조" + "/" + "12345@kakao.com" + "/" + "카카오");
+            item2.Add("수신" + "/" + "123478@naver.com" + "/" + "네이버");
+  
 
             listboxedit2.ItemsSource = item2;
 
@@ -181,10 +182,13 @@ namespace WPF_Tranning.View
             var listcasting = (List<object>)ListTest; // list로 형변환 ㅡㅡ; 
 
             List<string> selected = new List<string>();
-
-            string list = listcasting[0].ToString();
+            
+            // 값보기용
+            /*string list = listcasting[0].ToString();
             string list2 = listcasting[1].ToString();
-            string list3 = listcasting[2].ToString();
+            string list3 = listcasting[2].ToString();*/
+            
+      
 
             for (int i = 0; i < listcasting.Count; i++)
             {
