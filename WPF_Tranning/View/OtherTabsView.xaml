@@ -38,44 +38,44 @@
         </Grid.RowDefinitions>
 
         <dx:DXDockPanel>
-            
+
             <dx:DXTabControl Width="990" Margin="0,0,0,-520">
                 <dx:DXTabItem Header="리스트 에디트박스">
-                <Grid>
-                    <dxe:ListBoxEdit Name="listboxedit" Margin="37,198,532,252" 
+                    <Grid>
+                        <dxe:ListBoxEdit Name="listboxedit" Margin="37,198,532,252" 
                                          SelectedIndexChanged="ListBoxEdit_SelectedIndexChanged">
-                        <dxe:ListBoxEditItem>Item1</dxe:ListBoxEditItem>
-                        <dxe:ListBoxEditItem>Item2</dxe:ListBoxEditItem>
-                        <dxe:ListBoxEditItem>Item3</dxe:ListBoxEditItem>
-                    </dxe:ListBoxEdit>
+                            <dxe:ListBoxEditItem>Item1</dxe:ListBoxEditItem>
+                            <dxe:ListBoxEditItem>Item2</dxe:ListBoxEditItem>
+                            <dxe:ListBoxEditItem>Item3</dxe:ListBoxEditItem>
+                        </dxe:ListBoxEdit>
 
 
                         <RadioButton Margin="147,147,742,326">비밀참조</RadioButton>
                         <RadioButton Margin="93,149,817,329">참조</RadioButton>
                         <RadioButton IsChecked="False" Margin="43,149,871,329">수신</RadioButton>
-                    
+
                         <dxe:ListBoxEdit Name="listboxedit2" Margin="457,198,112,252" 
                                          SelectedIndexChanged="listboxedit2_SelectedIndexChanged"
                                          SelectionMode="Multiple"
                                          EditValue="{Binding ISelectedItems, Mode=TwoWay}" >
-                        <dxe:ListBoxEditItem>테스트1</dxe:ListBoxEditItem>
-                        <dxe:ListBoxEditItem>테스트2</dxe:ListBoxEditItem>
-                        <dxe:ListBoxEditItem>테스트3</dxe:ListBoxEditItem>
-                    </dxe:ListBoxEdit>
-                    <Button x:Name="button1" Content="멀티선택 값 확인(viewmodel용)" Command="{Binding ICheckValue}" CommandParameter="{Binding ElementName=listboxedit2}" Margin="457,173,312,321"/>
-                    <Button x:Name="button2" Content="멀티선택 값 확인(비하인드용)"  Margin="667,173,112,321" Click="button2_Click"/>
-                </Grid>
+                            <dxe:ListBoxEditItem>테스트1</dxe:ListBoxEditItem>
+                            <dxe:ListBoxEditItem>테스트2</dxe:ListBoxEditItem>
+                            <dxe:ListBoxEditItem>테스트3</dxe:ListBoxEditItem>
+                        </dxe:ListBoxEdit>
+                        <Button x:Name="button1" Content="멀티선택 값 확인(viewmodel용)" Command="{Binding ICheckValue}" CommandParameter="{Binding ElementName=listboxedit2}" Margin="457,173,312,0" Height="22" VerticalAlignment="Top"/>
+                        <Button x:Name="button2" Content="멀티선택 값 확인(비하인드용)"  Margin="667,173,112,0" Click="button2_Click" Height="22" VerticalAlignment="Top"/>
+                    </Grid>
 
-            </dx:DXTabItem>
-            
+                </dx:DXTabItem>
+
                 <dx:DXTabItem Header="파일복사">
                     <Grid>
                         <ListBox x:Name="listBox" Height="158" Margin="37,10,57,0" VerticalAlignment="Top" AllowDrop="True"/>
                     </Grid>
                 </dx:DXTabItem>
 
-             
-                
+
+
                 <dx:DXTabItem Header="리치에디트컨트롤">
                     <Grid>
                         <Button CommandParameter="{Binding ElementName=richEditControl1}" 

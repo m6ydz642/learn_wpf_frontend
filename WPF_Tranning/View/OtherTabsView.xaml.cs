@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -178,23 +179,50 @@ namespace WPF_Tranning.View
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            var ListTest = listboxedit2.EditValue;
-            var listcasting = (List<object>)ListTest; // list로 형변환 ㅡㅡ; 
+            var ListTest2 = listboxedit2.EditValue;
+            var ListTest = listboxedit.EditValue;
 
-            List<string> selected = new List<string>();
-            
+        //    var listcasting = (List<object>)ListTest; // list로 형변환 ㅡㅡ;
+            var list2casting = (List<object>)ListTest2;
+
+            //List<string> selected = new List<string>();
+
             // 값보기용
             /*string list = listcasting[0].ToString();
             string list2 = listcasting[1].ToString();
             string list3 = listcasting[2].ToString();*/
-            
-      
 
-            for (int i = 0; i < listcasting.Count; i++)
+
+
+            /*      for (int i = 0; i < list2casting.Count; i++)
+                  {
+                      selected.Add(list2casting[i].ToString());
+                  }*/
+            System.Windows.Forms.BindingSource bs = new System.Windows.Forms.BindingSource();
+
+            for (int j = 0; j < list2casting.Count; j++)
             {
-                selected.Add(listcasting[i].ToString());
+                string[] split = list2casting[j].ToString().Split('/');
+
+                string alldata = list2casting[j].ToString();
+                string SelectType = "비밀참조"; // radio box로 선택했다 치고
+                string replacelist = SelectType + "/" + split[1] + "/" + split[2];
+
+                list2casting[j] = list2casting[j].ToString().Replace(alldata, replacelist);
+                listboxedit2.Items.BeginUpdate();
+
+                // 변환안하고 다이렉트로 사용
+                // string receiveDirectData = listboxedit2.Items[j].ToString();
+                //  listboxedit2.ItemsSource = listboxedit2.Items[j].ToString().Replace(receiveDirectData, list);
+                listboxedit2.ItemsSource = null;
+                listboxedit2.ItemsSource = list2casting;
+                
+
+                // listboxedit.ItemsSource = listboxedit.Items.ToString().Replace("버튼3", "테스트변경");
+                //listboxedit.ItemsSource = listboxedit.Items[0];
+
+
             }
-   
 
         }
 
