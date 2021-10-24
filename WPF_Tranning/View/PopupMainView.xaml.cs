@@ -59,7 +59,15 @@ namespace WPF_Tranning.View
             test.DataSetVM_Main += new DataGetEventHandler(this.GetViewModelSubPopupData); // 서브뷰모델 에서 비하인드 메인으로 받음
 
             window.Content = popupSubView;
+             window.SizeToContent = SizeToContent.WidthAndHeight;
             window.Show();
+
+            Window window1 = new Window(); // othertabview도 
+            OtherTabsView otherTabsView = new OtherTabsView();
+            window1.Content = otherTabsView;
+            window1.SizeToContent = SizeToContent.WidthAndHeight;
+            window1.ResizeMode = ResizeMode.CanResize;
+            window1.Show();
         }
 
     }

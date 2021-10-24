@@ -11,16 +11,23 @@
              d:DesignHeight="831" d:DesignWidth="1266"
     Unloaded="UserControl_Unloaded">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="100"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*"/>
+        </Grid.ColumnDefinitions>
+
         <TextBlock x:Name="textBlock" 
-                   HorizontalAlignment="Left" 
-                   Margin="155,255,0,0" 
+                   Margin="155,255,476,0" 
                    TextWrapping="Wrap" 
                    Text="팝업뷰" 
                    VerticalAlignment="Top" 
-                   Height="35" 
-                   Width="635"/>
-        
-        <dxe:TextEdit Name="textedit" HorizontalAlignment="Left" Margin="160,295,0,0" VerticalAlignment="Top" Width="150"/>
+                   Height="35"/>
+
+        <dxe:TextEdit Name="textedit" Margin="160,295,956,0" VerticalAlignment="Top"/>
         <Button x:Name="send" Content="전달" HorizontalAlignment="Left" Margin="325,295,0,0" VerticalAlignment="Top" Width="75" Click="send_Click"/>
         <Button x:Name="send_Copy" Content="메일뷰모델 전달" HorizontalAlignment="Left" Margin="325,322,0,0" VerticalAlignment="Top" Width="130" 
                 Command="{Binding IClick}" CommandParameter="{Binding ElementName=send_Copy}"/>
