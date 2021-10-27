@@ -16,15 +16,17 @@
                         VerticalAlignment="Top" 
                         Width="980" 
                         Height="25"
-                        DefaultButtonClick="ButtonEdit_DefaultButtonClick"> <!--이벤트 오류나서 비하인드로 사용-->
-            
+                        DefaultButtonClick="ButtonEdit_DefaultButtonClick">
+            <!--이벤트 오류나서 비하인드로 사용-->
+
             <!--<dxmvvm:Interaction.Triggers>
                 <dxmvvm:EventToCommand EventName="DefaultButtonClick" Command="{Binding IPopupClick}" PassEventArgsToCommand="True"/>
             </dxmvvm:Interaction.Triggers>-->
 
-         
+
         </dxe:ButtonEdit>
         <!--<Frame x:Name="myFrame" Source="/View/PopupSubView.xaml"/>-->
-        <local:PopupSubView x:Name="local" Visibility="Visible"></local:PopupSubView>
+
+        <dxe:ListBoxEdit x:Name="lstemployee" HorizontalAlignment="Left" Height="215" Margin="140,260,0,0" VerticalAlignment="Top" Width="980"/>
     </Grid>
 </UserControl>
