@@ -19,12 +19,17 @@ namespace WPF_Tranning.View
     /// <summary>
     /// ChartBindingView.xaml에 대한 상호 작용 논리
     /// </summary>
+    /// 
+
+
+
+
     public partial class PopupMainView : UserControl
     {
         public delegate void DataPushEventHandler(string main);  // 메인폼 --> 서브폼으로 값 전달 델리게이트
         public delegate void DataGetEventHandler(string sub); // 서브폼 --> 메인폼으로 값 전달 델리게이트
         public delegate void PopUpDataSendEventHandler(List<string> data); // 서브폼 --> 메인폼으로 값 전달 델리게이트
-        public PopUpDataSendEventHandler FirstDataEvent;
+        public delegate void EventHandler(List<string> data);
 
         PopupSubMV PopupSubMv;
         public List<string> MainData { get; set; }
@@ -51,27 +56,29 @@ namespace WPF_Tranning.View
 
                 }*/
 
-        private void GetSubPopupData2(List<string> data)
-        {
-            MainData = data;
-            lstemployee.ItemsSource = null;
-            lstemployee.ItemsSource = MainData;
-        }
+
+        public event EventHandler OnOrderReply; public class OrderReplyEventArgs : EventArgs { public List<string> sRetMsg; }
+
+
         private void ButtonEdit_DefaultButtonClick(object sender, RoutedEventArgs e)
         {
          //   Window window = new Window();
             PopupSubView popupSubView = new PopupSubView();
-   /*         popupSubView.DataGetEvent += new DataGetEventHandler(this.GetSubPopupData); // 서브에서 메인으로 받음
-            // popupSubView.DataSetEvent += new DataPushEventHandler(this.SetMainPopupData); // 메인에서 서브로 전달
-            popupSubView.DataSetEvent("메인에서 서브로 전달"); // 위에꺼 굳이 할 필요없음 (팝업 SubView에서 New EventHandler해서
-            popupSubView.DataSetEvent("메인에서 서브로 전달"); // 위에꺼 굳이 할 필요없음 (팝업 SubView에서 New EventHandler해서*/
-            popupSubView.PopUpDataEvent += new PopUpDataSendEventHandler(popupSubView.GetSubPopupData);
+            /*         popupSubView.DataGetEvent += new DataGetEventHandler(this.GetSubPopupData); // 서브에서 메인으로 받음
+                     // popupSubView.DataSetEvent += new DataPushEventHandler(this.SetMainPopupData); // 메인에서 서브로 전달
+                     popupSubView.DataSetEvent("메인에서 서브로 전달"); // 위에꺼 굳이 할 필요없음 (팝업 SubView에서 New EventHandler해서
+                     popupSubView.DataSetEvent("메인에서 서브로 전달"); // 위에꺼 굳이 할 필요없음 (팝업 SubView에서 New EventHandler해서*/
+            //   popupSubView.PopUpDataEvent += new PopUpDataSendEventHandler(popupSubView.GetSubPopupData);
             /*  popupSubView.getPopupData += new PopUpDataSendEventHandler(GetSubPopupData2);
               FirstDataEvent += new PopUpDataSendEventHandler(popupSubView.GetSubPopupDataFirst);
 
               FirstDataEvent(FirstData);*/
-            popupSubView.PopUpDataEvent(MainData);
-            popupSubView.PopUpDataEvent -= new PopUpDataSendEventHandler(popupSubView.GetSubPopupData2);
+            popupSubView.SubMainData = MainData;
+
+        //    popupSubView.PopUpDataEvent(MainData);
+           popupSubView.FormSendEvent += new PopUpDataSendEventHandler(GetSubPopupData);
+ 
+
 
             popupSubView.Show();
 
@@ -97,6 +104,8 @@ namespace WPF_Tranning.View
         private void GetSubPopupData(List<string> data)
         {
             MainData = data;
+            lstemployee.ItemsSource = null;
+            lstemployee.ItemsSource = MainData;
         }
 
         private void GetSubPopupDataFirst(List<string> data)

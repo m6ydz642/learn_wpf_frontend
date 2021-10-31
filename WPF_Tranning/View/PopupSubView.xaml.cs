@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPF_Tranning.ModelAndView;
 using static WPF_Tranning.View.PopupMainView;
+using EventHandler = WPF_Tranning.View.PopupMainView.EventHandler;
 
 namespace WPF_Tranning.View
 {
@@ -25,8 +26,9 @@ namespace WPF_Tranning.View
         public DataGetEventHandler DataGetEvent; // 서브에서 메인에게 전달
         public DataPushEventHandler DataSetEvent; // 메인에서 서브에게 전달
         public PopUpDataSendEventHandler PopUpDataEvent;
-        public PopUpDataSendEventHandler getPopupData; 
-        public PopUpDataSendEventHandler PopUpDataDeleteEvent; 
+        public PopUpDataSendEventHandler getPopupData;
+        public event PopUpDataSendEventHandler FormSendEvent;
+
 
         public List<string> SubMainData { get; set; }
         public List<string> TmpData { get; set; }
@@ -37,7 +39,9 @@ namespace WPF_Tranning.View
             InitializeComponent();
             DataContext = new PopupSubMV();
             DataSetEvent += new DataPushEventHandler(GetMainData);
-           //  SubMainData = new List<string>();
+            SubMainData = new List<string>();
+            sublstemployee.ItemsSource = null;
+            sublstemployee.ItemsSource = SubMainData;
         }
 
         private void GetMainData(string main)
@@ -57,7 +61,6 @@ namespace WPF_Tranning.View
 
         private void AddData_Click(object sender, RoutedEventArgs e)
         {
-
             SubMainData.Add("추가데이터");
             sublstemployee.ItemsSource = null;
             sublstemployee.ItemsSource = SubMainData;
@@ -66,22 +69,19 @@ namespace WPF_Tranning.View
         private void SendData_Click(object sender, RoutedEventArgs e)
         {
             datastatus = true;
-            PopUpDataEvent(SubMainData);
+            PopupMainView popupMainView = new PopupMainView();
+            popupMainView.MainData = SubMainData;
+            popupMainView.lstemployee.ItemsSource = SubMainData;
+            FormSendEvent(SubMainData);
         }
 
-        public void GetSubPopupData(List<string> data)
-        {
-
-            SubMainData = data;
-            sublstemployee.ItemsSource = null;
-            sublstemployee.ItemsSource = SubMainData;
-        }
+      
 
         private void Window_Closed(object sender, EventArgs e)
         {
             if (!datastatus)
             {
-                PopUpDataEvent(SubMainData);
+                SubMainData = new List<string>();
             }
        
 
