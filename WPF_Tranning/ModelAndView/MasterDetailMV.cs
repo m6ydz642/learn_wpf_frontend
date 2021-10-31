@@ -17,6 +17,24 @@ using WPF_Tranning.View;
 
 namespace WPF_Tranning.ModelAndView
 {
+
+    public class DynamicColumns
+    {
+        public string FieldName { get; set; }
+        public string Header { get; set; }
+/*        public string Title { get; set; }
+        public string Country { get; set; }
+        public string BirthDate { get; set; }
+        public string Email { get; set; }
+        public string Test { get; set; }*/
+
+        //public DynamicColumns(string field, string header, string mask = null)
+        //{
+        //    FieldName = field;
+        //    Header = header;
+        //}
+    }
+
     public class MasterDetailMV : INotifyPropertyChanged
 
     {
@@ -29,23 +47,48 @@ namespace WPF_Tranning.ModelAndView
             //IGridSheetLoaded = new RelayCommand(new Action<object>(this.GridSheetControlLoaded));
 
             OrderDetails = MakeOrderDetails();
-            Customers = MakeCustomers();
-            Orders = MakeCustomers();
+           // Customers = MakeCustomers2();
+            Orders = MakeCustomers2();
             Data = MakeCustomers();
 
         }
 
-        private DataTable _data;
-        public DataTable Data  
+        //private List<Orders> _data;
+        //public List<Orders> Data  
+        //{
+        //    get {return _data; }
+        //    set
+        //    {
+        //        _data = value;
+
+        //         OnPropertyChanged("Data");
+        //    }
+        //}
+
+        private List<DynamicColumns> _columns;
+        public List<DynamicColumns> Columns
         {
-            get {return _data; }
+            get { return _columns; }
+            set
+            {
+                _columns = value;
+
+                OnPropertyChanged("Columns");
+            }
+        }
+
+        private DataTable _data;
+        public DataTable Data
+        {
+            get { return _data; }
             set
             {
                 _data = value;
 
-                 OnPropertyChanged("Data");
+                OnPropertyChanged("Data");
             }
-        }    
+        }
+
         private DataTable _OrderDetails;
         public DataTable OrderDetails  
         {
@@ -69,25 +112,37 @@ namespace WPF_Tranning.ModelAndView
                  OnPropertyChanged("Customers");
             }
         } 
-        private DataTable _orders;
-        public DataTable Orders
+        //private DataTable _orders;
+        //public DataTable Orders
+        //{
+        //    get {return _orders; }
+        //    set
+        //    {
+        //        _orders = value;
+
+        //         OnPropertyChanged("Orders");
+        //    }
+        //}
+        private List<Orders> _orders;
+        public List<Orders> Orders
         {
-            get {return _orders; }
+            get { return _orders; }
             set
             {
                 _orders = value;
 
-                 OnPropertyChanged("Orders");
+                OnPropertyChanged("Orders");
             }
         }
+
 
         private DataTable MakeOrderDetails()
         {
             DataTable dt = new DataTable();
-            dt.Columns.Add("ProductName");
-            dt.Columns.Add("UnitPrice");
-            dt.Columns.Add("Quantity");
-            dt.Columns.Add("Total");
+            dt.Columns.Add("OrderDate");
+            dt.Columns.Add("Freight");
+            dt.Columns.Add("ShipName");
+            dt.Columns.Add("ShipCountry");
             dt.Rows.Add("갤럭시","10000","10","20");
             return dt;
         }
@@ -100,19 +155,116 @@ namespace WPF_Tranning.ModelAndView
             dt.Columns.Add("Country");
             dt.Columns.Add("BirthDate");
             dt.Columns.Add("Email");
+       //     dt.Columns.Add("Test");
+
             dt.Rows.Add("Nancy Davolio", "Sales Representative", "USA", "2000-07-10", "nancy@example.com");
+            dt.Rows.Add("test Davolio", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+
+            List<string> columns = GetColumnName(dt);
+
+            MakeDynamicColumns_Header(columns);
+
+             
+
             return dt;
-        }   
-        private DataTable MakeCustomers2()
+        }
+
+        private void MakeDynamicColumns_Header(List<string> columns)
         {
-            DataTable dt = new DataTable();
-            dt.Columns.Add("ContactName");
-            dt.Columns.Add("Country");
-            dt.Columns.Add("City");
-            dt.Columns.Add("Address");
-            dt.Columns.Add("Phone");
-            dt.Rows.Add("Nancy Davolio", "Sales Representative", "USA", "2000-07-10");
-            return dt;
+            Columns = new List<DynamicColumns>();
+            string header = string.Empty;
+            for (int i = 0; i < columns.Count; i++)
+            {
+                switch (columns[i])
+                {
+                    case "FullName":
+                        header = "풀네임";
+                        break;
+                         
+                    case "Country":
+                        header = "나라";
+                        break;
+
+                    case "Title":
+                        header = "제목";
+                        break; 
+                    case "BirthDate":
+                        header = "생일";
+                        break;       
+                    case "Email":
+                        header = "이메일";
+                        break;
+                    default :
+                        header = string.Empty;
+                             break;
+                }
+
+                Columns.Add(new DynamicColumns
+                {
+                    FieldName = columns[i],
+                    Header = header
+                    
+                });
+            }
+        }
+
+        /// <summary>
+        /// DataTable에서 컬럼 이름 얻어오는 메서드
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <returns></returns>
+        private List<string> GetColumnName(DataTable dt)
+        {
+
+            List<string> list = new List<string>();
+
+            string ColumnName = string.Empty;
+            foreach (DataColumn column in dt.Columns)
+            {
+                ColumnName = column.ColumnName;
+                list.Add(ColumnName);
+            }
+            return list;
+
+        }
+
+
+
+        
+        //private List<Orders> MakeCustomers()
+        //{
+        //    List<Orders> list = new List<Orders>();
+        //    list.Add(new Orders
+        //    {
+        //        OrderDate = "2021-10-31",
+        //        Freight = "13",
+        //        ShipName = "Something",
+        //        ShipCountry = "USA"
+        //    });
+
+        //    return list;
+
+        //}
+        private List<Orders> MakeCustomers2()
+        {
+            // Datatable dt = new DataTable();
+            //dt.Columns.Add("ContactName");
+            //dt.Columns.Add("Country");
+            //dt.Columns.Add("City");
+            //dt.Columns.Add("Address");
+            //dt.Columns.Add("Phone");
+            //             dt.Rows.Add("Nancy Davolio", "Sales Representative", "USA", "2000-07-10");
+
+
+            List<Orders> list = new List<Orders>();
+            list.Add(new Orders {
+                OrderDate = "2021-10-31",
+                Freight = "13",
+                ShipName ="Something",
+                ShipCountry = "USA"} );
+            
+       
+            return list;
         }
 
 

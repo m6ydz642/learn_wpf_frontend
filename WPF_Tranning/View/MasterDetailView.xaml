@@ -10,7 +10,7 @@
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
         x:Class="WPF_Tranning.View.MasterDetailView"
         xmlns:dxrudex="http://schemas.devexpress.com/winfx/2008/xaml/reports/userdesignerextensions" 
-    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:dxci="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
     mc:Ignorable="d" 
         d:DesignHeight="831" d:DesignWidth="1266">
 
@@ -76,8 +76,28 @@
         </Style>
         <!--#endregion-->
 
-
-
+        <Style x:Key="dynamiccolumn" TargetType="{x:Type dxg:GridControl}">
+            <Setter Property="AutoGenerateColumns" Value="None"/>
+            <Setter Property="EnableSmartColumnsGeneration" Value="True"/>
+            <Setter Property="ColumnGeneratorTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <ContentControl>
+                            <dxg:GridColumn FieldName="{Binding (dxci:DependencyObjectExtensions.DataContext).FieldName, RelativeSource={RelativeSource Self}}" 
+                                            Header="{Binding (dxci:DependencyObjectExtensions.DataContext).Header, RelativeSource={RelativeSource Self}}" 
+                                            />
+                        </ContentControl>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ColumnGeneratorStyle">
+                <Setter.Value>
+                    <Style TargetType="{x:Type dxg:GridColumn}">
+                        <Setter Property="FilterPopupMode" Value="CheckedList"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     
     <Grid>
@@ -86,16 +106,19 @@
         <dxg:GridControl x:Name="grid"
                          ItemsSource="{Binding Data}"
                          Loaded="{DXEvent '@Self.ExpandMasterRow(1)'}"
-                         ShowBorder="False">
+                         ShowBorder="False" AutoGenerateColumns="AddNew"
+                         ColumnsSource="{Binding Columns}" 
+                         Style="{StaticResource dynamiccolumn}">
+            
             <dxg:GridControl.DetailDescriptor>
-                <dxg:TabViewDetailDescriptor ShowHeader="False" ContentTemplate="{StaticResource detailDescriptorContentTemplate}">
+                <dxg:TabViewDetailDescriptor ShowHeader="False"><!--이미지 속성타입 비 활성화ContentTemplate="{StaticResource detailDescriptorContentTemplate}"-->
                     <dxg:TabViewDetailDescriptor.DetailDescriptors>
-                        <dxg:DataControlDetailDescriptor ItemsSourceBinding="{Binding Orders}" ShowHeader="false">
+                        <dxg:DataControlDetailDescriptor Name="datadetails" ItemsSourceBinding="{Binding Orders}" ShowHeader="false">
                             <dxg:GridControl>
                                 <!--#region OrderDetails-->
                                 <dxg:GridControl.DetailDescriptor>
-                                    <dxg:DataControlDetailDescriptor ShowHeader="False" ItemsSourceBinding="{Binding OrderDetails}">
-                                        <dxg:GridControl>
+                                    <dxg:DataControlDetailDescriptor  ShowHeader="False" ItemsSourceBinding="{Binding OrderDetails}">
+                                        <dxg:GridControl> 
                                             <dxg:GridControl.Columns>
                                                 <dxg:GridColumn FieldName="ProductName" Width="*" />
                                                 <dxg:GridColumn FieldName="UnitPrice" Width="*">
@@ -132,14 +155,15 @@
                                 <dxg:GridControl.View>
                                     <dxg:TableView VerticalScrollbarVisibility="Auto" NavigationStyle="Row" DetailHeaderContent="Orders" ShowFixedTotalSummary="True"/>
                                 </dxg:GridControl.View>
-                                <dxg:GridControl.TotalSummary>
+                                
+                                <!--<dxg:GridControl.TotalSummary>
                                     <dxg:GridSummaryItem FieldName="Freight" SummaryType="Sum" Alignment="Right" />
-                                </dxg:GridControl.TotalSummary>
+                                </dxg:GridControl.TotalSummary>-->
                             </dxg:GridControl>
                         </dxg:DataControlDetailDescriptor>
 
                         
-                        <dxg:DataControlDetailDescriptor ItemsSourceBinding="{Binding Customers}" ShowHeader="false">
+                        <!--<dxg:DataControlDetailDescriptor ItemsSourceBinding="{Binding Customers}" ShowHeader="false">
                             <dxg:GridControl>
                                 <dxg:GridControl.Columns>
                                     <dxg:GridColumn FieldName="ContactName" Width="*" />
@@ -151,23 +175,23 @@
                                 <dxg:GridControl.GroupSummary>
                                     <dxg:GridSummaryItem FieldName="Orders.Count" SummaryType="Sum" />
                                 </dxg:GridControl.GroupSummary>
-                                <dxg:GridControl.View>
+                                --><!--<dxg:GridControl.View>
                                     <dxg:TableView VerticalScrollbarVisibility="Auto" NavigationStyle="Row" DetailHeaderContent="Customers" ShowFixedTotalSummary="True"/>
-                                </dxg:GridControl.View>
-                                <!--<dxg:GridControl.TotalSummary>
+                                </dxg:GridControl.View>-->
+                               <!--<dxg:GridControl.TotalSummary>
                                     <dxg:GridSummaryItem SummaryType="Count" Alignment="Left" />
-                                </dxg:GridControl.TotalSummary>-->
+                                </dxg:GridControl.TotalSummary>--><!--
                             </dxg:GridControl>
-                        </dxg:DataControlDetailDescriptor>
+                        </dxg:DataControlDetailDescriptor>-->
 
-
-                        <dxg:ContentDetailDescriptor ShowHeader="False" HeaderContent="Stats"/> <!--파일없어서 주석처리--> <!--ContentTemplate="{StaticResource employeeStatsTemplate}"-->
-                        <dxg:ContentDetailDescriptor  ShowHeader="False" HeaderContent="Subordinates" /> <!--ContentTemplate="{StaticResource cardViewTemplate}"-->
+                            <!--기타 비활성화 탭-->
+                        <!--<dxg:ContentDetailDescriptor ShowHeader="False" HeaderContent="Stats"/> --><!--파일없어서 주석처리--> <!--ContentTemplate="{StaticResource employeeStatsTemplate}"--><!--
+                        <dxg:ContentDetailDescriptor  ShowHeader="False" HeaderContent="Subordinates" /> --><!--ContentTemplate="{StaticResource cardViewTemplate}" -->
                     </dxg:TabViewDetailDescriptor.DetailDescriptors>
                 </dxg:TabViewDetailDescriptor>
             </dxg:GridControl.DetailDescriptor>
             <dxg:GridControl.View>
-                <dxg:TableView x:Name="view"
+                <dxg:TableView x:Name="dynamicview"
                                AllowPerPixelScrolling="True"
                                NavigationStyle="Cell"
                                DetailHeaderContent="Employees"
@@ -179,21 +203,22 @@
                 </dxg:TableView>
             </dxg:GridControl.View>
             <dxg:GridControl.Columns>
-                <dxg:GridColumn FieldName="FullName" ReadOnly="True" MinWidth="60" Width="*"  />
+                <!--동적 컬럼으로 변경-->
+                <!--<dxg:GridColumn FieldName="FullName" ReadOnly="True" MinWidth="60" Width="*"  />
                 <dxg:GridColumn FieldName="Title" Header="JobTitle" Width="1.5*"   />
                 <dxg:GridColumn FieldName="Country" MinWidth="60" Width="*" Style="{StaticResource colCountryStyle}"   />
                 <dxg:GridColumn FieldName="BirthDate" MinWidth="60" Width="*" />
                
-                <!--<dxg:GridColumn.EditSettings>
+                --><!--<dxg:GridColumn.EditSettings>
                     <dxe:DateEditSettings DisplayFormat="d" />
-                </dxg:GridColumn.EditSettings>-->
+                </dxg:GridColumn.EditSettings>--><!--
 
 
                 <dxg:GridColumn FieldName="Email" Header="Contacts" Width="2*">
                     <dxg:GridColumn.EditSettings>
                         <dxe:HyperlinkEditSettings AllowAutoNavigate="True" NavigationUrlFormat="mailto:{0}" />
                     </dxg:GridColumn.EditSettings>
-                </dxg:GridColumn>
+                </dxg:GridColumn>-->
 
             </dxg:GridControl.Columns>
 

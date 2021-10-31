@@ -24,10 +24,15 @@ namespace WPF_Tranning.View
         public MasterDetailView()
         {
             InitializeComponent();
+            /* if (DataContext is MasterDetailMV masterDetailMV)
+             {
+              //  datadetails.ItemsSourceBinding =  masterDetailMV.Orders;
+
+             }*/
             DataContext = new MasterDetailMV();
+          
+     }
 
-        }
 
-
-    }
+}
 }

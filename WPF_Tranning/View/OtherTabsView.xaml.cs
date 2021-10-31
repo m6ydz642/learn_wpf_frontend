@@ -102,7 +102,7 @@ namespace WPF_Tranning.View
             this.DataContext = new OtherTabsVM();
             SelectedItems = new List<object>();
 
-            List<string> item = new List<string>();
+            ObservableCollection<string> item = new ObservableCollection<string>();
     
 
             item.Add("버튼1");
@@ -111,7 +111,7 @@ namespace WPF_Tranning.View
 
                listboxedit.ItemsSource = item;
 
-            List<string> item2 = new List<string>();
+            ObservableCollection<string> item2 = new ObservableCollection<string>();
             item2.Add("수신" + "/" + "1234@naver.com" + "/" + "네이버");
             item2.Add("참조" + "/" + "12345@kakao.com" + "/" + "카카오");
             item2.Add("수신" + "/" + "123478@naver.com" + "/" + "네이버");
