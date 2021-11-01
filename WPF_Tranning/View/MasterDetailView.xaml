@@ -115,7 +115,8 @@
                 <dxg:TabViewDetailDescriptor ShowHeader="False"><!--이미지 속성타입 비 활성화ContentTemplate="{StaticResource detailDescriptorContentTemplate}"-->
                     <dxg:TabViewDetailDescriptor.DetailDescriptors>
                         <dxg:DataControlDetailDescriptor Name="datadetails" ItemsSourceBinding="{Binding OrdersList}">
-                            <dxg:GridControl>
+                            <dxg:GridControl  ColumnsSource="{Binding SubColumns}" 
+                                            Style="{StaticResource dynamiccolumn}">
                                 <!--#region OrderDetails-->
                                 <dxg:GridControl.DetailDescriptor>
                                     <dxg:DataControlDetailDescriptor  ShowHeader="False" ItemsSourceBinding="{Binding OrderDetails}">
@@ -145,16 +146,16 @@
                                     </dxg:DataControlDetailDescriptor>
                                 </dxg:GridControl.DetailDescriptor>
                                 <!--#endregion-->
-                                <dxg:GridControl.Columns>
+                                <!--<dxg:GridControl.Columns>
                                     <dxg:GridColumn FieldName="OrderDate" Width="*" />
                                     <dxg:GridColumn FieldName="Freight" Width="*" />
                                     <dxg:GridColumn FieldName="ShipName" Width="*" />
                                     <dxg:GridColumn FieldName="ShipCountry" Width="*" Style="{StaticResource colCountryStyle}" />
                                     <dxg:GridColumn FieldName="ShipCity" Width="*" />
                                     <dxg:GridColumn FieldName="ShipAddress" Width="*" />
-                                </dxg:GridControl.Columns>
+                                </dxg:GridControl.Columns>-->
                                 <dxg:GridControl.View>
-                                    <dxg:TableView  VerticalScrollbarVisibility="Auto" NavigationStyle="Row" DetailHeaderContent="Orders" ShowFixedTotalSummary="True"/>
+                                    <dxg:TableView  VerticalScrollbarVisibility="Auto" NavigationStyle="Row" DetailHeaderContent="OrdersList" ShowFixedTotalSummary="True"/>
                                 </dxg:GridControl.View>
                                 
                                 <!--<dxg:GridControl.TotalSummary>

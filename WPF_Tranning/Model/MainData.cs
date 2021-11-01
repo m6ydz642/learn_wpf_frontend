@@ -13,5 +13,6 @@ namespace WPF_Tranning.Model
         public string Country { get; set; }
         public string BirthDate { get; set; }
         public string Email { get; set; }
+        public List<Orders> OrderList { get; set; }
     }
 }

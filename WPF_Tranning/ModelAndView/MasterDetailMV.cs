@@ -40,7 +40,7 @@ namespace WPF_Tranning.ModelAndView
            // Customers = MakeCustomers2();
          //   Orders = MakeCustomers2();
             Data = MakeCustomers();
-            OrdersList = MakeOrderDetails();
+         //   OrdersList = MakeOrderLists();
         }
 
         private List<MainData> _data;
@@ -66,18 +66,31 @@ namespace WPF_Tranning.ModelAndView
             }
         }
 
-   /*     private DataTable _data;
-        public DataTable Data
+        private List<DynamicColumns> _subcolumns;
+        public List<DynamicColumns> SubColumns
         {
-            get { return _data; }
+            get { return _subcolumns; }
             set
             {
-                _data = value;
+                _subcolumns = value;
 
-                OnPropertyChanged("Data");
+                OnPropertyChanged("SubColumns");
             }
         }
-*/
+
+
+        /*     private DataTable _data;
+             public DataTable Data
+             {
+                 get { return _data; }
+                 set
+                 {
+                     _data = value;
+
+                     OnPropertyChanged("Data");
+                 }
+             }
+     */
         private DataTable _OrderDetails;
         public DataTable OrderDetails  
         {
@@ -101,46 +114,19 @@ namespace WPF_Tranning.ModelAndView
                  OnPropertyChanged("Customers");
             }
         }
-        private DataTable _orders;
-        public DataTable OrdersList
-        {
-            get { return _orders; }
-            set
-            {
-                _orders = value;
-
-                OnPropertyChanged("OrdersList");
-            }
-        }
-        private List<Orders> parentTestDataList;
-
-/*        private List<Orders> _orders;
-        public List<Orders> Orders
-        {
-            get { return _orders; }
-            set
-            {
-                _orders = value;
-
-                OnPropertyChanged("Orders");
-            }
-        }*/
-      /*  private List<Orders> _orderlist;
+        private List<Orders> _orders;
         public List<Orders> OrdersList
         {
-            get { return _orderlist; }
+            get { return _orders; }
             set
             {
-                _orderlist = value;
+                _orders = value;
 
                 OnPropertyChanged("OrdersList");
             }
-        }*/
-
-        private DataTable MakeOrderLists()
-        {
-            return null;
         }
+        private List<MainData> _listdataset;
+
         private DataTable MakeOrderDetails()
         {
             // DB에서 가져왔다 가정
@@ -182,69 +168,104 @@ namespace WPF_Tranning.ModelAndView
             dt.Rows.Add("test Davolio9", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
 
             List<string> DataColumns = GetColumnName(dt);
-            List<string> DataSubColumns = GetColumnName(MakeOrderDetails());
 
             MakeDynamicColumns_Header(DataColumns);
-         //   MakeDynamicSubColumns_Header(DataSubColumns);
-            List<MainData> list = new List<MainData>();
 
-              foreach (DataRow row in dt.Rows)
-             {
-                 MainData orders = new MainData()
-                 {
-                     FullName =  row.Table.Columns.Contains("FullName") == false ? "널" : row.Field<string>("FullName") ,
-                     Title = row.Table.Columns.Contains("Title") == false ? "널" :  row.Field<string>("Title"),
-                     Country = row.Table.Columns.Contains("Country") == false ? "널" :  row.Field<string>("Country"),
-                     BirthDate = row.Table.Columns.Contains("BirthDate") == false ? "널" :  row.Field<string>("BirthDate"),
-                     Email = row.Table.Columns.Contains("Email") == false ? "널" : row.Field<string>("Email")
-            };
-                 list.Add(orders);
-             } 
+          //  List<MainData> list = new List<MainData>();
+            _listdataset = new List<MainData>();
 
-            /*       List<Orders> list = new List<Orders>();
-                   list.Add(new Orders
-                   {
-                       OrderDate = "2021-10-31",
-                       Freight = "13",
-                       ShipName = "Something",
-                       ShipCountry = "USA"
-                   });
+            foreach (DataRow row in dt.Rows)
+            {
+                MainData mainData = new MainData()
+                {
+                    FullName = row.Table.Columns.Contains("FullName") == false ? "널" : row.Field<string>("FullName"),
+                    Title = row.Table.Columns.Contains("Title") == false ? "널" : row.Field<string>("Title"),
+                    Country = row.Table.Columns.Contains("Country") == false ? "널" : row.Field<string>("Country"),
+                    BirthDate = row.Table.Columns.Contains("BirthDate") == false ? "널" : row.Field<string>("BirthDate"),
+                    Email = row.Table.Columns.Contains("Email") == false ? "널" : row.Field<string>("Email"),
+                    OrderList = new List<Orders>()
+                };
 
-                   OrdersList = list;*/
+                DataTable dts = MakeOrderDetails();
+                List<string> DataSubColumns = GetColumnName(dts);
+                MakeDynamicSubColumns_Header(DataSubColumns);
+                foreach (DataRow subrows in dts.Rows)
+                {
+                    string test = subrows.Field<string>("OrderDate");
+                    mainData.OrderList.Add( 
+                        new Orders()
+                        {
+                            OrderDate = subrows.Table.Columns.Contains("OrderDate") == false ? "널" : subrows.Field<string>("OrderDate"),
+                            Freight = subrows.Table.Columns.Contains("Freight") == false ? "널" : subrows.Field<string>("Freight"),
+                            ShipName = subrows.Table.Columns.Contains("ShipName") == false ? "널" : subrows.Field<string>("ShipName"),
+                            ShipCountry = subrows.Table.Columns.Contains("ShipCountry") == false ? "널" : subrows.Field<string>("ShipCountry")
+                        });
+                }
+                _listdataset.Add(mainData);
+
+            }
+
+            return _listdataset;
+        }
+
+
+    /*    private List<Orders> MakeOrderLists()
+        {
+            DataTable dt = MakeOrderDetails();
+            List<string> DataSubColumns = GetColumnName(dt);
+            MakeDynamicSubColumns_Header(DataSubColumns);
+
+            List<Orders> list = new List<Orders>();
+
+
+            foreach (DataRow row in dt.Rows)
+            {
+                Orders orders = new Orders()
+                {
+                    OrderDate = row.Table.Columns.Contains("OrderDate") == false ? "널" : row.Field<string>("OrderDate"),
+                    Freight = row.Table.Columns.Contains("Freight") == false ? "널" : row.Field<string>("Freight"),
+                    ShipName = row.Table.Columns.Contains("Country") == false ? "널" : row.Field<string>("ShipName"),
+                    ShipCountry = row.Table.Columns.Contains("BirthDate") == false ? "널" : row.Field<string>("ShipCountry")
+                };
+                list.Add(orders);
+            }
 
             return list;
-        }
+
+        }*/
+
+
         private void MakeDynamicSubColumns_Header(List<string> columns)
         {
-            Columns = new List<DynamicColumns>();
+            SubColumns = new List<DynamicColumns>();
             string header = string.Empty;
             for (int i = 0; i < columns.Count; i++)
             {
                 switch (columns[i])
                 {
-                    case "FullName":
-                        header = "풀네임";
+                    case "OrderDate":
+                        header = "주문일";
                         break;
 
-                    case "Country":
-                        header = "나라";
+                    case "Freight":
+                        header = "화물";
                         break;
 
-                    case "Title":
-                        header = "제목";
+                    case "ShipName":
+                        header = "배송명";
                         break;
-                    case "BirthDate":
-                        header = "생일";
+                    case "ShipCountry":
+                        header = "배송국가";
                         break;
-                    case "Email":
-                        header = "이메일";
+                    case "ShipCity":
+                        header = "배송지역";
                         break;
                     default:
                         header = string.Empty;
                         break;
                 }
 
-                Columns.Add(new DynamicColumns
+                SubColumns.Add(new DynamicColumns
                 {
                     FieldName = columns[i],
                     Header = header

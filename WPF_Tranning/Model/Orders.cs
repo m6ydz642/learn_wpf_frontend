@@ -12,8 +12,6 @@ namespace WPF_Tranning.Model
         public string Freight { get; set; }
         public string ShipName { get; set; }
         public string ShipCountry { get; set; }
-        public List<Orders> OrdersList { get; set; }
-
 
         public Orders()
         {
