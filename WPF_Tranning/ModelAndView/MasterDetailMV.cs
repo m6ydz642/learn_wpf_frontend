@@ -36,11 +36,7 @@ namespace WPF_Tranning.ModelAndView
             DataModel.CurrentClassPath = typeof(MasterDetailView).FullName; // 현재 접근한 클래스
             //IGridSheetLoaded = new RelayCommand(new Action<object>(this.GridSheetControlLoaded));
 
-            OrderDetails = MakeOrderDetails();
-           // Customers = MakeCustomers2();
-         //   Orders = MakeCustomers2();
             Data = MakeCustomers();
-         //   OrdersList = MakeOrderLists();
         }
 
         private List<MainData> _data;
@@ -78,19 +74,6 @@ namespace WPF_Tranning.ModelAndView
             }
         }
 
-
-        /*     private DataTable _data;
-             public DataTable Data
-             {
-                 get { return _data; }
-                 set
-                 {
-                     _data = value;
-
-                     OnPropertyChanged("Data");
-                 }
-             }
-     */
         private DataTable _OrderDetails;
         public DataTable OrderDetails  
         {
@@ -171,7 +154,6 @@ namespace WPF_Tranning.ModelAndView
 
             MakeDynamicColumns_Header(DataColumns);
 
-          //  List<MainData> list = new List<MainData>();
             List<MainData> _listdataset = new List<MainData>();
 
             foreach (DataRow row in dt.Rows)
@@ -332,45 +314,7 @@ namespace WPF_Tranning.ModelAndView
 
         }
 
-
-
-        
-        //private List<Orders> MakeCustomers()
-        //{
-        //    List<Orders> list = new List<Orders>();
-        //    list.Add(new Orders
-        //    {
-        //        OrderDate = "2021-10-31",
-        //        Freight = "13",
-        //        ShipName = "Something",
-        //        ShipCountry = "USA"
-        //    });
-
-        //    return list;
-
-        //}
-        private List<Orders> MakeCustomers2()
-        {
-            // Datatable dt = new DataTable();
-            //dt.Columns.Add("ContactName");
-            //dt.Columns.Add("Country");
-            //dt.Columns.Add("City");
-            //dt.Columns.Add("Address");
-            //dt.Columns.Add("Phone");
-            //             dt.Rows.Add("Nancy Davolio", "Sales Representative", "USA", "2000-07-10");
-
-
-            List<Orders> list = new List<Orders>();
-            list.Add(new Orders {
-                OrderDate = "2021-10-31",
-                Freight = "13",
-                ShipName ="Something",
-                ShipCountry = "USA"} );
-            
-       
-            return list;
-        }
-
+ 
 
         private void OnPropertyChanged(string propertyName)
         {
