@@ -106,19 +106,21 @@
         <dxg:GridControl x:Name="grid"
                          ItemsSource="{Binding Data}"
                          Loaded="{DXEvent '@Self.ExpandMasterRow(1)'}"
-                         ShowBorder="False" AutoGenerateColumns="AddNew"
+                         ShowBorder="False" AutoGenerateColumns="None"
                          ColumnsSource="{Binding Columns}" 
-                         Style="{StaticResource dynamiccolumn}" >
+                         Style="{StaticResource dynamiccolumn}"
+                         AutoPopulateColumns="True">
             <!-- AutoPopulateColumns="True"-->
             
             <dxg:GridControl.DetailDescriptor>
                 <dxg:TabViewDetailDescriptor ShowHeader="False"><!--이미지 속성타입 비 활성화ContentTemplate="{StaticResource detailDescriptorContentTemplate}"-->
                     <dxg:TabViewDetailDescriptor.DetailDescriptors>
-                        <dxg:DataControlDetailDescriptor Name="datadetails" ItemsSourceBinding="{Binding OrdersList}">
+                        <dxg:DataControlDetailDescriptor Name="datadetails" ItemsSourceBinding="{Binding OrderList}">
                             <dxg:GridControl  ColumnsSource="{Binding SubColumns}" 
-                                            Style="{StaticResource dynamiccolumn}">
+                                              Style="{StaticResource dynamiccolumn}"
+                                              AutoPopulateColumns="True" >
                                 <!--#region OrderDetails-->
-                                <dxg:GridControl.DetailDescriptor>
+                                <!--<dxg:GridControl.DetailDescriptor>
                                     <dxg:DataControlDetailDescriptor  ShowHeader="False" ItemsSourceBinding="{Binding OrderDetails}">
                                         <dxg:GridControl> 
                                             <dxg:GridControl.Columns>
@@ -144,7 +146,7 @@
                                             </dxg:GridControl.TotalSummary>
                                         </dxg:GridControl>
                                     </dxg:DataControlDetailDescriptor>
-                                </dxg:GridControl.DetailDescriptor>
+                                </dxg:GridControl.DetailDescriptor>-->
                                 <!--#endregion-->
                                 <!--<dxg:GridControl.Columns>
                                     <dxg:GridColumn FieldName="OrderDate" Width="*" />
@@ -154,6 +156,7 @@
                                     <dxg:GridColumn FieldName="ShipCity" Width="*" />
                                     <dxg:GridColumn FieldName="ShipAddress" Width="*" />
                                 </dxg:GridControl.Columns>-->
+                                
                                 <dxg:GridControl.View>
                                     <dxg:TableView  VerticalScrollbarVisibility="Auto" NavigationStyle="Row" DetailHeaderContent="OrdersList" ShowFixedTotalSummary="True"/>
                                 </dxg:GridControl.View>

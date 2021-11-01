@@ -172,7 +172,7 @@ namespace WPF_Tranning.ModelAndView
             MakeDynamicColumns_Header(DataColumns);
 
           //  List<MainData> list = new List<MainData>();
-            _listdataset = new List<MainData>();
+            List<MainData> _listdataset = new List<MainData>();
 
             foreach (DataRow row in dt.Rows)
             {
