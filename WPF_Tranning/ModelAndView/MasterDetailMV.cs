@@ -114,18 +114,19 @@ namespace WPF_Tranning.ModelAndView
         {
             // DB에서 가져왔다 가정
             DataTable dt = new DataTable();
+            dt.Columns.Add("OrderId");
             dt.Columns.Add("OrderDate");
             dt.Columns.Add("Freight");
             dt.Columns.Add("ShipName");
             dt.Columns.Add("ShipCountry");
-            dt.Rows.Add("갤럭시","10000","10","20");
-            dt.Rows.Add("갤럭시","10000","10","20");
-            dt.Rows.Add("갤럭시","10000","10","20");
-            dt.Rows.Add("갤럭시","10000","10","20");
-            dt.Rows.Add("갤럭시","10000","10","20");
-            dt.Rows.Add("갤럭시","10000","10","20");
-            dt.Rows.Add("갤럭시","10000","10","20");
-            dt.Rows.Add("갤럭시","10000","10","20");
+            dt.Rows.Add("1", "갤럭시1","10000","10","20");
+            dt.Rows.Add("3", "갤럭시2","10000","10","20");
+            dt.Rows.Add("4", "갤럭시3","10000","10","20");
+            dt.Rows.Add("1", "갤럭시4","10000","10","20");
+            dt.Rows.Add("8", "아이폰1","10000","10","20");
+            dt.Rows.Add("7", "아이폰2", "10000","10","20");
+            dt.Rows.Add("6", "아이폰3", "10000","10","20");
+            dt.Rows.Add("5", "아이폰4", "10000","10","20");
             return dt;
         }
 
@@ -133,6 +134,7 @@ namespace WPF_Tranning.ModelAndView
         {
             // DB에서 가져왔다 가정
             DataTable dt = new DataTable();
+            dt.Columns.Add("OrderId");
             dt.Columns.Add("FullName");
             dt.Columns.Add("Title");
             dt.Columns.Add("Country");
@@ -141,23 +143,27 @@ namespace WPF_Tranning.ModelAndView
           
 
             /*dt.Rows.Add("Nancy Davolio", "Sales Representative", "USA", "2000-07-10");*/
-                dt.Rows.Add("Nancy Davolio", "Sales Representative", "USA", "2000-07-10", "nancy@example.com");
-                dt.Rows.Add("test Davolio2", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
-                dt.Rows.Add("test Davolio3", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
-                dt.Rows.Add("test Davolio4", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
-                dt.Rows.Add("test Davolio5", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
-                dt.Rows.Add("test Davolio6", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
-                dt.Rows.Add("test Davolio8", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+                dt.Rows.Add("1","Nancy Davolio", "Sales Representative", "USA", "2000-07-10", "nancy@example.com");
+                dt.Rows.Add("3","test Davolio2", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+                dt.Rows.Add("4","test Davolio3", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+                dt.Rows.Add("5","test Davolio4", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+                dt.Rows.Add("6","test Davolio5", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+                dt.Rows.Add("7","test Davolio6", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+                dt.Rows.Add("8","test Davolio8", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
             dt.Rows.Add("test Davolio9", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
 
             List<string> DataColumns = GetColumnName(dt);
-
+            DataTable dts = MakeOrderDetails();
+            List<string> DataSubColumns = GetColumnName(dts);
+            MakeDynamicSubColumns_Header(DataSubColumns);
             MakeDynamicColumns_Header(DataColumns);
 
             List<MainData> _listdataset = new List<MainData>();
 
             foreach (DataRow row in dt.Rows)
             {
+                string orderid = row.Field<string>("OrderId");
+
                 MainData mainData = new MainData()
                 {
                     FullName = row.Table.Columns.Contains("FullName") == false ? "널" : row.Field<string>("FullName"),
@@ -168,13 +174,13 @@ namespace WPF_Tranning.ModelAndView
                     OrderList = new List<Orders>()
                 };
 
-                DataTable dts = MakeOrderDetails();
-                List<string> DataSubColumns = GetColumnName(dts);
-                MakeDynamicSubColumns_Header(DataSubColumns);
+       
                 foreach (DataRow subrows in dts.Rows)
                 {
-                    string test = subrows.Field<string>("OrderDate");
-                    mainData.OrderList.Add( 
+                    string SubOrderId = subrows.Field<string>("OrderId");
+                    if (orderid == SubOrderId)
+                    {
+                        mainData.OrderList.Add(
                         new Orders()
                         {
                             OrderDate = subrows.Table.Columns.Contains("OrderDate") == false ? "널" : subrows.Field<string>("OrderDate"),
@@ -182,6 +188,7 @@ namespace WPF_Tranning.ModelAndView
                             ShipName = subrows.Table.Columns.Contains("ShipName") == false ? "널" : subrows.Field<string>("ShipName"),
                             ShipCountry = subrows.Table.Columns.Contains("ShipCountry") == false ? "널" : subrows.Field<string>("ShipCountry")
                         });
+                    }
                 }
                 _listdataset.Add(mainData);
 
