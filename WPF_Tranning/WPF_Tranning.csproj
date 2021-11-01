@@ -147,6 +147,7 @@
     <Compile Include="ModelAndView\PivotGridControlModelAndView.cs" />
     <Compile Include="ModelAndView\SearchScoreViewAndModel.cs" />
     <Compile Include="Model\ChartBindingModel.cs" />
+    <Compile Include="Model\MainData.cs" />
     <Compile Include="Model\Orders.cs" />
     <Compile Include="Model\DataModel.cs" />
     <Compile Include="View\MasterDetailView.xaml.cs">

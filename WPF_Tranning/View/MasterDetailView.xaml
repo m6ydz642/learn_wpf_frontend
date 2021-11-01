@@ -108,12 +108,13 @@
                          Loaded="{DXEvent '@Self.ExpandMasterRow(1)'}"
                          ShowBorder="False" AutoGenerateColumns="AddNew"
                          ColumnsSource="{Binding Columns}" 
-                         Style="{StaticResource dynamiccolumn}">
+                         Style="{StaticResource dynamiccolumn}" >
+            <!-- AutoPopulateColumns="True"-->
             
             <dxg:GridControl.DetailDescriptor>
                 <dxg:TabViewDetailDescriptor ShowHeader="False"><!--이미지 속성타입 비 활성화ContentTemplate="{StaticResource detailDescriptorContentTemplate}"-->
                     <dxg:TabViewDetailDescriptor.DetailDescriptors>
-                        <dxg:DataControlDetailDescriptor Name="datadetails" ItemsSourceBinding="{Binding Orders}" ShowHeader="false">
+                        <dxg:DataControlDetailDescriptor Name="datadetails" ItemsSourceBinding="{Binding OrdersList}">
                             <dxg:GridControl>
                                 <!--#region OrderDetails-->
                                 <dxg:GridControl.DetailDescriptor>
@@ -153,7 +154,7 @@
                                     <dxg:GridColumn FieldName="ShipAddress" Width="*" />
                                 </dxg:GridControl.Columns>
                                 <dxg:GridControl.View>
-                                    <dxg:TableView VerticalScrollbarVisibility="Auto" NavigationStyle="Row" DetailHeaderContent="Orders" ShowFixedTotalSummary="True"/>
+                                    <dxg:TableView  VerticalScrollbarVisibility="Auto" NavigationStyle="Row" DetailHeaderContent="Orders" ShowFixedTotalSummary="True"/>
                                 </dxg:GridControl.View>
                                 
                                 <!--<dxg:GridControl.TotalSummary>

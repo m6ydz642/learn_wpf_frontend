@@ -22,17 +22,7 @@ namespace WPF_Tranning.ModelAndView
     {
         public string FieldName { get; set; }
         public string Header { get; set; }
-/*        public string Title { get; set; }
-        public string Country { get; set; }
-        public string BirthDate { get; set; }
-        public string Email { get; set; }
-        public string Test { get; set; }*/
 
-        //public DynamicColumns(string field, string header, string mask = null)
-        //{
-        //    FieldName = field;
-        //    Header = header;
-        //}
     }
 
     public class MasterDetailMV : INotifyPropertyChanged
@@ -48,22 +38,21 @@ namespace WPF_Tranning.ModelAndView
 
             OrderDetails = MakeOrderDetails();
            // Customers = MakeCustomers2();
-            Orders = MakeCustomers2();
+         //   Orders = MakeCustomers2();
             Data = MakeCustomers();
-
+            OrdersList = MakeOrderDetails();
         }
 
-        //private List<Orders> _data;
-        //public List<Orders> Data  
-        //{
-        //    get {return _data; }
-        //    set
-        //    {
-        //        _data = value;
-
-        //         OnPropertyChanged("Data");
-        //    }
-        //}
+        private List<MainData> _data;
+        public List<MainData> Data
+        {
+            get { return _data; }
+            set
+            {
+                _data = value;
+                OnPropertyChanged("Data");
+            }
+        }
 
         private List<DynamicColumns> _columns;
         public List<DynamicColumns> Columns
@@ -77,7 +66,7 @@ namespace WPF_Tranning.ModelAndView
             }
         }
 
-        private DataTable _data;
+   /*     private DataTable _data;
         public DataTable Data
         {
             get { return _data; }
@@ -88,7 +77,7 @@ namespace WPF_Tranning.ModelAndView
                 OnPropertyChanged("Data");
             }
         }
-
+*/
         private DataTable _OrderDetails;
         public DataTable OrderDetails  
         {
@@ -111,19 +100,21 @@ namespace WPF_Tranning.ModelAndView
 
                  OnPropertyChanged("Customers");
             }
-        } 
-        //private DataTable _orders;
-        //public DataTable Orders
-        //{
-        //    get {return _orders; }
-        //    set
-        //    {
-        //        _orders = value;
+        }
+        private DataTable _orders;
+        public DataTable OrdersList
+        {
+            get { return _orders; }
+            set
+            {
+                _orders = value;
 
-        //         OnPropertyChanged("Orders");
-        //    }
-        //}
-        private List<Orders> _orders;
+                OnPropertyChanged("OrdersList");
+            }
+        }
+        private List<Orders> parentTestDataList;
+
+/*        private List<Orders> _orders;
         public List<Orders> Orders
         {
             get { return _orders; }
@@ -133,42 +124,134 @@ namespace WPF_Tranning.ModelAndView
 
                 OnPropertyChanged("Orders");
             }
+        }*/
+      /*  private List<Orders> _orderlist;
+        public List<Orders> OrdersList
+        {
+            get { return _orderlist; }
+            set
+            {
+                _orderlist = value;
+
+                OnPropertyChanged("OrdersList");
+            }
+        }*/
+
+        private DataTable MakeOrderLists()
+        {
+            return null;
         }
-
-
         private DataTable MakeOrderDetails()
         {
+            // DB에서 가져왔다 가정
             DataTable dt = new DataTable();
             dt.Columns.Add("OrderDate");
             dt.Columns.Add("Freight");
             dt.Columns.Add("ShipName");
             dt.Columns.Add("ShipCountry");
             dt.Rows.Add("갤럭시","10000","10","20");
+            dt.Rows.Add("갤럭시","10000","10","20");
+            dt.Rows.Add("갤럭시","10000","10","20");
+            dt.Rows.Add("갤럭시","10000","10","20");
+            dt.Rows.Add("갤럭시","10000","10","20");
+            dt.Rows.Add("갤럭시","10000","10","20");
+            dt.Rows.Add("갤럭시","10000","10","20");
+            dt.Rows.Add("갤럭시","10000","10","20");
             return dt;
         }
 
-        private DataTable MakeCustomers()
+        private List<MainData> MakeCustomers()
         {
+            // DB에서 가져왔다 가정
             DataTable dt = new DataTable();
             dt.Columns.Add("FullName");
             dt.Columns.Add("Title");
             dt.Columns.Add("Country");
             dt.Columns.Add("BirthDate");
             dt.Columns.Add("Email");
-       //     dt.Columns.Add("Test");
+          
 
-            dt.Rows.Add("Nancy Davolio", "Sales Representative", "USA", "2000-07-10", "nancy@example.com");
-            dt.Rows.Add("test Davolio", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+            /*dt.Rows.Add("Nancy Davolio", "Sales Representative", "USA", "2000-07-10");*/
+                dt.Rows.Add("Nancy Davolio", "Sales Representative", "USA", "2000-07-10", "nancy@example.com");
+                dt.Rows.Add("test Davolio2", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+                dt.Rows.Add("test Davolio3", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+                dt.Rows.Add("test Davolio4", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+                dt.Rows.Add("test Davolio5", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+                dt.Rows.Add("test Davolio6", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+                dt.Rows.Add("test Davolio8", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+            dt.Rows.Add("test Davolio9", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
 
-            List<string> columns = GetColumnName(dt);
+            List<string> DataColumns = GetColumnName(dt);
+            List<string> DataSubColumns = GetColumnName(MakeOrderDetails());
 
-            MakeDynamicColumns_Header(columns);
+            MakeDynamicColumns_Header(DataColumns);
+         //   MakeDynamicSubColumns_Header(DataSubColumns);
+            List<MainData> list = new List<MainData>();
 
-             
+              foreach (DataRow row in dt.Rows)
+             {
+                 MainData orders = new MainData()
+                 {
+                     FullName =  row.Table.Columns.Contains("FullName") == false ? "널" : row.Field<string>("FullName") ,
+                     Title = row.Table.Columns.Contains("Title") == false ? "널" :  row.Field<string>("Title"),
+                     Country = row.Table.Columns.Contains("Country") == false ? "널" :  row.Field<string>("Country"),
+                     BirthDate = row.Table.Columns.Contains("BirthDate") == false ? "널" :  row.Field<string>("BirthDate"),
+                     Email = row.Table.Columns.Contains("Email") == false ? "널" : row.Field<string>("Email")
+            };
+                 list.Add(orders);
+             } 
 
-            return dt;
+            /*       List<Orders> list = new List<Orders>();
+                   list.Add(new Orders
+                   {
+                       OrderDate = "2021-10-31",
+                       Freight = "13",
+                       ShipName = "Something",
+                       ShipCountry = "USA"
+                   });
+
+                   OrdersList = list;*/
+
+            return list;
         }
+        private void MakeDynamicSubColumns_Header(List<string> columns)
+        {
+            Columns = new List<DynamicColumns>();
+            string header = string.Empty;
+            for (int i = 0; i < columns.Count; i++)
+            {
+                switch (columns[i])
+                {
+                    case "FullName":
+                        header = "풀네임";
+                        break;
 
+                    case "Country":
+                        header = "나라";
+                        break;
+
+                    case "Title":
+                        header = "제목";
+                        break;
+                    case "BirthDate":
+                        header = "생일";
+                        break;
+                    case "Email":
+                        header = "이메일";
+                        break;
+                    default:
+                        header = string.Empty;
+                        break;
+                }
+
+                Columns.Add(new DynamicColumns
+                {
+                    FieldName = columns[i],
+                    Header = header
+
+                });
+            }
+        }
         private void MakeDynamicColumns_Header(List<string> columns)
         {
             Columns = new List<DynamicColumns>();
