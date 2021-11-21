@@ -476,8 +476,8 @@ namespace WPF_Tranning.ModelAndView
             if (ComboMode.Equals("데이터모드 1"))
             {
                 // MaskRegex = "[0-9]{2}|[0-9]{3}"; // 최대 2자리 또는 3자리
-                DataWeek = MakeTestDataSet().Tables[0]; 
-                DataColumn = MakeTestDataSet().Tables[1];
+                DataWeek = MakeTestDataSet().Tables[0];
+                _dataColumn = MakeTestDataSet().Tables[1];
                 ComboMode = "데이터모드 1";
                 _Regex = "^[0-9]{1,5}$"; // 숫자 0~9까지 1자리부터 5자리까지 ( ^시작 $종료)
                 GetWeek_WeekDay();
