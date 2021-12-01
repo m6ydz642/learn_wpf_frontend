@@ -93,7 +93,9 @@
                                               ItemsSource="{Binding ComboboxContent}" 
                                               AutoComplete="True" 
                                               IsTextEditable="False"/>
+                    
                 </dxg:GridColumn.EditSettings>
+
                 <!--<dxg:GridColumn.CellTemplate>
 
                     <DataTemplate>
@@ -109,7 +111,19 @@
 
             <!-- 컬럼 추가시 읽기전용으로 되서 일단 주석처리함-->
             <!--체크박스 및 체크박스 영역, 컬럼-->
+            <dxg:GridColumn Header="색상리스트" FieldName="ColorListCombobox">
+                <dxg:GridColumn.EditSettings>
 
+                    <dxe:PopupColorEditSettings x:Name="ColorEdits" ColumnCount="10" ShowNoColorButton="True"
+                                                DefaultColor="Crimson"  
+                                                ChipSize="Medium"   />
+
+                </dxg:GridColumn.EditSettings>
+    
+
+
+            </dxg:GridColumn>
+                
         </dxg:GridControl>
 
 
