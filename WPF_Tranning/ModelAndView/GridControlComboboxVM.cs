@@ -176,14 +176,7 @@ namespace WPF_Tranning.ModelAndView
                 {
                     ColorEdit colorEdit = (ColorEdit)colorEditConverter.StringData;
                     colorEdit.Visibility = Visibility.Visible;
-                    /*      ColorEdit colorEdit = new ColorEdit();
-                          colorEdit.ShowNoColorButton = true;
-                          colorEdit.NoColorButtonContent = "Empty Color";
-                          colorEdit.MoreColorsButtonContent = "Color picker";
-                          colorEdit.ChipSize = ChipSize.Default;
-                          colorEdit.ColumnCount = 10;*/
                     colorEdit.ColorChanged += ColorEdit_ColorChanged;
-                    var test = colorEdit.Color;
                 }
 
                 _comboboxcontent = data;

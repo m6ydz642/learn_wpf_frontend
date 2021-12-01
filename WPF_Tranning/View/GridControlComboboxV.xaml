@@ -13,7 +13,8 @@
         x:Class="WPF_Tranning.View.GridControlComboboxV"
         mc:Ignorable="d"
         Name="GridControlViewName" Height="831" Width="1266"
-    xmlns:vm="clr-namespace:WPF_Tranning.ModelAndView" >
+    xmlns:vm="clr-namespace:WPF_Tranning.ModelAndView" 
+    xmlns:local="clr-namespace:WPF_Tranning.View">
 
     <UserControl.Resources>
 
@@ -112,12 +113,13 @@
         </dxg:GridControl>
 
 
-        <!--<Popup IsOpen="True" Margin="310,160,90,421" Width="300" Height="300" Grid.Row="1" PlacementTarget="{Binding ElementName=ScoreDBTableView}">
-            <dxe:PopupColorEdit x:Name="ColorEdit" ColumnCount="10" ShowNoColorButton="True" 
-    DefaultColor="Crimson" NoColorButtonContent="Empty Color" Visibility="Hidden"
-    MoreColorsButtonContent="Color picker" ChipSize="Medium" Margin="340,220,40,231" Grid.Row="1"  />
-        </Popup>-->
-        <dxe:ColorEdit x:Name="ColorEdit" ColumnCount="10" ShowNoColorButton="True"
+ 
+
+        <Popup IsOpen="False" PlacementTarget="{Binding ElementName=ScoreDBTableView}">
+
+            <local:ColorEditView/>
+        </Popup>
+            <dxe:ColorEdit x:Name="ColorEdit" ColumnCount="10" ShowNoColorButton="True"
     DefaultColor="Crimson" NoColorButtonContent="Empty Color" Visibility="Hidden"
     MoreColorsButtonContent="Color picker" ChipSize="Medium" Margin="340,220,40,231" Grid.Row="1"  />
     </Grid>
