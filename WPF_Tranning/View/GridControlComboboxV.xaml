@@ -85,7 +85,7 @@
                     <dxe:TextEditSettings  HorizontalContentAlignment="Left"/>
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
-            
+
             <dxg:GridColumn Header="콤보박스" FieldName="Combobox">
                 <dxg:GridColumn.EditSettings>
                     <dxe:ComboBoxEditSettings ImmediatePopup="True" 
@@ -93,9 +93,16 @@
                                               AutoComplete="True" 
                                               IsTextEditable="False"/>
                 </dxg:GridColumn.EditSettings>
+                <!--<dxg:GridColumn.CellTemplate>
+
+                    <DataTemplate>
+                        <dxg:LookUpEdit x:Name="PART_Editor" ItemsSource="{Binding ComboboxContent}" AutoPopulateColumns="True" ValueMember="Id" DisplayMember="Id" 
+                                            FocusPopupOnOpen="True"/>
+                    </DataTemplate>
+
+                </dxg:GridColumn.CellTemplate>-->
 
 
-               
 
             </dxg:GridColumn>
 
@@ -104,13 +111,13 @@
 
         </dxg:GridControl>
 
-       <!--<Popup  >
-            <dxe:ColorEdit ColumnCount="10" ShowNoColorButton="True" 
-    DefaultColor="Crimson" NoColorButtonContent="Empty Color" 
-    MoreColorsButtonContent="Color picker" ChipSize="Medium" Margin="265,95,175,366" Grid.Row="0" Grid.Column="1"/>
-        </Popup>-->
 
-        <dxe:ColorEdit x:Name="ColorEdit" ColumnCount="10" ShowNoColorButton="True" 
+        <!--<Popup IsOpen="True" Margin="310,160,90,421" Width="300" Height="300" Grid.Row="1" PlacementTarget="{Binding ElementName=ScoreDBTableView}">
+            <dxe:PopupColorEdit x:Name="ColorEdit" ColumnCount="10" ShowNoColorButton="True" 
+    DefaultColor="Crimson" NoColorButtonContent="Empty Color" Visibility="Hidden"
+    MoreColorsButtonContent="Color picker" ChipSize="Medium" Margin="340,220,40,231" Grid.Row="1"  />
+        </Popup>-->
+        <dxe:ColorEdit x:Name="ColorEdit" ColumnCount="10" ShowNoColorButton="True"
     DefaultColor="Crimson" NoColorButtonContent="Empty Color" Visibility="Hidden"
     MoreColorsButtonContent="Color picker" ChipSize="Medium" Margin="340,220,40,231" Grid.Row="1"  />
     </Grid>

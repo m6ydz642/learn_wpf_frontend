@@ -91,7 +91,7 @@ namespace WPF_Tranning.ModelAndView
                   OnPropertyChanged("Content"); 
             }
         }
-
+        private string _score_id;
         public Button obbutton { get; set; }
         public string Help { get; set; }
         public void Loading()
@@ -109,7 +109,7 @@ namespace WPF_Tranning.ModelAndView
             _content.Columns.Add("Combobox");
             _content.Rows.Add("1", "Score", "내용없음");
             _content.Rows.Add("2", "Score2", "내용없음2");
-            _content.Rows.Add("3", "Score3", "내용없음3");
+            _content.Rows.Add("3", "Score3", "색상을 선택하십시오");
             OnPropertyChanged("Content");
 
             _comboboxcontent = new List<string>();
@@ -151,8 +151,9 @@ namespace WPF_Tranning.ModelAndView
 
                 string Score_id  = itemarray.Row.Field<string>("Score_id");
                 List<string> data = new List<string>();
+                _score_id = Score_id;
 
-          
+
                 if (Score_id == "1")
                 {
                     data.Add("스코어1");
@@ -181,6 +182,7 @@ namespace WPF_Tranning.ModelAndView
                           colorEdit.MoreColorsButtonContent = "Color picker";
                           colorEdit.ChipSize = ChipSize.Default;
                           colorEdit.ColumnCount = 10;*/
+                    colorEdit.ColorChanged += ColorEdit_ColorChanged;
                     var test = colorEdit.Color;
                 }
 
@@ -188,6 +190,22 @@ namespace WPF_Tranning.ModelAndView
 
                 OnPropertyChanged("ComboboxContent");
             }
+        }
+
+        private void ColorEdit_ColorChanged(object sender, RoutedEventArgs e)
+        {
+           var coloredit =  (ColorEdit)sender;
+            string GetColor = coloredit.Color.ToString();
+
+            DataRow[] row = _content.Select();
+
+            var FindRow = row.Single(x => x.Field<string>("Score_id") == _score_id);
+
+            DataRow changeDataRow = FindRow;
+            changeDataRow["Combobox"] = GetColor;
+            OnPropertyChanged("ComboboxContent");
+
+
         }
 
         private void OnPropertyChanged(string propertyName)
