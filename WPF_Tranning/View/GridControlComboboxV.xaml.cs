@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using WPF_Tranning.ModelAndView;
 
 namespace WPF_Tranning.View
 {
@@ -22,7 +23,7 @@ namespace WPF_Tranning.View
         public GridControlComboboxV()
         {
             InitializeComponent();
-              this.DataContext = new GridControlComboboxVM(); 
+ //             this.DataContext = new GridControlComboboxVM(); 
 
             if (DataContext is GridControlComboboxVM gridControlComboboxVM)
             {

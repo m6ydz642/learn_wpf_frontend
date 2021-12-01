@@ -13,22 +13,19 @@
         x:Class="WPF_Tranning.View.GridControlComboboxV"
         mc:Ignorable="d"
         Name="GridControlViewName" Height="831" Width="1266"
-    xmlns:local="clr-namespace:WPF_Tranning" >
+    xmlns:vm="clr-namespace:WPF_Tranning.ModelAndView" >
 
     <UserControl.Resources>
 
+        <vm:ColorEditConverter x:Key="ColorConverter" />
 
     </UserControl.Resources>
 
     <UserControl.DataContext>
-        <local:GridControlComboboxVM/>
+        <vm:GridControlComboboxVM/>
     </UserControl.DataContext>
-    
+
     <Grid>
-
-
-      
-
         <Grid.RowDefinitions>
             <RowDefinition Height="90" />
             <RowDefinition Height="10*" />
@@ -50,8 +47,16 @@
 
             <dxmvvm:Interaction.Behaviors>
                 <dxmvvm:EventToCommand Command="{Binding ISelectGridControl}"  
-                               EventName="SelectionChanged" 
-                               CommandParameter="{Binding ElementName=GridControl}">
+                               EventName="SelectionChanged">
+                    <!--CommandParameter="{Binding ElementName=GridControl}-->
+
+                    <dxmvvm:EventToCommand.CommandParameter>
+                        <MultiBinding Converter="{StaticResource ColorConverter}">
+                            <Binding ElementName="ColorEdit"/>
+                            <Binding ElementName="GridControl"/>
+                        </MultiBinding>
+                    </dxmvvm:EventToCommand.CommandParameter>
+
                 </dxmvvm:EventToCommand>
             </dxmvvm:Interaction.Behaviors>
 
@@ -88,6 +93,10 @@
                                               AutoComplete="True" 
                                               IsTextEditable="False"/>
                 </dxg:GridColumn.EditSettings>
+
+
+               
+
             </dxg:GridColumn>
 
             <!-- 컬럼 추가시 읽기전용으로 되서 일단 주석처리함-->
@@ -95,8 +104,15 @@
 
         </dxg:GridControl>
 
-      
+       <!--<Popup  >
+            <dxe:ColorEdit ColumnCount="10" ShowNoColorButton="True" 
+    DefaultColor="Crimson" NoColorButtonContent="Empty Color" 
+    MoreColorsButtonContent="Color picker" ChipSize="Medium" Margin="265,95,175,366" Grid.Row="0" Grid.Column="1"/>
+        </Popup>-->
 
+        <dxe:ColorEdit x:Name="ColorEdit" ColumnCount="10" ShowNoColorButton="True" 
+    DefaultColor="Crimson" NoColorButtonContent="Empty Color" Visibility="Hidden"
+    MoreColorsButtonContent="Color picker" ChipSize="Medium" Margin="340,220,40,231" Grid.Row="1"  />
     </Grid>
 
 

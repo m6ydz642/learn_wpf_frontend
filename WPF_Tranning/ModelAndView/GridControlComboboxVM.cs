@@ -24,22 +24,38 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using WPF_Tranning.View;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 
-
-/*using GridControl = DevExpress.Xpf.Grid.GridControl; 
-// ExportToXlsx사용사 참조 모호오류떠서 바인딩할때 인자로 받아 쓰던 그리드 컨트롤은 xpf.grid로 직접 지정*/
-
-namespace WPF_Tranning
+namespace WPF_Tranning.ModelAndView
 {
+    public class ColorEditConverter : IMultiValueConverter
+    {
+        public object StringData;
 
+        public object ObjectData;
+       public ColorEditConverter(object stringData, object objectData)
+        {
+            this.StringData = stringData;
+            this.ObjectData = objectData;
+        }
+        public ColorEditConverter() { }
+
+        public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return new ColorEditConverter(value[0], value[1]);
+
+        }
+            public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
     class GridControlComboboxVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand ISelectGridControl { get; set; }
-
-        public string ComboSelected { get; set; }
 
         public GridControlComboboxVM()
         {
@@ -48,7 +64,8 @@ namespace WPF_Tranning
 
 
         }
-
+        private ICommand _ISelectGridControl;
+  
 
         /**********************************************************************/
         string AppconfigDBSetting = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString; // DB연결
@@ -114,7 +131,20 @@ namespace WPF_Tranning
 
         private void SelectedGridcontrol(object obj)
         {
-            if (obj is GridControl gridControl)
+
+            ColorEditConverter colorEditConverter = null;
+            GridControl gridControl2 = null;
+            if (obj is ColorEditConverter editConverter)
+            {
+                colorEditConverter = editConverter;
+            }
+
+            if (colorEditConverter != null && 
+                colorEditConverter.ObjectData is GridControl gridControl1)
+                gridControl2 = gridControl1;
+
+
+            if (gridControl2 is GridControl gridControl)
             {
                 int[] rowhandle = gridControl.GetSelectedRowHandles();
                 DataRowView itemarray = (DataRowView)gridControl.GetRow(rowhandle[0]);
@@ -128,13 +158,30 @@ namespace WPF_Tranning
                     data.Add("스코어1");
                     data.Add("스코어2");
                     data.Add("스코어3");
+                    ColorEdit colorEdit = (ColorEdit)colorEditConverter.StringData;
+                    colorEdit.Visibility = Visibility.Hidden;
                 }
 
                 if (Score_id == "2")
                 {
+                    ColorEdit colorEdit = (ColorEdit)colorEditConverter.StringData;
+                    colorEdit.Visibility = Visibility.Hidden;
                     data.Add("테스트1");
                     data.Add("테스트2");
                     data.Add("테스트3");
+                }
+
+                if (Score_id == "3")
+                {
+                    ColorEdit colorEdit = (ColorEdit)colorEditConverter.StringData;
+                    colorEdit.Visibility = Visibility.Visible;
+                    /*      ColorEdit colorEdit = new ColorEdit();
+                          colorEdit.ShowNoColorButton = true;
+                          colorEdit.NoColorButtonContent = "Empty Color";
+                          colorEdit.MoreColorsButtonContent = "Color picker";
+                          colorEdit.ChipSize = ChipSize.Default;
+                          colorEdit.ColumnCount = 10;*/
+                    var test = colorEdit.Color;
                 }
 
                 _comboboxcontent = data;
