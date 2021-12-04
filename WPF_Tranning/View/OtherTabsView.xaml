@@ -11,7 +11,8 @@
              xmlns:local="clr-namespace:WPF_Tranning.ModelAndView" 
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
                      xmlns:dxre="http://schemas.devexpress.com/winfx/2008/xaml/richedit"
-              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors">
+              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             Loaded="UserControl_Loaded">
 
     <UserControl.DataContext>
         <local:OtherTabsVM/>
@@ -76,7 +77,7 @@
 
 
 
-                <dx:DXTabItem Header="리치에디트컨트롤">
+                <dx:DXTabItem Header="리치에디트컨트롤" Loaded="DXTabItem_Loaded_1">
                     <Grid>
                         <Button CommandParameter="{Binding ElementName=richEditControl1}" 
                                 x:Name="button" Content="Html변환" Margin="909,-43,-13,487"

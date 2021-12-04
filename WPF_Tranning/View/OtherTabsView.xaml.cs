@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,54 +26,6 @@ namespace WPF_Tranning.View
 {
 
 
-    public abstract class WinFormsApp
-    {
-        const string WinformsJITPrecompilerThreadName = "Framework.WinForms JIT Precompiler";
-
-        protected WinFormsApp()
-        {
-            CreateJITPrecompilerThread().Start();
-        }
-
-        protected virtual void BackgroundThreadInitialize()
-        { }
-
-        Thread CreateJITPrecompilerThread()
-        {
-            var result = new Thread(BackgroundThreadInitialize)
-            {
-                Priority = ThreadPriority.Highest,
-                IsBackground = true,
-                Name = WinformsJITPrecompilerThreadName
-            };
-
-            result.SetApartmentState(ApartmentState.STA);
-
-            return result;
-        }
-
-        public static bool IsBackgroundInitializeThread()
-        {
-            return Thread.CurrentThread.Name == WinformsJITPrecompilerThreadName;
-        }
-    }
-    public class MyApp : WinFormsApp
-    {
-        public MyApp() : base()
-        { }
-
-        public int Run()
-        {
-            // Do whatever here to really start your application (whatever is in Program.Main() now)  
-            return 0;
-        }
-
-        protected override void BackgroundThreadInitialize()
-        {
-            new OtherTabsView();
-            //... Repeat for any complex controls  
-        }
-    }
 
 
     /// <summary>
@@ -90,51 +44,44 @@ namespace WPF_Tranning.View
                 timer.Tick += Timer_Tick;
                 timer.Start();*/
 
-            Thread thread = Thread.CurrentThread; this.DataContext = new { ThreadId = thread.ManagedThreadId };
-           // CallThread();
+            // CallThread();
 
-            InitializeComponent();
+            ProfileOptimization.SetProfileRoot(Environment.CurrentDirectory);
+
+            ProfileOptimization.StartProfile("App.JIT.Profile");
+
+            Dispatcher.BeginInvoke(new Action(() => InitializeComponent()));
 
 
-            bool test = WinFormsApp.IsBackgroundInitializeThread();
-            if (test) return;
+
 
             this.DataContext = new OtherTabsVM();
             SelectedItems = new List<object>();
 
             ObservableCollection<string> item = new ObservableCollection<string>();
-    
+
 
             item.Add("버튼1");
             item.Add("버튼2");
             item.Add("버튼3");
 
-               listboxedit.ItemsSource = item;
+        //    listboxedit.ItemsSource = item;
 
             ObservableCollection<string> item2 = new ObservableCollection<string>();
             item2.Add("수신" + "/" + "1234@naver.com" + "/" + "네이버");
             item2.Add("참조" + "/" + "12345@kakao.com" + "/" + "카카오");
             item2.Add("수신" + "/" + "123478@naver.com" + "/" + "네이버");
-  
 
-            listboxedit2.ItemsSource = item2;
+
+        //    listboxedit2.ItemsSource = item2;
 
             // item리스트로 안넣고 직접 xaml에서 받아와 사용하기
 
             vm = (OtherTabsVM)DataContext; // ViewModel 객체 가져와 쓰기
 
-
-
         }
 
-        private void CallThread()
-        {
-            Thread thread = new Thread(() => { MainWindow window = new MainWindow(); window.Closed += (sender2, e2) => window.Dispatcher.InvokeShutdown(); window.Show(); System.Windows.Threading.Dispatcher.Run(); }); thread.SetApartmentState(ApartmentState.STA); thread.Start();
 
-        }
-            private void Timer_Tick(object sender, EventArgs e)
-        {
-        }
 
         private void ListBoxEdit_SelectedIndexChanged(object sender, RoutedEventArgs e)
         {
@@ -173,7 +120,7 @@ namespace WPF_Tranning.View
             // 뷰 모델 값 확인
             object a = vm.ISelectedItems;
             string b = a.ToString();
-            
+
             listboxedit2.Items.EndUpdate();
         }
 
@@ -182,7 +129,7 @@ namespace WPF_Tranning.View
             var ListTest2 = listboxedit2.EditValue;
             var ListTest = listboxedit.EditValue;
 
-        //    var listcasting = (List<object>)ListTest; // list로 형변환 ㅡㅡ;
+            //    var listcasting = (List<object>)ListTest; // list로 형변환 ㅡㅡ;
             var list2casting = (List<object>)ListTest2;
 
             //List<string> selected = new List<string>();
@@ -216,7 +163,7 @@ namespace WPF_Tranning.View
                 //  listboxedit2.ItemsSource = listboxedit2.Items[j].ToString().Replace(receiveDirectData, list);
                 listboxedit2.ItemsSource = null;
                 listboxedit2.ItemsSource = list2casting;
-                
+
 
                 // listboxedit.ItemsSource = listboxedit.Items.ToString().Replace("버튼3", "테스트변경");
                 //listboxedit.ItemsSource = listboxedit.Items[0];
@@ -246,6 +193,38 @@ namespace WPF_Tranning.View
             ).ShowOnStartup();
 
             manager.Close();
+        }
+
+        private void DXTabItem_Loaded_1(object sender, RoutedEventArgs e)
+        {
+
+
+            richEditControl1.BeginInvoke(new Action(() =>
+            {
+                if (richEditControl1.Document.Fields.Count != 0)
+                {
+                    richEditControl1.Document.Fields.Update();
+                }
+            }));
+
+            Task.Run(async () =>
+            {
+
+                await GetAllProductsAsync();
+
+
+            }).Wait();
+        }
+
+        private async Task GetAllProductsAsync()
+        {
+
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+
         }
     }
 }

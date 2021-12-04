@@ -150,7 +150,7 @@ namespace WPF_Tranning.ModelAndView
                 dt.Rows.Add("6","test Davolio5", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
                 dt.Rows.Add("7","test Davolio6", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
                 dt.Rows.Add("8","test Davolio8", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
-            dt.Rows.Add("test Davolio9", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+                dt.Rows.Add("test Davolio9", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
 
             List<string> DataColumns = GetColumnName(dt);
             DataTable dts = MakeOrderDetails();
