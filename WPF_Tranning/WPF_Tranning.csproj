@@ -135,6 +135,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ModelAndView\GridControlComboboxVM.cs" />
     <Compile Include="ModelAndView\MasterDetailMV.cs" />
     <Compile Include="ModelAndView\TwoGridControlVM.cs" />
     <Compile Include="ModelAndView\StyleMultibinding_GridControlVM.cs" />
@@ -151,6 +152,12 @@
     <Compile Include="Model\MainData.cs" />
     <Compile Include="Model\Orders.cs" />
     <Compile Include="Model\DataModel.cs" />
+    <Compile Include="View\ColorEditView.xaml.cs">
+      <DependentUpon>ColorEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GridControlComboboxV.xaml.cs">
+      <DependentUpon>GridControlComboboxV.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MasterDetailView.xaml.cs">
       <DependentUpon>MasterDetailView.xaml</DependentUpon>
     </Compile>
@@ -229,6 +236,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ColorEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GridControlComboboxV.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

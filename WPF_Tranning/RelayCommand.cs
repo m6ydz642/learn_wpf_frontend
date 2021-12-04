@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using WPF_Tranning.ModelAndView;
 
 namespace WPF_Tranning
 {
@@ -16,8 +17,7 @@ namespace WPF_Tranning
         private Action<object> execute;
 
         private Func<object, bool> canExecute;
-
-
+        private Action<ColorEditConverter> action;
 
         public event EventHandler CanExecuteChanged
 
@@ -41,7 +41,10 @@ namespace WPF_Tranning
 
         }
 
-
+        public RelayCommand(Action<ColorEditConverter> action)
+        {
+            this.action = action;
+        }
 
         public bool CanExecute(object parameter)
 

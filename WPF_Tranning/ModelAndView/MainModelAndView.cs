@@ -51,6 +51,7 @@ namespace WPF_Tranning
         public ICommand IMultibindingView { get; set; }
         public ICommand ITwoGridControlView { get; set; }
         public ICommand IMasterDetail { get; set; }
+        public ICommand IGridControlCombobox { get; set; }
         
       
         
@@ -81,12 +82,14 @@ namespace WPF_Tranning
             IMultibindingView = new RelayCommand(new Action<object>(this.MultibindingView));
             ITwoGridControlView = new RelayCommand(new Action<object>(this.TwoGridControlView));
             IMasterDetail = new RelayCommand(new Action<object>(this.MasterDetailView));
+            IGridControlCombobox = new RelayCommand(new Action<object>(this.GridControlComboboxView));
 
             _getNameSpace = "WPF_Tranning.View";
             _loadingSelectPage = "LoadingSelectPage";
         }
 
-  
+     
+
         public void EndPageEvent(object obj)
         {
 
@@ -270,7 +273,16 @@ namespace WPF_Tranning
                 convert.Source = getInstance;
         }
 
+        private void GridControlComboboxView(object obj)
+        {
+            if (obj is NavigationFrame navigationFrame)
+            {
+                object getInstance = CreateInstance(_getNameSpace + "." + "GridControlComboboxV", _loadingSelectPage);
 
+                if (getInstance != null)
+                    navigationFrame.Source = getInstance;
+            }
+        }
 
         // 테스트용
         private void GridControlBandMenuTreeBinding(object obj)
