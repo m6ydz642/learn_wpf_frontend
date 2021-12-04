@@ -209,11 +209,8 @@ namespace WPF_Tranning.View
 
             Task.Run(async () =>
             {
-
                 await GetAllProductsAsync();
-
-
-            }).Wait();
+            });
         }
 
         private async Task GetAllProductsAsync()

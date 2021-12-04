@@ -29,12 +29,10 @@ namespace WPF_Tranning.ModelAndView
 
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        //public ICommand IGridSheetLoaded { get; set; }
 
         public MasterDetailMV()
         {
             DataModel.CurrentClassPath = typeof(MasterDetailView).FullName; // 현재 접근한 클래스
-            //IGridSheetLoaded = new RelayCommand(new Action<object>(this.GridSheetControlLoaded));
 
             Data = MakeCustomers();
         }
@@ -130,9 +128,10 @@ namespace WPF_Tranning.ModelAndView
             return dt;
         }
 
-        private List<MainData> MakeCustomers()
+        private DataTable MakeDataTable()
         {
             // DB에서 가져왔다 가정
+
             DataTable dt = new DataTable();
             dt.Columns.Add("OrderId");
             dt.Columns.Add("FullName");
@@ -140,24 +139,42 @@ namespace WPF_Tranning.ModelAndView
             dt.Columns.Add("Country");
             dt.Columns.Add("BirthDate");
             dt.Columns.Add("Email");
-          
+
 
             /*dt.Rows.Add("Nancy Davolio", "Sales Representative", "USA", "2000-07-10");*/
-                dt.Rows.Add("1","Nancy Davolio", "Sales Representative", "USA", "2000-07-10", "nancy@example.com");
-                dt.Rows.Add("3","test Davolio2", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
-                dt.Rows.Add("4","test Davolio3", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
-                dt.Rows.Add("5","test Davolio4", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
-                dt.Rows.Add("6","test Davolio5", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
-                dt.Rows.Add("7","test Davolio6", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
-                dt.Rows.Add("8","test Davolio8", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
-                dt.Rows.Add("test Davolio9", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+            dt.Rows.Add("1", "Nancy Davolio", "Sales Representative", "USA", "2000-07-10", "nancy@example.com");
+            dt.Rows.Add("3", "test Davolio2", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+            dt.Rows.Add("4", "test Davolio3", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+            dt.Rows.Add("5", "test Davolio4", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+            dt.Rows.Add("6", "test Davolio5", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+            dt.Rows.Add("7", "test Davolio6", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+            dt.Rows.Add("8", "test Davolio8", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+
+
+            return dt;
+        }
+        private List<MainData> MakeCustomers()
+        {
+
+            DataTable dt = MakeDataTable();
+            DataTable dt2 = MakeOrderDetails();
+
 
             List<string> DataColumns = GetColumnName(dt);
-            DataTable dts = MakeOrderDetails();
-            List<string> DataSubColumns = GetColumnName(dts);
+            List<string> DataSubColumns = GetColumnName(dt2);
+
             MakeDynamicSubColumns_Header(DataSubColumns);
             MakeDynamicColumns_Header(DataColumns);
 
+            List<MainData> list = MakeMainList_SubDetails(dt, dt2);
+
+
+
+            return list;
+        }
+
+        private List<MainData> MakeMainList_SubDetails(DataTable dt, DataTable dts)
+        {
             List<MainData> _listdataset = new List<MainData>();
 
             foreach (DataRow row in dt.Rows)
@@ -174,7 +191,7 @@ namespace WPF_Tranning.ModelAndView
                     OrderList = new List<Orders>()
                 };
 
-       
+
                 foreach (DataRow subrows in dts.Rows)
                 {
                     string SubOrderId = subrows.Field<string>("OrderId");
@@ -198,30 +215,6 @@ namespace WPF_Tranning.ModelAndView
         }
 
 
-    /*    private List<Orders> MakeOrderLists()
-        {
-            DataTable dt = MakeOrderDetails();
-            List<string> DataSubColumns = GetColumnName(dt);
-            MakeDynamicSubColumns_Header(DataSubColumns);
-
-            List<Orders> list = new List<Orders>();
-
-
-            foreach (DataRow row in dt.Rows)
-            {
-                Orders orders = new Orders()
-                {
-                    OrderDate = row.Table.Columns.Contains("OrderDate") == false ? "널" : row.Field<string>("OrderDate"),
-                    Freight = row.Table.Columns.Contains("Freight") == false ? "널" : row.Field<string>("Freight"),
-                    ShipName = row.Table.Columns.Contains("Country") == false ? "널" : row.Field<string>("ShipName"),
-                    ShipCountry = row.Table.Columns.Contains("BirthDate") == false ? "널" : row.Field<string>("ShipCountry")
-                };
-                list.Add(orders);
-            }
-
-            return list;
-
-        }*/
 
 
         private void MakeDynamicSubColumns_Header(List<string> columns)
