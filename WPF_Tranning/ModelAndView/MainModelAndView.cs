@@ -66,6 +66,23 @@ namespace WPF_Tranning
         public MainModelAndView()
         {
 
+            var manager = SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                IsIndeterminate = false
+            });
+            manager.Show();
+            manager.ViewModel.Progress = 100;
+
+            SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+            {
+                Copyright = "All rights reserved",
+                IsIndeterminate = true,
+                Status = "WPF Loading...",
+                Title = "",
+                Subtitle = "WPF Tranning Project"
+            }
+            ).ShowOnStartup();
+
             LoadTextFile();
             GridControlMenu = new RelayCommand(new Action<object>(this.GridControlMenuUri));
             StartPage = new RelayCommand(new Action<object>(this.LoadingStartPage));
@@ -86,6 +103,8 @@ namespace WPF_Tranning
 
             _getNameSpace = "WPF_Tranning.View";
             _loadingSelectPage = "LoadingSelectPage";
+
+            manager.Close();
         }
 
      

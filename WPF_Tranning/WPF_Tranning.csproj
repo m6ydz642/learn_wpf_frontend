@@ -135,7 +135,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ModelAndView\DeBugTrace.cs" />
     <Compile Include="ModelAndView\GridControlComboboxVM.cs" />
+    <Compile Include="ModelAndView\LoadingBar.cs" />
     <Compile Include="ModelAndView\MasterDetailMV.cs" />
     <Compile Include="ModelAndView\TwoGridControlVM.cs" />
     <Compile Include="ModelAndView\StyleMultibinding_GridControlVM.cs" />

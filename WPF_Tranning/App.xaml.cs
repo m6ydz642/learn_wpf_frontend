@@ -15,14 +15,6 @@ namespace WPF_Tranning
     /// </summary>
     public partial class App : Application
     {
-        static Type[] types;
-        protected async override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-
-            types = new Type[] { typeof(GridControl), typeof(System.Windows.Forms.PropertyGrid) };
-            await ThemeManager.PreloadThemeResourceAsync("Office2019Colorful");
-        }
 
     }
 }

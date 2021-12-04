@@ -1,6 +1,8 @@
 using AnotherPageProject;
 using AnotherPageProject.View;
 using AnotherWindow.ModelAndView;
+using DevExpress.Mvvm;
+using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
 
 using System;

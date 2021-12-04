@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,10 +34,22 @@ namespace WPF_Tranning.ModelAndView
         public MasterDetailMV()
         {
             DataModel.CurrentClassPath = typeof(MasterDetailView).FullName; // 현재 접근한 클래스
+            DeBugTrace.TraceWriteLine("비동기 메소드 시작");
 
-            Data = MakeCustomers();
+
+            LoadingBar loadingBar = new LoadingBar();
+
+            SplashScreenManager manager= loadingBar.CallLoading();
+
+            CallAsync();
+
+            if (manager != null)
+                manager.Close();
+
+
+            DeBugTrace.TraceWriteLine("비동기 메소드 종료");
         }
-
+        #region 프로퍼티
         private List<MainData> _data;
         public List<MainData> Data
         {
@@ -107,7 +120,15 @@ namespace WPF_Tranning.ModelAndView
             }
         }
         private List<MainData> _listdataset;
+        #endregion
 
+        async private void CallAsync()
+        {
+            await Task.Run(() => {
+                Data = MakeCustomers();
+                DeBugTrace.TraceWriteLine("비동기 메소드 작동중");
+            });
+        }
         private DataTable MakeOrderDetails()
         {
             // DB에서 가져왔다 가정
@@ -149,6 +170,11 @@ namespace WPF_Tranning.ModelAndView
             dt.Rows.Add("6", "test Davolio5", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
             dt.Rows.Add("7", "test Davolio6", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
             dt.Rows.Add("8", "test Davolio8", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+
+            for (int i = 0; i < 1000; i++)
+            {
+                dt.Rows.Add(i.ToString(), "test Davolio" + i.ToString(), "Sales Representative", "Japen", "2000-07-10", "test@example.com");
+            }
 
 
             return dt;
