@@ -36,15 +36,16 @@ namespace WPF_Tranning.ModelAndView
             DataModel.CurrentClassPath = typeof(MasterDetailView).FullName; // 현재 접근한 클래스
             DeBugTrace.TraceWriteLine("비동기 메소드 시작");
 
-
-            LoadingBar loadingBar = new LoadingBar();
-
-            SplashScreenManager manager= loadingBar.CallLoading();
+            // 로딩바 문제 있어서 뺌
+            //LoadingBar loadingBar = new LoadingBar();
+            //SplashScreenManager manager= loadingBar.CallLoading();
 
             CallAsync();
+            // CallSync();
 
-            if (manager != null)
-                manager.Close();
+            // 로딩바 문제 있어서 뺌
+            //if (manager != null)
+            //    manager.Close();
 
 
             DeBugTrace.TraceWriteLine("비동기 메소드 종료");
@@ -122,6 +123,17 @@ namespace WPF_Tranning.ModelAndView
         private List<MainData> _listdataset;
         #endregion
 
+        /// <summary>
+        /// 동기
+        /// </summary>
+        private void CallSync()
+        {
+            Data = MakeCustomers();
+        }
+
+        /// <summary>
+        /// 비동기
+        /// </summary>
         async private void CallAsync()
         {
             await Task.Run(() => {
@@ -171,7 +183,7 @@ namespace WPF_Tranning.ModelAndView
             dt.Rows.Add("7", "test Davolio6", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
             dt.Rows.Add("8", "test Davolio8", "Sales Representative", "Japen", "2000-07-10", "test@example.com");
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 9; i < 100000; i++)
             {
                 dt.Rows.Add(i.ToString(), "test Davolio" + i.ToString(), "Sales Representative", "Japen", "2000-07-10", "test@example.com");
             }
