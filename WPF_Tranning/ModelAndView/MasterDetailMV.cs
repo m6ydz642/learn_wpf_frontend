@@ -37,15 +37,15 @@ namespace WPF_Tranning.ModelAndView
             DeBugTrace.TraceWriteLine("비동기 메소드 시작");
 
             // 로딩바 문제 있어서 뺌
-            //LoadingBar loadingBar = new LoadingBar();
-            //SplashScreenManager manager= loadingBar.CallLoading();
+            LoadingBar loadingBar = new LoadingBar();
+            SplashScreenManager manager= loadingBar.CallLoading();
 
-            CallAsync();
+             CallAsync();
             // CallSync();
 
             // 로딩바 문제 있어서 뺌
-            //if (manager != null)
-            //    manager.Close();
+            if (manager != null)
+                manager.Close();
 
 
             DeBugTrace.TraceWriteLine("비동기 메소드 종료");

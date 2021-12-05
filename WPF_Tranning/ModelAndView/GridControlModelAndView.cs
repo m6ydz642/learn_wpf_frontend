@@ -24,6 +24,7 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using WPF_Tranning.View;
 using System.Windows.Controls;
+using System.Threading.Tasks;
 
 
 
@@ -81,7 +82,7 @@ namespace WPF_Tranning
             set
             {
                 _dataModel = value;
-              //  OnPropertyChanged("DataModel"); // 왜 여기서는 안써도 되지 ㅡ.ㅡ? 
+               //   OnPropertyChanged("TranningDataModel");
             }
         }
         public Button obbutton { get; set; }
@@ -104,16 +105,24 @@ namespace WPF_Tranning
                 Subtitle = "Powered by DevExpress"
             }
             ).ShowOnStartup();
+            CallAsyncDB();
 
-            ComboBoxSelect = GetSelectTestCode(); // DB로 넣었다 치고 데이터 가져와보기
-            GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+
             manager.Close();
-
-            TestCom a = new TestCom();
-            a.Test();
-
             
         }
+        /// <summary>
+        /// 비동기 DB호출
+        /// </summary>
+        async private void CallAsyncDB()
+        {
+            await Task.Run(() => {
+
+                ComboBoxSelect = GetSelectTestCode(); // DB로 넣었다 치고 데이터 가져와보기
+                GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+            });
+        }
+
         public Button button { get; set; }
         public GridControlModelAndView(GridControlView view) : this()
         {
@@ -129,7 +138,6 @@ namespace WPF_Tranning
 
         public GridControlModelAndView()
         {
-            Loading();
             TranningDataModel = new Tranning_Model();
             AddColumn = new RelayCommand(new Action<object>(this.AddContentEvent));
             SelectEvent = new RelayCommand(new Action<object>(this.SelectEventFun));
@@ -145,8 +153,6 @@ namespace WPF_Tranning
             ComboboxLoaded = new RelayCommand(new Action<object>(this.GetComboboxLoaded));
             UnloadDataCheck = new RelayCommand(new Action<object>(this.UnloadCheckEvent));
             TextBoxInit();
-
-
 
             ToolTipMessage();
 
@@ -204,9 +210,7 @@ namespace WPF_Tranning
             {
                 string Value = oDataRowView.Row["Name"].ToString(); // 임시 데이터 set으로 함
                 string Value2 = oDataRowView.Row["Code"].ToString(); // 임시 데이터 set으로 함
-
-              //  MessageBox.Show("selectbox 로딩 이벤트\r\n\r\n이름 : " + Value2 + "\r\n" + "코드명 : " + Value);
-            }
+                                                                     }
             else
             {
                 MessageBox.Show("가져올 데이터가 없습니다!");
@@ -223,9 +227,7 @@ namespace WPF_Tranning
 
             dt.Rows.Add("1H80000", "코드1");
             dt.Rows.Add("1H80010", "코드2");
-/*
-            dt.Rows.Add("코드1", "1H80000"); // 반대의 경우로 테스트
-            dt.Rows.Add("코드2", "1H80010");*/
+
             
 
 
@@ -1108,19 +1110,18 @@ public string DateBottomBorder(IXLWorksheet worksheet, DataTable dateexcel, stri
         public DataTable _selecttable;
         public DataTable SelectTable
         {
-            get {/* MessageBox.Show("데이터 테이블");*/ return _selecttable; }
+            get { return _selecttable; }
             set
             {
                 _selecttable = value;
 
-                //   OnPropertyChanged("SelectTable");
             }
         }
 
         private DataTable _selectScore;
         public DataTable Select_Score
         {
-            get {/* MessageBox.Show("데이터 테이블");*/ return _selectScore; }
+            get { return _selectScore; }
             set
             {
                 _selectScore = value;
@@ -1133,12 +1134,10 @@ public string DateBottomBorder(IXLWorksheet worksheet, DataTable dateexcel, stri
 
         public DataTable GetScoreInfomation
         {
-            get {/* MessageBox.Show("데이터 테이블");*/ return _getScoreInfomation; }
+            get { return _getScoreInfomation; }
             set
             {
                 _getScoreInfomation = value;
-
-                //    OnPropertyChanged("GetScoreInfomation"); // 최초로 가져올 데이터는 property change해서 알려줄 필요가 없다
             }
         }
 

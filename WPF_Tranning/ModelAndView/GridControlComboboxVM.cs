@@ -125,7 +125,8 @@ namespace WPF_Tranning.ModelAndView
                 Subtitle = "Powered by DevExpress"
             }
             ).ShowOnStartup();
-            
+
+            manager.Close();
         }
 
 
