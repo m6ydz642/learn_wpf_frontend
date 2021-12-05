@@ -27,12 +27,13 @@ using System.Text;
 using AnotherPageProject.View;
 using DevExpress.Xpf.Core;
 using DevExpress.Mvvm;
+using WPF_Tranning.ModelAndView;
 
 namespace WPF_Tranning
 {
 
 
-    class MainModelAndView : INotifyPropertyChanged
+    public class MainModelAndView : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -52,9 +53,9 @@ namespace WPF_Tranning
         public ICommand ITwoGridControlView { get; set; }
         public ICommand IMasterDetail { get; set; }
         public ICommand IGridControlCombobox { get; set; }
-        
-      
-        
+
+
+
 
         public string Help { get; set; }
         private string _classpath { get; set; }
@@ -291,32 +292,63 @@ namespace WPF_Tranning
             if (getInstance != null)
                 convert.Source = getInstance;
         }
+           public static object testDelegate(object item)
+      {
+          return item;
+      }
+      private void GridControlComboboxView(object obj)
+      {
+          if (obj is NavigationFrame navigationFrame)
+          {
+              object getInstance = CreateInstance(_getNameSpace + "." + "GridControlComboboxV", _loadingSelectPage);
 
-        private void GridControlComboboxView(object obj)
-        {
-            if (obj is NavigationFrame navigationFrame)
-            {
-                object getInstance = CreateInstance(_getNameSpace + "." + "GridControlComboboxV", _loadingSelectPage);
 
-                if (getInstance != null)
-                    navigationFrame.Source = getInstance;
-            }
-        }
 
-        // 테스트용
-        private void GridControlBandMenuTreeBinding(object obj)
-        {
-            var convert = (TreeViewItem)obj;
-            string header = convert.Header.ToString(); // 헤더 가져옴
-        }
+              if (getInstance != null)
+                  navigationFrame.Source = getInstance;
+              // delegate 전달받을거
+              Assembly assembly = typeof(GridControlComboboxVM).Assembly;
 
-        private void LoadedAnotherPage(object obj)
-        {
-            /*   var convert = (NavigationFrame)obj;
-               convert.Source = new AnotherPage();
-               // 다른프로젝트는  이방식 안되서 보류*/
+              try
+              {
+                  Type someDelegateHandler =
+                      assembly.GetType("WPF_Tranning.ModelAndView.GridControlComboboxVM+DataGetEventHandlerMain", true, true); // DataGetEventHandler
+                  var ctor = someDelegateHandler.GetConstructors()[0];
 
-            var convert = (NavigationFrame)obj;
+                  MethodInfo someDelegateImplementationMethod =
+                  typeof(MainModelAndView).GetMethod("testDelegate",
+               BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+
+                  // create a delegate that points to my method
+                  Delegate someDelegateImplementationDelegate =
+                      Delegate.CreateDelegate(someDelegateHandler, null, someDelegateImplementationMethod);
+
+                  object[] args = new object[] { someDelegateImplementationDelegate };
+                  object instance = ctor.Invoke(args);
+
+              }
+              catch (Exception e)
+              {
+
+              }
+
+          }
+      }
+
+      // 테스트용
+      private void GridControlBandMenuTreeBinding(object obj)
+      {
+          var convert = (TreeViewItem)obj;
+          string header = convert.Header.ToString(); // 헤더 가져옴
+      }
+
+      private void LoadedAnotherPage(object obj)
+      {
+          /*   var convert = (NavigationFrame)obj;
+             convert.Source = new AnotherPage();
+             // 다른프로젝트는  이방식 안되서 보류*/
+
+        var convert = (NavigationFrame)obj;
             // convert.Source = new GridControlBandView();
             object getInstance = CreateInstance(_getNameSpace + "." + "GridControlBandView", _loadingSelectPage);
 

@@ -25,6 +25,7 @@ using System.Text.RegularExpressions;
 using WPF_Tranning.View;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Reflection;
 
 
 namespace WPF_Tranning.ModelAndView
@@ -51,19 +52,39 @@ namespace WPF_Tranning.ModelAndView
             return null;
         }
     }
-    class GridControlComboboxVM : INotifyPropertyChanged
+    public class GridControlComboboxVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ICommand ISelectGridControl { get; set; }
+        public ICommand ISwitchTreeValue { get; set; }
+        public delegate void DataGetEventHandlerMain(object item);
+
+        public DataGetEventHandlerMain DataSendEventMain;
 
         public GridControlComboboxVM()
         {
             ISelectGridControl = new RelayCommand(new Action<object>(this.SelectedGridcontrol));
+            ISwitchTreeValue = new RelayCommand(new Action<object>(this.SwitchTreeValue));
             DataModel.CurrentClassPath = typeof(GridControlComboboxV).FullName; // 현재 접근한 클래스
-
+       //     DataSendEvent = new DataGetEventHandler(testDelegate);
 
         }
+
+    /*    public static object testDelegate(object item)
+        {
+            return item;
+        }
+*/
+        private void SwitchTreeValue(object obj)
+        {
+            Window mainWindow = Application.Current.MainWindow;
+            Assembly assembly = typeof(GridControlComboboxVM).Assembly;
+            Type someDelegateHandler =
+                    assembly.GetType("WPF_Tranning.ModelAndView.GridControlComboboxVM", true, true); // DataGetEventHandler
+            DataSendEventMain("test");
+        }
+
         private ICommand _ISelectGridControl;
   
 
@@ -96,12 +117,12 @@ namespace WPF_Tranning.ModelAndView
         public string Help { get; set; }
         public void Loading()
         {
-            var manager = SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+          /*  var manager = SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
             {
                 IsIndeterminate = false
             });
             manager.Show();
-            manager.ViewModel.Progress = 100;
+            manager.ViewModel.Progress = 100;*/
 
             _content = new DataTable();
             _content.Columns.Add("Score_id");
@@ -116,7 +137,7 @@ namespace WPF_Tranning.ModelAndView
 
        
 
-            SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
+          /*  SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
             {
                 Copyright = "All rights reserved",
                 IsIndeterminate = true,
@@ -126,7 +147,7 @@ namespace WPF_Tranning.ModelAndView
             }
             ).ShowOnStartup();
 
-            manager.Close();
+            manager.Close();*/
         }
 
 
