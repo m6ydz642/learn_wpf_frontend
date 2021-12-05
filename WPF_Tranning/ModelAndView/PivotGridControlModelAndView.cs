@@ -19,13 +19,8 @@ namespace WPF_Tranning.ModelAndView
         public PivotGridControlModelAndView()
         {
             SelectContent = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
-            // DataRow[] DataRows = SelectContent.Select("DISTINCT Score");
             DataView view = SelectContent.DefaultView;
-            //   view.RowFilter = "Score = 'AAAAAA' ";
 
-            //  SelectContent = view.ToTable(true, "체크박스", "Score_id" , "Score");
-            //   SelectContent = view.ToTable(true);
-            //    SelectContent = SelectContent.DefaultView.ToTable(true, "Score");
 
             
              DataModel.CurrentClassPath = typeof(PivotGridControlView).FullName; // 현재 접근한 클래스
@@ -72,8 +67,6 @@ namespace WPF_Tranning.ModelAndView
             set
             {
                 _selectdata = value;
-
-                //   Notify("SelectContent");
             }
         }
 
