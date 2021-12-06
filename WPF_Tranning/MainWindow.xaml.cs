@@ -83,5 +83,7 @@ namespace WPF_Tranning
             // 메소드 정보 가져오기 테스트
             #endregion
         }
+
+       
     }
 }

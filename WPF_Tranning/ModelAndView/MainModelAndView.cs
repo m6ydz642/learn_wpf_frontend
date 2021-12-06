@@ -307,7 +307,7 @@ namespace WPF_Tranning
               if (getInstance != null)
                   navigationFrame.Source = getInstance;
               // delegate 전달받을거
-              Assembly assembly = typeof(GridControlComboboxVM).Assembly;
+              /*Assembly assembly = typeof(GridControlComboboxVM).Assembly;
 
               try
               {
@@ -330,7 +330,7 @@ namespace WPF_Tranning
               catch (Exception e)
               {
 
-              }
+              }*/
 
           }
       }

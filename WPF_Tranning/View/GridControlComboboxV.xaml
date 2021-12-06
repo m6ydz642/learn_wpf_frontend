@@ -93,7 +93,7 @@
                                               ItemsSource="{Binding ComboboxContent}" 
                                               AutoComplete="True" 
                                               IsTextEditable="False"/>
-                    
+
                 </dxg:GridColumn.EditSettings>
 
                 <!--<dxg:GridColumn.CellTemplate>
@@ -119,23 +119,32 @@
                                                 ChipSize="Medium"   />
 
                 </dxg:GridColumn.EditSettings>
-    
+
 
 
             </dxg:GridColumn>
-                
+
         </dxg:GridControl>
 
 
- 
+
 
         <Popup IsOpen="False" PlacementTarget="{Binding ElementName=ScoreDBTableView}">
 
             <local:ColorEditView/>
         </Popup>
-            <dxe:ColorEdit x:Name="ColorEdit" ColumnCount="10" ShowNoColorButton="True"
+        <dxe:ColorEdit x:Name="ColorEdit" ColumnCount="10" ShowNoColorButton="True"
     DefaultColor="Crimson" NoColorButtonContent="Empty Color" Visibility="Hidden"
     MoreColorsButtonContent="Color picker" ChipSize="Medium" Margin="340,220,40,231" Grid.Row="1"  />
+        <Button x:Name="TreeButton"
+                Command="{Binding ISwitchTreeValue}" CommandParameter="{Binding ElementName=GirdControlBand}"
+                Margin="480,46,0,0"
+                HorizontalAlignment="Left" 
+                Width="130" 
+                Height="34" 
+                VerticalAlignment="Top" 
+                Content="트리형변환" 
+                Click="Button_Click"/>
     </Grid>
 
 

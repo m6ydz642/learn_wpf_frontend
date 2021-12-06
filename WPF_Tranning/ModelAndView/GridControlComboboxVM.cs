@@ -26,7 +26,7 @@ using WPF_Tranning.View;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Reflection;
-
+using System.Windows.Media;
 
 namespace WPF_Tranning.ModelAndView
 {
@@ -71,20 +71,20 @@ namespace WPF_Tranning.ModelAndView
 
         }
 
-    /*    public static object testDelegate(object item)
-        {
-            return item;
-        }
-*/
+
         private void SwitchTreeValue(object obj)
         {
+            string GetBehindCodeString = Help;
             Window mainWindow = Application.Current.MainWindow;
             Assembly assembly = typeof(GridControlComboboxVM).Assembly;
             Type someDelegateHandler =
                     assembly.GetType("WPF_Tranning.ModelAndView.GridControlComboboxVM", true, true); // DataGetEventHandler
-            DataSendEventMain("test");
+
+            ButtonObject.Content = "버튼내용 변경";
+
         }
 
+      
         private ICommand _ISelectGridControl;
   
 
@@ -115,6 +115,8 @@ namespace WPF_Tranning.ModelAndView
         private string _score_id;
         public Button obbutton { get; set; }
         public string Help { get; set; }
+        public Button ButtonObject { get;  set; }
+
         public void Loading()
         {
           /*  var manager = SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
