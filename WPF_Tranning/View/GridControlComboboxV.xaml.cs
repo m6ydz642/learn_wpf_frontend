@@ -1,5 +1,5 @@
 using DevExpress.Xpf.Grid;
-
+using DevExpress.Xpf.WindowsUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using WPF_Tranning.ModelAndView;
+using WPF_Tranning.View.ExtensionMethods;
 
 namespace WPF_Tranning.View
 {
@@ -17,6 +18,28 @@ namespace WPF_Tranning.View
     /// GridControlComboboxV.xaml에 대한 상호 작용 논리
     /// </summary>
     /// 
+    namespace ExtensionMethods
+    {
+        public static class ExtensionClass
+        {
+            /// <summary>
+            /// 테스트 입니다
+            /// </summary>
+            /// <param name="str"></param>
+            /// <param name="test"></param>
+            /// <returns></returns>
+            public static string CapitalA(this string str, string test)
+            {
+                return str.Replace("a", "A");
+            }
+
+            public static List<string> ListA(this List<string> str)
+            {
+                return str;
+            }
+        }
+    }
+
 
     public partial class GridControlComboboxV : UserControl
     {
@@ -75,12 +98,18 @@ namespace WPF_Tranning.View
             rootWindow.GridControlCombobox.Items.ToString();
             // var userControls = FindVisualChildren<MainWindow>(mainWindow);
 
-            foreach (var tb in FindVisualChildren<Button>(this))
+            foreach (var tb in FindVisualChildren<NavigationFrame>(this))
             {
 
             }
-        }
 
+            var test = VisualTreeHelper.GetParent(this.Parent);
+          
+        }
+        private void TestMethod()
+        {
+
+        }
         void PrintLogicalTree(int depth, object obj)
         {
             // Print the object with preceding spaces that represent its depth
