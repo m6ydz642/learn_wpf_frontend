@@ -28,6 +28,7 @@ using AnotherPageProject.View;
 using DevExpress.Xpf.Core;
 using DevExpress.Mvvm;
 using WPF_Tranning.ModelAndView;
+using C_Sharp_LearnProject.테스트_및_연습;
 
 namespace WPF_Tranning
 {
@@ -306,6 +307,10 @@ namespace WPF_Tranning
 
               if (getInstance != null)
                   navigationFrame.Source = getInstance;
+
+                List<string> test = new List<string>();
+                string duplicateResult = test.Duplicate(); // 참조 추가에서 만듦
+
               // delegate 전달받을거
               /*Assembly assembly = typeof(GridControlComboboxVM).Assembly;
 

@@ -37,6 +37,29 @@ namespace WPF_Tranning.View
             {
                 return str;
             }
+
+            public static IEnumerable<T> FindVisualChildren<T>(this DependencyObject dep, DependencyObject depObj) where T : DependencyObject
+            {
+                Window mainWindow = Application.Current.MainWindow;
+                MainWindow rootWindow = Application.Current.MainWindow as MainWindow;
+
+                if (depObj != null)
+                {
+                    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                    {
+                        DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                        if (child != null && child is T)
+                        {
+                            yield return (T)child;
+                        }
+
+                        foreach (T childOfChild in VisualTreeHelper.GetParent(mainWindow).FindVisualChildren<T>(child))
+                        {
+                            yield return childOfChild;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -57,28 +80,7 @@ namespace WPF_Tranning.View
             }
         }
 
-        private MainWindow main;
-
-
-        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
-        {
-            if (depObj != null)
-            {
-                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-                {
-                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
-                    if (child != null && child is T)
-                    {
-                        yield return (T)child;
-                    }
-
-                    foreach (T childOfChild in FindVisualChildren<T>(child))
-                    {
-                        yield return childOfChild;
-                    }
-                }
-            }
-        }
+  
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             PrintVisualTree(0, this);
@@ -98,13 +100,10 @@ namespace WPF_Tranning.View
             rootWindow.GridControlCombobox.Items.ToString();
             // var userControls = FindVisualChildren<MainWindow>(mainWindow);
 
-            foreach (var tb in FindVisualChildren<NavigationFrame>(this))
-            {
-
-            }
-
-            var test = VisualTreeHelper.GetParent(this.Parent);
-          
+       
+            
+            var test = VisualTreeHelper.GetParent(rootWindow).FindVisualChildren<NavigationFrame>(this);
+            
         }
         private void TestMethod()
         {
