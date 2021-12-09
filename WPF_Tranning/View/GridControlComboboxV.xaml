@@ -147,7 +147,18 @@
                           DisplayMember="GroupName" 
                           ValueMember="Content"
                           AllowCollectionView="True"
-                          AutoComplete="True">
+                          AutoComplete="True"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto">
+            
+            <dxe:ComboBoxEdit.Resources>
+                <Style TargetType="ScrollBar">
+                    <Style.Triggers>
+                        <Trigger Property="Orientation" Value="Vertical">
+                            <Setter Property="Height" Value="10"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </dxe:ComboBoxEdit.Resources>
             
             <dxe:ComboBoxEdit.GroupStyle>
                 <GroupStyle >
