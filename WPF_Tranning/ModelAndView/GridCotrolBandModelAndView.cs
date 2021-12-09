@@ -235,7 +235,6 @@ namespace WPF_Tranning.ModelAndView
             ComboSelectedEvent = new RelayCommand(new Action<object>(this.ComboSelectBinding));
             CheckRegexIntCommand = new RelayCommand(new Action<object>(this.CheckIntRegexEvent));
             CheckRegexDoubleCommand = new RelayCommand(new Action<object>(this.CheckDoubleRegexEvent));
-          //  CellValueChangedCommand = new RelayCommandEvent<object, CellValueChangedEventArgs> (this.CellValueChangedEvent);
             CellValueChangedCommand = new RelayCommand(new Action<object>(this.CellValueChangedEvent));
             CheckRegexDoubleDBCommand = new RelayCommand(new Action<object>(this.CheckRegexDBDoubleDBEvent));
             CheckRegexDoubleDBSaveCommand = new RelayCommand(new Action<object>(this.CheckRegexDBDoubleSaveDBEvent));
@@ -409,7 +408,6 @@ namespace WPF_Tranning.ModelAndView
             // if else문 축약형
             var a1 = new Action(() => { /* if code block */  });/* if code  */
             var a2 = new Action(() => { /* else code block */ }); /* else code  */
-           //  Action resultingAction = test_variable ? a1 : a2;
         }
 
         private void CheckDoubleRegexEvent(object obj)
@@ -419,11 +417,6 @@ namespace WPF_Tranning.ModelAndView
             string value1 = string.Format("{0:0.00}", double.Parse(getvalue));
             string value2 = string.Format("{0:0.00}", double.Parse(getvalue));
 
-            /* if (!CheckRegex(getvalue))
-             {
-                 MessageBox.Show("올바른 형식을 확인해주세요 소수점 2자리까지 입력가능합니다 예) 1.12");
-
-             }*/
 
 
 
@@ -436,9 +429,6 @@ namespace WPF_Tranning.ModelAndView
         {
             var converter = (TableView)obj;
 
-
-
-            // string value = string.Format("{0:0.00}", double.Parse(getvalue));
 
         }
 
@@ -475,31 +465,22 @@ namespace WPF_Tranning.ModelAndView
        
             if (ComboMode.Equals("데이터모드 1"))
             {
-                // MaskRegex = "[0-9]{2}|[0-9]{3}"; // 최대 2자리 또는 3자리
                 DataWeek = MakeTestDataSet().Tables[0];
                 _dataColumn = MakeTestDataSet().Tables[1];
                 ComboMode = "데이터모드 1";
                 _Regex = "^[0-9]{1,5}$"; // 숫자 0~9까지 1자리부터 5자리까지 ( ^시작 $종료)
                 GetWeek_WeekDay();
-                //  MessageBox.Show("데이터 모드 1 실행, 정규식 모드 : 숫자 세자리");
 
-         /*       TestConverter combovalue = new TestConverter(ComboMode);
-                combovalue.Value = "의미는 없지만 값을 넣기위해 호출";*/
 
             }
             if (ComboMode.Equals("데이터모드 2"))
             {
-               //  _Regex = "\\d[2]\\.\\d{2}";
                 DataWeek = MakeTestDataSet2().Tables[0]; 
                 DataColumn = MakeTestDataSet2().Tables[1];
                 ComboMode = "데이터모드 2";
                 _Regex = "^[0-9]{1,1}[.][0-9]{1,2}$"; // 소수점 1.23 형식만 사용가능
                 GetWeek_WeekDay();
-                //   MessageBox.Show("데이터 모드 2 실행, 정규식 모드 : 소수점");
-
-/*                TestConverter combovalue = new TestConverter(ComboMode);
-*//*                combovalue.Value = "의미는 없지만 값을 넣기위해 호출2";
-*/            }
+            }
 
         }
 
@@ -507,9 +488,6 @@ namespace WPF_Tranning.ModelAndView
 
         private void UnloadEvent(object obj)
         {
-         //   MessageBox.Show("그리드 컨트롤 밴드 클래스 메인으로 전달 : " + DataModel.CurrentClassPath);
-          //  MainModelAndView a = new MainModelAndView(DataModel.CurrentClassPath);
-          //  a.EndPageEvent(obj);
             
         }
 
@@ -543,8 +521,6 @@ namespace WPF_Tranning.ModelAndView
             DateTime calculationDate1 = new DateTime(year, 1, 1); //기준일
 
             Calendar calenderCalc = CultureInfo.CurrentCulture.Calendar;
-
-            //DayOfWeek.Sunday 인수는 기준 요일
 
             int usWeekNumber = calenderCalc.GetWeekOfYear(calculationDate, CalendarWeekRule.FirstDay, DayOfWeek.Sunday) - calenderCalc.GetWeekOfYear(calculationDate1, CalendarWeekRule.FirstDay, DayOfWeek.Sunday) + 1;
 

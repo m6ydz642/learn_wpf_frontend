@@ -96,15 +96,6 @@
 
                 </dxg:GridColumn.EditSettings>
 
-                <!--<dxg:GridColumn.CellTemplate>
-
-                    <DataTemplate>
-                        <dxg:LookUpEdit x:Name="PART_Editor" ItemsSource="{Binding ComboboxContent}" AutoPopulateColumns="True" ValueMember="Id" DisplayMember="Id" 
-                                            FocusPopupOnOpen="True"/>
-                    </DataTemplate>
-
-                </dxg:GridColumn.CellTemplate>-->
-
 
 
             </dxg:GridColumn>
@@ -145,6 +136,40 @@
                 VerticalAlignment="Top" 
                 Content="트리형변환" 
                 Click="Button_Click"/>
+
+
+        <dxe:ComboBoxEdit ItemsSource="{Binding GroupListCombobox}" 
+                          HorizontalAlignment="Left"
+                          Margin="80,46,0,0" 
+                          Name="comboBoxEdit1" 
+                          VerticalAlignment="Top" 
+                          Width="150" 
+                          DisplayMember="GroupName" 
+                          ValueMember="Content"
+                          AllowCollectionView="True"
+                          AutoComplete="True">
+            
+            <dxe:ComboBoxEdit.GroupStyle>
+                <GroupStyle >
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" 
+                                       Padding="5,0,0,0" 
+                                       FontWeight="Bold" 
+                                       FontSize="15" 
+                                       Foreground="Black"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </dxe:ComboBoxEdit.GroupStyle>
+
+            <dxe:ComboBoxEdit.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding GroupName, UpdateSourceTrigger=PropertyChanged}" />
+                </DataTemplate>
+            </dxe:ComboBoxEdit.ItemTemplate>
+        </dxe:ComboBoxEdit>
+    
     </Grid>
 
 

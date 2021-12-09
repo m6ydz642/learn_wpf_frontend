@@ -30,6 +30,15 @@ using System.Windows.Media;
 
 namespace WPF_Tranning.ModelAndView
 {
+    public class ComboboxModel
+    {
+        public string GroupName { get; set; }
+        public string Content { get; set; }
+        public string Catgory { get; set; }
+    }
+
+    
+
     public class ColorEditConverter : IMultiValueConverter
     {
         public object StringData;
@@ -67,7 +76,6 @@ namespace WPF_Tranning.ModelAndView
             ISelectGridControl = new RelayCommand(new Action<object>(this.SelectedGridcontrol));
             ISwitchTreeValue = new RelayCommand(new Action<object>(this.SwitchTreeValue));
             DataModel.CurrentClassPath = typeof(GridControlComboboxV).FullName; // 현재 접근한 클래스
-       //     DataSendEvent = new DataGetEventHandler(testDelegate);
 
         }
 
@@ -117,6 +125,27 @@ namespace WPF_Tranning.ModelAndView
         public string Help { get; set; }
         public Button ButtonObject { get;  set; }
 
+        private ObservableCollection<string> _name;
+        public ObservableCollection<string> Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        private ObservableCollection<ComboboxModel> _groupListCombobox;
+        public ObservableCollection<ComboboxModel> GroupListCombobox
+        {
+            get { return _groupListCombobox; }
+            set
+            {
+                _groupListCombobox = value;
+                OnPropertyChanged("GroupListCombobox");
+            }
+        }
         public void Loading()
         {
           /*  var manager = SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
@@ -136,8 +165,23 @@ namespace WPF_Tranning.ModelAndView
             OnPropertyChanged("Content");
 
             _comboboxcontent = new List<string>();
+   
 
-       
+            _groupListCombobox = new ObservableCollection<ComboboxModel>();
+            _groupListCombobox.Add(new ComboboxModel { GroupName = "모델1", Content = "내용",  Catgory = "기타"});
+            _groupListCombobox.Add(new ComboboxModel { GroupName = "모델1", Content = "내용2", Catgory = "기타2" });
+            _groupListCombobox.Add(new ComboboxModel { GroupName = "모델2", Content = "내용2", Catgory = "기타2" });
+            _groupListCombobox.Add(new ComboboxModel { GroupName = "모델3", Content = "내용3", Catgory = "기타3" });
+            _groupListCombobox.Add(new ComboboxModel { GroupName = "모델3", Content = "내용3", Catgory = "기타3" });
+            _groupListCombobox.Add(new ComboboxModel { GroupName = "모델3", Content = "내용3", Catgory = "기타3" });
+
+
+            var test = (System.Windows.Markup.XamlReader.Parse("<GroupStyle xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\"><GroupStyle.HeaderTemplate><DataTemplate><TextBlock Text=\"{Binding Name}\"/></DataTemplate></GroupStyle.HeaderTemplate></GroupStyle>") as GroupStyle);
+            OnPropertyChanged("GroupListCombobox");
+
+
+         
+
 
           /*  SplashScreenManager.CreateThemed(new DXSplashScreenViewModel
             {

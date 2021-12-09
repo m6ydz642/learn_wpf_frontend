@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
 using WPF_Tranning.ModelAndView;
@@ -78,6 +79,13 @@ namespace WPF_Tranning.View
                 gridControlComboboxVM.Help = "test";
                 GetString = gridControlComboboxVM.Help;
             }
+
+            // 콤보박스 그룹처리
+
+            GridControlComboboxVM gridControlCombobox = (GridControlComboboxVM)DataContext;
+            ListCollectionView lcv = new ListCollectionView(gridControlCombobox.GroupListCombobox);
+            lcv.GroupDescriptions.Add(new PropertyGroupDescription("Catgory"));
+            comboBoxEdit1.ItemsSource =  lcv;
         }
 
   
@@ -98,7 +106,6 @@ namespace WPF_Tranning.View
             var items = TreeView.Items;
 
             rootWindow.GridControlCombobox.Items.ToString();
-            // var userControls = FindVisualChildren<MainWindow>(mainWindow);
 
        
             
