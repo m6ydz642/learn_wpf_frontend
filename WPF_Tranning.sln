@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject_UI", "UnitT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SizeTest", "..\SizeTest\SizeTest\SizeTest.csproj", "{3D11B939-BAC9-4AD4-983F-9BD96032867A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccordionControlSample", "AccordionControlSample\AccordionControlSample.csproj", "{46FBE75A-A4C9-4126-8CF0-709C61BBC4A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{3D11B939-BAC9-4AD4-983F-9BD96032867A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D11B939-BAC9-4AD4-983F-9BD96032867A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D11B939-BAC9-4AD4-983F-9BD96032867A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46FBE75A-A4C9-4126-8CF0-709C61BBC4A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46FBE75A-A4C9-4126-8CF0-709C61BBC4A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46FBE75A-A4C9-4126-8CF0-709C61BBC4A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46FBE75A-A4C9-4126-8CF0-709C61BBC4A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

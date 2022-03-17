@@ -105,23 +105,30 @@ namespace WPF_Tranning
                 Subtitle = "Powered by DevExpress"
             }
             ).ShowOnStartup();
-            CallAsyncDB();
-
+            // CallAsyncDB();
+            CallSyncDB();
 
             manager.Close();
             
         }
+        private void CallSyncDB()
+        {
+            ComboBoxSelect = GetSelectTestCode(); // DB로 넣었다 치고 데이터 가져와보기
+            GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
+        }
+
+
         /// <summary>
         /// 비동기 DB호출
         /// </summary>
-        async private void CallAsyncDB()
+      /*  async private void CallAsyncDB()
         {
             await Task.Run(() => {
 
                 ComboBoxSelect = GetSelectTestCode(); // DB로 넣었다 치고 데이터 가져와보기
                 GetScoreInfomation = GetScoreInfo().Tables[0]; // 내용꺼낼 용도 데이터 테이블
             });
-        }
+        }*/
 
         public Button button { get; set; }
         public GridControlModelAndView(GridControlView view) : this()

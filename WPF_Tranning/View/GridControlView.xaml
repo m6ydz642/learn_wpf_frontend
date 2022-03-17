@@ -114,6 +114,10 @@
                 </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
 
+            <dxg:GridColumn FieldName="Score_Decimal" Header="소수점" Width="100">
+         
+            </dxg:GridColumn>
+            
             <!-- 컬럼 추가시 읽기전용으로 되서 일단 주석처리함-->
             <!--체크박스 및 체크박스 영역, 컬럼-->
 
