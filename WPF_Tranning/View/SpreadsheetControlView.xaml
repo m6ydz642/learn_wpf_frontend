@@ -41,8 +41,25 @@
             Margin="0,22,260,0" HorizontalAlignment="Right" Width="116" Content="새문서만들기" Height="38" VerticalAlignment="Top"/>
         <Button Command="{Binding IRollBack}" CommandParameter="{Binding ElementName=spreadsheetcontrol}" 
             Margin="0,22,381,0" HorizontalAlignment="Right" Width="116" Content="원상복구" Height="38" VerticalAlignment="Top" RenderTransformOrigin="0.052,0.605"/>
-        <Button Command="{Binding IBinaryLoadExcel}" Click="Button_Click" CommandParameter="{Binding ElementName=spreadsheetcontrol}" 
-            Margin="0,22,502,0" HorizontalAlignment="Right" Width="116" Content="바이너리로드" Height="38" VerticalAlignment="Top" RenderTransformOrigin="0.052,0.605"/>
+        <Button x:Name="binaryloadButton"  Click="Button_Click" 
+            Margin="0,22,502,0" HorizontalAlignment="Right" Width="116" Content="바이너리로드" Height="38" VerticalAlignment="Top" RenderTransformOrigin="0.052,0.605">
+            
+            <dxmvvm:Interaction.Behaviors>
+                <dxmvvm:EventToCommand 
+                            Command="{Binding IBinaryLoadExcel}"  
+                            EventName="Click" 
+                            PassEventArgsToCommand="True">
+                </dxmvvm:EventToCommand>
+
+                <dxmvvm:EventToCommand 
+                            Command="{Binding IBinaryLoadExcel}"  
+                            EventName="Loaded" 
+                            PassEventArgsToCommand="True">
+                </dxmvvm:EventToCommand>
+            </dxmvvm:Interaction.Behaviors>
+            
+            
+        </Button>
         <Button Command="{Binding IBinaryLoadExcel2}" CommandParameter="{Binding ElementName=spreadsheetcontrol}" 
             Margin="0,22,623,0" HorizontalAlignment="Right" Width="116" Content="바이너리로드2" Height="38" VerticalAlignment="Top" RenderTransformOrigin="0.052,0.605"/>
     </Grid>

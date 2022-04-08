@@ -13,7 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
 using WPF_Tranning.Model;
 using WPF_Tranning.View;
@@ -169,6 +168,10 @@ namespace WPF_Tranning.ModelAndView
   
         private void BinaryCreateNewDocument(object obj)
         {
+            if (obj is RoutedEventArgs a)
+            {
+                var button = (System.Windows.Controls.Button)a.Source;
+            }
             string[] resourceNames = (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceNames());
 
             if (obj is SpreadsheetControl sheetcontrol) // 형변환
