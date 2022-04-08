@@ -33,7 +33,7 @@ namespace WPF_Tranning
     class TwoGridControlVM : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
+        public event EventHandler Foo;
         public ICommand AddColumn { get; set; }
         public ICommand AddColumn2 { get; set; }
         public ICommand CheckBinding { get; set; }
