@@ -4,7 +4,7 @@ using AnotherWindow.ModelAndView;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
-
+using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,10 +12,11 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using WPF_Tranning.Model;
 using WPF_Tranning.ModelAndView;
+using static System.Windows.Forms.Design.AxImporter;
 
 namespace WPF_Tranning
 {
@@ -33,8 +34,46 @@ namespace WPF_Tranning
             InitializeComponent();
 
             this.DataContext = new MainModelAndView(); // 바인딩 설정 (없으면 바인딩 안먹힘)
-        }
 
+
+            if (!Properties.Settings.Default.DontShow)
+            {
+                //create instance of ookii dialog
+                TaskDialog dialog = new TaskDialog();
+
+                //create instance of buttons
+                TaskDialogButton butYes = new TaskDialogButton("Yes");
+                TaskDialogButton butNo = new TaskDialogButton("No");
+                TaskDialogButton butCancel = new TaskDialogButton("Cancel");
+
+                //checkbox 
+                dialog.VerificationText = "Dont Show Again"; //<--- this is what you want.
+
+                //customize the window
+                dialog.WindowTitle = "Confirm Action";
+                dialog.Content = "You sure you want to close?";
+                dialog.MainIcon = TaskDialogIcon.Warning;
+
+                //add buttons to the window
+                dialog.Buttons.Add(butYes);
+                dialog.Buttons.Add(butNo);
+                dialog.Buttons.Add(butCancel);
+
+                //show window
+                TaskDialogButton result = dialog.ShowDialog(this);
+
+                if (dialog.IsVerificationChecked)
+                {
+                    Properties.Settings.Default.DontShow = dialog.IsVerificationChecked;
+                    Properties.Settings.Default.Save();
+                }
+            }
+          /*  Properties.Settings.Default.DontShow = false;
+            Properties.Settings.Default.Save();*/
+
+
+        }
+ 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
