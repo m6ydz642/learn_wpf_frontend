@@ -105,6 +105,7 @@ namespace WPF_Tranning
             _getNameSpace = "WPF_Tranning.View";
             _loadingSelectPage = "LoadingSelectPage";
 
+
             manager.Close();
         }
 
