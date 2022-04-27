@@ -108,7 +108,6 @@ namespace WPF_Tranning
 
 
             manager.Close();
-
             addMessageBoxToCheckBox();
         }
 
@@ -241,6 +240,9 @@ namespace WPF_Tranning
 
             if (getInstance != null)
                 convert.Source = getInstance;
+
+
+            addMessageBoxToCheckBox();
         }
 
         private void LoadingChartBinding(object obj)
