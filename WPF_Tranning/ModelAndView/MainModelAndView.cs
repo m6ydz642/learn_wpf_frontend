@@ -28,6 +28,7 @@ using AnotherPageProject.View;
 using DevExpress.Xpf.Core;
 using DevExpress.Mvvm;
 using WPF_Tranning.ModelAndView;
+using Ookii.Dialogs.Wpf;
 
 namespace WPF_Tranning
 {
@@ -107,9 +108,43 @@ namespace WPF_Tranning
 
 
             manager.Close();
+
+            addMessageBoxToCheckBox();
         }
 
-     
+     private void addMessageBoxToCheckBox()
+        {
+            if (!Properties.Settings.Default.DontShow)
+            {
+                //create instance of ookii dialog
+                TaskDialog dialog = new TaskDialog();
+
+                //create instance of buttons
+                TaskDialogButton butYes = new TaskDialogButton("Yes");
+
+                //checkbox 
+                dialog.VerificationText = "Dont Show Again"; //<--- this is what you want.
+
+                //customize the window
+                dialog.WindowTitle = "Confirm Action";
+                dialog.Content = "You sure you want to close?";
+                dialog.MainIcon = TaskDialogIcon.Warning;
+
+                //add buttons to the window
+                dialog.Buttons.Add(butYes);
+
+                //show window
+                TaskDialogButton result = dialog.ShowDialog();
+
+                if (dialog.IsVerificationChecked)
+                {
+                    Properties.Settings.Default.DontShow = dialog.IsVerificationChecked;
+                    Properties.Settings.Default.Save();
+                }
+            }
+            /*  Properties.Settings.Default.DontShow = false;
+              Properties.Settings.Default.Save();*/
+        }
 
         public void EndPageEvent(object obj)
         {

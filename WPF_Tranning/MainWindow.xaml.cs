@@ -34,44 +34,6 @@ namespace WPF_Tranning
             InitializeComponent();
 
             this.DataContext = new MainModelAndView(); // 바인딩 설정 (없으면 바인딩 안먹힘)
-
-
-            if (!Properties.Settings.Default.DontShow)
-            {
-                //create instance of ookii dialog
-                TaskDialog dialog = new TaskDialog();
-
-                //create instance of buttons
-                TaskDialogButton butYes = new TaskDialogButton("Yes");
-                TaskDialogButton butNo = new TaskDialogButton("No");
-                TaskDialogButton butCancel = new TaskDialogButton("Cancel");
-
-                //checkbox 
-                dialog.VerificationText = "Dont Show Again"; //<--- this is what you want.
-
-                //customize the window
-                dialog.WindowTitle = "Confirm Action";
-                dialog.Content = "You sure you want to close?";
-                dialog.MainIcon = TaskDialogIcon.Warning;
-
-                //add buttons to the window
-                dialog.Buttons.Add(butYes);
-                dialog.Buttons.Add(butNo);
-                dialog.Buttons.Add(butCancel);
-
-                //show window
-                TaskDialogButton result = dialog.ShowDialog(this);
-
-                if (dialog.IsVerificationChecked)
-                {
-                    Properties.Settings.Default.DontShow = dialog.IsVerificationChecked;
-                    Properties.Settings.Default.Save();
-                }
-            }
-          /*  Properties.Settings.Default.DontShow = false;
-            Properties.Settings.Default.Save();*/
-
-
         }
  
         private void Window_Loaded(object sender, RoutedEventArgs e)
