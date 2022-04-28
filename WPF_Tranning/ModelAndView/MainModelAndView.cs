@@ -109,7 +109,7 @@ namespace WPF_Tranning
 
             manager.Close();
             addMessageBoxToCheckBox();
-            // 이벤트 분기 테스트
+            // 이벤트 분기 테스트2
         }
 
      private void addMessageBoxToCheckBox()
