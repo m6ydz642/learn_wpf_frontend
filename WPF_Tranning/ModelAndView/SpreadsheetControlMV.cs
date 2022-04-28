@@ -12,15 +12,28 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
 using System.Windows.Input;
 using WPF_Tranning.Model;
 using WPF_Tranning.View;
 
 namespace WPF_Tranning.ModelAndView
-{
+{    // v1:
+    public class Source
+    {
+
+    }
+
     class SpreadsheetControlMV
     {
+        public event EventHandler Foo;
+
+        public void Bar()
+        {
+            EventHandler handler = Foo;
+            if (handler != null) handler(this, RoutedEventArgs.Empty);
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand IGridSheetLoaded { get; set; }
         public ICommand IDeleteSheets { get; set; }
@@ -29,6 +42,7 @@ namespace WPF_Tranning.ModelAndView
         public ICommand IRollBack { get; set; }
         public ICommand IBinaryLoadExcel { get; set; }
         public ICommand IBinaryLoadExcel2 { get; set; }
+
         public SpreadsheetControlMV()
         {
             DataModel.CurrentClassPath = typeof(ChartBindingView).FullName; // 현재 접근한 클래스
@@ -43,6 +57,8 @@ namespace WPF_Tranning.ModelAndView
 
         }
 
+     
+   
 
         private void RollBack(object obj)
         {
@@ -152,6 +168,10 @@ namespace WPF_Tranning.ModelAndView
   
         private void BinaryCreateNewDocument(object obj)
         {
+            if (obj is RoutedEventArgs a)
+            {
+                var button = (System.Windows.Controls.Button)a.Source;
+            }
             string[] resourceNames = (System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceNames());
 
             if (obj is SpreadsheetControl sheetcontrol) // 형변환
@@ -159,6 +179,13 @@ namespace WPF_Tranning.ModelAndView
                  //   sheetcontrol.CreateNewDocument();
                  //   sheetcontrol.LoadDocument(ExcelExport_ClosedXML());
             }
+            this.Foo += Source_OnFoo;
+            Bar();
+
+        }
+        private void Source_OnFoo(object sender, EventArgs e)
+        {
+            
         }
 
         private void MakeDataNewDocuments(SpreadsheetControl sheetcontrol)
