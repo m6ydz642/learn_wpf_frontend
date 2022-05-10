@@ -4,7 +4,7 @@ using AnotherWindow.ModelAndView;
 using DevExpress.Mvvm;
 using DevExpress.Xpf.Core;
 using DevExpress.Xpf.Grid;
-
+using Ookii.Dialogs.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,10 +12,11 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using WPF_Tranning.Model;
 using WPF_Tranning.ModelAndView;
+using static System.Windows.Forms.Design.AxImporter;
 
 namespace WPF_Tranning
 {
@@ -34,7 +35,7 @@ namespace WPF_Tranning
 
             this.DataContext = new MainModelAndView(); // 바인딩 설정 (없으면 바인딩 안먹힘)
         }
-
+ 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
