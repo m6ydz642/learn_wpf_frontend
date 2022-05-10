@@ -102,6 +102,7 @@ namespace WPF_Tranning.ModelAndView
                 string getSheetsName = workbook.Worksheets.ActiveWorksheet.ToString(); // 값 확인용
                 Worksheet worksheet = workbook.Worksheets["TestSheet1"]; // sheets이름 얻어와 확인 (workbook으로 해도 되고)
             } // event test branch test2
+            } // master
         }
 
         private void GridSheetControlLoaded(object obj)
