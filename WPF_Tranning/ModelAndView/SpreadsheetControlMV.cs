@@ -101,7 +101,7 @@ namespace WPF_Tranning.ModelAndView
                 workbook.Worksheets.ActiveWorksheet.Cells["D15"].Value = "삭제 후 workbook값 추가";
                 string getSheetsName = workbook.Worksheets.ActiveWorksheet.ToString(); // 값 확인용
                 Worksheet worksheet = workbook.Worksheets["TestSheet1"]; // sheets이름 얻어와 확인 (workbook으로 해도 되고)
-            }
+            } // master
         }
 
         private void GridSheetControlLoaded(object obj)
