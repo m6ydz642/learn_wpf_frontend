@@ -139,12 +139,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="masterbranch.xaml.cs">
-      <DependentUpon>masterbranch.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="eventbranch.xaml.cs">
-      <DependentUpon>eventbranch.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ModelAndView\DeBugTrace.cs" />
     <Compile Include="ModelAndView\GridControlComboboxVM.cs" />
     <Compile Include="ModelAndView\LoadingBar.cs" />
@@ -247,14 +241,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="eventbranch.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="masterbranch.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
