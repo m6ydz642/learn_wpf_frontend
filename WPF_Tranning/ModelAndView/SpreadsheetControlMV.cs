@@ -105,7 +105,7 @@ namespace WPF_Tranning.ModelAndView
             } 
 
              // master
-            } // event test branch test2
+             // event test branch test2
              // master
         }
 
