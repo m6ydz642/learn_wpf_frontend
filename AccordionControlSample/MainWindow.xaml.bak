@@ -36,7 +36,7 @@
 
 
         <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="/DevExpress.Xpf.Themes.Office2019Colorful.v22.1;component/UICore/Office2019Colorful/Shapes.xaml" />
+            <ResourceDictionary Source="/DevExpress.Xpf.Themes.Office2019Colorful.v20.2;component/UICore/Office2019Colorful/Shapes.xaml" />
         </ResourceDictionary.MergedDictionaries>
         <vm:SelectedParameterConverter x:Key="SelectedParameterConverter" />
 
@@ -46,21 +46,17 @@
         <SolidColorBrush x:Key="{dxat:AccordionItemThemeKeys ResourceKey=TextForeground, ThemeName=Office2019Colorful}"
                              Color="#FFF3E1E1"
                              Opacity="0.62" />
-        <SolidColorBrush x:Key="{dxat:AccordionThemeKeys ResourceKey=SearchControlSearchButtonFill, ThemeName=Office2019Colorful}" Color="White" />
+        <SolidColorBrush x:Key="{dxat:AccordionThemeKeys ResourceKey=SearchControlSearchButtonFill, ThemeName=Office2019Colorful}" Color="White"/>
 
 
 
         <ControlTemplate x:Key="{dxat:AccordionItemThemeKeys ResourceKey=ItemBackgroundTemplate, IsThemeIndependent = true}" TargetType="dxa:AccordionItemBackgroundControl">
             <Grid x:Name="Root">
-                <Border x:Name="IsDefault"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            BorderThickness="1"
-                            cs:id="Border_0001" />
+                <Border x:Name="IsDefault" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" cs:id="Border_0001" />
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="ItemType" Value="SubItem">
-                    <Setter TargetName="IsDefault" Property="Margin" Value="11,-3,0,-3" />
+                    <Setter TargetName="IsDefault" Property="Margin" Value="11,-3,0,-3"/>
                 </Trigger>
 
                 <MultiTrigger>
@@ -156,7 +152,7 @@
 
         <ControlTemplate x:Key="{dxat:AccordionItemThemeKeys ResourceKey=ExpanderButtonTemplate}" TargetType="dxa:AccordionExpandButton">
             <Grid x:Name="Root">
-                <Border Background="white" BorderBrush="white" BorderThickness="5">
+                <Border  Background="white"  BorderBrush="white" BorderThickness="5">
 
                 </Border>
                 <!--<Polygon Points="0,0 -10,5, 0,10" Stroke="White" Fill="Transparent"  StrokeThickness="1.5" Margin="8,2,0,0"/>-->
@@ -202,8 +198,7 @@
                 <Border x:Name="IsDefault"
                             Background="Transparent"
                             BorderBrush="Transparent"
-                            BorderThickness="1"
-                            />
+                            BorderThickness="1" />
                 <ContentControl x:Name="Content"
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -226,24 +221,24 @@
                         <Condition Value="True" Binding="{Binding Path=IsKeyboardFocused, RelativeSource={RelativeSource Self}}" />
                         <Condition Value="False" Binding="{Binding Path=IsSingleItemVisible, RelativeSource={RelativeSource AncestorType=dxan:CollapsedAccordionVirtualizingPanel}}" />
                     </MultiDataTrigger.Conditions>
-                    <Setter TargetName="Content" Property="Foreground" Value="#FF444444" />
-                    <Setter TargetName="IsDefault" Property="Background" Value="Transparent" />
-                    <Setter TargetName="IsDefault" Property="BorderBrush" Value="#FF0173C7" />
+                    <Setter TargetName="Content" Property="Foreground" Value="#FF444444"/>
+                    <Setter TargetName="IsDefault" Property="Background" Value="Transparent"/>
+                    <Setter TargetName="IsDefault" Property="BorderBrush" Value="#FF0173C7"/>
                 </MultiDataTrigger>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter TargetName="Content" Property="Foreground" Value="#FF444444" />
+                    <Setter TargetName="Content" Property="Foreground" Value="#FF444444"/>
                     <!--<Setter TargetName="IsDefault" Property="Background" Value="Red"/>-->
-                    <Setter TargetName="IsDefault" Property="Background" Value="Red" />
-                    <Setter TargetName="IsDefault" Property="BorderBrush" Value="#FFCDE6F7" />
+                    <Setter TargetName="IsDefault" Property="Background" Value="Red"/>
+                    <Setter TargetName="IsDefault" Property="BorderBrush" Value="#FFCDE6F7"/>
                 </Trigger>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
                         <Condition Property="IsSelected" Value="True" />
                         <Condition Property="IsFocused" Value="False" />
                     </MultiTrigger.Conditions>
-                    <Setter TargetName="Content" Property="Foreground" Value="#FF444444" />
-                    <Setter TargetName="IsDefault" Property="Background" Value="Yellow" />
-                    <Setter TargetName="IsDefault" Property="BorderBrush" Value="#FFCDE6F7" />
+                    <Setter TargetName="Content" Property="Foreground" Value="#FF444444"/>
+                    <Setter TargetName="IsDefault" Property="Background" Value="Yellow"/>
+                    <Setter TargetName="IsDefault" Property="BorderBrush" Value="#FFCDE6F7"/>
                     <Setter TargetName="IsDefault" Property="Opacity" Value="0.62" />
                 </MultiTrigger>
                 <MultiDataTrigger>
@@ -252,9 +247,9 @@
                         <Condition Value="False" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Self}}" />
                         <Condition Value="True" Binding="{Binding Path=Owner.AllowItemHighlighting, RelativeSource={RelativeSource Self}}" />
                     </MultiDataTrigger.Conditions>
-                    <Setter TargetName="Content" Property="Foreground" Value="#FF444444" />
-                    <Setter TargetName="IsDefault" Property="Background" Value="LightGreen" />
-                    <Setter TargetName="IsDefault" Property="BorderBrush" Value="#FFE6F2FA" />
+                    <Setter TargetName="Content" Property="Foreground" Value="#FF444444"/>
+                    <Setter TargetName="IsDefault" Property="Background" Value="LightGreen"/>
+                    <Setter TargetName="IsDefault" Property="BorderBrush" Value="#FFE6F2FA"/>
                 </MultiDataTrigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter TargetName="Root" Property="Opacity" Value="0.38" />
@@ -294,21 +289,17 @@
                             <Storyboard>
                                 <ColorAnimation Duration="0" Storyboard.TargetName="IsDefault" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" To="#FFCDE6F7" />
                                 <ColorAnimation Duration="0" Storyboard.TargetName="IsDefault" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" To="#FFCDE6F7" />
-                                <ColorAnimation Duration="0" Storyboard.TargetName="Expanded" Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)" To="#FF444444" />
+                                <ColorAnimation Duration="0" Storyboard.TargetName="Expanded" Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)" To="#FF444444"  />
                                 <ColorAnimation Duration="0" Storyboard.TargetName="Collapsed" Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)" To="#FF444444" />
                             </Storyboard>
                         </VisualState>
                     </VisualStateGroup>
                 </VisualStateManager.VisualStateGroups>
 
-                <Border x:Name="IsDefault"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            BorderThickness="1"
-                            >
+                <Border x:Name="IsDefault" Background="Transparent" BorderBrush="Transparent" BorderThickness="1">
 
                     <dxmvvm:Interaction.Behaviors>
-                        <dxmvvm:EventToCommand EventName="MouseLeftButtonDown" Command="{Binding ITabFold}">
+                        <dxmvvm:EventToCommand  EventName="MouseLeftButtonDown"  Command="{Binding ITabFold}">
                             <dxmvvm:EventToCommand.CommandParameter>
                                 <MultiBinding Converter="{StaticResource SelectedParameterConverter}">
                                     <Binding ElementName="LastMenuHistory" />
@@ -320,7 +311,7 @@
                             </dxmvvm:EventToCommand.CommandParameter>
                         </dxmvvm:EventToCommand>
 
-                        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding IFoldLoad}">
+                        <dxmvvm:EventToCommand  EventName="Loaded"  Command="{Binding IFoldLoad}">
                             <dxmvvm:EventToCommand.CommandParameter>
                                 <MultiBinding Converter="{StaticResource SelectedParameterConverter}">
                                     <Binding ElementName="LastMenuHistory" />
@@ -349,12 +340,8 @@
             <dxmvvm:MapItem Source="True" Target="-1" />
         </dxmvvm:ObjectToObjectConverter>
         <ControlTemplate x:Key="{dxat:AccordionItemThemeKeys ResourceKey=ExpanderButtonTemplate, ThemeName=Office2019Colorful}" TargetType="dxa:AccordionExpandButton">
-            <Grid x:Name="Root" Background="Transparent">
-                <Border x:Name="IsDefault"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            BorderThickness="1"
-                            />
+            <Grid x:Name="Root" Background="Transparent" >
+                <Border x:Name="IsDefault" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" />
                 <dxa:ExpandButtonContentPresenter x:Name="IsUnchecked" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" ItemType="{Binding ItemType, RelativeSource={RelativeSource TemplatedParent}}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                     <dxa:ExpandButtonContentPresenter.ItemContent>
                         <Path x:Name="ItemContentCollapse" Fill="White" RenderTransformOrigin="0.5,0.5" Stretch="Fill" Style="{StaticResource UIShape.Right}">
@@ -580,15 +567,15 @@
         <Grid.Resources>
             <DataTemplate x:Key="TabItemNormalBackground">
                 <dxcn:TabBorder ViewInfo="{Binding}" BorderBackground="PeachPuff" 
-            BackgroundMode="BorderBackground" BorderMode="BorderBrush" BorderThickness="1,1,1,0" BorderMargin="0,0,1,0" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2" />
+            BackgroundMode="BorderBackground" BorderMode="BorderBrush" BorderThickness="1,1,1,0" BorderMargin="0,0,1,0" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2"/>
             </DataTemplate>
             <DataTemplate x:Key="TabItemHoverBackground">
                 <dxcn:TabBorder ViewInfo="{Binding}" BorderBackground="PapayaWhip" BorderBrush="Wheat"
-            BackgroundMode="BorderBackground" BorderMode="BorderBrush" BorderThickness="1,1,1,0" BorderMargin="0,0,1,0" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2" />
+            BackgroundMode="BorderBackground" BorderMode="BorderBrush" BorderThickness="1,1,1,0" BorderMargin="0,0,1,0" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2"/>
             </DataTemplate>
             <DataTemplate x:Key="TabItemSelectedBackground">
-                <dxcn:TabBorder ViewInfo="{Binding}" BorderBackground="Azure" BorderBrush="Wheat"
-            BackgroundMode="BorderBackground" BorderMode="BorderBrush" BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2" />
+                <dxcn:TabBorder ViewInfo="{Binding}" BorderBackground="Azure" BorderBrush="Wheat" 
+            BackgroundMode="BorderBackground" BorderMode="BorderBrush" BorderThickness="1,1,1,0" BorderMargin="0,-1,1,-1" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2"/>
             </DataTemplate>
             <DataTemplate x:Key="TabItemFocusedBackground">
                 <dxcn:TabBorder ViewInfo="{Binding}" BorderBrush="Brown" BorderBackground="LightCyan" BorderThickness="0" HoldBorderThickness="2" HoldBorderMargin="0,0,2,2" />
@@ -597,7 +584,7 @@
 
         <!--로딩 시 (생성자 대신)-->
         <dxmvvm:Interaction.Behaviors>
-            <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding ILoadedAccordionControl}">
+            <dxmvvm:EventToCommand  EventName="Loaded"  Command="{Binding ILoadedAccordionControl}">
                 <dxmvvm:EventToCommand.CommandParameter>
                     <MultiBinding Converter="{StaticResource SelectedParameterConverter}">
                         <Binding ElementName="dxTabControl" />
@@ -612,7 +599,7 @@
 
         <DockPanel Grid.Row="1" Margin="-5,-2,0,-2">
             <dxdo:DockLayoutManager Background="#19314c">
-                <dxdo:LayoutGroup>
+                <dxdo:LayoutGroup >
                     <dxdo:LayoutPanel x:Name="menuDockPanel"
                                       AllowSizing="False"
                                       ItemWidth="Auto"
@@ -632,7 +619,7 @@
                                     Margin="0,0,0,0">
 
                             <dxmvvm:Interaction.Behaviors>
-                                <dxmvvm:EventToCommand EventName="SelectionChanged" Command="{Binding ISelectedTabControl}">
+                                <dxmvvm:EventToCommand  EventName="SelectionChanged"  Command="{Binding ISelectedTabControl}">
                                     <dxmvvm:EventToCommand.CommandParameter>
                                         <MultiBinding Converter="{StaticResource SelectedParameterConverter}">
                                             <Binding ElementName="tabControl" />
@@ -646,8 +633,7 @@
 
                             <TabItem x:Name="MainmenuTabitem" Background="#264768"
                                      Foreground="White"                                      
-                                     FontSize="15"
-                                     >
+                                     FontSize="15">
                                 <TabItem.Header>
                                     Menu
                                 </TabItem.Header>
@@ -678,13 +664,13 @@
                                                       AllowAnimation="False">
                                     <dxa:AccordionControl.Resources>
                                         <Style TargetType="dxa:AccordionItem">
-                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="Foreground" Value="White"/>
                                             <Style.Triggers>
                                                 <Trigger Property="IsMouseOverHeader" Value="True">
-                                                    <Setter Property="Foreground" Value="black" />
+                                                    <Setter Property="Foreground" Value="black"/>
                                                 </Trigger>
                                                 <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Foreground" Value="Black" />
+                                                    <Setter Property="Foreground" Value="Black"/>
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
@@ -693,16 +679,15 @@
                                                        FontWeight="Bold"
                                                        Glyph="{dx:DXImage Images/Navigation/Home_32x32.png}"
                                                        Header=" Home"
-                                                       ShowInCollapsedMode="True"
-                                                       >
-                                        <dxa:AccordionItem x:Name="HomeSubMenu"
+                                                       ShowInCollapsedMode="True">
+                                        <dxa:AccordionItem  x:Name="HomeSubMenu"
                                                             FontSize="14"
                                                             Margin="25,0,0,0"
                                                            Header="Home"
                                                            Height="30">
 
                                             <dxmvvm:Interaction.Behaviors>
-                                                <dxmvvm:EventToCommand EventName="Selected" Command="{Binding IHome}">
+                                                <dxmvvm:EventToCommand  EventName="Selected"  Command="{Binding IHome}">
                                                     <dxmvvm:EventToCommand.CommandParameter>
                                                         <MultiBinding Converter="{StaticResource SelectedParameterConverter}">
                                                             <Binding ElementName="dxTabControl" />
@@ -728,7 +713,7 @@
 >
                                         <dxa:AccordionItem x:Name="registration_inquirysubmenu"
                                                             FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Margin="40,0,0,0"
                                                            Header="Menu tree &amp; PED Setting"
                                                            Height="30">
                                             <!--<dxa:AccordionItem.Resources>
@@ -746,7 +731,7 @@
                                             </dxa:AccordionItem.Resources>-->
 
                                             <dxmvvm:Interaction.Behaviors>
-                                                <dxmvvm:EventToCommand EventName="Selected" Command="{Binding IRegistration_Inquirysubmenu}">
+                                                <dxmvvm:EventToCommand  EventName="Selected"  Command="{Binding IRegistration_Inquirysubmenu}">
                                                     <dxmvvm:EventToCommand.CommandParameter>
                                                         <MultiBinding Converter="{StaticResource SelectedParameterConverter}">
                                                             <Binding ElementName="dxTabControl" />
@@ -764,15 +749,15 @@
 
                                         </dxa:AccordionItem>
 
-                                        <dxa:AccordionItem x:Name="inBox"
-                                                            FontSize="14"
-                                                            Margin="40,0,0,0"
-                                                           Header="RFQ"
+                                        <dxa:AccordionItem 
+                                                            x:Name="inBox"
+                                                            FontSize="14" Margin="40,0,0,0"
+                                                            Header="RFQ"
                                                             Height="30">
 
 
                                             <dxmvvm:Interaction.Behaviors>
-                                                <dxmvvm:EventToCommand EventName="Selected" Command="{Binding IInBoxSubMenu}">
+                                                <dxmvvm:EventToCommand  EventName="Selected"  Command="{Binding IInBoxSubMenu}">
                                                     <dxmvvm:EventToCommand.CommandParameter>
                                                         <MultiBinding Converter="{StaticResource SelectedParameterConverter}">
                                                             <Binding ElementName="dxTabControl" />
@@ -790,11 +775,11 @@
 
                                         <dxa:AccordionItem x:Name="outBox"
                                                             FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Margin="40,0,0,0"
                                                            Header="Inquiry"
                                                            Height="30">
                                             <dxmvvm:Interaction.Behaviors>
-                                                <dxmvvm:EventToCommand EventName="Selected" Command="{Binding IOutBoxSubMenu}">
+                                                <dxmvvm:EventToCommand  EventName="Selected"  Command="{Binding IOutBoxSubMenu}">
                                                     <dxmvvm:EventToCommand.CommandParameter>
                                                         <MultiBinding Converter="{StaticResource SelectedParameterConverter}">
                                                             <Binding ElementName="dxTabControl" />
@@ -809,16 +794,14 @@
                                             </dxmvvm:Interaction.Behaviors>
 
                                         </dxa:AccordionItem>
-                                        <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                        <dxa:AccordionItem FontSize="14" Margin="40,0,0,0"
                                                            Header="TBE" 
-                                                           Height="30" />
+                                                           Height="30"/>
 
 
-                                        <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                        <dxa:AccordionItem FontSize="14" Margin="40,0,0,0"
                                                            Header="POS" 
-                                                           Height="30" />
+                                                           Height="30"/>
                                     </dxa:AccordionItem>
 
                                     <dxa:AccordionItem FontWeight="Bold"
@@ -828,12 +811,11 @@
                                                        ShowInCollapsedMode="True"
                                                        x:Name="vendorinfo">
                                         <dxa:AccordionItem x:Name="vendordocument"
-                                                           FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           FontSize="14" Margin="40,0,0,0"
                                                            Header="Vendor Document" 
                                                            Height="30">
                                             <dxmvvm:Interaction.Behaviors>
-                                                <dxmvvm:EventToCommand EventName="Selected" Command="{Binding IVendorDocumentSubMenu}">
+                                                <dxmvvm:EventToCommand  EventName="Selected"  Command="{Binding IVendorDocumentSubMenu}">
                                                     <dxmvvm:EventToCommand.CommandParameter>
                                                         <MultiBinding Converter="{StaticResource SelectedParameterConverter}">
                                                             <Binding ElementName="dxTabControl" />
@@ -848,28 +830,22 @@
                                             </dxmvvm:Interaction.Behaviors>
                                         </dxa:AccordionItem>
 
-                                        <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                        <dxa:AccordionItem FontSize="14" Margin="40,0,0,0"
                                                            Header="IDC/배포" 
-                                                           Height="30" />
-                                        <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Height="30"/>
+                                        <dxa:AccordionItem FontSize="14" Margin="40,0,0,0"
                                                            Header="In-box" 
-                                                           Height="30" />
-                                        <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Height="30"/>
+                                        <dxa:AccordionItem FontSize="14" Margin="40,0,0,0"
                                                            Header="Out-box"  
-                                                           Height="30" />
-                                        <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Height="30"/>
+                                        <dxa:AccordionItem FontSize="14" Margin="40,0,0,0"
                                                            Header="SAT" 
                                                            Height="30" />
-                                        <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                        <dxa:AccordionItem FontSize="14" Margin="40,0,0,0"
                                                            Header="S3D 비교"  
-                                                           Height="30" />
-                                        <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Height="30"/>
+                                        <dxa:AccordionItem FontSize="14"  Margin="40,0,0,0"
                                                            Header="도면 비교">
                                             <dxa:AccordionItem FontSize="14"
                                                                Margin="0,0,0,0"
@@ -877,13 +853,13 @@
                                                                Height="30">
                                                 <dxa:AccordionItem.Resources>
                                                     <Style TargetType="dxa:AccordionItem">
-                                                        <Setter Property="Foreground" Value="White" />
+                                                        <Setter Property="Foreground" Value="White"/>
                                                         <Style.Triggers>
                                                             <Trigger Property="IsMouseOverHeader" Value="True">
-                                                                <Setter Property="Foreground" Value="black" />
+                                                                <Setter Property="Foreground" Value="black"/>
                                                             </Trigger>
                                                             <Trigger Property="IsSelected" Value="True">
-                                                                <Setter Property="Foreground" Value="Black" />
+                                                                <Setter Property="Foreground" Value="Black"/>
                                                             </Trigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -901,41 +877,40 @@
                                                        ShowInCollapsedMode="True"
                                                        x:Name="datamilstone">
                                         <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Margin="40,0,0,0"
                                                            Header="5대 절점 관리" 
-                                                           Height="30" />
+                                                           Height="30"/>
                                         <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Margin="40,0,0,0"
                                                            Header="MP 일정 조회"  
-                                                           Height="30" />
+                                                           Height="30"/>
                                         <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Margin="40,0,0,0"
                                                            Header="Vendor Data Status"  
-                                                           Height="30" />
+                                                           Height="30"/>
                                     </dxa:AccordionItem>
                                     <dxa:AccordionItem x:Name="Monitoring"
                                                        FontWeight="Bold"
                                                        Glyph="{dx:DXImage SvgImages/Business Objects/BO_Product.svg}"
                                                        Foreground="White"
                                                        Header=" 상세 절점 정보 관리"
-                                                       ShowInCollapsedMode="True"
-                                                       >
+                                                       ShowInCollapsedMode="True">
                                         <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Margin="40,0,0,0"
                                                            Header="표준 절점/프로젝트 절점"  
-                                                           Height="30" />
+                                                           Height="30"/>
                                         <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Margin="40,0,0,0"
                                                            Header="절점 진도율(KPI)"  
-                                                           Height="30" />
+                                                           Height="30"/>
                                         <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Margin="40,0,0,0"
                                                            Header="절점 현황 및 Gantt 차트"  
-                                                           Height="30" />
+                                                           Height="30"/>
                                         <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Margin="40,0,0,0"
                                                            Header="일정 시뮬레이션"  
-                                                           Height="30" />
+                                                           Height="30"/>
                                     </dxa:AccordionItem>
 
 
@@ -945,7 +920,7 @@
 
                             <!--#region 최근업무-->
                             <TabItem Background="#264768"
-                                     Foreground="White"                                      
+                                     Foreground="White"
                                      Header="RecentlyMenu"
                                      FontSize="15"
                                      x:Name="historyworkTabitem">
@@ -956,46 +931,46 @@
                                                       BorderThickness="0"
                                                       CollapsedItemDisplayMode="Glyph"
                                                       IsCollapseButtonVisible="True"
+                                                      
                                                       SearchControlNullText="Menu search"
                                                       ShowSearchControl="True"
-                                                      VerticalScrollBarVisibility="Auto"
-                                                      ViewMode="Accordion" 
+                                                      VerticalScrollBarVisibility="Auto" 
+                                                      ViewMode="Accordion"
                                                       ExpandItemOnHeaderClick="False"
                                                       ExpandMode="Multiple" 
-                                                      Width="auto" 
+                                                      Width="auto"
                                                       Height="auto"
                                                       Margin="0,0,-11,64"
-                                                      SummaryItemPosition="None"
-                                                      >
+                                                      
+                                                      SummaryItemPosition="None">
                                     <dxa:AccordionItem x:Name="Monitoring2"
                                                        FontWeight="Bold"
                                                        Glyph="{dx:DXImage SvgImages/Business Objects/BO_Product.svg}"
                                                        Foreground="White"
                                                        Header="TestMenu"
-                                                       ShowInCollapsedMode="True"
-                                                       >
+                                                       ShowInCollapsedMode="True">
                                         <dxa:AccordionItem FontSize="14"
-                                                            Margin="40,0,0,0"
+                                                           Margin="40,0,0,0"
                                                            Header="TestMenu2"  
-                                                           Height="30" />
+                                                           Height="30"/>
                                     </dxa:AccordionItem>
 
                                     <dxa:AccordionControl.Resources>
                                         <Style TargetType="dxa:AccordionItem">
-                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="Foreground" Value="White"/>
                                             <Style.Triggers>
                                                 <Trigger Property="IsMouseOverHeader" Value="True">
-                                                    <Setter Property="Foreground" Value="black" />
+                                                    <Setter Property="Foreground" Value="black"/>
                                                 </Trigger>
                                                 <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Foreground" Value="Black" />
+                                                    <Setter Property="Foreground" Value="Black"/>
                                                 </Trigger>
                                             </Style.Triggers>
                                         </Style>
                                     </dxa:AccordionControl.Resources>
 
                                     <dxmvvm:Interaction.Behaviors>
-                                        <dxmvvm:EventToCommand EventName="SelectedItemChanged" 
+                                        <dxmvvm:EventToCommand  EventName="SelectedItemChanged" 
                                                                 Command="{Binding IHistoryClickSelected}">
                                             <dxmvvm:EventToCommand.CommandParameter>
                                                 <MultiBinding Converter="{StaticResource SelectedParameterConverter}">
@@ -1023,7 +998,7 @@
                                             <DataTemplate>
                                                 <ContentPresenter Name="presenter" Content="{TemplateBinding Content}">
                                                     <ContentPresenter.LayoutTransform>
-                                                        <RotateTransform Angle="0" />
+                                                        <RotateTransform Angle="0"/>
                                                     </ContentPresenter.LayoutTransform>
                                                 </ContentPresenter>
 
@@ -1031,14 +1006,14 @@
                                                     <DataTrigger Binding="{Binding ElementName=Menu, Path=IsExpanded}" Value="False">
                                                         <Setter TargetName="presenter" Property="LayoutTransform">
                                                             <Setter.Value>
-                                                                <RotateTransform Angle="270" />
+                                                                <RotateTransform Angle="270"/>
                                                             </Setter.Value>
                                                         </Setter>
                                                     </DataTrigger>
                                                     <DataTrigger Binding="{Binding ElementName=LastMenuHistory, Path=IsExpanded}" Value="False">
                                                         <Setter TargetName="presenter" Property="LayoutTransform">
                                                             <Setter.Value>
-                                                                <RotateTransform Angle="270" />
+                                                                <RotateTransform Angle="270"/>
                                                             </Setter.Value>
                                                         </Setter>
                                                     </DataTrigger>
@@ -1053,7 +1028,7 @@
                                             <ControlTemplate TargetType="{x:Type TabItem}">
                                                 <Grid>
                                                     <!--이유는 모르겠는데 보더 이름을 못바꿈-->
-                                                    <Border Name="Border" 
+                                                    <Border  Name="Border" 
                                                             Background="#19314c"
                                                             BorderBrush="#19314c" 
                                                             BorderThickness="1,1,1,1">
@@ -1062,7 +1037,7 @@
                                                             HorizontalAlignment="Center"
                                                             ContentSource="Header"
                                                             Margin="12,2,12,2"
-                                                            RecognizesAccessKey="True" />
+                                                            RecognizesAccessKey="True"/>
                                                     </Border>
                                                 </Grid>
                                                 <ControlTemplate.Triggers>
@@ -1091,7 +1066,7 @@
                     <dxdo:LayoutPanel ShowBorder="False" 
                                       ShowCloseButton="False" 
                                       ShowExpandButton="False"  
-                                      ShowHideButton="False" 
+                                      ShowHideButton="False"
                                       Margin="-5,-1,-2,0">
 
                         <Grid x:Name="underbar" MinWidth="500">
@@ -1106,7 +1081,7 @@
                             </Grid.RowDefinitions>
 
                             <!--삼성 하단 로고-->
-                            <Border Margin="0,0" Background="#d2d2d2" Height="45" VerticalAlignment="Bottom" Grid.Row="2" Grid.Column="0" />
+                            <Border Margin="0,0" Background="#d2d2d2" Height="45" VerticalAlignment="Bottom" Grid.Row="2" Grid.Column="0"/>
                             <TextBox x:Name="menuinfo"    
                                      Grid.Row="2" 
                                      HorizontalAlignment="Left" 
@@ -1116,7 +1091,7 @@
                                      Background="Transparent"
                                      BorderThickness="0"
                                      Width="600" 
-                                     Margin="10,67,0,0" IsReadOnly="True" />
+                                     Margin="10,67,0,0" IsReadOnly="True"/>
 
                             <Image x:Name="samsunglogo" 
                                    Grid.Column="0" 
@@ -1128,14 +1103,14 @@
                                    Margin="0,63,44,0" 
                                    HorizontalAlignment="Right" 
                                    Height="30" 
-                                   VerticalAlignment="Top" />
+                                   VerticalAlignment="Top"/>
 
                             <!--<Image Grid.Column="0" 
                                    Grid.Row="2" 
                                    Source="/ChildrenPath;Component/Resources/samsung.png" ></Image>-->
 
 
-                            <dx:DXTabControl Margin="0,-34,0,0" 
+                            <dx:DXTabControl  Margin="0,-34,0,0" 
                                           Name="dxTabControl" 
                                           TabDropping="DXTabControl_TabDropping" 
                                           Height="auto" 
@@ -1155,26 +1130,26 @@
                                 <dx:DXTabControl.BackgroundTemplate>
                                     <DataTemplate>
                                         <dxi:TabBorder xmlns:dxi="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
-                                                   BorderBackground="#FFF8F8F8" ViewInfo="{Binding}" />
+                                                   BorderBackground="#FFF8F8F8" ViewInfo="{Binding}"/>
                                     </DataTemplate>
                                 </dx:DXTabControl.BackgroundTemplate>
 
                                 <dx:DXTabControl.ItemContainerStyle>
                                     <Style TargetType="dx:DXTabItem">
-                                        <Setter Property="AllowHide" Value="True" />
-                                        <Setter Property="CloseCommand" Value="{Binding RelativeSource={RelativeSource AncestorType=dx:DXTabControl}, Path=DataContext.IItemCloseCommand}" />
-                                        <Setter Property="CloseCommandParameter" Value="{Binding ElementName=dxTabControl}" />
+                                        <Setter Property="AllowHide" Value="True"/>
+                                        <Setter Property="CloseCommand" Value="{Binding RelativeSource={RelativeSource AncestorType=dx:DXTabControl}, Path=DataContext.IItemCloseCommand}"/>
+                                        <Setter Property="CloseCommandParameter" Value="{Binding ElementName=dxTabControl}"/>
 
                                         <!--색상 제어-->
-                                        <Setter Property="HoverBackgroundTemplate" Value="{StaticResource TabItemHoverBackground}" />
-                                        <Setter Property="NormalBackgroundTemplate" Value="{StaticResource TabItemNormalBackground}" />
-                                        <Setter Property="SelectedBackgroundTemplate" Value="{StaticResource TabItemSelectedBackground}" />
-                                        <Setter Property="FocusedBackgroundTemplate" Value="{StaticResource TabItemFocusedBackground}" />
+                                        <Setter Property="HoverBackgroundTemplate" Value="{StaticResource TabItemHoverBackground}"/>
+                                        <Setter Property="NormalBackgroundTemplate" Value="{StaticResource TabItemNormalBackground}"/>
+                                        <Setter Property="SelectedBackgroundTemplate" Value="{StaticResource TabItemSelectedBackground}"/>
+                                        <Setter Property="FocusedBackgroundTemplate" Value="{StaticResource TabItemFocusedBackground}"/>
                                     </Style>
                                 </dx:DXTabControl.ItemContainerStyle>
 
                                 <dxmvvm:Interaction.Behaviors>
-                                    <dxmvvm:EventToCommand EventName="SelectionChanged" CommandParameter="{Binding ElementName=dxTabControl}" Command="{Binding ISelectedDxTabControl}" />
+                                    <dxmvvm:EventToCommand  EventName="SelectionChanged" CommandParameter="{Binding ElementName=dxTabControl}"  Command="{Binding ISelectedDxTabControl}"/>
 
                                 </dxmvvm:Interaction.Behaviors>
 
@@ -1183,7 +1158,7 @@
 
 
                                 <dx:DXTabControl.View>
-                                    <dx:TabControlStretchView x:Name="dxstretchview"
+                                    <dx:TabControlStretchView   x:Name="dxstretchview"
                                                                 RemoveTabItemsOnHiding="True" 
                                                                 HideButtonShowMode="InActiveTab"
                                                                 MoveItemsWhenDragDrop="False">
