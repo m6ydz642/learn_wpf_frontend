@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31019.35
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF_Tranning", "WPF_Tranning\WPF_Tranning.csproj", "{789995D6-5BFB-4B8F-8AE0-A6363C782617}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SizeTest", "..\SizeTest\SizeTest\SizeTest.csproj", "{3D11B939-BAC9-4AD4-983F-9BD96032867A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccordionControlSample", "AccordionControlSample\AccordionControlSample.csproj", "{46FBE75A-A4C9-4126-8CF0-709C61BBC4A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCanvas", "TestProject\TestProject\TestCanvas.csproj", "{B3081D8E-02F5-4BEB-8AF5-B8531EC60411}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{46FBE75A-A4C9-4126-8CF0-709C61BBC4A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46FBE75A-A4C9-4126-8CF0-709C61BBC4A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46FBE75A-A4C9-4126-8CF0-709C61BBC4A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3081D8E-02F5-4BEB-8AF5-B8531EC60411}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3081D8E-02F5-4BEB-8AF5-B8531EC60411}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3081D8E-02F5-4BEB-8AF5-B8531EC60411}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3081D8E-02F5-4BEB-8AF5-B8531EC60411}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
